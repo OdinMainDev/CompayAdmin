@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { type LanguageCode, languages, persistLanguage } from '../../config/i18n';
 import '../../styles/landing/custom.scss';
 
+type RoadmapItem = { year: string; desc: string };
+
 const scriptList = [
   '/landing/js/vendor/jquery-3.6.0.min.js',
   '/landing/js/bootstrap.min.js',
@@ -98,11 +100,11 @@ const LandingPage = () => {
     },
   ];
 
-  const roadmap = [
-    t('roadmap.items.y2023', { returnObjects: true }) as { year: string; desc: string },
-    t('roadmap.items.y2024', { returnObjects: true }) as { year: string; desc: string },
-    t('roadmap.items.y2025', { returnObjects: true }) as { year: string; desc: string },
-    t('roadmap.items.y2026', { returnObjects: true }) as { year: string; desc: string },
+  const roadmap: RoadmapItem[] = [
+    t('roadmap.items.y2023', { returnObjects: true }) as RoadmapItem,
+    t('roadmap.items.y2024', { returnObjects: true }) as RoadmapItem,
+    t('roadmap.items.y2025', { returnObjects: true }) as RoadmapItem,
+    t('roadmap.items.y2026', { returnObjects: true }) as RoadmapItem,
   ];
 
   useEffect(() => {
@@ -611,7 +613,7 @@ const LandingPage = () => {
             </div>
             <div className="roadmap__item-wrap" data-aos="fade-up" data-aos-delay="300">
               <div className="row gutter-y-40">
-                {roadmap.map((item: any, idx: number) => (
+                {roadmap.map((item, idx) => (
                   <div className="col-lg-3 col-md-6" key={item.year}>
                     <div className="roadmap__item">
                       <div className="roadmap__icon">
