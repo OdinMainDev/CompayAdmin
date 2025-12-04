@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+#DELETE AFTER
+old
+volt-react-dashboard-v1.0.1
