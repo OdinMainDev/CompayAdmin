@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import { AuthProvider } from './auth/AuthContext';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import './i18n';
 import './styles/volt.scss';
 import './index.css';
 

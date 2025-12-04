@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Button, Dropdown, Form, Image, Navbar } from 'react-bootstrap';
 import { UserRole, useAuth } from '../../auth/AuthContext';
+import { LanguageCode, languages, persistLanguage } from '../../config/i18n';
+import { useTranslation } from 'react-i18next';
 import Avatar from '../../assets/volt/team/profile-picture-1.jpg';
 
 interface TopbarProps {
@@ -11,9 +13,16 @@ interface TopbarProps {
 
 const Topbar = ({ onToggleSidebar }: TopbarProps) => {
   const { role, switchRole, logout } = useAuth();
+  const { i18n, t } = useTranslation();
 
   const handleRoleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     switchRole(event.target.value as UserRole);
+  };
+
+  const handleLanguageChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const lng = event.target.value as LanguageCode;
+    i18n.changeLanguage(lng).catch(() => undefined);
+    persistLanguage(lng);
   };
 
   return (
@@ -32,10 +41,23 @@ const Topbar = ({ onToggleSidebar }: TopbarProps) => {
       <div className="ms-auto d-flex align-items-center gap-3">
         <Form.Select
           size="sm"
+          defaultValue={i18n.language}
+          onChange={handleLanguageChange}
+          className="w-auto bg-white text-dark"
+          aria-label={t('topbar.language')}
+        >
+          {languages.map((lng) => (
+            <option key={lng} value={lng}>
+              {lng.toUpperCase()}
+            </option>
+          ))}
+        </Form.Select>
+        <Form.Select
+          size="sm"
           value={role}
           onChange={handleRoleChange}
           className="w-auto bg-white text-dark"
-          aria-label="Select role"
+          aria-label={t('topbar.role')}
         >
           <option value="admin">Admin</option>
           <option value="dev">Dev</option>

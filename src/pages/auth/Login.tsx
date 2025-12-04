@@ -4,6 +4,7 @@ import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { Button, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserRole, useAuth } from '../../auth/AuthContext';
+import { useTranslation } from 'react-i18next';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
 
 const LoginPage = () => {
@@ -11,6 +12,7 @@ const LoginPage = () => {
   const location = useLocation();
   const { login } = useAuth();
   const [role, setRole] = useState<UserRole>('admin');
+  const { t } = useTranslation();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,44 +39,42 @@ const LoginPage = () => {
                   <span className="badge bg-primary-soft text-primary mb-3 px-3 py-2 rounded-pill">
                     Volt React Dashboard
                   </span>
-                  <h3 className="mb-1">Добро пожаловать</h3>
-                  <div className="text-muted">Войдите, чтобы продолжить работу в панели</div>
+                  <h3 className="mb-1">{t('login_page.title')}</h3>
+                  <div className="text-muted">{t('login_page.description')}</div>
                 </div>
                 <Form onSubmit={handleSubmit} className="mt-3">
                   <Form.Group className="mb-3" controlId="login-email">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>{t('email')}</Form.Label>
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
-                      <Form.Control type="email" placeholder="user@merchant.io" required />
+                      <Form.Control type="email" placeholder={t('enter_email')} required />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="login-password">
-                    <Form.Label>Пароль</Form.Label>
+                    <Form.Label>{t('password')}</Form.Label>
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faLock} />
                       </InputGroup.Text>
-                      <Form.Control type="password" placeholder="••••••••" required />
+                      <Form.Control type="password" placeholder={t('enter_password')} required />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group className="mb-4" controlId="login-role">
-                    <Form.Label>Роль в панели</Form.Label>
+                    <Form.Label>{t('topbar.role')}</Form.Label>
                     <Form.Select
                       value={role}
                       onChange={(event) => setRole(event.target.value as UserRole)}
                     >
-                      <option value="admin">Администратор</option>
+                      <option value="admin">Admin</option>
                       <option value="dev">Dev</option>
                     </Form.Select>
-                    <Form.Text className="text-muted">
-                      Роль определяет набор маршрутов (dev/admin), как в предыдущей версии.
-                    </Form.Text>
+                    <Form.Text className="text-muted">{t('login_role_hint')}</Form.Text>
                   </Form.Group>
                   <div className="d-grid">
                     <Button variant="primary" type="submit">
-                      Войти в консоль
+                      {t('login_page.submit')}
                     </Button>
                   </div>
                 </Form>

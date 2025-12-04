@@ -217,14 +217,9 @@
 }
 
 .content {
-
 	overflow: visible;
 	padding: 0 $spacer 0 $spacer;
 	@include transition(all .3s);
-
-	@include media-breakpoint-up(md) {
-		margin-left: 260px;
-	}
 }
 
 .sidebar-toggle {

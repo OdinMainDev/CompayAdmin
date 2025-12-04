@@ -3,21 +3,30 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext';
 import DashboardLayout from '../layouts/DashboardLayout';
 import LoginPage from '../pages/auth/Login';
+import LandingPage from '../pages/landing/Landing';
 import NotFound from '../pages/errors/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import { adminRoutes } from './adminRoutes';
 import { devRoutes } from './devRoutes';
 import { type RouteGroup, buildRouteObjects } from './routes';
 
-const buildRouterConfig = (routeGroups: RouteGroup[], isAuthenticated: boolean) => {
+const buildRouterConfig = (routeGroups: RouteGroup[]) => {
   const panelChildren = buildRouteObjects(routeGroups);
 
   return [
     {
       path: '/',
+      element: <LandingPage />,
+    },
+    {
+      path: '/landing',
+      element: <LandingPage />,
+    },
+    {
+      path: '/start',
       element: (
         <Navigate
-          to={isAuthenticated ? '/panel/dashboard' : '/auth/login'}
+          to="/panel/dashboard"
           replace
         />
       ),
@@ -45,12 +54,12 @@ const buildRouterConfig = (routeGroups: RouteGroup[], isAuthenticated: boolean) 
 };
 
 const AppRouter = () => {
-  const { role, isAuthenticated } = useAuth();
+  const { role } = useAuth();
   const routeGroups = role === 'dev' ? devRoutes : adminRoutes;
 
   const router = useMemo(
-    () => createBrowserRouter(buildRouterConfig(routeGroups, isAuthenticated)),
-    [routeGroups, isAuthenticated],
+    () => createBrowserRouter(buildRouterConfig(routeGroups)),
+    [routeGroups],
   );
 
   return <RouterProvider router={router} />;
