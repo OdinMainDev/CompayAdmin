@@ -33,7 +33,27 @@ const LandingPage = () => {
   const { t, i18n } = useTranslation('landing');
   const [contact, setContact] = useState('');
   const [success, setSuccess] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const scriptsLoaded = useRef(false);
+  const langDropdownRef = useRef<HTMLDivElement | null>(null);
+  const mobileLangDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!langDropdownRef.current?.contains(event.target as Node)) {
+        setLangOpen(false);
+      }
+      if (!mobileLangDropdownRef.current?.contains(event.target as Node)) {
+        setMobileLangOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const links = cssLinks.map((href) => {
@@ -98,6 +118,13 @@ const LandingPage = () => {
       titleHtml: t('products.support.titleHtml'),
       cta: t('products.support.cta'),
     },
+  ];
+
+  const navLinks = [
+    { id: 'features', label: t('nav.features') },
+    { id: 'token', label: t('nav.integration') },
+    { id: 'work', label: t('nav.work') },
+    { id: 'roadmap', label: t('nav.roadmap') },
   ];
 
   const roadmap: RoadmapItem[] = [
@@ -185,59 +212,59 @@ const LandingPage = () => {
                     </div>
                     <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-lg-flex">
                       <ul className="navigation">
-                        <li>
-                          <a className="section-link" href="#home" onClick={() => scrollToSection('home')}>
-                            {t('nav.home')}
-                          </a>
-                        </li>
-                        <li>
-                          <a className="section-link" href="#features" onClick={() => scrollToSection('features')}>
-                            {t('nav.features')}
-                          </a>
-                        </li>
-                        <li>
-                          <a className="section-link" href="#token" onClick={() => scrollToSection('token')}>
-                            {t('nav.integration')}
-                          </a>
-                        </li>
-                        <li>
-                          <a className="section-link" href="#work" onClick={() => scrollToSection('work')}>
-                            {t('nav.work')}
-                          </a>
-                        </li>
-                        <li>
-                          <a className="section-link" href="#roadmap" onClick={() => scrollToSection('roadmap')}>
-                            {t('nav.roadmap')}
-                          </a>
-                        </li>
+                        {navLinks.map((link) => (
+                          <li key={link.id}>
+                            <a className="section-link" href={`#${link.id}`} onClick={() => scrollToSection(link.id)}>
+                              {link.label}
+                            </a>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                     <div className="tgmenu__action">
                       <ul className="list-wrap align-items-center">
-                        <li className="me-2">
-                          <select
-                            className="bg-dark text-white border-0 rounded-3 px-2 py-1"
-                            value={i18n.language}
-                            onChange={(e) => handleLanguageChange(e.target.value as LanguageCode)}
-                            aria-label={t('nav.language')}
-                          >
-                            {languages.map((lng) => (
-                              <option key={lng} value={lng}>
-                                {lng.toUpperCase()}
-                              </option>
-                            ))}
-                          </select>
-                        </li>
-                        <li className="header-btn">
-                          <a href="#contactModal" className="tg-btn" data-bs-toggle="modal" data-bs-target="#contactModal">
-                            {t('nav.contact')}
-                          </a>
+                    <li className="me-2">
+                      <div
+                        className="lang-dropdown"
+                        ref={langDropdownRef}
+                      >
+                            <button
+                              type="button"
+                              className={`lang-toggle${langOpen ? ' open' : ''}`}
+                              onClick={() => setLangOpen((prev) => !prev)}
+                              aria-haspopup="listbox"
+                              aria-expanded={langOpen}
+                            >
+                              <span className="lang-label">{i18n.language.toUpperCase()}</span>
+                              <span className="caret" aria-hidden="true" />
+                            </button>
+                            {langOpen && (
+                              <ul className="lang-menu" role="listbox">
+                                {languages.map((lng) => (
+                                  <li key={lng}>
+                                    <button
+                                      type="button"
+                                      className={`lang-option${i18n.language === lng ? ' active' : ''}`}
+                                      role="option"
+                                      aria-selected={i18n.language === lng}
+                                      onClick={() => {
+                                        handleLanguageChange(lng);
+                                        setLangOpen(false);
+                                      }}
+                                    >
+                                      {lng.toUpperCase()}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
                         </li>
                       </ul>
                     </div>
-                    <div className="mobile-nav-toggler">
-                      <span className="tg-flaticon-menu-1" />
-                    </div>
+                    <button type="button" className="mobile-nav-toggler" aria-label={t('nav.openMenu')}>
+                      <i className="fas fa-bars" aria-hidden="true" />
+                    </button>
                   </nav>
                 </div>
               </div>
@@ -247,25 +274,60 @@ const LandingPage = () => {
 
         <div className="tgmobile__menu">
           <nav className="tgmobile__menu-box">
-            <div className="close-btn">
-              <span className="tg-flaticon-close-1" />
-            </div>
+            <button type="button" className="close-btn" aria-label={t('nav.closeMenu')}>
+              <i className="fas fa-times" aria-hidden="true" />
+            </button>
             <div className="nav-logo">
               <a href="#home">
                 <img src="/landing/img/logo/logo.svg" alt="Logo" />
               </a>
             </div>
-            <div className="tgmobile__search">
-              <form>
-                <input type="text" placeholder={t('form.search')} />
-                <button type="button">
-                  <svg width="16" height="16" aria-hidden="true">
-                    <path fill="currentColor" d="M11.742 10.344h-.806l-.285-.276a6.471 6.471 0 0 0 1.57-4.238 6.5 6.5 0 1 0-6.5 6.5c1.61 0 3.084-.586 4.238-1.57l.276.285v.807l4.999 4.987L16.73 15l-4.988-4.656Zm-5.242 0a4.844 4.844 0 1 1 0-9.688 4.844 4.844 0 0 1 0 9.688Z" />
-                  </svg>
-                </button>
-              </form>
+            <div className="custom-mobile-nav">
+              <ul className="navigation">
+                {navLinks.map((link) => (
+                  <li key={link.id}>
+                    <a className="section-link" href={`#${link.id}`} onClick={() => scrollToSection(link.id)}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="tgmobile__menu-outer" />
+            <div
+              className="tgmobile__lang"
+              ref={mobileLangDropdownRef}
+            >
+              <button
+                type="button"
+                className={`lang-toggle${mobileLangOpen ? ' open' : ''}`}
+                onClick={() => setMobileLangOpen((prev) => !prev)}
+                aria-haspopup="listbox"
+                aria-expanded={mobileLangOpen}
+              >
+                <span className="lang-label">{i18n.language.toUpperCase()}</span>
+                <span className="caret" aria-hidden="true" />
+              </button>
+              {mobileLangOpen && (
+                <ul className="lang-menu" role="listbox">
+                  {languages.map((lng) => (
+                    <li key={lng}>
+                      <button
+                        type="button"
+                        className={`lang-option${i18n.language === lng ? ' active' : ''}`}
+                        role="option"
+                        aria-selected={i18n.language === lng}
+                        onClick={() => {
+                          handleLanguageChange(lng);
+                          setMobileLangOpen(false);
+                        }}
+                      >
+                        {lng.toUpperCase()}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <div className="social-links">
               <ul className="list-wrap">
                 <li><a href="#!"><i className="fab fa-facebook-f" /></a></li>

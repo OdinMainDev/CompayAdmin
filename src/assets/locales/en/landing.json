@@ -6,7 +6,9 @@
     "work": "How it works",
     "roadmap": "Roadmap",
     "contact": "Contact",
-    "language": "Language"
+    "language": "Language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "badge": "Crypto processing for online business",
