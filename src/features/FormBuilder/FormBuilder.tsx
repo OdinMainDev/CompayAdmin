@@ -1,5 +1,6 @@
 import { type FormEvent, useState, type ReactNode } from 'react';
-import { Button, Card, Col, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Spinner } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import FormFieldRenderer from './components/FormFieldRenderer';
 import { type FormSection } from './entities';
 
@@ -9,13 +10,12 @@ interface FormBuilderProps<T extends Record<string, any>> {
   sections: FormSection[];
   setFormData: React.Dispatch<React.SetStateAction<T>>;
   formData: T;
-  handleSubmit: () => void;
+  handleSubmit: () => void | Promise<void>;
   title?: string;
   subTitle?: string;
   submitLabel?: ReactNode;
   saving?: boolean;
   fieldErrors?: FieldErrors;
-  alertMessage?: string | null;
 }
 
 const FormBuilder = <T extends Record<string, any>>({
@@ -25,18 +25,26 @@ const FormBuilder = <T extends Record<string, any>>({
   handleSubmit,
   title,
   subTitle,
-  submitLabel = 'Сохранить',
+  submitLabel,
   saving,
   fieldErrors,
-  alertMessage,
 }: FormBuilderProps<T>) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { t } = useTranslation();
+  const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitted(true);
-    handleSubmit();
+    setSubmitting(true);
+
+    try {
+      await Promise.resolve(handleSubmit());
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  const isSaving = saving ?? submitting;
+  const resolvedSubmitLabel = submitLabel ?? t('submit');
 
   return (
     <Form onSubmit={onSubmit}>
@@ -71,8 +79,17 @@ const FormBuilder = <T extends Record<string, any>>({
         </Card.Body>
       </Card>
       <div className="d-flex justify-content-end mt-3">
-        <Button type="submit" disabled={saving} variant="primary">
-          {isSubmitted && !saving ? 'Сохранено' : submitLabel}
+        <Button type="submit" disabled={isSaving} variant="primary">
+          {isSaving ? (
+            <>
+              <Spinner animation="border" size="sm" role="status" className="me-2">
+                <span className="visually-hidden">{t('form.loading')}</span>
+              </Spinner>
+              {resolvedSubmitLabel}
+            </>
+          ) : (
+            resolvedSubmitLabel
+          )}
         </Button>
       </div>
     </Form>

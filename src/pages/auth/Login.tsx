@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
@@ -14,12 +14,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  const [formData, setFormData] = useState<LoginPayload>({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState<LoginPayload>({} as LoginPayload);
   const [fieldErrors, setFieldErrors] = useState<ApiError>();
-  const [loading, setLoading] = useState(false);
 
   const sections: FormSection[] = [
     {
@@ -30,29 +26,22 @@ const LoginPage = () => {
     },
   ];
 
-  const handleSubmit = () => {
-    const doSubmit = async () => {
-      setFieldErrors(undefined);
-      setLoading(true);
-      const response = await authLogin(formData);
-      setLoading(false);
+  const handleSubmit = async () => {
+    setFieldErrors(undefined);
+    const response = await authLogin(formData);
 
-      if (!('success' in response) || !response.success) {
-        setFieldErrors(response as ApiError);
-        return;
-      }
+    if (!('success' in response) || !response.success) {
+      setFieldErrors(response as ApiError);
+      return;
+    }
 
-      if (response.token) {
-        Cookies.set(COOKIE_AUTH_NAME, response.token);
-      }
-      login('admin');
-      const redirectTo =
-        (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ||
-        '/panel/dashboard';
-      navigate(redirectTo, { replace: true });
-    };
-
-    void doSubmit();
+    if (response.token) {
+      Cookies.set(COOKIE_AUTH_NAME, response.token);
+    }
+    login('admin');
+    const redirectTo =
+      (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname || '/panel/dashboard';
+    navigate(redirectTo, { replace: true });
   };
 
   return (
@@ -79,7 +68,7 @@ const LoginPage = () => {
                   formData={formData}
                   setFormData={setFormData}
                   handleSubmit={handleSubmit}
-                  submitLabel={loading ? <Spinner size="sm" animation="border" /> : 'Войти'}
+                  submitLabel={'Войти'}
                   fieldErrors={fieldErrors?.errors}
                   title=""
                 />

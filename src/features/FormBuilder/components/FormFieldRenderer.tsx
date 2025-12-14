@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { Form } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { FormField } from '../entities';
 import ImageUpload from './ImageUpload';
 
@@ -11,6 +12,8 @@ interface FormFieldRendererProps {
 }
 
 const FormFieldRenderer = ({ field, value, onChange, error }: FormFieldRendererProps) => {
+  const { t } = useTranslation();
+
   const commonProps = {
     id: `form-${field.name}`,
     placeholder: field.placeholder ?? field.label,
@@ -40,7 +43,7 @@ const FormFieldRenderer = ({ field, value, onChange, error }: FormFieldRendererP
           required={field.required}
           onChange={(event) => onChange(field.name, event.target.value)}
         >
-          <option value="">Выберите значение</option>
+          <option value="">{t('form.select_placeholder')}</option>
           {(field.options ?? []).map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

@@ -107,7 +107,10 @@
     "submit": "Подтвердить",
     "action_reset": "Сбросить",
     "action_sort": "Применить",
-    "action_save": "Сохранить",
+    "form": {
+        "select_placeholder": "Выберите значение",
+        "loading": "Загрузка..."
+    },
     "currency_add": "Добавить валюту",
     "currency_edit": "Изменить валюту",
     "delete": "Удалить",

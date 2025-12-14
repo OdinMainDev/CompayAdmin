@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'old', 'volt-react-dashboard-v1.0.1']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

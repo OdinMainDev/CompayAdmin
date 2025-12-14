@@ -34,7 +34,10 @@
   "submit": "Submit",
   "action_reset": "Reset",
   "action_sort": "Apply",
-  "action_save": "Save",
+  "form": {
+      "select_placeholder": "Select a value",
+      "loading": "Loading..."
+  },
   "currency_add": "Add currency",
   "currency_edit": "Edit currency",
   "delete": "Delete",
