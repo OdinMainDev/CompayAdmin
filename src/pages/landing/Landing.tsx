@@ -774,7 +774,12 @@ const LandingPage = () => {
                   <p className="helper-text mb-0">{t('modal.subtitle')}</p>
                 </div>
               </div>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Закрыть" />
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label={t('landing:nav.closeMenu')}
+              />
             </div>
             <div className="modal-body">
               <div id="contactSuccess" className={`alert-badge ${success ? 'show' : ''}`} role="status" aria-live="polite">

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Button, Form, Image, Stack } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 interface ImageUploadProps {
   label: string;
@@ -10,21 +11,23 @@ interface ImageUploadProps {
 }
 
 const ImageUpload = ({ label, value, onChange, helperText, required }: ImageUploadProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  useEffect(() => {
+  const { t } = useTranslation();
+  const previewUrl = useMemo(() => {
     if (value instanceof File) {
-      const url = URL.createObjectURL(value);
-      setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url);
+      return URL.createObjectURL(value);
     }
     if (typeof value === 'string') {
-      setPreviewUrl(value);
-      return () => undefined;
+      return value;
     }
-    setPreviewUrl(null);
-    return () => undefined;
+    return null;
   }, [value]);
+
+  useEffect(() => {
+    if (value instanceof File && previewUrl) {
+      return () => URL.revokeObjectURL(previewUrl);
+    }
+    return;
+  }, [previewUrl, value]);
 
   const clear = () => onChange(null);
 
@@ -55,7 +58,7 @@ const ImageUpload = ({ label, value, onChange, helperText, required }: ImageUplo
         </div>
         {previewUrl && (
           <Button variant="outline-secondary" size="sm" onClick={clear}>
-            Очистить
+            {t('form.clear')}
           </Button>
         )}
       </Stack>

@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import DatatableBuilder from '../../features/DatatableBuilder';
 import { IDatatableFilters, IResponseError, IResponseList, TableColumn } from '../../features/DatatableBuilder/types';
 import PageHeader from '../../components/common/PageHeader';
+import { useTranslation } from 'react-i18next';
 
 interface MerchantRecord {
   id: number;
@@ -23,11 +24,14 @@ const MOCK_DATA: MerchantRecord[] = [
 ];
 
 const DatatableDemo = () => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+
   const columns: TableColumn<MerchantRecord>[] = [
     { label: 'ID', value: 'id', sortable: true },
-    { label: 'Мерчант', value: 'merchant', sortable: true },
+    { label: t('datatable_demo.columns.merchant'), value: 'merchant', sortable: true },
     {
-      label: 'Статус',
+      label: t('datatable_demo.columns.status'),
       value: 'status',
       sortable: true,
       render: (row) => (
@@ -36,18 +40,18 @@ const DatatableDemo = () => {
             row.status === 'active' ? 'success' : row.status === 'paused' ? 'warning' : 'danger'
           }`}
         >
-          {row.status}
+          {t(`datatable_demo.status.${row.status}` as const)}
         </span>
       ),
     },
     {
-      label: 'Оборот',
+      label: t('datatable_demo.columns.turnover'),
       value: 'turnover',
       sortable: true,
-      render: (row) => `${row.turnover.toLocaleString('ru-RU')} ${row.currency}`,
+      render: (row) => `${row.turnover.toLocaleString(locale)} ${row.currency}`,
       align: 'end',
     },
-    { label: 'Валюта', value: 'currency', sortable: true, align: 'center' },
+    { label: t('datatable_demo.columns.currency'), value: 'currency', sortable: true, align: 'center' },
   ];
 
   const getListDataApi = useCallback(
@@ -82,17 +86,17 @@ const DatatableDemo = () => {
   return (
     <>
       <PageHeader
-        title="Datatable Builder"
-        subtitle="Обновлённый вид: базовая таблица с сортировкой, пагинацией и кнопкой действий."
-        trail={[{ label: 'Инструменты' }, { label: 'Datatable' }]}
+        title={t('datatable_demo.page.title')}
+        subtitle={t('datatable_demo.page.subtitle')}
+        trail={[{ label: t('datatable_demo.page.tools') }, { label: t('datatable_demo.page.datatable') }]}
       />
       <DatatableBuilder
-        title="Мерчанты"
-        subtitle="Структура повторяет старый API: length/start/order_column/order_direction."
+        title={t('datatable_demo.table.title')}
+        subtitle={t('datatable_demo.table.subtitle')}
         columns={columns}
         getListDataApi={getListDataApi}
         onAddClick={() => undefined}
-        addLabel="Добавить мерчанта"
+        addLabel={t('datatable_demo.table.add')}
       />
     </>
   );

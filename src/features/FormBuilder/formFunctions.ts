@@ -6,9 +6,9 @@ export const toOption = (value: string | number, label?: string): Option => ({
 });
 
 export const updateFormData = (
-  setFormData: React.Dispatch<React.SetStateAction<Record<string, any>>>,
+  setFormData: React.Dispatch<React.SetStateAction<Record<string, unknown>>>,
   name: string,
-  value: any,
+  value: unknown,
 ) => {
   setFormData((prev) => ({
     ...prev,
@@ -17,7 +17,7 @@ export const updateFormData = (
 };
 
 export const buildDefaultValues = (sections: FormSection[]) => {
-  const defaults: Record<string, any> = {};
+  const defaults: Record<string, unknown> = {};
   sections.forEach((section) =>
     section.fields.forEach((field: FormField) => {
       if (field.defaultValue !== undefined) {

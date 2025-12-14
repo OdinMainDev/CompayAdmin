@@ -1,7 +1,8 @@
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { Button, Card, Col, Form, Nav, Row, Tab } from 'react-bootstrap';
 import FormFieldRenderer from './components/FormFieldRenderer';
-import { FormSection } from './entities';
+import { type FormSection } from './entities';
+import { useTranslation } from 'react-i18next';
 
 interface EventTab {
   key: string;
@@ -11,8 +12,8 @@ interface EventTab {
 
 interface FormEventBuilderProps {
   tabs: EventTab[];
-  setFormData: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  formData: Record<string, any>;
+  setFormData: React.Dispatch<React.SetStateAction<Record<string, unknown>>>;
+  formData: Record<string, unknown>;
   handleSubmit: () => void;
   submitLabel?: string;
 }
@@ -22,8 +23,9 @@ const FormEventBuilder = ({
   setFormData,
   formData,
   handleSubmit,
-  submitLabel = 'Сохранить',
+  submitLabel,
 }: FormEventBuilderProps) => {
+  const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const firstKey = tabs[0]?.key ?? 'main';
 
@@ -80,7 +82,7 @@ const FormEventBuilder = ({
       </Card>
       <div className="d-flex justify-content-end mt-3">
         <Button type="submit" variant="primary">
-          {isSubmitted ? 'Сохранено' : submitLabel}
+          {isSubmitted ? t('form.saved') : submitLabel ?? t('submit')}
         </Button>
       </div>
     </Form>

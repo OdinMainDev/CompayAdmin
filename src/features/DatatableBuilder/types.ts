@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IResponse {
   success: boolean;
 }
@@ -26,11 +28,10 @@ export interface IDatatableFilters {
   search?: string;
 }
 
-export interface TableColumn<T = any> {
+export interface TableColumn<T = unknown> {
   label: string;
   value: string;
   sortable?: boolean;
   align?: 'start' | 'center' | 'end';
   render?: (item: T) => ReactNode;
 }
-import { ReactNode } from 'react';

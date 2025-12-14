@@ -6,11 +6,11 @@ import { type RouteGroup } from './routes';
 
 export const devRoutes: RouteGroup[] = [
   {
-    label: 'Dev',
+    label: 'routes.dev',
     pages: [
       {
         name: 'dev-dashboard',
-        label: 'Dashboard',
+        label: 'routes.dashboard',
         path: 'dashboard',
         icon: faGaugeHigh,
         element: <DashboardOverview />,
@@ -18,18 +18,18 @@ export const devRoutes: RouteGroup[] = [
     ],
   },
   {
-    label: 'Инструменты',
+    label: 'routes.tools',
     pages: [
       {
         name: 'dev-datatable',
-        label: 'Datatable',
+        label: 'routes.datatable',
         path: 'dev/datatable',
         icon: faTableList,
         element: <DatatableDemo />,
       },
       {
         name: 'dev-form-builder',
-        label: 'Form Builder',
+        label: 'routes.form_builder',
         path: 'dev/form-builder',
         icon: faWandMagicSparkles,
         element: <FormBuilderDemo />,

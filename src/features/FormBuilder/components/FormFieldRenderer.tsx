@@ -6,19 +6,20 @@ import ImageUpload from './ImageUpload';
 
 interface FormFieldRendererProps {
   field: FormField;
-  value: any;
-  onChange: (name: string, value: any) => void;
+  value: unknown;
+  onChange: (name: string, value: unknown) => void;
   error?: string | string[];
 }
 
 const FormFieldRenderer = ({ field, value, onChange, error }: FormFieldRendererProps) => {
   const { t } = useTranslation();
 
+  const textValue = typeof value === 'string' || typeof value === 'number' ? value : '';
   const commonProps = {
     id: `form-${field.name}`,
     placeholder: field.placeholder ?? field.label,
     required: field.required,
-    value: value ?? '',
+    value: textValue,
     onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       onChange(field.name, event.target.value),
   };
@@ -39,7 +40,7 @@ const FormFieldRenderer = ({ field, value, onChange, error }: FormFieldRendererP
       <Form.Group controlId={`form-${field.name}`}>
         <Form.Label className="fw-semibold">{field.label}</Form.Label>
         <Form.Select
-          value={value ?? ''}
+          value={value != null ? String(value) : ''}
           required={field.required}
           onChange={(event) => onChange(field.name, event.target.value)}
         >
@@ -87,7 +88,7 @@ const FormFieldRenderer = ({ field, value, onChange, error }: FormFieldRendererP
       <Form.Group controlId={`form-${field.name}`}>
         <ImageUpload
           label={field.label}
-          value={value}
+          value={typeof value === 'string' || value instanceof File ? value : null}
           onChange={(file) => onChange(field.name, file)}
           helperText={field.helperText}
           required={field.required}

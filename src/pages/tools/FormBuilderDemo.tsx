@@ -4,46 +4,53 @@ import PageHeader from '../../components/common/PageHeader';
 import { FormBuilder } from '../../features/FormBuilder';
 import { FormSection } from '../../features/FormBuilder/entities';
 import { buildDefaultValues } from '../../features/FormBuilder/formFunctions';
+import { useTranslation } from 'react-i18next';
 
 const FormBuilderDemo = () => {
+  const { t } = useTranslation();
   const sections = useMemo<FormSection[]>(
     () => [
       {
-        title: 'Основное',
-        description: 'Минимальный набор полей: текст, числа, пароли и textarea.',
+        title: t('form_builder_demo.sections.main.title'),
+        description: t('form_builder_demo.sections.main.description'),
         fields: [
-          { name: 'name', label: 'Название', type: 'text', required: true },
-          { name: 'slug', label: 'Слаг', type: 'text', helperText: 'URL-часть для API' },
-          { name: 'limit', label: 'Лимит', type: 'number', col: 6, defaultValue: 0 },
-          { name: 'password', label: 'Пароль секции', type: 'password', col: 6 },
+          { name: 'name', label: t('form_builder_demo.fields.name'), type: 'text', required: true },
+          {
+            name: 'slug',
+            label: t('form_builder_demo.fields.slug'),
+            type: 'text',
+            helperText: t('form_builder_demo.fields.slug_hint'),
+          },
+          { name: 'limit', label: t('form_builder_demo.fields.limit'), type: 'number', col: 6, defaultValue: 0 },
+          { name: 'password', label: t('form_builder_demo.fields.password'), type: 'password', col: 6 },
           {
             name: 'description',
-            label: 'Описание',
+            label: t('form_builder_demo.fields.description'),
             type: 'textarea',
-            helperText: 'Краткое описание оффера или кампании.',
+            helperText: t('form_builder_demo.fields.description_hint'),
           },
         ],
       },
       {
-        title: 'Настройки отображения',
-        description: 'Загрузка обложки и базовые селекты/мультиселекты.',
+        title: t('form_builder_demo.sections.display.title'),
+        description: t('form_builder_demo.sections.display.description'),
         fields: [
-          { name: 'cover', label: 'Обложка', type: 'image', helperText: 'JPG/PNG до 2MB' },
+          { name: 'cover', label: t('form_builder_demo.fields.cover'), type: 'image', helperText: t('form_builder_demo.fields.cover_hint') },
           {
             name: 'category',
-            label: 'Категория',
+            label: t('form_builder_demo.fields.category'),
             type: 'select',
             options: [
-              { label: 'Казино', value: 'casino' },
-              { label: 'Спорт', value: 'sport' },
-              { label: 'Платежи', value: 'payments' },
+              { label: t('form_builder_demo.options.casino'), value: 'casino' },
+              { label: t('form_builder_demo.options.sport'), value: 'sport' },
+              { label: t('form_builder_demo.options.payments'), value: 'payments' },
             ],
             required: true,
             col: 6,
           },
           {
             name: 'currencies',
-            label: 'Доступные валюты',
+            label: t('form_builder_demo.fields.currencies'),
             type: 'multiselect',
             options: [
               { label: 'USDT', value: 'USDT' },
@@ -51,16 +58,16 @@ const FormBuilderDemo = () => {
               { label: 'ETH', value: 'ETH' },
               { label: 'EUR', value: 'EUR' },
             ],
-            helperText: 'Можно выбрать несколько значений',
+            helperText: t('form_builder_demo.fields.currencies_hint'),
             col: 6,
           },
         ],
       },
     ],
-    [],
+    [t],
   );
 
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, unknown>>({});
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -75,19 +82,19 @@ const FormBuilderDemo = () => {
   return (
     <>
       <PageHeader
-        title="Form Builder"
-        subtitle="Облегчённые поля: ввод, мультиселекты и загрузка фото под новый UI."
-        trail={[{ label: 'Инструменты' }, { label: 'Form Builder' }]}
+        title={t('form_builder_demo.page.title')}
+        subtitle={t('form_builder_demo.page.subtitle')}
+        trail={[{ label: t('form_builder_demo.page.tools') }, { label: t('form_builder_demo.page.form_builder') }]}
       />
-      {saved && <Alert variant="success">Форма сохранена (mock).</Alert>}
+      {saved && <Alert variant="success">{t('form_builder_demo.alert_saved')}</Alert>}
       <FormBuilder
         sections={sections}
         setFormData={setFormData}
         formData={formData}
         handleSubmit={handleSubmit}
-        title="Карточка мерчанта"
-        subTitle="Используются только основные элементы: фото, инпуты, мультиселекты."
-        submitLabel="Сохранить"
+        title={t('form_builder_demo.form.title')}
+        subTitle={t('form_builder_demo.form.subtitle')}
+        submitLabel={t('form_builder_demo.form.submit')}
       />
     </>
   );

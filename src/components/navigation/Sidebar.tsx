@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, Image, Nav } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
 import type { RouteGroup, AppRoute } from '../../router/routes';
+import { useTranslation } from 'react-i18next';
 
 interface SidebarProps {
   routeGroups: RouteGroup[];
@@ -10,6 +11,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const isActive = (route?: AppRoute) => {
@@ -43,7 +45,7 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
               <FontAwesomeIcon icon={route.icon} />
             </span>
           )}
-          <span className="sidebar-text">{route.label}</span>
+          <span className="sidebar-text">{t(route.label)}</span>
         </NavLink>
       </Nav.Item>
     );
@@ -67,7 +69,7 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
                   <FontAwesomeIcon icon={route.icon} />
                 </span>
               )}
-              <span className="sidebar-text">{route.label}</span>
+              <span className="sidebar-text">{t(route.label)}</span>
             </span>
           </Accordion.Button>
           <Accordion.Body className="multi-level pt-0">
@@ -91,7 +93,7 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
             <div key={group.label} className="mb-2">
               {group.label && (
                 <div className="sidebar-heading text-white-50 text-uppercase fw-semibold small mb-2">
-                  {group.label}
+                  {t(group.label)}
                 </div>
               )}
               {group.pages.map((route) => renderNested(route))}

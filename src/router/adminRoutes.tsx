@@ -6,11 +6,11 @@ import { type RouteGroup } from './routes';
 
 export const adminRoutes: RouteGroup[] = [
   {
-    label: 'Admin',
+    label: 'routes.admin',
     pages: [
       {
         name: 'admin-dashboard',
-        label: 'Dashboard',
+        label: 'routes.dashboard',
         path: 'dashboard',
         icon: faChartPie,
         element: <DashboardOverview />,
@@ -18,18 +18,18 @@ export const adminRoutes: RouteGroup[] = [
     ],
   },
   {
-    label: 'Управление',
+    label: 'routes.management',
     pages: [
       {
         name: 'admin-datatable',
-        label: 'Таблицы',
+        label: 'routes.tables',
         path: 'admin/datatable',
         icon: faClipboardList,
         element: <DatatableDemo />,
       },
       {
         name: 'admin-form-builder',
-        label: 'Form Builder',
+        label: 'routes.form_builder',
         path: 'admin/form-builder',
         icon: faScrewdriverWrench,
         element: <FormBuilderDemo />,

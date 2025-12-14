@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Card, Form, Pagination, Spinner, Table } from 'react-bootstrap';
 import { IDatatableFilters, IResponseError, IResponseList, TableColumn } from './types';
+import { useTranslation } from 'react-i18next';
 
 interface DatatableBuilderProps<T> {
   title?: string;
@@ -18,9 +19,10 @@ const DatatableBuilder = <T,>({
   columns,
   getListDataApi,
   onAddClick,
-  addLabel = 'Добавить запись',
+  addLabel,
   pageSizeOptions = [10, 25, 50],
 }: DatatableBuilderProps<T>) => {
+  const { t } = useTranslation();
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -60,7 +62,7 @@ const DatatableBuilder = <T,>({
     void fetchData();
   }, [fetchData]);
 
-  const handleSort = (column: TableColumn) => {
+  const handleSort = (column: TableColumn<T>) => {
     if (!column.sortable) return;
     setSort((prev) => ({
       column: column.value,
@@ -109,13 +111,13 @@ const DatatableBuilder = <T,>({
             >
               {pageSizeOptions.map((size) => (
                 <option key={size} value={size}>
-                  {size} / стр.
+                  {t('datatable.page_size_option', { size })}
                 </option>
               ))}
             </Form.Select>
             {onAddClick && (
               <Button variant="primary" size="sm" onClick={onAddClick}>
-                {addLabel}
+                {addLabel ?? t('datatable.add_record')}
               </Button>
             )}
           </div>
@@ -149,17 +151,17 @@ const DatatableBuilder = <T,>({
                 <tr>
                   <td colSpan={columns.length} className="text-center py-4">
                     <Spinner animation="border" variant="primary" size="sm" className="me-2" />
-                    Загрузка...
+                    {t('datatable.loading')}
                   </td>
                 </tr>
               ) : data.length === 0 ? (
                 <tr>
                   <td colSpan={columns.length} className="text-center py-4 text-muted">
-                    Нет данных для отображения
+                    {t('datatable.empty')}
                   </td>
                 </tr>
               ) : (
-                data.map((row: any, idx: number) => (
+                data.map((row, idx: number) => (
                   <tr key={idx}>
                     {columns.map((column) => (
                       <td
@@ -177,7 +179,7 @@ const DatatableBuilder = <T,>({
         </div>
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
           <div className="text-muted small mb-2 mb-md-0">
-            Показаны {data.length} из {total} записей
+            {t('datatable.summary', { count: data.length, total })}
           </div>
           {renderPagination()}
         </div>

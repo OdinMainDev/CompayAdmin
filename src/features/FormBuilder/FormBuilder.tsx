@@ -6,7 +6,7 @@ import { type FormSection } from './entities';
 
 type FieldErrors = Record<string, string | string[]>;
 
-interface FormBuilderProps<T extends Record<string, any>> {
+interface FormBuilderProps<T extends Record<string, unknown>> {
   sections: FormSection[];
   setFormData: React.Dispatch<React.SetStateAction<T>>;
   formData: T;
@@ -18,7 +18,7 @@ interface FormBuilderProps<T extends Record<string, any>> {
   fieldErrors?: FieldErrors;
 }
 
-const FormBuilder = <T extends Record<string, any>>({
+const FormBuilder = <T extends Record<string, unknown>>({
   sections,
   setFormData,
   formData,
