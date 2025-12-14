@@ -7,9 +7,10 @@ interface FormFieldRendererProps {
   field: FormField;
   value: any;
   onChange: (name: string, value: any) => void;
+  error?: string | string[];
 }
 
-const FormFieldRenderer = ({ field, value, onChange }: FormFieldRendererProps) => {
+const FormFieldRenderer = ({ field, value, onChange, error }: FormFieldRendererProps) => {
   const commonProps = {
     id: `form-${field.name}`,
     placeholder: field.placeholder ?? field.label,
@@ -24,6 +25,7 @@ const FormFieldRenderer = ({ field, value, onChange }: FormFieldRendererProps) =
       <Form.Group controlId={`form-${field.name}`}>
         <Form.Label className="fw-semibold">{field.label}</Form.Label>
         <Form.Control as="textarea" rows={4} {...commonProps} />
+        {error && <div className="text-danger small mt-1">{Array.isArray(error) ? error.join(', ') : error}</div>}
         {field.helperText && <Form.Text className="text-muted">{field.helperText}</Form.Text>}
       </Form.Group>
     );
@@ -45,6 +47,7 @@ const FormFieldRenderer = ({ field, value, onChange }: FormFieldRendererProps) =
             </option>
           ))}
         </Form.Select>
+        {error && <div className="text-danger small mt-1">{Array.isArray(error) ? error.join(', ') : error}</div>}
         {field.helperText && <Form.Text className="text-muted">{field.helperText}</Form.Text>}
       </Form.Group>
     );
@@ -70,6 +73,7 @@ const FormFieldRenderer = ({ field, value, onChange }: FormFieldRendererProps) =
             </option>
           ))}
         </Form.Select>
+        {error && <div className="text-danger small mt-1">{Array.isArray(error) ? error.join(', ') : error}</div>}
         {field.helperText && <Form.Text className="text-muted">{field.helperText}</Form.Text>}
       </Form.Group>
     );
@@ -85,6 +89,7 @@ const FormFieldRenderer = ({ field, value, onChange }: FormFieldRendererProps) =
           helperText={field.helperText}
           required={field.required}
         />
+        {error && <div className="text-danger small mt-1">{Array.isArray(error) ? error.join(', ') : error}</div>}
       </Form.Group>
     );
   }
@@ -95,7 +100,13 @@ const FormFieldRenderer = ({ field, value, onChange }: FormFieldRendererProps) =
       <Form.Control
         type={field.type === 'password' ? 'password' : field.type === 'number' ? 'number' : 'text'}
         {...commonProps}
+        isInvalid={Boolean(error)}
       />
+      {error && (
+        <Form.Control.Feedback type="invalid">
+          {Array.isArray(error) ? error.join(', ') : error}
+        </Form.Control.Feedback>
+      )}
       {field.helperText && <Form.Text className="text-muted">{field.helperText}</Form.Text>}
     </Form.Group>
   );

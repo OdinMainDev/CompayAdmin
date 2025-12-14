@@ -87,7 +87,8 @@
   "toasts": {
       "pending": "Processing action...",
       "success": "Action successful!",
-      "fail": "Error processing action!"
+      "fail": "Error processing action!",
+      "code": "Error: "
   },
   "chat": {
       "welcome": "Welcome to Support Chat",

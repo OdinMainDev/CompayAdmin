@@ -1,26 +1,61 @@
-import { type FormEvent, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import { Button, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
+import { useState } from 'react';
+import { Card, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { type UserRole, useAuth } from '../../auth/AuthContext';
-import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../auth/AuthContext';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
+import FormBuilder from '../../features/FormBuilder/FormBuilder';
+import { type FormSection } from '../../features/FormBuilder/entities';
+import { authLogin, type LoginPayload } from '../../api/auth/login';
+import type { ApiError } from '../../api/request';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  const [role, setRole] = useState<UserRole>('admin');
-  const { t } = useTranslation();
+  const [formData, setFormData] = useState<LoginPayload>({
+    email: '',
+    password: '',
+    api_key: '',
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[] | string>>({});
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    login(role);
-    const redirectTo =
-      (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ||
-      '/panel/dashboard';
-    navigate(redirectTo, { replace: true });
+  const sections: FormSection[] = [
+    {
+      fields: [
+        { name: 'email', label: 'Email', type: 'text', placeholder: 'email@example.com', required: true, col: 12, },
+        { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••', required: true, col: 12 },
+      ],
+    },
+  ];
+
+  const handleSubmit = async () => {
+    setError(null);
+    setFieldErrors({});
+    setLoading(true);
+    const response = await authLogin(formData);
+    setLoading(false);
+
+    if ('success' in response && response.success && response.token) {
+      localStorage.setItem('auth_token', response.token);
+      login('admin');
+      const redirectTo =
+        (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ||
+        '/panel/dashboard';
+      navigate(redirectTo, { replace: true });
+      return;
+    }
+
+    const resp: any = response as ApiError;
+    if (resp?.errors && typeof resp.errors === 'object') {
+      setFieldErrors(resp.errors as Record<string, string[] | string>);
+    }
+    if (resp?.error) {
+      setError(`Ошибка: ${resp.error}`);
+    } else {
+      setError('Ошибка в запросе');
+    }
   };
 
   return (
@@ -39,45 +74,18 @@ const LoginPage = () => {
                   <span className="badge bg-primary-soft text-primary mb-3 px-3 py-2 rounded-pill">
                     Volt React Dashboard
                   </span>
-                  <h3 className="mb-1">{t('login_page.title')}</h3>
-                  <div className="text-muted">{t('login_page.description')}</div>
+                  <h3 className="mb-1">Авторизация</h3>
+                  <div className="text-muted">Введите учетные данные для входа</div>
                 </div>
-                <Form onSubmit={handleSubmit} className="mt-3">
-                  <Form.Group className="mb-3" controlId="login-email">
-                    <Form.Label>{t('email')}</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <FontAwesomeIcon icon={faEnvelope} />
-                      </InputGroup.Text>
-                      <Form.Control type="email" placeholder={t('enter_email')} required />
-                    </InputGroup>
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="login-password">
-                    <Form.Label>{t('password')}</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text>
-                        <FontAwesomeIcon icon={faLock} />
-                      </InputGroup.Text>
-                      <Form.Control type="password" placeholder={t('enter_password')} required />
-                    </InputGroup>
-                  </Form.Group>
-                  <Form.Group className="mb-4" controlId="login-role">
-                    <Form.Label>{t('topbar.role')}</Form.Label>
-                    <Form.Select
-                      value={role}
-                      onChange={(event) => setRole(event.target.value as UserRole)}
-                    >
-                      <option value="admin">Admin</option>
-                      <option value="dev">Dev</option>
-                    </Form.Select>
-                    <Form.Text className="text-muted">{t('login_role_hint')}</Form.Text>
-                  </Form.Group>
-                  <div className="d-grid">
-                    <Button variant="primary" type="submit">
-                      {t('login_page.submit')}
-                    </Button>
-                  </div>
-                </Form>
+                <FormBuilder
+                  sections={sections}
+                  formData={formData}
+                  setFormData={setFormData}
+                  handleSubmit={handleSubmit}
+                  submitLabel={loading ? <Spinner size="sm" animation="border" /> : 'Войти'}
+                  fieldErrors={fieldErrors}
+                  title=""
+                />
               </Card.Body>
             </Card>
           </Col>

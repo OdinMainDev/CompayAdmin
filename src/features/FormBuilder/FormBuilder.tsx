@@ -1,20 +1,24 @@
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState, type ReactNode } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import FormFieldRenderer from './components/FormFieldRenderer';
-import { FormSection } from './entities';
+import { type FormSection } from './entities';
 
-interface FormBuilderProps {
+type FieldErrors = Record<string, string | string[]>;
+
+interface FormBuilderProps<T extends Record<string, any>> {
   sections: FormSection[];
-  setFormData: React.Dispatch<React.SetStateAction<Record<string, any>>>;
-  formData: Record<string, any>;
+  setFormData: React.Dispatch<React.SetStateAction<T>>;
+  formData: T;
   handleSubmit: () => void;
   title?: string;
   subTitle?: string;
-  submitLabel?: string;
+  submitLabel?: ReactNode;
   saving?: boolean;
+  fieldErrors?: FieldErrors;
+  alertMessage?: string | null;
 }
 
-const FormBuilder = ({
+const FormBuilder = <T extends Record<string, any>>({
   sections,
   setFormData,
   formData,
@@ -23,7 +27,9 @@ const FormBuilder = ({
   subTitle,
   submitLabel = 'Сохранить',
   saving,
-}: FormBuilderProps) => {
+  fieldErrors,
+  alertMessage,
+}: FormBuilderProps<T>) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -49,6 +55,7 @@ const FormBuilder = ({
                     <FormFieldRenderer
                       field={field}
                       value={formData[field.name]}
+                      error={fieldErrors?.[field.name]}
                       onChange={(name, value) =>
                         setFormData((prev) => ({
                           ...prev,
