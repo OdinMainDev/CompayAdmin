@@ -72,11 +72,7 @@ const LoginPage = () => {
               <Card.Body className="p-4 p-lg-5">
                 <div className="text-center mb-4">
                   <div className="mb-3">
-                    <img
-                      src="/landing/img/logo/logo_3.svg"
-                      alt={t('login_page.title')}
-                      style={{ height: 48 }}
-                    />
+                    <img src="/landing/img/logo/logo_3.svg"/>
                   </div>
                   <h3 className="mb-1">{t('login_page.title')}</h3>
                   <div className="text-muted">{t('login_page.description')}</div>
