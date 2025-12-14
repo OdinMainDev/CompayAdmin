@@ -19,7 +19,6 @@ export interface FormField {
   placeholder?: string;
   options?: Option[];
   helperText?: string;
-  required?: boolean;
   col?: number;
   defaultValue?: string | number | string[];
 }

@@ -9,19 +9,33 @@ import { authLogin, type LoginPayload } from '../../api/auth/login';
 import Cookies from 'js-cookie';
 import { COOKIE_AUTH_NAME } from '../../constants';
 import type { ApiError } from '../../api/request';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<LoginPayload>({} as LoginPayload);
   const [fieldErrors, setFieldErrors] = useState<ApiError>();
 
   const sections: FormSection[] = [
     {
       fields: [
-        { name: 'email', label: 'Email', type: 'text', placeholder: 'email@example.com', required: true, col: 12 },
-        { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••', required: true, col: 12 },
+        {
+          name: 'email',
+          label: 'Email',
+          type: 'text',
+          placeholder: 'example@example.com',
+          col: 12,
+        },
+        {
+          name: 'password',
+          label: t('password'),
+          type: 'password',
+          placeholder: '••••••',
+          col: 12,
+        },
       ],
     },
   ];
@@ -57,18 +71,22 @@ const LoginPage = () => {
             <Card className="border-0 shadow-soft">
               <Card.Body className="p-4 p-lg-5">
                 <div className="text-center mb-4">
-                  <span className="badge bg-primary-soft text-primary mb-3 px-3 py-2 rounded-pill">
-                    Volt React Dashboard
-                  </span>
-                  <h3 className="mb-1">Авторизация</h3>
-                  <div className="text-muted">Введите учетные данные для входа</div>
+                  <div className="mb-3">
+                    <img
+                      src="/landing/img/logo/logo_3.svg"
+                      alt={t('login_page.title')}
+                      style={{ height: 48 }}
+                    />
+                  </div>
+                  <h3 className="mb-1">{t('login_page.title')}</h3>
+                  <div className="text-muted">{t('login_page.description')}</div>
                 </div>
                 <FormBuilder
                   sections={sections}
                   formData={formData}
                   setFormData={setFormData}
                   handleSubmit={handleSubmit}
-                  submitLabel={'Войти'}
+                  submitLabel={t('login_page.submit')}
                   fieldErrors={fieldErrors?.errors}
                   title=""
                 />
