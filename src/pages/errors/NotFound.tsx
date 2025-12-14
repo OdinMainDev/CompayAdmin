@@ -1,8 +1,15 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
 import Illustration from '../../assets/volt/illustrations/404.svg';
 
 const NotFound = () => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <main className="min-vh-100 d-flex align-items-center bg-soft">
       <Container>
@@ -15,9 +22,11 @@ const NotFound = () => {
                 <p className="text-muted mb-4">
                   Мы не смогли найти страницу, которую вы ищете. Попробуйте вернуться на главную.
                 </p>
-                <Button as={Link} to="/panel/dashboard" variant="primary">
-                  На главную
-                </Button>
+                <Link to="/panel/dashboard" >
+                  <Button variant="primary">
+                    На главную
+                  </Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>

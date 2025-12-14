@@ -1,112 +1,169 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartLine, faServer, faShieldHalved, faUsers } from '@fortawesome/free-solid-svg-icons';
-import { Card, Col, ProgressBar, Row } from 'react-bootstrap';
-import { useAuth } from '../../auth/AuthContext';
-import PageHeader from '../../components/common/PageHeader';
+import { faCashRegister, faChartLine, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { Button, Card, Col, Image, ProgressBar, Row, Table } from 'react-bootstrap';
+import Profile3 from '/src/assets/volt/team/profile-picture-1.jpg';
 
 const DashboardOverview = () => {
-  const { role } = useAuth();
+  const counters = [
+    { category: 'Customers', value: '345k', period: 'Feb 1 - Apr 1', pct: 18.2, icon: faChartLine, color: 'secondary' },
+    { category: 'Revenue', value: '$43,594', period: 'Feb 1 - Apr 1', pct: 28.4, icon: faCashRegister, color: 'tertiary' },
+    { category: 'Traffic Share', value: '68%', period: 'Feb 1 - Apr 1', pct: 12.4, icon: faUserShield, color: 'primary' },
+  ];
 
-  const stats = [
-    { label: 'Активные пользователи', value: '1 204', trend: '+12%', icon: faUsers },
-    { label: 'Загруженность сервисов', value: '72%', trend: 'Стабильно', icon: faServer },
-    { label: 'Конверсия', value: '4.7%', trend: '+0.4%', icon: faChartLine },
-    { label: 'Безопасность', value: 'Высокая', trend: '2FA включена', icon: faShieldHalved },
+  const progress = [
+    { label: 'Pages / Visit', value: '4.51', pct: 50, color: 'info' },
+    { label: 'Avg. Visit Duration', value: '00:03:18', pct: 80, color: 'success' },
+    { label: 'Bounce Rate', value: '33.04%', pct: 33, color: 'danger' },
+  ];
+
+  const team = [
+    { name: 'Bonnie Green', status: 'Online' },
+    { name: 'Neil Sims', status: 'In a meeting' },
+    { name: 'Lana Byrd', status: 'Offline' },
+    { name: 'Thomes Lean', status: 'Online' },
+  ];
+
+  const ranking = [
+    { title: 'Themesberg', score: '28,745' },
+    { title: 'Volt React', score: '19,281' },
+    { title: 'Pixel', score: '11,201' },
+  ];
+
+  const acquisition = [
+    { label: 'Organic Search', value: '5,480' },
+    { label: 'Referral', value: '4,807' },
+    { label: 'Social Media', value: '3,678' },
+  ];
+
+  const visits = [
+    { page: '/demo/admin/index.html', views: 3450, value: '$645', bounce: '43%' },
+    { page: '/demo/admin/forms.html', views: 3010, value: '$521', bounce: '34%' },
+    { page: '/demo/admin/profile.html', views: 2769, value: '$321', bounce: '23%' },
+    { page: '/demo/admin/charts.html', views: 2050, value: '$189', bounce: '45%' },
   ];
 
   return (
     <>
-      <PageHeader
-        title="Dashboard"
-        subtitle={`Быстрый взгляд на метрики для ${role === 'dev' ? 'dev-среды' : 'admin-панели'}.`}
-        trail={[{ label: 'Главная' }, { label: 'Dashboard' }]}
-      />
-      <Row className="g-3">
-        {stats.map((item) => (
-          <Col xs={12} md={6} xl={3} key={item.label}>
-            <Card className="shadow-sm border-0 h-100">
+      <Row className="g-4 mt-4">
+        {counters.map((item) => (
+          <Col xs={12} sm={6} xl={4} key={item.category}>
+            <Card border="light" className="shadow-sm">
               <Card.Body>
-                <div className="d-flex justify-content-between align-items-start mb-3">
+                <div className="d-flex justify-content-between align-items-center mb-2">
                   <div>
-                    <div className="text-muted small">{item.label}</div>
-                    <h4 className="mb-0 text-dark">{item.value}</h4>
+                    <h6 className="text-muted mb-1">{item.category}</h6>
+                    <h3 className="mb-0">{item.value}</h3>
+                    <small>{item.period}, Worldwide</small>
                   </div>
-                  <span className="icon-shape icon-shape-primary rounded-circle text-white">
+                  <div className={`icon icon-shape icon-md icon-shape-${item.color} rounded`}>
                     <FontAwesomeIcon icon={item.icon} />
-                  </span>
+                  </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between text-muted small">
-                  <span>За 7 дней</span>
-                  <span className="text-success fw-semibold">{item.trend}</span>
-                </div>
+                <small className="text-success fw-semibold">+{item.pct}% Since last month</small>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
 
-      <Row className="g-3 mt-1">
-        <Col xl={7}>
-          <Card className="shadow-sm border-0 h-100">
+      <Row className="mt-4">
+        <Col xs={12} xl={8} className="mb-4">
+          <Card className="shadow-sm border-0">
+            <Card.Header className="bg-white border-0">
+              <h5 className="mb-0">Page visits</h5>
+            </Card.Header>
+            <Table responsive className="table-centered table-nowrap mb-0 rounded">
+              <thead className="thead-light">
+                <tr>
+                  <th className="border-0">Page name</th>
+                  <th className="border-0">Page Views</th>
+                  <th className="border-0">Page Value</th>
+                  <th className="border-0">Bounce rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visits.map((row) => (
+                  <tr key={row.page}>
+                    <td>{row.page}</td>
+                    <td>{row.views}</td>
+                    <td>{row.value}</td>
+                    <td className="text-success">{row.bounce}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card>
+        </Col>
+
+        <Col xs={12} xl={4} className="mb-4">
+          <Card className="shadow-sm border-0">
+            <Card.Header className="bg-white border-0">
+              <h5 className="mb-0">Team members</h5>
+            </Card.Header>
             <Card.Body>
-              <div className="d-flex align-items-center justify-content-between mb-3">
-                <div>
-                  <h5 className="mb-1">Состояние интеграций</h5>
-                  <div className="text-muted small">
-                    Быстрый прогресс основных потоков (платежи, мерчант, уведомления).
+              {team.map((member) => (
+                <div className="d-flex align-items-center mb-3" key={member.name}>
+                  <Image src={Profile3} roundedCircle height={38} width={38} className="me-3" />
+                  <div className="flex-grow-1">
+                    <div className="fw-semibold">{member.name}</div>
+                    <small className="text-muted">{member.status}</small>
                   </div>
+                  <Button size="sm" variant="outline-secondary">
+                    Add
+                  </Button>
                 </div>
-              </div>
-              <div className="mb-3">
-                <div className="d-flex justify-content-between small mb-1">
-                  <span>Платёжный шлюз</span>
-                  <span>82%</span>
-                </div>
-                <ProgressBar now={82} variant="success" className="bg-soft" />
-              </div>
-              <div className="mb-3">
-                <div className="d-flex justify-content-between small mb-1">
-                  <span>Уведомления</span>
-                  <span>64%</span>
-                </div>
-                <ProgressBar now={64} variant="primary" className="bg-soft" />
-              </div>
-              <div className="mb-1">
-                <div className="d-flex justify-content-between small mb-1">
-                  <span>Верификация</span>
-                  <span>45%</span>
-                </div>
-                <ProgressBar now={45} variant="warning" className="bg-soft" />
-              </div>
+              ))}
             </Card.Body>
           </Card>
         </Col>
-        <Col xl={5}>
-          <Card className="shadow-sm border-0 h-100">
+      </Row>
+
+      <Row className="mt-2">
+        <Col xs={12} xl={8} className="mb-4">
+          <Card className="shadow-sm border-0">
+            <Card.Header className="bg-white border-0">
+              <h5 className="mb-0">Progress track</h5>
+            </Card.Header>
             <Card.Body>
-              <div className="d-flex align-items-center justify-content-between mb-3">
-                <div>
-                  <h5 className="mb-1">Сводка ролей</h5>
-                  <div className="text-muted small">Доступ к веткам маршрутов dev/admin.</div>
+              {progress.map((item) => (
+                <div className="mb-3" key={item.label}>
+                  <div className="d-flex justify-content-between mb-1">
+                    <span>{item.label}</span>
+                    <span className="fw-semibold">{item.value}</span>
+                  </div>
+                  <ProgressBar now={item.pct} variant={item.color} className="bg-soft" />
                 </div>
-                <span className="badge bg-secondary text-dark text-uppercase fw-semibold">
-                  {role}
-                </span>
-              </div>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item px-0 d-flex justify-content-between align-items-center">
-                  <span>Dev маршруты</span>
-                  <span className="text-success fw-semibold">/panel/dev/*</span>
-                </li>
-                <li className="list-group-item px-0 d-flex justify-content-between align-items-center">
-                  <span>Admin маршруты</span>
-                  <span className="text-primary fw-semibold">/panel/admin/*</span>
-                </li>
-                <li className="list-group-item px-0 text-muted small">
-                  Переключение роли в шапке меняет набор страниц и меню, повторяя схему предыдущей
-                  версии.
-                </li>
-              </ul>
+              ))}
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col xs={12} xl={4} className="mb-4">
+          <Card className="shadow-sm border-0 mb-4">
+            <Card.Header className="bg-white border-0">
+              <h5 className="mb-0">Ranking</h5>
+            </Card.Header>
+            <Card.Body>
+              {ranking.map((item) => (
+                <div className="d-flex justify-content-between align-items-center mb-3" key={item.title}>
+                  <span className="fw-semibold">{item.title}</span>
+                  <span className="text-muted">{item.score}</span>
+                </div>
+              ))}
+            </Card.Body>
+          </Card>
+
+          <Card className="shadow-sm border-0">
+            <Card.Header className="bg-white border-0">
+              <h5 className="mb-0">Acquisition</h5>
+            </Card.Header>
+            <Card.Body>
+              {acquisition.map((item) => (
+                <div className="d-flex justify-content-between align-items-center mb-3" key={item.label}>
+                  <span>{item.label}</span>
+                  <span className="fw-semibold">{item.value}</span>
+                </div>
+              ))}
             </Card.Body>
           </Card>
         </Col>

@@ -1,9 +1,9 @@
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { Button, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { UserRole, useAuth } from '../../auth/AuthContext';
+import { type UserRole, useAuth } from '../../auth/AuthContext';
 import { useTranslation } from 'react-i18next';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
 

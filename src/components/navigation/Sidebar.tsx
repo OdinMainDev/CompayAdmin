@@ -1,9 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { Accordion, Button, Image, Nav } from 'react-bootstrap';
+import { Accordion, Image, Nav } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
-import { RouteGroup, AppRoute } from '../../router/routes';
-import Logo from '../../assets/volt/technologies/react-hero-logo.svg';
+import type { RouteGroup, AppRoute } from '../../router/routes';
 
 interface SidebarProps {
   routeGroups: RouteGroup[];
@@ -83,19 +81,10 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
   return (
     <div className={`sidebar bg-primary text-white ${open ? 'd-block' : 'd-none d-md-block'}`}>
       <div className="sidebar-inner px-4 pt-3">
-        <div className="d-flex align-items-center justify-content-between mb-3">
-          <NavLink to="/panel/dashboard" className="navbar-brand text-white d-flex align-items-center">
-            <Image src={Logo} height={34} className="me-2" />
-            <span className="fw-bold">Volt Merchant</span>
+        <div className="mb-3 text-start">
+          <NavLink to="/panel/dashboard" className="navbar-brand text-white">
+            <Image src="/landing/img/logo/logo.svg" className="img-fluid" />
           </NavLink>
-          <Button
-            variant="link"
-            className="text-white d-md-none sidebar-toggle p-0"
-            onClick={onToggle}
-            aria-label="Toggle sidebar"
-          >
-            <FontAwesomeIcon icon={faBars} />
-          </Button>
         </div>
         <Nav className="flex-column pt-2">
           {routeGroups.map((group) => (

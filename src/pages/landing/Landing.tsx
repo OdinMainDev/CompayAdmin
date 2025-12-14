@@ -151,7 +151,6 @@ const LandingPage = () => {
 
     const load = async () => {
       for (const src of scriptList) {
-        // eslint-disable-next-line no-await-in-loop
         await appendScript(src);
       }
     };
