@@ -84,7 +84,6 @@ const LoginPage = () => {
                   handleSubmit={handleSubmit}
                   submitLabel={t('login_page.submit')}
                   fieldErrors={fieldErrors?.errors}
-                  title=""
                 />
               </Card.Body>
             </Card>
