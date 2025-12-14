@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faCloudUploadAlt, faCog, faEnvelopeOpen, faLanguage, faPlus, faSignOutAlt, faTasks, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { Col, Button, Dropdown, Row, Image, ListGroup, Nav, Navbar } from 'react-bootstrap';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/useAuth';
 import { useTranslation } from 'react-i18next';
 import { type LanguageCode, languages, persistLanguage } from '../../config/i18n';
 import Avatar from '../../assets/volt/team/profile-picture-1.jpg';

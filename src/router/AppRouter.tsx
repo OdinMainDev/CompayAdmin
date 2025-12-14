@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from '../auth/useAuth';
 import DashboardLayout from '../layouts/DashboardLayout';
 import LoginPage from '../pages/auth/Login';
 import LandingPage from '../pages/landing/Landing';

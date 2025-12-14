@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/useAuth';
+import { getRoleFromToken } from '../../auth/authState';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
 import FormBuilder from '../../features/FormBuilder/FormBuilder';
 import { type FormSection } from '../../features/FormBuilder/entities';
@@ -49,13 +50,16 @@ const LoginPage = () => {
       return;
     }
 
-    if (response.token) {
-      Cookies.set(COOKIE_AUTH_NAME, response.token);
+    if (!response.token) {
+      return;
     }
-    login('admin');
+
+    Cookies.set(COOKIE_AUTH_NAME, response.token);
+    login(response.token);
+    const role = getRoleFromToken(response.token);
     const redirectTo =
       (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname || '/panel/dashboard';
-    navigate(redirectTo, { replace: true });
+    navigate(role === 'admin' ? redirectTo : '/panel/dashboard', { replace: true });
   };
 
   return (

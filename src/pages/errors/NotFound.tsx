@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/useAuth';
 import Illustration from '../../assets/volt/illustrations/404.svg';
 import { useTranslation } from 'react-i18next';
 

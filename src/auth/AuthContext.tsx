@@ -1,53 +1,22 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
+import Cookies from 'js-cookie';
+import { COOKIE_AUTH_NAME } from '../constants';
+import { AuthContext, defaultAuthState, getRoleFromToken, type AuthState, type UserRole } from './authState';
 
-export type UserRole = 'dev' | 'admin';
-
-interface AuthState {
-  isAuthenticated: boolean;
-  role: UserRole;
-}
-
-interface AuthContextValue extends AuthState {
-  login: (role: UserRole) => void;
-  logout: () => void;
-  switchRole: (role: UserRole) => void;
-}
-
-const defaultState: AuthState = {
-  isAuthenticated: false,
-  role: 'admin',
-};
-
-const STORAGE_KEY = 'compay-admin-auth';
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState<AuthState>(() => {
-    if (typeof window === 'undefined') {
-      return defaultState;
+    const token = Cookies.get(COOKIE_AUTH_NAME);
+    if (token) {
+      return { isAuthenticated: true, role: getRoleFromToken(token) };
     }
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        return { ...defaultState, ...JSON.parse(saved) } as AuthState;
-      }
-    } catch (error) {
-      console.warn('Failed to read auth cache', error);
-    }
-    return defaultState;
+    return defaultAuthState;
   });
 
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (error) {
-      console.warn('Failed to persist auth cache', error);
-    }
-  }, [state]);
-
-  const login = (role: UserRole) => setState({ isAuthenticated: true, role });
-  const logout = () => setState({ isAuthenticated: false, role: 'admin' });
+  const login = (token: string) => setState({ isAuthenticated: true, role: getRoleFromToken(token) });
+  const logout = () => {
+    Cookies.remove(COOKIE_AUTH_NAME);
+    setState({ isAuthenticated: false, role: 'merchant' });
+  };
   const switchRole = (role: UserRole) => setState((prev) => ({ ...prev, role }));
 
   const value = useMemo(
@@ -63,11 +32,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
-  return ctx;
-};
+export default AuthProvider;
