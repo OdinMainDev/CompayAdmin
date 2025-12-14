@@ -1,5 +1,7 @@
 import i18next from 'i18next';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../constants';
 
 type RequestOptions = {
   isAuth?: boolean;
@@ -21,9 +23,13 @@ const buildHeaders = (isAuth?: boolean) => {
   };
 
   if (isAuth) {
-    const token = localStorage.getItem('auth_token');
+    const token = Cookies.get(COOKIE_AUTH_NAME);
     if (token) {
       headers.Authorization = `Bearer ${token}`;
+      const totp = Cookies.get(COOKIE_AUTH_TOTP_NAME);
+      if (totp) {
+        headers['C-Totp'] = totp;
+      }
     }
   }
 
@@ -53,12 +59,7 @@ const handleResponse = async <T>(response: Response): Promise<T | ApiError> => {
 const withToast = async <T>(promise: Promise<T | ApiError>, hasToast?: boolean) => {
   if (!hasToast) return promise;
 
-  const wrapped = promise.then((res) => {
-    if (isApiError(res)) {
-      throw res;
-    }
-    return res;
-  });
+  const wrapped = promise.then((res) => (isApiError(res) ? Promise.reject(res) : res));
 
   return toast
     .promise(wrapped, {

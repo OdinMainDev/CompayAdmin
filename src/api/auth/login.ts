@@ -3,7 +3,6 @@ import { postRequest, type ApiError } from "../request";
 export type LoginPayload = {
   email: string;
   password: string;
-  api_key: string;
 };
 
 export type LoginResponse = {

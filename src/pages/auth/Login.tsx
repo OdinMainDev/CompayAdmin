@@ -6,6 +6,8 @@ import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
 import FormBuilder from '../../features/FormBuilder/FormBuilder';
 import { type FormSection } from '../../features/FormBuilder/entities';
 import { authLogin, type LoginPayload } from '../../api/auth/login';
+import Cookies from 'js-cookie';
+import { COOKIE_AUTH_NAME } from '../../constants';
 import type { ApiError } from '../../api/request';
 
 const LoginPage = () => {
@@ -15,47 +17,42 @@ const LoginPage = () => {
   const [formData, setFormData] = useState<LoginPayload>({
     email: '',
     password: '',
-    api_key: '',
   });
-  const [error, setError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string[] | string>>({});
+  const [fieldErrors, setFieldErrors] = useState<ApiError>();
   const [loading, setLoading] = useState(false);
 
   const sections: FormSection[] = [
     {
       fields: [
-        { name: 'email', label: 'Email', type: 'text', placeholder: 'email@example.com', required: true, col: 12, },
+        { name: 'email', label: 'Email', type: 'text', placeholder: 'email@example.com', required: true, col: 12 },
         { name: 'password', label: 'Password', type: 'password', placeholder: '••••••••', required: true, col: 12 },
       ],
     },
   ];
 
-  const handleSubmit = async () => {
-    setError(null);
-    setFieldErrors({});
-    setLoading(true);
-    const response = await authLogin(formData);
-    setLoading(false);
+  const handleSubmit = () => {
+    const doSubmit = async () => {
+      setFieldErrors(undefined);
+      setLoading(true);
+      const response = await authLogin(formData);
+      setLoading(false);
 
-    if ('success' in response && response.success && response.token) {
-      localStorage.setItem('auth_token', response.token);
+      if (!('success' in response) || !response.success) {
+        setFieldErrors(response as ApiError);
+        return;
+      }
+
+      if (response.token) {
+        Cookies.set(COOKIE_AUTH_NAME, response.token);
+      }
       login('admin');
       const redirectTo =
         (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ||
         '/panel/dashboard';
       navigate(redirectTo, { replace: true });
-      return;
-    }
+    };
 
-    const resp: any = response as ApiError;
-    if (resp?.errors && typeof resp.errors === 'object') {
-      setFieldErrors(resp.errors as Record<string, string[] | string>);
-    }
-    if (resp?.error) {
-      setError(`Ошибка: ${resp.error}`);
-    } else {
-      setError('Ошибка в запросе');
-    }
+    void doSubmit();
   };
 
   return (
@@ -83,7 +80,7 @@ const LoginPage = () => {
                   setFormData={setFormData}
                   handleSubmit={handleSubmit}
                   submitLabel={loading ? <Spinner size="sm" animation="border" /> : 'Войти'}
-                  fieldErrors={fieldErrors}
+                  fieldErrors={fieldErrors?.errors}
                   title=""
                 />
               </Card.Body>
