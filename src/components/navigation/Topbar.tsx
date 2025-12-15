@@ -7,6 +7,7 @@ import { useAuth } from '../../auth/useAuth';
 import { useTranslation } from 'react-i18next';
 import { type LanguageCode, languages, persistLanguage } from '../../config/i18n';
 import Avatar from '../../assets/volt/team/profile-picture-1.jpg';
+import ProfileAvatar from '../../assets/images/profile/avatar.svg';
 
 const Topbar = () => {
   const { logout } = useAuth();
@@ -109,7 +110,7 @@ const Topbar = () => {
           <Dropdown as={Nav.Item}>
             <Dropdown.Toggle as={Nav.Link} className="pt-1 px-0">
               <div className="media d-flex align-items-center">
-                <Image src={Avatar} className="user-avatar md-avatar rounded-circle border border-1 border-white" />
+                <Image src={ProfileAvatar} className="user-avatar md-avatar rounded-circle border border-1 border-white" />
                 <div className="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                   <span className="mb-0 font-small fw-bold">Bonnie Green</span>
                 </div>

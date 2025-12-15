@@ -13,4 +13,4 @@ export type LoginResponse = {
 };
 
 export const authLogin = (payload: LoginPayload) =>
-  postRequest<LoginResponse | ApiError>('/api/panel/auth/login', { isAuth: false, body: payload, hasToast: true });
+  postRequest<LoginResponse | ApiError>('/api/auth/login', { isAuth: false, body: payload, hasToast: true });
