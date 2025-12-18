@@ -1,14 +1,15 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../../auth/useAuth';
+import { useAuthOptional } from '../../auth/useAuth';
 import Illustration from '../../assets/volt/illustrations/404.svg';
 import { useTranslation } from 'react-i18next';
 
 const NotFound = () => {
-  const { isAuthenticated } = useAuth();
+  const auth = useAuthOptional();
   const { t } = useTranslation();
 
-  if (!isAuthenticated) {
+  // Если мы в защищённой области и пользователь не авторизован — возвращаем на главную
+  if (auth && !auth.isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 

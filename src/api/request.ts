@@ -28,7 +28,7 @@ const buildHeaders = (isAuth?: boolean) => {
       headers.Authorization = `Bearer ${token}`;
       const totp = Cookies.get(COOKIE_AUTH_TOTP_NAME);
       if (totp) {
-        headers['C-Totp'] = totp;
+        headers['X-Totp-Token'] = totp;
       }
     }
   }
@@ -42,18 +42,40 @@ const isApiError = (val: unknown): val is ApiError => {
   return candidate.success === false || typeof candidate.error === 'string' || candidate.errors !== undefined;
 };
 
-const handleResponse = async <T>(response: Response): Promise<T | ApiError> => {
-  if (!response.ok) {
-    const data = (await response.json().catch(() => null)) as ApiError | null;
-    return (
-      data || {
-        success: false,
-        error: 'Request failed',
-        errors: {},
-      }
-    );
+const redirectTo = (path: string) => {
+  if (typeof window !== 'undefined') {
+    window.location.href = path;
   }
-  return (await response.json()) as T;
+};
+
+const handleAuthIssues = (status: number, data?: ApiError | null) => {
+  if (status === 401) {
+    Cookies.remove(COOKIE_AUTH_NAME);
+    Cookies.remove(COOKIE_AUTH_TOTP_NAME);
+    redirectTo('/');
+    return true;
+  }
+  if (data?.error === 'AuthTotpExpired') {
+    redirectTo('/auth/totp');
+    return true;
+  }
+  return false;
+};
+
+const handleResponse = async <T>(response: Response): Promise<T | ApiError> => {
+  const parsed = (await response.json().catch(() => null)) as (T & Partial<ApiError>) | ApiError | null;
+
+  if (!response.ok) {
+    const data = parsed ?? { success: false, error: 'Request failed', errors: {} };
+    handleAuthIssues(response.status, isApiError(data) ? data : null);
+    return data as ApiError;
+  }
+
+  if (parsed && isApiError(parsed) && handleAuthIssues(response.status, parsed)) {
+    return parsed;
+  }
+
+  return (parsed as T) ?? ({} as T);
 };
 
 const withToast = async <T>(promise: Promise<T | ApiError>, hasToast?: boolean) => {

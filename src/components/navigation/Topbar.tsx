@@ -10,7 +10,7 @@ import Avatar from '../../assets/volt/team/profile-picture-1.jpg';
 import ProfileAvatar from '../../assets/images/profile/avatar.svg';
 
 const Topbar = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const { i18n } = useTranslation();
 
   const notifications = useMemo(
@@ -21,6 +21,8 @@ const Topbar = () => {
     ],
     [],
   );
+
+  console.log(user)
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -112,7 +114,7 @@ const Topbar = () => {
               <div className="media d-flex align-items-center">
                 <Image src={ProfileAvatar} className="user-avatar md-avatar rounded-circle border border-1 border-white" />
                 <div className="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                  <span className="mb-0 font-small fw-bold">Bonnie Green</span>
+                  <span className="mb-0 font-small fw-bold">{user?.username ?? 'User'}</span>
                 </div>
               </div>
             </Dropdown.Toggle>

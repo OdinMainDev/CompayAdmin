@@ -23,7 +23,7 @@
   },
   "routes": {
     "admin": "Admin",
-    "dev": "Dev",
+    "merchant": "Merchant",
     "management": "Management",
     "tools": "Tools",
     "dashboard": "Dashboard",
@@ -109,5 +109,12 @@
       "sport": "Sport",
       "payments": "Payments"
     }
+  },
+  "totp_page": {
+    "title": "Two-factor verification",
+    "description": "Enter the 6-digit code from your authenticator app.",
+    "error": "Invalid code",
+    "error_prefix": "Error:",
+    "submit": "Confirm"
   }
 }

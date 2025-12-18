@@ -8,3 +8,5 @@ export const useAuth = () => {
   }
   return ctx;
 };
+
+export const useAuthOptional = () => useContext(AuthContext);

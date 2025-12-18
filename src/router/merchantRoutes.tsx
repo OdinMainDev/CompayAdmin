@@ -4,12 +4,12 @@ import DatatableDemo from '../pages/tools/DatatableDemo';
 import FormBuilderDemo from '../pages/tools/FormBuilderDemo';
 import { type RouteGroup } from './routes';
 
-export const devRoutes: RouteGroup[] = [
+export const merchantRoutes: RouteGroup[] = [
   {
-    label: 'routes.dev',
+    label: 'routes.merchant',
     pages: [
       {
-        name: 'dev-dashboard',
+        name: 'merchant-dashboard',
         label: 'routes.dashboard',
         path: 'dashboard',
         icon: faGaugeHigh,
@@ -21,16 +21,16 @@ export const devRoutes: RouteGroup[] = [
     label: 'routes.tools',
     pages: [
       {
-        name: 'dev-datatable',
+        name: 'merchant-datatable',
         label: 'routes.datatable',
-        path: 'dev/datatable',
+        path: 'merchant/datatable',
         icon: faTableList,
         element: <DatatableDemo />,
       },
       {
-        name: 'dev-form-builder',
+        name: 'merchant-form-builder',
         label: 'routes.form_builder',
-        path: 'dev/form-builder',
+        path: 'merchant/form-builder',
         icon: faWandMagicSparkles,
         element: <FormBuilderDemo />,
       },
