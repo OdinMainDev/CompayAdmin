@@ -1,3 +1,4 @@
+import type { RawFormSection } from '../form-platform/packages/form-core/domain/field/RawFormSection';
 import { FormField, FormSection, Option } from './entities';
 
 export const toOption = (value: string | number, label?: string): Option => ({
@@ -16,10 +17,10 @@ export const updateFormData = (
   }));
 };
 
-export const buildDefaultValues = (sections: FormSection[]) => {
+export const buildDefaultValues = (sections: RawFormSection[]) => {
   const defaults: Record<string, unknown> = {};
   sections.forEach((section) =>
-    section.fields.forEach((field: FormField) => {
+    section.fields.forEach((field: Record<string, any>) => {
       if (field.defaultValue !== undefined) {
         defaults[field.name] = field.defaultValue;
       }

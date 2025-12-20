@@ -2,6 +2,7 @@ import { faChartPie, faClipboardList, faScrewdriverWrench } from '@fortawesome/f
 import DashboardOverview from '../pages/dashboard/Overview';
 import DatatableDemo from '../pages/tools/DatatableDemo';
 import FormBuilderDemo from '../pages/tools/FormBuilderDemo';
+import FormBuilderDemoV2 from '../pages/tools/FormBuilderDemoV2';
 import { type RouteGroup } from './routes';
 
 export const adminRoutes: RouteGroup[] = [
@@ -33,6 +34,13 @@ export const adminRoutes: RouteGroup[] = [
         path: 'admin/form-builder',
         icon: faScrewdriverWrench,
         element: <FormBuilderDemo />,
+      },
+      {
+        name: 'admin-form-builderv2',
+        label: 'routes.form_builder',
+        path: 'admin/form-builderv2',
+        icon: faScrewdriverWrench,
+        element: <FormBuilderDemoV2 />,
       },
     ],
   },
