@@ -1,5 +1,6 @@
 import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
 import { BaseField } from './BaseField';
+import type { CompositeField } from './CompositeField';
 import type { AnyField } from './IField';
 
 export type RepeaterFieldValue = Record<string, any>;
@@ -10,13 +11,19 @@ export interface RepeaterFieldExtra extends BaseFieldExtra{
   maxItems?: number; 
 }
 
-export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldExtra> {
+export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldExtra> 
+  implements CompositeField{
   type = 'repeater';
 
-  getChildren(): AnyField[] {
+  getChildren(): unknown[] {
     if (!this.extra?.elements) return [];
-
     return this.extra.elements;
+  }
+
+  replaceChildren(children: AnyField[]): void {
+    if (!this.extra?.elements) return;
+
+    this.extra.elements = children;
   }
 
   validate() {
