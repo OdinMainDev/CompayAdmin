@@ -12,7 +12,7 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
   
       const handleChange = (value: T) => {
         onChange(value);
-        debugger;
+        console.log(value);
         field.value = value;
         const validation = field.validate();
         setError(validation.isValid ? null : validation.errors);
@@ -33,6 +33,11 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
     };
   }
   
+export const asComponent = <T, E extends BaseFieldExtra>(
+  renderFunc: (field: IField<T, E>, onChange: (value: T) => void) => ReactElement
+): React.FC<{ field: IField<T, E>; onChange: (value: T) => void }> => {
+  return (props) => renderFunc(props.field, props.onChange);
+};
 
 
   

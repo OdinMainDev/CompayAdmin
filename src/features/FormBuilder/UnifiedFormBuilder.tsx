@@ -32,8 +32,7 @@ const UnifiedFormBuilder = <T extends Record<string, unknown>>({
   title,
   subTitle,
   submitLabel,
-  saving,
-  fieldErrors,
+  saving
 }: FormBuilderProps<T>) => {
 
   const { t } = useTranslation();
@@ -61,26 +60,23 @@ const UnifiedFormBuilder = <T extends Record<string, unknown>>({
       {subTitle && <p className="text-muted mb-4">{subTitle}</p>}
 
       <Card className="shadow-sm border-0">
-        <Card.Body>
+      <Card.Body>
           {sections.map((section, index) => (
             <div key={`${section.title}-${index}`} className="mb-4">
               {section.title && <h5 className="mb-1">{section.title}</h5>}
               {section.description && <div className="text-muted mb-3">{section.description}</div>}
-              <Row className="g-3">
-                {section.fields.map((field) => (
-                  <Col xs={12} md={field.col ?? 6} key={field.name}>
-                       {UnifiedFieldRegistry.render(field, (value) => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          [field.name]: value,
-                        }));
-                      })}
-                  </Col>
-                ))}
-              </Row>
+              {section.fields.map((field) =>
+                UnifiedFieldRegistry.render(field, (value) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    [field.name]: value,
+                  }));
+                })
+              )}
             </div>
           ))}
         </Card.Body>
+
       </Card>
       <div className="d-flex justify-content-end mt-3">
         <Button type="submit" disabled={isSaving} variant="primary">

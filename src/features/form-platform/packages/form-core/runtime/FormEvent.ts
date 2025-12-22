@@ -1,6 +1,16 @@
-export abstract class FormEvent {
-    constructor(public fieldKey: string, public newValue: any, public timestamp = new Date()) {}
-  }
-  
-  export class FieldUpdatedEvent extends FormEvent {}
-  
+export type FormEvent =
+  | {
+      type: 'FIELD_CHANGE';
+      fieldKey: string;
+      value: unknown;
+    }
+  | {
+      type: 'FIELD_BLUR';
+      fieldKey: string;
+    }
+  | {
+      type: 'SUBMIT';
+    }
+  | {
+      type: 'RESET';
+    };

@@ -176,6 +176,8 @@ const DatatableBuilder = <T,>({
               )}
             </tbody>
           </Table>
+          
+
         </div>
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
           <div className="text-muted small mb-2 mb-md-0">

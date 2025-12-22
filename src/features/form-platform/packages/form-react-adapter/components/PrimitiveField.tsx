@@ -1,21 +1,23 @@
 import { Form } from 'react-bootstrap';
 import type { ChangeEvent } from 'react';
 import type { IField } from '../../form-core/domain/field/IField';
-import type { BaseFieldExtra } from '../../form-core/domain/extra/BaseFieldExtra';
+import type { TextFieldExtra } from '../../form-core/domain/extra/TextFieldExtra';
 
 export function PrimitiveFieldRenderer<T extends string | number>(
-    field: IField<T, BaseFieldExtra>,
+    field: IField<T, TextFieldExtra>,
     onChange: (value: T) => void
   ) {
   const isTextarea = field.type === 'textarea';
   const isNumber = field.type === 'number';
+
+  
 
   if (isTextarea) {
     return (
       <Form.Control
         as="textarea"
         rows={4}
-        placeholder={field.label}
+        placeholder={field.extra?.placeholder ?? field.label}
         required={field.extra?.required}
         value={field.value ?? ''}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -29,7 +31,7 @@ export function PrimitiveFieldRenderer<T extends string | number>(
     <Form.Control
       as="input"
       type={field.type}
-      placeholder={field.label}
+      placeholder={field.extra?.placeholder }
       required={field.extra?.required}
       value={field.value ?? ''}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {

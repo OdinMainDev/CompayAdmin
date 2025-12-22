@@ -4,6 +4,8 @@ import { IDatatableFilters, IResponseError, IResponseList, TableColumn } from '.
 import PageHeader from '../../components/common/PageHeader';
 import { useTranslation } from 'react-i18next';
 
+
+
 interface MerchantRecord {
   id: number;
   merchant: string;

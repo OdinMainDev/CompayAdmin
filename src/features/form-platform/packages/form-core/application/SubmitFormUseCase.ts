@@ -1,14 +1,27 @@
-import type { FormRuntime } from '../runtime/FormRuntime';
+import type { FormState } from "./FormState";
 
 export class SubmitFormUseCase {
-  constructor(private runtime: FormRuntime) {}
+  constructor(
+    private readonly onSubmit: (values: Record<string, unknown>) => Promise<void>
+  ) {}
 
-  execute() {
-    const errors = this.runtime.validate();
-    const hasErrors = errors.some(result => !result.isValid);
-    if (hasErrors) {
-      throw new Error('Form validation failed');
+  async execute(state: FormState): Promise<FormState> {
+    if (!state.isValid) {
+      return state;
     }
-    return this.runtime.getState();
+
+    const values = Object.fromEntries(
+      Object.entries(state.fields).map(([key, field]) => [
+        key,
+        field.value,
+      ])
+    );
+
+    await this.onSubmit(values);
+
+    return {
+      ...state,
+      isSubmitting: false,
+    };
   }
 }

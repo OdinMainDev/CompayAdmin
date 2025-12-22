@@ -1,10 +1,10 @@
-import type { IField } from './IField';
+import type { AnyField } from './IField';
 import type { ValidationResult } from '../validation/ValidationResult';
 
 export abstract class BaseField<
   T,
   ExtraProps extends Record<string, any> = {}
-> implements IField<T, ExtraProps> {
+> implements AnyField {
   abstract type: string;
   public extra?: ExtraProps;
 

@@ -13,7 +13,7 @@ export const SwitchRenderer = (
       label={field.label}
       checked={!!field.value}
       onChange={(e) => onChange(e.target.checked)}
-      disabled={field.extra?.required === false ? false : undefined} 
+      disabled={field.extra?.disabled} 
     />
   );
 };

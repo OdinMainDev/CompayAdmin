@@ -27,6 +27,7 @@ export class SelectFieldGeneric<T extends string | number = string> extends Base
     options?: SelectFieldExtra;
     type?: string;
   }) {
+
     let value: T;
     if (typeof (json.defaultValue) === 'number') {
       value = (json.defaultValue ?? 0) as T;
