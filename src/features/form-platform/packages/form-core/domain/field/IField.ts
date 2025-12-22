@@ -1,4 +1,5 @@
 import type { BaseFieldExtra } from "../extra/BaseFieldExtra";
+import type { ValidationResult } from "../validation/ValidationResult";
 
 export type AnyField = IField<any, BaseFieldExtra>;
 
@@ -10,6 +11,7 @@ export interface IField<
   label: string;
   value: T;
   type: string;
+  validate(): ValidationResult;
   toJSON(): any;
 
   extra?: ExtraProps;    
