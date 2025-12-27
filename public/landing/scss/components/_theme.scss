@@ -217,6 +217,10 @@ textarea {
 .clear {
     clear: both;
 }
+.text-gray {
+	color: #ffffff4d !important;
+	background-color: #ffffff4d !important;
+}
 
 /*=============================
     - Bootstrap Custom
@@ -232,7 +236,7 @@ textarea {
   	--bs-gutter-y: 30px;
 }
 .gutter-y-40 {
-  	--bs-gutter-y: 40px;
+  	--bs-gutter-y: 40px !important;
 }
 .gx-0 {
 	--bs-gutter-x: 0;

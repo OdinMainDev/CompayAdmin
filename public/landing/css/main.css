@@ -287,7 +287,7 @@ textarea {
 }
 
 .gutter-y-40 {
-  --bs-gutter-y: 40px;
+  --bs-gutter-y: 40px !important;
 }
 
 .gx-0 {
@@ -2693,8 +2693,8 @@ textarea {
 }
 @media (max-width: 767.98px) {
   .exchange__content {
-    flex-wrap: wrap;
     gap: 25px;
+    flex-wrap: wrap;
   }
 }
 .exchange__content .title {
@@ -2710,7 +2710,6 @@ textarea {
 }
 .exchange__content .icon {
   width: 101px;
-  flex: 0 0 auto;
 }
 .exchange__icons .list-wrap {
   display: -webkit-box;
@@ -3295,6 +3294,13 @@ blockquote cite {
     margin-bottom: 30px;
   }
 }
+
+@media (max-width: 420.98px) {
+  .footer__content .title {
+    font-size: 30px;
+  }
+}
+
 .footer__content .title span {
   color: rgba(255, 255, 255, 0.3);
 }

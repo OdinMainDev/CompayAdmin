@@ -46,10 +46,6 @@ a {
   .sidebar {
     width: 260px;
   }
-
-  .content {
-    margin-left: 260px;
-  }
 }
 
 .navbar .topbar-select {

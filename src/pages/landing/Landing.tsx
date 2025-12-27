@@ -4,6 +4,8 @@ import '../../styles/landing/custom.scss';
 import { changeLanguage } from 'i18next';
 import { I18N_LANGUAGES } from '../../constants';
 
+
+
 type RoadmapItem = { year: string; desc: string };
 
 const scriptList = [
@@ -20,6 +22,7 @@ const scriptList = [
 ];
 
 const cssLinks = [
+  '/landing/css/main.css',
   '/landing/css/bootstrap.min.css',
   '/landing/css/animate.min.css',
   '/landing/css/fontawesome-all.min.css',
@@ -27,7 +30,7 @@ const cssLinks = [
   '/landing/css/default-icons.css',
   '/landing/css/default.css',
   '/landing/css/aos.css',
-  '/landing/css/main.css',
+
 ];
 
 const LandingPage = () => {
@@ -189,10 +192,10 @@ const LandingPage = () => {
 
   return (
     <div className="landing-wrapper tg-home-one text-white" data-bg-color="var(--tg-color-dark)">
-      <div id="preloader">
-        <div className="loader" />
-      </div>
-
+    <div id="preloader">
+      <div className="loader" />
+    </div>
+    
       <button className="scroll__top scroll-to-target" data-target="html" onClick={() => scrollToSection('home')}>
         <i className="fas fa-arrow-up" />
       </button>
@@ -415,7 +418,7 @@ const LandingPage = () => {
         </section>
 
         <section className="marquee__area section-pt-120">
-          <div className="slider__marquee clearfix marquee-wrap">
+          <div className="slider__marquee clearfix marquee-wrap text-gray">
             <div className="marquee_mode marquee__group">
               <h6 className="marquee__item">{t('marquee.text')}</h6>
               <h6 className="marquee__item">{t('marquee.text')}</h6>
