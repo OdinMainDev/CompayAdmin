@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import DashboardLayout from '../layouts/DashboardLayout';
-import LoginPage from '../pages/auth/Login';
-import LandingPage from '../pages/landing/Landing';
-import NotFound from '../pages/errors/NotFound';
+import LoginPage from '../../pages/auth/Login';
+import LandingPage from '../../pages/landing/Landing';
+import NotFound from '../../pages/errors/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import { adminRoutes } from './adminRoutes';
 import { merchantRoutes } from './merchantRoutes';
 import { type RouteGroup, buildRouteObjects } from './routes';
-import TotpPage from '../pages/auth/Totp';
-import AuthMiddleware from '../middleware/AuthMiddleware';
-import AuthProvider from '../auth/AuthContext';
+import TotpPage from '../../pages/auth/Totp';
+import AuthMiddleware from '../../app/middleware/AuthMiddleware';
+import AuthProvider from '../../auth/AuthContext';
 import Cookies from 'js-cookie';
-import { COOKIE_AUTH_NAME } from '../constants';
-import { getRoleFromToken } from '../auth/authState';
+import { COOKIE_AUTH_NAME } from '../../constants';
+import { getRoleFromToken } from '../../auth/authState';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 
 const buildRouterConfig = (routeGroups: RouteGroup[]) => {
   const panelChildren = buildRouteObjects(routeGroups);

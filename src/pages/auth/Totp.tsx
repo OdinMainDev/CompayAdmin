@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'r
 import { Alert, Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { authTotp } from '../../api/auth/totp';
+import { authTotp } from '../../app/api/auth/totp';
 import Cookies from 'js-cookie';
 import { COOKIE_AUTH_TOTP_NAME } from '../../constants';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';

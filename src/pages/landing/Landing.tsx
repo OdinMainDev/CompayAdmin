@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type LanguageCode, languages, persistLanguage } from '../../config/i18n';
 import '../../styles/landing/custom.scss';
+import { changeLanguage } from 'i18next';
+import { I18N_LANGUAGES } from '../../constants';
 
 type RoadmapItem = { year: string; desc: string };
 
@@ -182,9 +183,8 @@ const LandingPage = () => {
     setContact('');
   };
 
-  const handleLanguageChange = (lng: LanguageCode) => {
-    i18n.changeLanguage(lng).catch(() => undefined);
-    persistLanguage(lng);
+  const handleLanguageChange = (lng: string) => {
+    changeLanguage(lng);
   };
 
   return (
@@ -239,7 +239,7 @@ const LandingPage = () => {
                             </button>
                             {langOpen && (
                               <ul className="lang-menu" role="listbox">
-                                {languages.map((lng) => (
+                                {I18N_LANGUAGES.map((lng) => (
                                   <li key={lng}>
                                     <button
                                       type="button"
@@ -308,7 +308,7 @@ const LandingPage = () => {
               </button>
               {mobileLangOpen && (
                 <ul className="lang-menu" role="listbox">
-                  {languages.map((lng) => (
+                  {I18N_LANGUAGES.map((lng) => (
                     <li key={lng}>
                       <button
                         type="button"

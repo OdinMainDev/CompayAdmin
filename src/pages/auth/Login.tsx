@@ -6,10 +6,10 @@ import { getRoleFromToken } from '../../auth/authState';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
 import FormBuilder from '../../features/FormBuilder/FormBuilder';
 import { type FormSection } from '../../features/FormBuilder/entities';
-import { authLogin, type LoginPayload } from '../../api/auth/login';
+import { authLogin, type LoginPayload } from '../../app/api/auth/login';
 import Cookies from 'js-cookie';
 import { COOKIE_AUTH_NAME } from '../../constants';
-import type { ApiError } from '../../api/request';
+import type { ApiError } from '../../app/api/request';
 import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/navigation/Sidebar';
-import Topbar from '../components/navigation/Topbar';
-import { type RouteGroup } from '../router/routes';
+import Sidebar from '../navigation/Sidebar';
+import Topbar from '../navigation/Topbar';
+import { type RouteGroup } from '../../app/router/routes';
 
 interface DashboardLayoutProps {
   routeGroups: RouteGroup[];

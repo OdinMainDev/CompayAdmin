@@ -1,7 +1,7 @@
 import { faGaugeHigh, faTableList, faWandMagicSparkles } from '@fortawesome/free-solid-svg-icons';
-import DashboardOverview from '../pages/dashboard/Overview';
-import DatatableDemo from '../pages/tools/DatatableDemo';
-import FormBuilderDemo from '../pages/tools/FormBuilderDemo';
+import DashboardOverview from '../../pages/dashboard/Overview';
+import DatatableDemo from '../../pages/tools/DatatableDemo';
+import FormBuilderDemo from '../../pages/tools/FormBuilderDemo';
 import { type RouteGroup } from './routes';
 
 export const merchantRoutes: RouteGroup[] = [

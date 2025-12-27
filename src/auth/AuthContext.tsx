@@ -2,8 +2,8 @@ import { type ReactNode, useMemo, useState } from 'react';
 import Cookies from 'js-cookie';
 import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../constants';
 import { AuthContext, defaultAuthState, getRoleFromToken, type AuthState, type UserRole } from './authState';
-import { type EntityUser } from '../entities/user';
-import { getMe } from '../api/user/get_me';
+import { type EntityUser } from '../app/entities/user';
+import { getMe } from '../app/api/user/get_me';
 import { useCallback } from 'react';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

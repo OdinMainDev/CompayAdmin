@@ -5,9 +5,10 @@ import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { Col, Button, Dropdown, Row, Image, ListGroup, Nav, Navbar } from 'react-bootstrap';
 import { useAuth } from '../../auth/useAuth';
 import { useTranslation } from 'react-i18next';
-import { type LanguageCode, languages, persistLanguage } from '../../config/i18n';
 import Avatar from '../../assets/volt/team/profile-picture-1.jpg';
 import ProfileAvatar from '../../assets/images/profile/avatar.svg';
+import { changeLanguage } from '../../i18n';
+import { I18N_LANGUAGES } from '../../constants';
 
 const Topbar = () => {
   const { logout, user } = useAuth();
@@ -26,9 +27,8 @@ const Topbar = () => {
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  const handleLanguageChange = (lng: LanguageCode) => {
-    i18n.changeLanguage(lng).catch(() => undefined);
-    persistLanguage(lng);
+  const handleLanguageChange = (lng: string) => {
+    changeLanguage(lng);
   };
 
   return (
@@ -62,7 +62,7 @@ const Topbar = () => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu align="end" className="lang-dropdown-menu mt-2">
-              {languages.map((lng) => (
+              {I18N_LANGUAGES.map((lng) => (
                 <Dropdown.Item
                   key={lng}
                   active={i18n.language === lng}
