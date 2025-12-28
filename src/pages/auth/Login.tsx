@@ -4,13 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/useAuth';
 import { getRoleFromToken } from '../../auth/authState';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
-import FormBuilder from '../../features/FormBuilder/FormBuilder';
-import { type FormSection } from '../../features/FormBuilder/entities';
 import { authLogin, type LoginPayload } from '../../app/api/auth/login';
 import Cookies from 'js-cookie';
 import { COOKIE_AUTH_NAME } from '../../constants';
 import type { ApiError } from '../../app/api/request';
 import { useTranslation } from 'react-i18next';
+import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
+import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,8 +20,9 @@ const LoginPage = () => {
   const [formData, setFormData] = useState<LoginPayload>({} as LoginPayload);
   const [fieldErrors, setFieldErrors] = useState<ApiError>();
 
-  const sections: FormSection[] = [
+  const sections: RawFormSection[] = [
     {
+      title: '',
       fields: [
         {
           name: 'email',
@@ -81,8 +82,8 @@ const LoginPage = () => {
                   <h3 className="mb-1">{t('login_page.title')}</h3>
                   <div className="text-muted">{t('login_page.description')}</div>
                 </div>
-                <FormBuilder
-                  sections={sections}
+                <UnifiedFormBuilder
+                  json={sections}
                   formData={formData}
                   setFormData={setFormData}
                   handleSubmit={handleSubmit}

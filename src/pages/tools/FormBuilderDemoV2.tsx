@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import PageHeader from '../../components/common/PageHeader';
-import { buildDefaultValues } from '../../features/FormBuilder/formFunctions';
 import { useTranslation } from 'react-i18next';
 import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
 import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
 import FiltersButtonTest from './Modal';
+import { buildDefaultValues } from '../../features/form-platform/packages/form-core/domain/utils/default';
 
 
 const FormBuilderDemoV2 = () => {
