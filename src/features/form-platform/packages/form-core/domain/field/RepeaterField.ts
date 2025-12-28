@@ -2,45 +2,82 @@ import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
 import { BaseField } from './BaseField';
 import type { CompositeField } from './CompositeField';
 import type { AnyField } from './IField';
+import type { ValidationResult } from '../validation/ValidationResult';
 
-export type RepeaterFieldValue = Record<string, any>;
+export interface RepeaterItem {
+  id: string;
+  values: unknown[]; 
+}
 
-export interface RepeaterFieldExtra extends BaseFieldExtra{
+export type RepeaterFieldValue = RepeaterItem[];
+
+export interface RepeaterFieldExtra extends BaseFieldExtra {
   elements: AnyField[];
-  minItems?: number; 
-  maxItems?: number; 
+  minItems?: number;
+  maxItems?: number;
 }
 
 export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldExtra> 
-  implements CompositeField{
-  type = 'repeater';
+  implements CompositeField {
+  
+  readonly type = 'repeater' as const;
 
-  getChildren(): unknown[] {
-    if (!this.extra?.elements) return [];
-    return this.extra.elements;
+  constructor(
+    name: string,
+    label: string,
+    value: RepeaterFieldValue = [],
+    extra?: RepeaterFieldExtra
+  ) {
+    super(name, label, value, extra);
+  }
+
+  getChildren(): AnyField[] {
+    return this.extra?.elements ?? [];
   }
 
   replaceChildren(children: AnyField[]): void {
-    if (!this.extra?.elements) return;
-
-    this.extra.elements = children;
+    if (this.extra) {
+      this.extra.elements = children;
+    }
   }
 
-  validate() {
+  validate(): ValidationResult {
     const errors: string[] = [];
     const min = this.extra?.minItems ?? 0;
     const max = this.extra?.maxItems ?? Infinity;
 
-    if (this.value?.length < min) errors.push(`Min ${min} elements`);
-    if (this.value?.length > max) errors.push(`Max ${max} elements`);
+    if (this.value.length < min) {
+      errors.push(`Минимум ${min} элементов`);
+    }
+    
+    if (this.value.length > max) {
+      errors.push(`Максимум ${max} элементов`);
+    }
+
+    const elements = this.getChildren();
+    this.value.forEach((item, index) => {
+      if (item.values.length !== elements.length) {
+        errors.push(`Элемент ${index + 1}: несоответствие количества полей`);
+      }
+    });
 
     return {
       isValid: errors.length === 0,
-      errors,
+      errors: errors.length > 0 ? errors : [],
     };
   }
 
-  static fromJson(json: { key: string; label: string; defaultValue?: RepeaterFieldValue; options?: any }) {
-    return new RepeaterField (json.key, json.label, {}, json.options);
+  static fromJson(json: { 
+    key: string; 
+    label: string; 
+    defaultValue?: RepeaterFieldValue; 
+    options?: RepeaterFieldExtra 
+  }): RepeaterField {
+    return new RepeaterField(
+      json.key, 
+      json.label, 
+      json.defaultValue ?? [], 
+      json.options
+    );
   }
 }

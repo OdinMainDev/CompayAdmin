@@ -882,7 +882,7 @@ textarea {
   width: 35px;
   text-align: center;
   font-size: 14px;
-  color: var(--tg-primary-color);
+  color: var(--tg-primary-color) !important;
   cursor: pointer;
   padding: 8px;
   z-index: 10;
@@ -1837,12 +1837,14 @@ textarea {
   background-position: bottom center;
   position: relative;
   z-index: 1;
-  padding: 220px 0 230px;
-  margin-bottom: 135px;
+  padding: 100px;
+  align-items: center;
+  justify-content: center;
+  flex: auto;
 }
 @media (max-width: 1500px) {
   .banner__bg {
-    padding: 175px 0 205px;
+      padding: 80px;
   }
 }
 @media (max-width: 1199.98px) {
@@ -3378,5 +3380,10 @@ blockquote cite {
   margin-bottom: 0;
   font-size: 14px;
 }
+.marquee__item {
+	color: #ffffff4d !important;
+  opacity: 30% ;
+}
 
 /*# sourceMappingURL=main.css.map */
+

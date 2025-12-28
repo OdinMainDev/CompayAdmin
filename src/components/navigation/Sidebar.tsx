@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, Image, Nav } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
-import type { RouteGroup, AppRoute } from '../../router/routes';
 import { useTranslation } from 'react-i18next';
+import type { RouteConfig } from '../../app/router/types';
 
 interface SidebarProps {
-  routeGroups: RouteGroup[];
+  routeGroups: RouteConfig;
   open: boolean;
   onToggle: () => void;
 }
@@ -14,12 +14,12 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  const isActive = (route?: AppRoute) => {
+  const isActive = (route?: RouteConfig) => {
     if (!route?.path) return false;
     return location.pathname.startsWith(`/panel/${route.path}`);
   };
 
-  const renderNavLink = (route: AppRoute) => {
+  const renderNavLink = (route: RouteConfig) => {
     if (!route.path) {
       return null;
     }
@@ -31,49 +31,53 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
     };
 
     return (
-      <Nav.Item key={route.name} className={isActive(route) ? 'active' : ''}>
+      <Nav.Item key={route.id} className={isActive(route) ? 'active' : ''}>
         <NavLink
           to={`/panel/${route.path}`}
           className={({ isActive: active }) =>
             `nav-link d-flex align-items-center ${active ? 'active' : ''}`
           }
-          end={!route.pages}
+          end={!route.children}
           onClick={handleNavClick}
         >
-          {route.icon && (
+          {route.meta?.icon && (
             <span className="sidebar-icon">
-              <FontAwesomeIcon icon={route.icon} />
+              <FontAwesomeIcon icon={route.meta.icon} />
             </span>
           )}
-          <span className="sidebar-text">{t(route.label)}</span>
+          {route.meta && (
+            <span className="sidebar-text">{t(route.meta.label)}</span>
+          )}
         </NavLink>
       </Nav.Item>
     );
   };
 
-  const renderNested = (route: AppRoute) => {
-    const hasChild = route.pages && route.pages.length > 0;
+  const renderNested = (route: RouteConfig) => {
+    const hasChild = route.children && route.children.length > 0;
     if (!hasChild) {
       return renderNavLink(route);
     }
 
-    const childActive = route.pages?.some((child) => isActive(child)) ?? false;
+    const childActive = route.children?.some((child) => isActive(child)) ?? false;
 
     return (
-      <Accordion as={Nav.Item} key={route.name} defaultActiveKey={childActive ? route.name : undefined}>
-        <Accordion.Item eventKey={route.name}>
+      <Accordion as={Nav.Item} key={route.id} defaultActiveKey={childActive ? route.id : undefined}>
+        <Accordion.Item eventKey={route.id}>
           <Accordion.Button as="div" className="nav-link d-flex justify-content-between align-items-center">
             <span className="d-flex align-items-center">
-              {route.icon && (
+              {route.meta && route.meta.icon && (
                 <span className="sidebar-icon">
-                  <FontAwesomeIcon icon={route.icon} />
+                  <FontAwesomeIcon icon={route.meta.icon} />
                 </span>
               )}
-              <span className="sidebar-text">{t(route.label)}</span>
+              {route.meta && (
+                <span className="sidebar-text">{t(route.meta.label)}</span>
+              )}
             </span>
           </Accordion.Button>
           <Accordion.Body className="multi-level pt-0">
-            <Nav className="flex-column">{route.pages?.map((child) => renderNested(child))}</Nav>
+            <Nav className="flex-column">{route.children?.map((child) => renderNested(child))}</Nav>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -88,18 +92,15 @@ const Sidebar = ({ routeGroups, open, onToggle }: SidebarProps) => {
             <Image src="/landing/img/logo/logo.svg" className="img-fluid" />
           </NavLink>
         </div>
-        <Nav className="flex-column pt-2">
-          {routeGroups.map((group) => (
-            <div key={group.label} className="mb-2">
-              {group.label && (
-                <div className="sidebar-heading text-white-50 text-uppercase fw-semibold small mb-2">
-                  {t(group.label)}
-                </div>
-              )}
-              {group.pages.map((route) => renderNested(route))}
+        <div className="mb-2">
+          {routeGroups.id && (
+            <div className="sidebar-heading text-white-50 text-uppercase fw-semibold small mb-2">
+              {t(routeGroups.id)}
             </div>
-          ))}
-        </Nav>
+          )}
+          
+          {routeGroups.children?.map((route) => renderNested(route))}
+        </div>
       </div>
     </div>
   );

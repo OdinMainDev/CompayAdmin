@@ -1,8 +1,8 @@
-import type { IField } from './IField';
+import type { AnyField } from './IField';
 
 export interface FormSection {
   title: string;
   description?: string;
-  fields: IField<any>[];
+  fields: AnyField[];
 }
 

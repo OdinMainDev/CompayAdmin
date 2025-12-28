@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import UnifiedFormBuilder from '../../features/FormBuilder/UnifiedFormBuilder';
+import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
 import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
 
 const FiltersButtonTest = () => {

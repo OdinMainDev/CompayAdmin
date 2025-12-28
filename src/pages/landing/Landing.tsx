@@ -5,7 +5,6 @@ import { changeLanguage } from 'i18next';
 import { I18N_LANGUAGES } from '../../constants';
 
 
-
 type RoadmapItem = { year: string; desc: string };
 
 const scriptList = [
@@ -30,7 +29,6 @@ const cssLinks = [
   '/landing/css/default-icons.css',
   '/landing/css/default.css',
   '/landing/css/aos.css',
-
 ];
 
 const LandingPage = () => {
@@ -132,10 +130,10 @@ const LandingPage = () => {
   ];
 
   const roadmap: RoadmapItem[] = [
-    t('roadmap.items.y2023', { returnObjects: true }) as RoadmapItem,
-    t('roadmap.items.y2024', { returnObjects: true }) as RoadmapItem,
-    t('roadmap.items.y2025', { returnObjects: true }) as RoadmapItem,
-    t('roadmap.items.y2026', { returnObjects: true }) as RoadmapItem,
+    t("roadmap.items.y2023", { returnObjects: true }) as RoadmapItem,
+    t("roadmap.items.y2024", { returnObjects: true }) as RoadmapItem,
+    t("roadmap.items.y2025", { returnObjects: true }) as RoadmapItem,
+    t("roadmap.items.y2026", { returnObjects: true }) as RoadmapItem,
   ];
 
   useEffect(() => {
@@ -418,7 +416,7 @@ const LandingPage = () => {
         </section>
 
         <section className="marquee__area section-pt-120">
-          <div className="slider__marquee clearfix marquee-wrap text-gray">
+          <div className="slider__marquee clearfix marquee-wrap">
             <div className="marquee_mode marquee__group">
               <h6 className="marquee__item">{t('marquee.text')}</h6>
               <h6 className="marquee__item">{t('marquee.text')}</h6>
@@ -453,7 +451,9 @@ const LandingPage = () => {
                     <div className="countdown__wrap">
                       <div className="coming-time" data-countdown="2026/12/30" />
                     </div>
-                    <h3 className="token__received" dangerouslySetInnerHTML={{ __html: t('token.receivedHtml') }} />
+                    <h3 className="token__received">
+                      {t("token.receivedPercent", "100%")} <span>{t("token.receivedLabel", "Received")}</span>
+                    </h3>
                     <div className="token__progress-wrap">
                       <ul className="list-wrap token__progress-title">
                         <li>{t('token.rangeStart')}</li>

@@ -1,9 +1,8 @@
 import type { FormState } from "../application/FormState";
 import type { SubmitFormUseCase } from "../application/SubmitFormUseCase";
-import type { ValidateFormUseCase } from "../application/ValidateFormUseCase";
-
 export type FormEventPayload =
-  | { type: 'FIELD_CHANGE'; fieldKey: string; value: any }
+
+  | { type: 'FIELD_CHANGE'; fieldKey: string; value: unknown }
   | { type: 'FIELD_BLUR'; fieldKey: string }
   | { type: 'SUBMIT' }
   | { type: 'RESET' };
@@ -15,7 +14,7 @@ export class FormRuntime {
 
   constructor(
     initialState: FormState,
-    private readonly validateUseCase: ValidateFormUseCase,
+    // private readonly validateUseCase: ValidateFormUseCase,
     private readonly submitUseCase: SubmitFormUseCase
   ) {
     this.state = initialState;
@@ -32,7 +31,7 @@ export class FormRuntime {
 
   dispatch(event: FormEventPayload): void {
     this.state = this.reduce(this.state, event);
-    this.state = this.validateUseCase.execute(this.state);
+    // this.state = this.validateUseCase.execute(this.state);
     this.emit();
   }
 

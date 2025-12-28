@@ -1,25 +1,34 @@
-import type { AnyField } from './IField';
+import type { AnyField, IField } from './IField';
 import type { ValidationResult } from '../validation/ValidationResult';
+import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
 
 export abstract class BaseField<
   T,
-  ExtraProps extends Record<string, any> = {}
+  E extends BaseFieldExtra = BaseFieldExtra
 > implements AnyField {
   abstract type: string;
-  public extra?: ExtraProps;
+  public extra?: E
 
   constructor(
     public name: string,
     public label: string,
     public value: T,
-    extra?: ExtraProps
+    extra?: E 
   ) {
     this.extra = extra;
   }
 
   abstract validate(): ValidationResult;
 
-  toJSON() {
-    return { name: this.name, label: this.label, type: this.type, value: this.value, ...this.extra };
+  toJSON(): IField<T, E> {
+    return { 
+      name: this.name, 
+      label: this.label, 
+      type: this.type, 
+      value: this.value,
+      validate: this.validate.bind(this),
+      toJSON: this.toJSON.bind(this),
+      ...this.extra 
+    } as IField<T, E>;
   }
 }

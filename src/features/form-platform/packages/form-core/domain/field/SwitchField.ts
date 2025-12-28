@@ -1,7 +1,8 @@
 import { BaseField } from './BaseField';
 import type { ValidationResult } from '../validation/ValidationResult';
+import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
 
-export class SwitchField extends BaseField<boolean, { required?: boolean }> {
+export class SwitchField extends BaseField<boolean, BaseFieldExtra> {
   type = 'switch';
 
   validate(): ValidationResult {
@@ -12,7 +13,7 @@ export class SwitchField extends BaseField<boolean, { required?: boolean }> {
     };
   }
 
-  static fromJson(json: { key: string; label: string; defaultValue?: boolean; options?: any }) {
+  static fromJson(json: { key: string; label: string; defaultValue?: boolean; options?: BaseFieldExtra }) {
     return new SwitchField(json.key, json.label, json.defaultValue ?? false, json.options);
   }
 }

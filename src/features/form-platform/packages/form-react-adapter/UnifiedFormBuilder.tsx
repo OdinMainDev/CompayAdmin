@@ -1,13 +1,11 @@
 import { type FormEvent, useState, type ReactNode } from 'react';
-import { Button, Card, Col, Form, Row, Spinner } from 'react-bootstrap';
+import { Button, Card, Form, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import FormFieldRenderer from './components/FormFieldRenderer';
-import { JsonFormLoader } from '../form-platform/packages/form-react-adapter/JsonFormLoader';
-import type { FormSection } from '../form-platform/packages/form-core/domain/field/FormSection';
-import '../form-platform/packages/form-react-adapter/setupFields';
-import { UnifiedFieldRegistry } from '../form-platform/packages/form-react-adapter/UnifiedFieldRegistry';
-import type { RawFormSection } from '../form-platform/packages/form-core/domain/field/RawFormSection';
-import type { IField } from '../form-platform/packages/form-core/domain/field/IField';
+import { JsonFormLoader } from './JsonFormLoader';
+import type { FormSection } from '../form-core/domain/field/FormSection';
+import './setupFields';
+import { UnifiedFieldRegistry } from './UnifiedFieldRegistry';
+import type { RawFormSection } from '../form-core/domain/field/RawFormSection';
 
 type FieldErrors = Record<string, string | string[]>;
 

@@ -8,9 +8,9 @@ export interface AuthState {
 }
 
 export interface AuthContextValue extends AuthState {
-  user?: import('../entities/user').EntityUser;
-  refreshUser: () => Promise<import('../entities/user').EntityUser | null>;
-  setUser: (user?: import('../entities/user').EntityUser) => void;
+  user?: import('../app/entities/user').EntityUser;
+  refreshUser: () => Promise<import('../app/entities/user').EntityUser | null>;
+  setUser: (user?: import('../app/entities/user').EntityUser) => void;
   login: (token: string) => void;
   logout: () => void;
   switchRole: (role: UserRole) => void;

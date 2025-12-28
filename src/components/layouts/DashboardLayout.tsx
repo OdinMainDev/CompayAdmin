@@ -1,22 +1,26 @@
 import { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import Sidebar from '../navigation/Sidebar';
 import Topbar from '../navigation/Topbar';
-import { type RouteGroup } from '../../app/router/routes';
+import { useRouteGroups } from '../../app/router/hooks/useRouteGroups';
 
-interface DashboardLayoutProps {
-  routeGroups: RouteGroup[];
-}
 
-const DashboardLayout = ({ routeGroups }: DashboardLayoutProps) => {
+
+const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleSidebarToggle = () => setSidebarOpen((prev) => !prev);
+  const routes = useRouteGroups();
+ 
+   if (!routes) {
+    return <Navigate to="/auth/login" replace />;
+   }
+  
 
   return (
     <div className="d-flex">
-      <Sidebar routeGroups={routeGroups} open={sidebarOpen} onToggle={handleSidebarToggle} />
+      <Sidebar routeGroups={routes} open={sidebarOpen} onToggle={handleSidebarToggle} />
       <div className="content w-100">
         <Topbar/>
         <div className="content-body px-3 pb-4">

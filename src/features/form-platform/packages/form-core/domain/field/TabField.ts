@@ -5,7 +5,7 @@ import type { CompositeField } from "./CompositeField";
 import type { AnyField } from "./IField";
 
 
-export type TabFieldValue = Record<string, any>;
+export type TabFieldValue = Record<string, unknown>;
 
 export class TabField
   extends BaseField<TabFieldValue, TabsFieldExtra>
@@ -39,7 +39,7 @@ export class TabField
   }
 
 
-  static fromJson(json: { key: string; label: string; defaultValue?: TabFieldValue; options?: any }) {
+  static fromJson(json: { key: string; label: string; defaultValue?: TabFieldValue; options?: TabsFieldExtra }) {
     return new TabField (json.key, json.label, {}, json.options);
   }
 }

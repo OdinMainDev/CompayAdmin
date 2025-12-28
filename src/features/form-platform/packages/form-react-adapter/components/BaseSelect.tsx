@@ -127,7 +127,7 @@ function BaseSelectRendererInner<T extends string | number>(
 
   return (
     <Select
-      ref={ref as any} 
+      ref={ref} 
       options={selectOptions}
       value={selectedValue}
       onChange={handleChange}

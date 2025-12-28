@@ -1,7 +1,9 @@
 
+export type RawField = Record<string, unknown>;
+
 export interface RawFormSection {
   title: string;
   description?: string;
-  fields: Record<string, any>[]; 
+  fields: RawField[]; 
 }
 

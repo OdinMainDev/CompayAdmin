@@ -109,7 +109,10 @@
   },
   "faq": {
     "badge": "faq",
-    "title": "Answering frequent questions",
+    "title": "Answering frequent",
+    "title_2": "frequent",
+    "title_3": "questions",
+    
     "items": {
       "q1": {
         "question": "Why accept crypto on a website?",
