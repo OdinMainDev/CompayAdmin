@@ -10,8 +10,7 @@ const Totp = lazy(() => import('../../../pages/auth/Totp'));
 const NotFound = lazy(() => import('../../../pages/errors/NotFound'));
 const Dashboard = lazy(() => import('../../../pages/dashboard/Overview'));
 const FormBuilderV2 = lazy(() => import('../../../pages/tools/FormBuilderDemoV2'));
-const FormBuilder = lazy(() => import('../../../pages/tools/FormBuilderDemo'));
-const DataTable = lazy(() => import('../../../pages/tools/DatatableDemo'));
+const DataTableV2 = lazy(() => import('../../../pages/tools/DatatableDemoV2'));
 
 const DashboardLayout = lazy(() => import('../../../components/layouts/DashboardLayout'));
 
@@ -62,18 +61,11 @@ export const routeConfigs: RouteConfig[] = [
         meta: { label: 'Form Builder', roles: ['admin'], icon: faScrewdriverWrench },
       },
       {
-        id: 'merchant-datatable',
-        path: 'merchant/datatable',
-        component: DataTable,
+        id: 'admin-datatable',
+        path: 'admin/datatable',
+        component: DataTableV2,
         guard: RoleGuard,
-        meta: { label: 'Data Tables', roles: ['merchant'], icon: faScrewdriverWrench },
-      },
-      {
-        id: 'merchant-forms',
-        path: 'merchant/form-builder',
-        component: FormBuilder,
-        guard: RoleGuard,
-        meta: { label: 'Form Builder', roles: ['merchant'], icon: faScrewdriverWrench },
+        meta: { label: 'Data Tables', roles: ['admin'], icon: faScrewdriverWrench },
       },
     ],
   },

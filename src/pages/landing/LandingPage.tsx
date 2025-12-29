@@ -365,6 +365,7 @@ function MobileMenu({
     return () => document.body.classList.remove("mobile-menu-visible");
   }, [open]);
 
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div className="tgmobile__menu" aria-hidden={!open}>
@@ -417,23 +418,47 @@ function MobileMenu({
             </ul>
           </div>
 
-          <div className="tgmobile__lang">
-            <div className="lang-static">
-              <div className="lang-label">{(language || "en").toUpperCase()}</div>
-              <div className="lang-actions">
-                {LANGS.map((lng) => (
-                  <button
-                    key={lng}
-                    type="button"
-                    className={cn("lang-option", language === lng && "active")}
-                    onClick={() => onChangeLanguage(lng)}
-                  >
-                    {lng.toUpperCase()}
-                  </button>
-                ))}
-              </div>
+          <div className="tgmobile__lang" onClick={(e) => e.stopPropagation()}>
+              <ul className="list-wrap align-items-center">
+                <li className="flex justify-center">
+                  <div className="lang-dropdown relative">
+                    <button
+                      type="button"
+                      className="lang-toggle flex items-center gap-2"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      <span className="lang-label">{language.toUpperCase()}</span>
+                      <span className={`caret ${isOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    <ul
+                      className={cn(
+                        "lang-menu absolute left-0 mt-2 w-full transition-all duration-200 ease-out",
+                        isOpen 
+                          ? "opacity-100 visible translate-y-0 pointer-events-auto" 
+                          : "opacity-0 invisible -translate-y-2 pointer-events-none"
+                      )}
+                      role="listbox"
+                    >
+                      {LANGS.map((lng) => (
+                        <li key={lng}>
+                          <button
+                            type="button"
+                            className={cn("lang-option block w-full text-left", language === lng && "active")}
+                            onClick={() => {
+                              onChangeLanguage(lng);
+                              setIsOpen(false); 
+                            }}
+                          >
+                            {lng.toUpperCase()}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+              </ul>
             </div>
-          </div>
 
           <div className="social-links">
             <ul className="list-wrap">
@@ -610,6 +635,7 @@ export default function LandingPage() {
 const onNav = useCallback((id: string) => {
   scrollToId(id);
 }, []);
+
   const onChangeLanguage = useCallback(
     async (lng: string) => {
       if (i18n.language === lng) return;
@@ -645,7 +671,6 @@ const onNav = useCallback((id: string) => {
       />
     </svg>
   );
-
 
   return (
     <div className="landing-wrapper tg-home-one text-white" style={{ backgroundColor: "var(--tg-color-dark)" }}>

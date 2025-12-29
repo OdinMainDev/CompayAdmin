@@ -78,7 +78,7 @@ export class JsonFormLoader {
     };
   }
 
-  private static materializeField(
+  public static materializeField(
     raw: unknown,
     currentValues?: Record<string, unknown>
   ): AnyField {

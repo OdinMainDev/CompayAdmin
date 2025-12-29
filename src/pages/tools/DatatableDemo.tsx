@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-import DatatableBuilder from '../../features/DatatableBuilder';
-import { IDatatableFilters, IResponseError, IResponseList, TableColumn } from '../../features/DatatableBuilder/types';
+import DatatableBuilder, { type IDatatableFilters, type IResponseError, type IResponseList, type TableColumn } from '../../features/DatatableBuilder';
 import PageHeader from '../../components/common/PageHeader';
 import { useTranslation } from 'react-i18next';
 

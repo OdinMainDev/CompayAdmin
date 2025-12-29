@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Card, Form, Pagination, Spinner, Table } from 'react-bootstrap';
-import { IDatatableFilters, IResponseError, IResponseList, TableColumn } from './types';
 import { useTranslation } from 'react-i18next';
+import type { IDatatableFilters, IResponseError, IResponseList, TableColumn } from './types';
 
 interface DatatableBuilderProps<T> {
   title?: string;
@@ -168,7 +168,7 @@ const DatatableBuilder = <T,>({
                         key={`${column.value}-${idx}`}
                         className={column.align ? `text-${column.align}` : undefined}
                       >
-                        {column.render ? column.render(row) : String(row[column.value] ?? '—')}
+                      {column.render ? column.render(row) : String((row as Record<string, unknown>)[column.value] ?? '—')}
                       </td>
                     ))}
                   </tr>
