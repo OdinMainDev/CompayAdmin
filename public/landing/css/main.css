@@ -1832,7 +1832,7 @@ textarea {
 /*=============================
     	03. Banner
 ===============================*/
-.banner__bg {
+.fx-bg {
   background-size: cover;
   background-position: bottom center;
   position: relative;
@@ -1988,120 +1988,121 @@ textarea {
     margin-top: 15px;
   }
 }
-.banner__shape img {
+.fx-decor img {
   position: absolute;
   z-index: -1;
 }
-.banner__shape img:nth-child(1) {
+.fx-decor img:nth-child(1) {
   left: 13%;
-  bottom: 42px;
+  bottom: 85px;
 }
 @media (max-width: 1800px) {
-  .banner__shape img:nth-child(1) {
+  .fx-decor img:nth-child(1) {
     left: 9%;
   }
 }
 @media (max-width: 1500px) {
-  .banner__shape img:nth-child(1) {
+  .fx-decor img:nth-child(1) {
     left: 7%;
   }
 }
 @media (max-width: 1199.98px) {
-  .banner__shape img:nth-child(1) {
+  .fx-decor img:nth-child(1) {
     width: 120px;
   }
 }
 @media (max-width: 991.98px) {
-  .banner__shape img:nth-child(1) {
+  .fx-decor img:nth-child(1) {
     width: 110px;
     bottom: 10px;
   }
 }
 @media (max-width: 767.98px) {
-  .banner__shape img:nth-child(1) {
+  .fx-decor img:nth-child(1) {
     width: 75px;
     bottom: 0px;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  .banner__shape img:nth-child(1) {
+  .fx-decor img:nth-child(1) {
     width: 85px;
   }
 }
-.banner__shape img:nth-child(2) {
-  left: 42%;
-  bottom: -135px;
+.fx-decor img:nth-child(2) {
+  left: 45%;
+  bottom: -35px;
+  width: 10%;
 }
 @media (max-width: 1199.98px) {
-  .banner__shape img:nth-child(2) {
+  .fx-decor img:nth-child(2) {
     bottom: -85px;
     width: 200px;
   }
 }
 @media (max-width: 991.98px) {
-  .banner__shape img:nth-child(2) {
+  .fx-decor img:nth-child(2) {
     bottom: -70px;
     width: 155px;
   }
 }
 @media (max-width: 767.98px) {
-  .banner__shape img:nth-child(2) {
+  .fx-decor img:nth-child(2) {
     bottom: -40px;
     width: 90px;
     left: 40%;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  .banner__shape img:nth-child(2) {
+  .fx-decor img:nth-child(2) {
     width: 120px;
     left: 42%;
   }
 }
-.banner__shape img:nth-child(3) {
+.fx-decor img:nth-child(3) {
   right: 17%;
-  bottom: 45px;
+  bottom: 85px;
 }
 @media (max-width: 1800px) {
-  .banner__shape img:nth-child(3) {
+  .fx-decor img:nth-child(3) {
     right: 11%;
   }
 }
 @media (max-width: 1500px) {
-  .banner__shape img:nth-child(3) {
+  .fx-decor img:nth-child(3) {
     right: 9%;
   }
 }
 @media (max-width: 1199.98px) {
-  .banner__shape img:nth-child(3) {
+  .fx-decor img:nth-child(3) {
     width: 110px;
   }
 }
 @media (max-width: 991.98px) {
-  .banner__shape img:nth-child(3) {
+  .fx-decor img:nth-child(3) {
     width: 100px;
     bottom: 10px;
   }
 }
 @media (max-width: 767.98px) {
-  .banner__shape img:nth-child(3) {
+  .fx-decor img:nth-child(3) {
     width: 70px;
     bottom: 0px;
     right: 5%;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  .banner__shape img:nth-child(3) {
+  .fx-decor img:nth-child(3) {
     width: 80px;
   }
 }
-.banner__shape img:nth-child(4) {
-  top: 80px;
+.fx-decor img:nth-child(4) {
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
   z-index: -1;
 }
 @media (max-width: 1199.98px) {
-  .banner__shape img:nth-child(4) {
+  .fx-decor img:nth-child(4) {
     width: 60%;
     top: 60px;
   }

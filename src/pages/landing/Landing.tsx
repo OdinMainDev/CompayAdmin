@@ -343,7 +343,7 @@ const LandingPage = () => {
         <div id="header-fixed-height" />
       </header>
 
-      <main className="main-area fix">
+            <main className="main-area fix">
         <section
           className="banner__area banner__bg"
           data-background="/landing/img/banner/hero_bg.svg"
@@ -451,9 +451,7 @@ const LandingPage = () => {
                     <div className="countdown__wrap">
                       <div className="coming-time" data-countdown="2026/12/30" />
                     </div>
-                    <h3 className="token__received">
-                      {t("token.receivedPercent", "100%")} <span>{t("token.receivedLabel", "Received")}</span>
-                    </h3>
+                    <h3 className="token__received" dangerouslySetInnerHTML={{ __html: t('token.receivedHtml') }} />
                     <div className="token__progress-wrap">
                       <ul className="list-wrap token__progress-title">
                         <li>{t('token.rangeStart')}</li>

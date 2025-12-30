@@ -630,8 +630,17 @@ const onNav = useCallback((id: string) => {
       <main className="main-area fix">
       <RevealOnScroll>
         <section className="banner__area" id="home">
-          <div className="banner__bg" style={{ backgroundImage: `url(${asset("landing/img/banner/hero_bg.svg")})` }} />
-          <div className="banner__shape" style={{ backgroundImage: `url(${asset("landing/img/banner/hero_bg_shape.svg")})` }} />
+          <div className="relative w-full max-w-full mx-auto">
+            <img
+              src="/landing/img/decor/fx_bg.svg"
+              alt=""
+              aria-hidden="true"
+              className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 w-[120vw] max-w-none z-[1] pointer-events-none select-none"
+            />
+          </div>
+
+
+          <div className="fx-bg" />
           <div className="container mb-[200px]">
             <div className="row justify-content-center">
               <div className="col-xl-7 col-lg-8 col-md-10">
@@ -649,6 +658,19 @@ const onNav = useCallback((id: string) => {
               </div>
             </div>
           </div>
+          {/* <div className="banner__shape pt-2">
+            <img src="/landing/img/decor/hero_img01.png" alt="shape" className="alltuchtopdown" />
+            <img src="/landing/img/decor/hero_img02.png" alt="shape" className="rotateme" />
+            <img src="/landing/img/decor/hero_img03.png" alt="shape" className="alltuchtopdown" />
+            <img src="/landing/img/decor/hero_bg_shape.svg" alt="shape" className="banner__bg" />
+          </div> */}
+          <div className="fx-decor pt-2">
+            <img src="/landing/img/decor/fx_01.png" alt="" className="alltuchtopdown !z-[1]" />
+            <img src="/landing/img/decor/fx_02.png" alt="" className="rotateme !z-[1]" />
+            <img src="/landing/img/decor/fx_03.png" alt="" className="alltuchtopdown !z-[1]" />
+            <img src="/landing/img/decor/hero_bg.svg" alt="" className="fx-decor" />
+          </div>
+
         </section>
 
         <section id="features" className="features__area pt-[120px]">
