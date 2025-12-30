@@ -5,6 +5,7 @@ import type { SortState } from "../domain/value-objects/SortDirection";
 
 export class StateManager<T> {
   private state: DatatableState<T>;
+  private listeners: Array<() => void> = [];
 
   constructor(private config: DatatableConfig<T>) {
     this.state = this.createInitialState();
@@ -75,6 +76,7 @@ export class StateManager<T> {
 
   setFilters(filters: FilterCondition[]): void {
     this.state.filters = filters;
+    this.notifyListeners();
   }
 
   setPage(page: number): void {
@@ -100,6 +102,7 @@ export class StateManager<T> {
 
   updateColumnVisibility(columnId: string, visible: boolean): void {
     this.state.columnState.visibility[columnId] = visible;
+    this.notifyListeners();
   }
 
   updateColumnWidth(columnId: string, width: number): void {
@@ -136,5 +139,17 @@ export class StateManager<T> {
 
   deselectAll(): void {
     this.state.selection.clear();
+  }
+  subscribe(listener: () => void): () => void {
+    this.listeners.push(listener);
+    return () => {
+      const index = this.listeners.indexOf(listener);
+      if (index > -1) {
+        this.listeners.splice(index, 1);
+      }
+    };
+  }
+  private notifyListeners(): void {
+    this.listeners.forEach(listener => listener());
   }
 }

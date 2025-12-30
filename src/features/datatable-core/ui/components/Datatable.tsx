@@ -4,7 +4,7 @@ import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
 import type { DatatableState } from '../../domain/entities/DatatableState';
 import { DatatableHeader } from './DatatableHeader';
 import { DatatableFooter } from './DatatableFooter';
-import type { DatatableQuery } from '../../domain/entities/DatatableQuery';
+import type { ApiDatatableQuery } from '../../domain/entities/DatatableQuery';
 import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '../../domain/ports/IDatatableBackend';
 import { useUnifiedFormBuilder } from '../hooks/useUnifiedFormBuilder';
@@ -60,11 +60,6 @@ export function Datatable<T>({
     }
   };
 
-  const handleSearch = (term: string) => {
-    if (engine) {
-      engine.search(term);
-    }
-  };
 
   const handlePageChange = (page: number) => {
     if (engine) {
@@ -83,7 +78,6 @@ export function Datatable<T>({
       engine.selectRows(selectedIds);
     }
   };
-
   const handleAction = async (actionId: string, formData?: Record<string, unknown>) => {
     if (engine) {
       await engine.executeAction(actionId, formData);
@@ -100,12 +94,12 @@ export function Datatable<T>({
         config={config}
         state={state}
         engine={engine} 
-        onSearch={handleSearch}
         onAction={handleAction}
       />
       
       <DatatableBody
         config={config}
+        engine={engine}
         state={state}
         onSort={handleSort}
         onRowClick={config.events?.onRowClick}
@@ -125,30 +119,59 @@ export function Datatable<T>({
 
 
 function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<T> {
-    return {
-      fetch: async (query: DatatableQuery) => {
-        if (typeof config.dataSource === 'function') {
-          return config.dataSource(query);
-        }
-        throw new Error('Backend adapter not implemented');
-      },
-      fetchFilters: async () => {
-        if (config.filtersSource) {
-          if (typeof config.filtersSource === 'function') {
-            return config.filtersSource();
-          }
-        }
-        return [];
-      },
-      exportData: async () => {
-        throw new Error('Export not implemented');
-      },
-      executeAction: async () => {
-        throw new Error('Action execution not implemented');
+  const methods = {
+    async fetch(query: ApiDatatableQuery) {
+      if (typeof config.dataSource === 'function') {
+        return config.dataSource(query);
       }
-    };
-  }
-
+      throw new Error('Backend adapter not implemented');
+    },
+    
+    async fetchFilters() {
+      if (config.filtersSource) {
+        if (typeof config.filtersSource === 'function') {
+          return config.filtersSource();
+        }
+      }
+      return [];
+    },
+    
+    async export(query: ApiDatatableQuery, format: 'csv' | 'excel') {
+      if (config.export?.handler) {
+        return config.export.handler(query, format);
+      }
+      
+      return { 
+        success: true, 
+        data: { url: '#', filename: `export.${format}` } 
+      };
+    },
+    async add(_: Record<string, unknown>) {
+      const addAction = config.quickActions?.find(action => action.id === 'add');
+      
+      if (addAction?.handler) {
+        return addAction.handler();
+      }
+      throw new Error('Add action not configured');
+    },
+    async executeAction(actionId: string, data: Record<string, unknown>) {
+      type ActionMethod = (data: Record<string, unknown>) => Promise<unknown>;
+      
+      const hasMethod = (obj: object, key: string): obj is { [key: string]: ActionMethod } => {
+        return key in obj && typeof (obj as any)[key] === 'function';
+      };
+      
+      if (hasMethod(this, actionId)) {
+        console.log(data);
+        return (this as Record<string, ActionMethod>)[actionId](data);
+      }
+      
+      throw new Error(`Action "${actionId}" not implemented`);
+    }
+  };
+  
+  return methods;
+}
 function createEventEmitter(): any {
   const listeners = new Map();
   

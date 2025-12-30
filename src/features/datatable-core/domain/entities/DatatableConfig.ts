@@ -3,8 +3,8 @@ import type { FilterCondition } from "../value-objects/FilterCondition";
 import type { SortDirection, SortState } from "../value-objects/SortDirection";
 import type { BulkAction } from "./BulkAction";
 import type { DatatableColumn } from "./DatatableColumn";
-import type { DatatableQuery } from "./DatatableQuery";
-import type { DatatableResponse } from "./DatatableResponse";
+import type { ApiDatatableQuery } from "./DatatableQuery";
+import type { IResponseList } from "./DatatableResponse";
 import type { FilterDefinition } from "./FilterDefinition";
 import type { FilterPreset } from "./FilterPreset";
 import type { QuickAction } from "./QuickAction";
@@ -12,11 +12,11 @@ import type { QuickFilter } from "./QuickFilter";
 import type { RowAction } from "./RowAction";
 
 
-export interface DatatableConfig<T = unknown> {
+export interface DatatableConfig<T> {
   title?: string;
   subtitle?: string;
   id: string;
-  dataSource: string | ((query: DatatableQuery) => Promise<DatatableResponse<T>>);
+  dataSource: ((query: ApiDatatableQuery) => Promise<IResponseList<T>>);
   filtersSource?: string | (() => Promise<FilterDefinition[]>);
   columns: DatatableColumn<T>[];
   filterForm?: RawFormSection[];
@@ -50,6 +50,8 @@ export interface DatatableConfig<T = unknown> {
     enabled: boolean;
     formats: ('csv' | 'excel' | 'pdf')[];
     columns?: string[];
+    handler?(query: ApiDatatableQuery, format: 'csv' | 'excel'): Promise<unknown>;
+
   };
   ui?: {
     density: 'compact' | 'normal' | 'comfortable';

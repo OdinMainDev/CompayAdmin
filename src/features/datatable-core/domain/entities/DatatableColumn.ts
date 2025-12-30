@@ -1,5 +1,4 @@
 import type { FormField } from "../ports/IDatatableFormBuilder";
-import type { FilterOperator } from "../value-objects/FilterCondition";
 
 export interface DatatableColumn<T> {
   id: string;
@@ -26,8 +25,6 @@ export interface DatatableColumn<T> {
     type: 'text' | 'select' | 'date' | 'number' | 'range' | 'custom';
     field?: FormField;
     options?: Array<{ label: string; value: unknown }>;
-    placeholder?: string;
-    operator?: FilterOperator;
   };
   meta?: Record<string, unknown>;
   order?: number;

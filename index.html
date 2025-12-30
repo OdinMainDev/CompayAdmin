@@ -7,16 +7,15 @@
     <title>CompayAdmin</title>
 
     <link rel="stylesheet" href="/landing/css/main.css" />
+    <link rel="stylesheet" href="/landing/css/fontawesome-all.min.css" />
+    <!-- <link rel="stylesheet" href="/landing/css/swiper-bundle.min.css" /> -->
+    <!-- <link rel="stylesheet" href="/landing/css/default-icons.css" /> -->
+    <!-- <link rel="stylesheet" href="/landing/css/default.css" /> -->
+    <!-- <link rel="stylesheet" href="/landing/css/aos.css" /> -->
     <!-- <link rel="stylesheet" href="/landing/css/bootstrap.min.css" /> -->
     <!-- <link rel="stylesheet" href="/landing/css/animate.min.css" /> -->
-    <link rel="stylesheet" href="/landing/css/fontawesome-all.min.css" />
-    <link rel="stylesheet" href="/landing/css/swiper-bundle.min.css" />
-    <!-- <link rel="stylesheet" href="/landing/css/default-icons.css" /> -->
-    <link rel="stylesheet" href="/landing/css/default.css" />
-    <!-- <link rel="stylesheet" href="/landing/css/aos.css" /> -->
 
     <style>
-      
       /* overlay */
       #app-preloader {
         background-color: var(--tg-color-dark, #0b0c10);
@@ -99,23 +98,6 @@
 
     <div id="root"></div>
 
-    <script>
-      (function () {
-        function hide() {
-          var el = document.getElementById("app-preloader");
-          if (!el) return;
-          if (el.dataset.hiding === "1") return;
-          el.dataset.hiding = "1";
-          el.classList.add("is-hiding");
-          window.setTimeout(function () {
-            if (el && el.parentNode) el.parentNode.removeChild(el);
-          }, 320);
-        }
-
-        window.__HIDE_APP_PRELOADER__ = hide;
-        window.setTimeout(hide, 6000);
-      })();
-    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="/src/main.tsx"></script>

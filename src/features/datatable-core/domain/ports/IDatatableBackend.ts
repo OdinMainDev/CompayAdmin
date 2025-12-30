@@ -1,11 +1,11 @@
-import type { DatatableQuery } from "../entities/DatatableQuery";
-import type { DatatableResponse } from "../entities/DatatableResponse";
+import type { ApiDatatableQuery } from "../entities/DatatableQuery";
+import type { IResponseList } from "../entities/DatatableResponse";
 import type { FilterDefinition } from "../entities/FilterDefinition";
 
 
 export interface IDatatableBackend<T> {
-  fetch(query: DatatableQuery): Promise<DatatableResponse<T>>;
+  fetch(query: ApiDatatableQuery): Promise<IResponseList<T>>;
   fetchFilters(): Promise<FilterDefinition[]>;
-  exportData(query: DatatableQuery, format: string): Promise<Blob>;
+  export(query: ApiDatatableQuery, format: string): Promise<unknown>;
   executeAction(actionId: string, data: Record<string, unknown>): Promise<unknown>;
 }

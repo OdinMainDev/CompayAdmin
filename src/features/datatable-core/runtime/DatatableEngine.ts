@@ -9,7 +9,7 @@ import { FilterManager } from './FilterManager';
 import type { SortState } from '../domain/value-objects/SortDirection';
 import type { IDatatableFormBuilder } from '../domain/ports/IDatatableFormBuilder';
 
-export class DatatableEngine<T = unknown> {
+export class DatatableEngine<T> {
   private config: DatatableConfig<T>;
   private backend: IDatatableBackend<T>;
   private eventEmitter: IDatatableEventEmitter;
@@ -47,9 +47,9 @@ export class DatatableEngine<T = unknown> {
     try {
       const query = this.queryBuilder.build(state);
       const response = await this.backend.fetch(query);
-      
-      this.stateManager.updateData(response.data, response.total, response.filtered);
-      this.eventEmitter.emit('data-loaded', { data: response.data, total: response.total });
+      this.stateManager.updateData(response.data.data, response.data.recordsTotal, response.data.recordsFiltered);
+      this.stateManager.setLoading(false);
+      this.eventEmitter.emit('data-loaded', { data: response.data, total: response.data.recordsTotal });
     } catch (error) {
       this.stateManager.setError(error instanceof Error ? error : new Error('Unknown error'));
       this.eventEmitter.emit('data-error', { error });
@@ -73,10 +73,6 @@ export class DatatableEngine<T = unknown> {
     this.eventEmitter.emit('filter-changed', { filters: normalizedFilters });
   }
 
-  async search(term: string): Promise<void> {
-    const searchFilters = this.filterManager.createSearchFilters(term, this.config.columns);
-    await this.filter(searchFilters);
-  }
 
   async changePage(page: number): Promise<void> {
     this.stateManager.setPage(page);
@@ -94,14 +90,6 @@ export class DatatableEngine<T = unknown> {
     this.stateManager.setSelection(new Set(ids));
     const selectedRows = this.getSelectedRows();
     this.eventEmitter.emit('selection-changed', { selectedRows });
-  }
-
-  getSelectedRows(): T[] {
-    const state = this.stateManager.getState();
-    return state.data.filter(row => {
-      const rowId = (row as { id: string }).id;
-      return state.selection.has(rowId);
-    });
   }
 
   async executeAction(actionId: string, formData?: Record<string, unknown>): Promise<void> {
@@ -129,6 +117,24 @@ export class DatatableEngine<T = unknown> {
     return reloadActions.some(pattern => actionId.includes(pattern));
   }
 
+
+  updateColumnVisibility(columnId: string, visible: boolean): void {
+    this.stateManager.updateColumnVisibility(columnId, visible);
+    this.eventEmitter.emit('column-visibility-changed', { 
+      columnId, 
+      visible,
+      columnState: this.getState().columnState
+    });
+  }
+  getSelectedRows(): T[] {
+    const state = this.stateManager.getState();
+    return state.data.filter(row => {
+      const rowId = (row as { id: string }).id;
+      return state.selection.has(rowId);
+    });
+  }
+
+
   getState(): DatatableState<T> {
     return this.stateManager.getState();
   }
@@ -142,5 +148,9 @@ export class DatatableEngine<T = unknown> {
 
   getFormBuilder(): IDatatableFormBuilder<T> {
     return this.formBuilder;
+  }
+
+  subscribe(callback: () => void): () => void {
+    return this.stateManager.subscribe(callback);
   }
 }

@@ -5,9 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import './i18n';
 import './styles/volt.scss';
-import './index.css';
 import "./styles/tailwind.css";
-
 
 
 createRoot(document.getElementById('root')!).render(

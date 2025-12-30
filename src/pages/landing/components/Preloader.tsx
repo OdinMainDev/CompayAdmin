@@ -1,27 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
-export function Preloader({ enabled = true }: { enabled?: boolean }) {
+export function Preloader() {
   useEffect(() => {
-    if (!enabled) return;
-
-    const el = document.getElementById("app-preloader");
-    if (!el) return;
-
     const hide = () => {
-      el.classList.add("is-hiding");
-      window.setTimeout(() => {
-        el.remove();
-      }, 300);
+      const el = document.getElementById("app-preloader");
+      if (!el) return;
+      
+      setTimeout(() => {
+        el.classList.add("is-hiding");
+        el.style.display = 'none';
+      }, 1000);
     };
 
-    // гарантируем, что React уже сделал первый paint
-    requestAnimationFrame(() => requestAnimationFrame(hide));
-
-    // страховка от зависонов
-    const t = window.setTimeout(hide, 6000);
-
-    return () => window.clearTimeout(t);
-  }, [enabled]);
+    const t = setTimeout(hide, 1);
+    return () => clearTimeout(t);
+  }, []);
 
   return null;
 }

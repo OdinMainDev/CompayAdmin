@@ -8,7 +8,7 @@ export interface QuickAction<T> {
   position?: 'header' | 'toolbar' | 'inline';
 
   form?: RawFormSection[]; 
-  handler: (context: QuickActionContext<T>) => void | Promise<void>;
+  handler: () => void | Promise<void>;
   shortcut?: string;
   tooltip?: string;
   requiresSelection?: boolean;

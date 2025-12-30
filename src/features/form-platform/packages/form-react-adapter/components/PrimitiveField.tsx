@@ -3,7 +3,7 @@ import type { ChangeEvent } from 'react';
 import type { IField } from '../../form-core/domain/field/IField';
 import type { TextFieldExtra } from '../../form-core/domain/extra/TextFieldExtra';
 
-export function PrimitiveFieldRenderer<T extends string | number>(
+export function PrimitiveFieldRenderer<T extends string | number | null>(
     field: IField<T, TextFieldExtra>,
     onChange: (value: T) => void
   ) {

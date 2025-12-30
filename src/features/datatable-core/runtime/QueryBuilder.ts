@@ -1,28 +1,44 @@
 import type { DatatableConfig } from "../domain/entities/DatatableConfig";
-import type { DatatableQuery } from "../domain/entities/DatatableQuery";
+import type { ApiDatatableQuery } from "../domain/entities/DatatableQuery";
 import type { DatatableState } from "../domain/entities/DatatableState";
 import type { SortState } from "../domain/value-objects/SortDirection";
+import type { FilterCondition } from "../domain/value-objects/FilterCondition";
 
 export class QueryBuilder<T> {
   constructor(private config: DatatableConfig<T>) {}
 
-  build(state: DatatableState): DatatableQuery {
-    return {
-      pagination: {
-        page: state.pagination.page,
-        pageSize: state.pagination.pageSize
-      },
-      sort: this.buildSort(state.sort),
-      filters: state.filters,
-      columns: this.getVisibleColumns(),
-      include: this.getRelations(),
-      groupBy: this.getGroupBy(),
-      aggregates: this.getAggregates()
+  build(state: DatatableState<T>): ApiDatatableQuery {
+    const { pagination, sort, filters } = state;
+    
+    const apiQuery: ApiDatatableQuery = {
+      length: pagination.pageSize,
+      start: (pagination.page - 1) * pagination.pageSize,
+      type_filters: filters
     };
+
+    if (sort.length > 0 && this.config.sorting?.enabled) {
+      const sortItem = sort[0];
+      apiQuery.order_column = sortItem.column;
+      apiQuery.order_direction = sortItem.direction;
+    } else if (this.config.sorting?.defaultSort) {
+      apiQuery.order_column = this.config.sorting.defaultSort.column;
+      apiQuery.order_direction = this.config.sorting.defaultSort.direction;
+    }
+
+    if (filters.length > 0) {
+      this.applyFilters(apiQuery, filters);
+    }
+
+    return apiQuery;
   }
 
   applySort(column: string, direction: SortState['direction']): SortState[] {
     if (!this.config.sorting?.enabled) {
+      return [];
+    }
+
+    const columnConfig = this.config.columns.find(col => col.id === column);
+    if (!columnConfig?.sortable) {
       return [];
     }
 
@@ -33,57 +49,30 @@ export class QueryBuilder<T> {
     }
   }
 
-  private buildSort(sortStates: SortState[]): SortState[] {
-    if (!this.config.sorting?.enabled || sortStates.length === 0) {
-      return this.config.sorting?.defaultSort 
-        ? [this.config.sorting.defaultSort]
-        : [];
-    }
+  withFilters(state: DatatableState<T>, filters: FilterCondition[]): ApiDatatableQuery {
+    const apiQuery = this.build(state);
+    this.applyFilters(apiQuery, filters);
+    return apiQuery;
+  }
 
-    return sortStates.filter(sort => {
-      const column = this.config.columns.find(col => col.id === sort.column);
-      return column?.sortable;
-    });
+  withPage(state: DatatableState<T>, page: number): ApiDatatableQuery {
+    const apiQuery = this.build(state);
+    apiQuery.start = (page - 1) * apiQuery.length;
+    return apiQuery;
+  }
+
+  withPageSize(state: DatatableState<T>, pageSize: number): ApiDatatableQuery {
+    const apiQuery = this.build(state);
+    apiQuery.length = pageSize;
+    apiQuery.start = 0;
+    return apiQuery;
+  }
+
+  private applyFilters(apiQuery: ApiDatatableQuery, filters: FilterCondition[]): void {
+    apiQuery.type_filters = [...apiQuery.type_filters, ...filters];
   }
 
   private updateMultiSort(column: string, direction: SortState['direction']): SortState[] {
-    const currentSort = this.getCurrentSort();
-    const existingIndex = currentSort.findIndex(sort => sort.column === column);
-
-    if (existingIndex >= 0) {
-      if (direction === 'asc' && currentSort[existingIndex].direction === 'desc') {
-        currentSort.splice(existingIndex, 1);
-      } else {
-        currentSort[existingIndex].direction = direction;
-      }
-    } else {
-      currentSort.push({ column, direction });
-    }
-
-    return currentSort.slice(0, 3);
-  }
-
-  private getCurrentSort(): SortState[] {
-    return [];
-  }
-
-  private getVisibleColumns(): string[] {
-    return this.config.columns
-      .filter(column => column.visible)
-      .map(column => column.id);
-  }
-
-  private getRelations(): string[] {
-    return [];
-  }
-
-  private getGroupBy(): string[] {
-    return this.config.columns
-      .filter(column => column.groupable)
-      .map(column => column.id);
-  }
-
-  private getAggregates(): Record<string, string> {
-    return {};
+    return [{ column, direction }];
   }
 }

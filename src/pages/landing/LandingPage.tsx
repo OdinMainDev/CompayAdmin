@@ -1,11 +1,12 @@
 // src/pages/landing/LandingPage.tsx
+import '../../styles/landing/custom.scss';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollTopButton } from "./components/ScrollTopButton";
 import { ActiveMenuOnScroll } from "./components/ActiveMenuOnScroll";
+import { ContactModal } from "./components/ContactModal";
+import { RevealOnScroll } from "./components/RevealOnScroll";
 
-
-import '../../styles/landing/custom.scss';
 
 type NavItem = { id: string; label: string };
 type RoadmapItem = { year: string; desc: string };
@@ -18,10 +19,10 @@ function cn(...xs: Array<string | false | null | undefined>) {
 
 function asset(path: string): string {
   const clean = path.startsWith("/") ? path.slice(1) : path;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const viteBase = (globalThis as any)?.import?.meta?.env?.BASE_URL as string | undefined;
   if (viteBase) return `${viteBase}${clean}`.replace(/\/{2,}/g, "/");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const publicUrl = (globalThis as any)?.process?.env?.PUBLIC_URL as string | undefined;
   if (publicUrl) return `${publicUrl.replace(/\/$/, "")}/${clean}`.replace(/\/{2,}/g, "/");
   return `/${clean}`;
@@ -193,7 +194,7 @@ function Header({
     let activeLi: HTMLElement | null = null;
 
     for (const a of links) {
-      const hash = a.hash; // "#roadmap"
+      const hash = a.hash;
       if (!hash) continue;
 
       const section = document.querySelector<HTMLElement>(hash);
@@ -497,112 +498,43 @@ function MobileMenu({
   );
 }
 
-async function submitContact(endpoint: string, payload: { username: string }) {
+export async function submitContact(endpoint: string, payload: { username: string }) {
   try {
     const body = new URLSearchParams();
     body.set("username", payload.username);
+
     const res = await fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Accept": "text/plain,application/json,*/*",
+      },
       body: body.toString(),
+      credentials: "same-origin",
     });
+
     const text = await res.text();
+
     if (!res.ok) return { ok: false as const, message: text || `HTTP ${res.status}` };
-    return { ok: true as const, message: text || "OK" };
+
+    const normalized = (text || "").trim().toLowerCase();
+    const okByBody =
+      !normalized ||
+      normalized === "ok" ||
+      normalized === "success" ||
+      normalized === "1" ||
+      normalized === "true";
+
+    return { ok: okByBody as true, message: text || "OK" };
   } catch {
     return { ok: false as const, message: "Network error" };
   }
 }
+const submitContactHandler = async (username: string) => {
+  const { ok } = await submitContact("/contact", { username });
+  return ok;
+};
 
-function ContactModal({
-  open,
-  onClose,
-  endpoint,
-}: {
-  open: boolean;
-  onClose: () => void;
-  endpoint: string;
-}) {
-  const [username, setUsername] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
-  const [message, setMessage] = useState("");
-
-  useLockBodyScroll(open);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-
-  useEffect(() => {
-    if (open) return;
-    setUsername("");
-    setStatus("idle");
-    setMessage("");
-  }, [open]);
-
-  const onSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      const name = username.trim();
-      if (!name) return;
-      setStatus("sending");
-      const res = await submitContact(endpoint, { username: name });
-      if (res.ok) {
-        setStatus("ok");
-        setMessage(res.message);
-        return;
-      }
-      setStatus("err");
-      setMessage(res.message);
-    },
-    [endpoint, username]
-  );
-
-  if (!open) return null;
-
-  return (
-    <div className="modal-backdrop custom-modal show" role="dialog" aria-modal="true">
-      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-content">
-          <button type="button" className="modal-close" aria-label="Close" onClick={onClose}>
-            <i className="fas fa-times" aria-hidden="true" />
-          </button>
-
-          <div className="modal-body">
-            <h3 className="title">Contact</h3>
-
-            <form onSubmit={onSubmit} className="contact__form">
-              <div className="form-grp">
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Your name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  disabled={status === "sending"}
-                />
-              </div>
-
-              <button type="submit" className="tg-btn tg-btn-two" disabled={status === "sending"}>
-                {status === "sending" ? "Sending..." : "Submit"}
-              </button>
-
-              {status === "ok" && <div className="form-result success">{message}</div>}
-              {status === "err" && <div className="form-result error">{message}</div>}
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <div className="modal-overlay" onClick={onClose} />
-    </div>
-  );
-}
 
 export default function LandingPage() {
   const { t, i18n } = useTranslation("landing");
@@ -696,10 +628,11 @@ const onNav = useCallback((id: string) => {
       <ActiveMenuOnScroll menuSelector=".tgmenu__navbar-wrap" headerOffset={120} />
 
       <main className="main-area fix">
+      <RevealOnScroll>
         <section className="banner__area" id="home">
           <div className="banner__bg" style={{ backgroundImage: `url(${asset("landing/img/banner/hero_bg.svg")})` }} />
           <div className="banner__shape" style={{ backgroundImage: `url(${asset("landing/img/banner/hero_bg_shape.svg")})` }} />
-          <div className="container mb-[280px]">
+          <div className="container mb-[200px]">
             <div className="row justify-content-center">
               <div className="col-xl-7 col-lg-8 col-md-10">
                 <div className="banner__content">
@@ -709,7 +642,7 @@ const onNav = useCallback((id: string) => {
 
                   <div className="banner__btn-wrap">
                     <button type="button" className="tg-btn tg-btn-two" onClick={() => setContactOpen(true)}>
-                      {t("hero.ctaPrimary", "Contact")}
+                      {t("hero.cta", "Contact")}
                     </button>
                   </div>
                 </div>
@@ -718,7 +651,7 @@ const onNav = useCallback((id: string) => {
           </div>
         </section>
 
-        <section id="features" className="features__area">
+        <section id="features" className="features__area pt-[120px]">
           <div className="container mb-7">
             <div className="row justify-content-center pb-6">
               <div className="col-lg-6">
@@ -804,8 +737,41 @@ const onNav = useCallback((id: string) => {
           </div>
         </section>
 
-        <section id="token" className="token__area section-py-120">
-          <div className="container">
+        <section className="marquee__area">
+          <div className="slider__marquee clearfix marquee-wrap overflow-hidden">
+            <div
+              className="flex w-max whitespace-nowrap"
+              style={{
+                animation: "marqueeMove 18s linear infinite",
+                willChange: "transform",
+              }}
+            >
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+              </div>
+            </div>
+
+            <style>{`
+              @keyframes marqueeMove {
+                0% { transform: translate3d(0,0,0); }
+                100% { transform: translate3d(-7%,0,0); }
+              }
+            `}</style>
+          </div>
+        </section>
+
+
+        <section id="token" className="token__area pt-[120px]">
+          <div className="container border-b border-white/10">
             <div className="row align-items-center g-4 mb-7">
               <div className="col-lg-6">
                 <div className="token__content">
@@ -863,7 +829,7 @@ const onNav = useCallback((id: string) => {
           </div>
         </section>
 
-        <section id="work" className="work__area">
+        <section id="work" className="work__area pt-[120px]">
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-6">
@@ -1019,7 +985,7 @@ const onNav = useCallback((id: string) => {
                     <span className="sub-title">{t('faq.badge')}</span>
                     <div className="title flex items-center gap-[10px]">
                       <h2>{t('faq.title')} </h2>
-                      <h2 className="opacity-30">{t('faq.title_2')} </h2>
+                      <h2>{t('faq.title_2')} </h2>
                       <h2>{t('faq.title_3')}</h2>
                     </div>
                   </div>
@@ -1055,7 +1021,7 @@ const onNav = useCallback((id: string) => {
                         transform: open === "q1" ? "translateY(0)" : "translateY(-6px)",
                       }}
                     >
-                      <p className="pb-2 text-white/70">
+                      <p className="pb-2 text-white">
                         {t("faq.items.q1.answer")}
                       </p>
                     </div>
@@ -1093,7 +1059,7 @@ const onNav = useCallback((id: string) => {
                           transform: open === "q2" ? "translateY(0)" : "translateY(-6px)",
                         }}
                       >
-                        <p className="pb-2 text-white/70">
+                        <p className="pb-2 text-white">
                           {t("faq.items.q2.answer")}
                         </p>
                       </div>
@@ -1131,7 +1097,7 @@ const onNav = useCallback((id: string) => {
                             transform: open === "q3" ? "translateY(0)" : "translateY(-6px)",
                           }}
                         >
-                          <p className="pb-2 text-white/70">
+                          <p className="pb-2 text-white">
                             {t("faq.items.q3.answer")}
                           </p>
                         </div>
@@ -1182,8 +1148,9 @@ const onNav = useCallback((id: string) => {
             <img src="/landing/img/images/features_shape.png" alt="shape" loading="lazy" />
           </div>
         </section>
+      </RevealOnScroll>
 
-              <footer className="footer__area">
+      <footer className="footer__area">
         <div className="container">
           <div className="footer__top">
             <div className="row justify-content-center">
@@ -1250,7 +1217,11 @@ const onNav = useCallback((id: string) => {
 
       </main>
 
-      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} endpoint="/contact" />
-    </div>
+        <ContactModal
+          open={contactOpen}
+          onClose={() => setContactOpen(false)}
+          onSubmit={submitContactHandler}
+        />
+   </div>
   );
 }

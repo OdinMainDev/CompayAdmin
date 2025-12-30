@@ -3,7 +3,7 @@ import type { ValidationResult } from '../validation/ValidationResult';
 import type { NumberFieldExtra } from '../extra/NumberFieldExtra';
 
 
-export class NumberField extends BaseField<number, NumberFieldExtra> {
+export class NumberField extends BaseField<number | null, NumberFieldExtra> {
   type = 'number';
 
   validate(): ValidationResult {
@@ -17,7 +17,7 @@ export class NumberField extends BaseField<number, NumberFieldExtra> {
     return { isValid, errors };
   }
 
-  static fromJson(json: { key: string; label: string; defaultValue?: number; extra?: NumberFieldExtra }) {
-    return new NumberField(json.key, json.label, json.defaultValue ?? 0, json.extra);
+  static fromJson(json: { key: string; label: string; defaultValue?: number | null; options?: NumberFieldExtra }) {
+    return new NumberField(json.key, json.label, json.defaultValue ?? null, json.options);
   }
 }

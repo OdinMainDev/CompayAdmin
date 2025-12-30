@@ -1849,19 +1849,19 @@ textarea {
 }
 @media (max-width: 1199.98px) {
   .banner__bg {
-    padding: 150px 0 160px;
+    padding: 60px;
     margin-bottom: 85px;
   }
 }
 @media (max-width: 991.98px) {
   .banner__bg {
-    padding: 145px 0 145px;
+    padding: 50px;
     margin-bottom: 70px;
   }
 }
 @media (max-width: 767.98px) {
   .banner__bg {
-    padding: 135px 0 125px;
+    padding: 50px;
     margin-bottom: 40px;
   }
 }
@@ -3382,8 +3382,9 @@ blockquote cite {
 }
 .marquee__item {
 	color: #ffffff4d !important;
-  opacity: 30% ;
 }
 
 /*# sourceMappingURL=main.css.map */
+
+
 

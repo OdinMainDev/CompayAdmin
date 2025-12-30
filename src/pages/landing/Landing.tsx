@@ -162,10 +162,10 @@ const LandingPage = () => {
         window.dispatchEvent(new Event('load'));
       })
       .finally(() => {
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-          preloader.style.display = 'none';
-        }
+        // const preloader = document.getElementById('preloader');
+        // if (preloader) {
+        //   preloader.style.display = 'none';
+        // }
       });
   }, []);
 

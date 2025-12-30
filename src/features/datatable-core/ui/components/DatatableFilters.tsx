@@ -1,25 +1,21 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
 import type { DatatableEngine } from '../../runtime/DatatableEngine';
-import type { FilterCondition } from '../../domain/value-objects/FilterCondition';
 import { DatatableFiltersForm } from './DatatableFiltersForm';
+import { useDatatableState } from '../hooks/useDatatableState';
+import type { FilterCondition } from '../../domain/value-objects/FilterCondition';
 
-interface DatatableFiltersProps<T = unknown> {
+interface DatatableFiltersProps<T> {
   config: DatatableConfig<T>;
   engine: DatatableEngine<T>;
-  onFilter: (filters: FilterCondition[]) => void;
-  activeFilters?: FilterCondition[]; 
 }
 
-export function DatatableFilters<T = unknown>({
+export function DatatableFilters<T>({
   config,
-  engine,
-  onFilter,
-  activeFilters = []
+  engine
 }: DatatableFiltersProps<T>): React.ReactElement | null {
   const [showModal, setShowModal] = useState(false);
-  const [localFilters, setLocalFilters] = useState<FilterCondition[]>(activeFilters);
-  
+  const [activeFilters] = useState(engine.getState().filters);
   const filterMode = config.filtering?.mode || 'inline';
   
   const filterForm = useMemo(() => {
@@ -27,18 +23,23 @@ export function DatatableFilters<T = unknown>({
       return config.filterForm;
     }
     return [];
-  }, [config.filterForm, config.columns, engine]);
+  }, [config.filterForm]);
   
   if (filterForm.length === 0) {
     return null;
   }
   
+  const handleFilter = (filters: FilterCondition[]) => {
+    engine.filter(filters);
+  };
+  
   if (filterMode === 'inline') {
     return (
       <div className="datatable-filters datatable-filters-inline">
         <DatatableFiltersForm
+          engine={engine}
           filterForm={filterForm}
-          onFilterChange={onFilter}
+          onFilterChange={handleFilter}
         />
       </div>
     );
@@ -55,9 +56,9 @@ export function DatatableFilters<T = unknown>({
           >
             <i className="fas fa-filter me-2"></i>
             Filter
-            {localFilters.length > 0 && (
+            {activeFilters.length > 0 && (
               <span className="badge bg-primary ms-2">
-                {localFilters.length}
+                {activeFilters.length}
               </span>
             )}
           </button>
@@ -71,6 +72,11 @@ export function DatatableFilters<T = unknown>({
                   <h5 className="modal-title">
                     <i className="fas fa-filter me-2"></i>
                     Filters
+                    {activeFilters.length > 0 && (
+                      <span className="badge bg-primary ms-2">
+                        {activeFilters.length}
+                      </span>
+                    )}
                   </h5>
                   <button
                     type="button"
@@ -80,10 +86,11 @@ export function DatatableFilters<T = unknown>({
                 </div>
                 <div className="modal-body">
                   <DatatableFiltersForm
+                    engine={engine}
                     filterForm={filterForm}
                     onFilterChange={(filters) => {
-                      setLocalFilters(filters);
-                      onFilter(filters);
+                      engine.filter(filters);
+                      setShowModal(false);
                     }}
                   />
                 </div>

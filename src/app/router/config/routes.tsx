@@ -3,7 +3,7 @@ import type { RouteConfig } from '../types';
 import { Navigate } from 'react-router-dom';
 import { faChartPie, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 
-const Landing  = lazy(() => import('../../../pages/landing/LandingPage'));
+// const Landing  = lazy(() => import('../../../pages/landing/LandingPage'));
 const Landing2 = lazy(() => import('../../../pages/landing/Landing'));
 const Login = lazy(() => import('../../../pages/auth/Login'));
 const Totp = lazy(() => import('../../../pages/auth/Totp'));
@@ -16,6 +16,10 @@ const DashboardLayout = lazy(() => import('../../../components/layouts/Dashboard
 
 const AuthGuard = lazy(() => import('../guards/AuthGuard'));
 const RoleGuard = lazy(() => import('../guards/RoleGuard'));
+
+const Landing = lazy(() => import('../../../pages/landing/LandingPage').then(module => ({
+  default: module.default
+})));
 
 export const routeConfigs: RouteConfig[] = [
   // Public routes

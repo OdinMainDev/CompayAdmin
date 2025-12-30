@@ -3,9 +3,12 @@ import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
 import type { DatatableState } from '../../domain/entities/DatatableState';
 import type { SortState } from '../../domain/value-objects/SortDirection';
 import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
+import { useDatatableState } from '../hooks/useDatatableState';
+import type { DatatableEngine } from '../../runtime/DatatableEngine';
 
 interface DatatableBodyProps<T> {
   config: DatatableConfig<T>;
+  engine: DatatableEngine<T>;
   state: DatatableState<T>;
   onSort: (column: string, direction: SortState['direction']) => void;
   onRowClick?: (row: T, event: React.MouseEvent) => void;
@@ -14,12 +17,14 @@ interface DatatableBodyProps<T> {
 
 export function DatatableBody<T>({
   config,
+  engine,
   state,
   onSort,
   onRowClick,
   onSelectionChange
 }: DatatableBodyProps<T>): React.ReactElement {
-  const visibleColumns = config.columns.filter(col => 
+  useDatatableState(engine); 
+  const visibleColumns = config.columns.filter((col: DatatableColumn<T>) => 
     state.columnState.visibility[col.id] !== false
   );
   

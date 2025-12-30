@@ -14,7 +14,6 @@ export function DatatableFooter<T = unknown>({
 }: DatatableFooterProps<T>): React.ReactElement | null {
   const { page, pageSize, totalPages } = state.pagination;
   const { filtered, total } = state;
-  
   const pageSizeOptions = [10, 25, 50, 100];
   
   if (filtered <= pageSize && page === 1) {

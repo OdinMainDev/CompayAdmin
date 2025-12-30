@@ -22,7 +22,7 @@ UnifiedFieldRegistry.registerFunction<TabFieldValue, TabsFieldExtra>('tabs', Tab
 UnifiedFieldRegistry.registerFunction<string>('text', TextField, withValidation(PrimitiveFieldRenderer));
 UnifiedFieldRegistry.registerFunction<string>('textarea', TextareaField, withValidation(PrimitiveFieldRenderer));
 UnifiedFieldRegistry.registerFunction<string>('password', PasswordField, withValidation(PrimitiveFieldRenderer));
-UnifiedFieldRegistry.registerFunction<number>('number', NumberField, withValidation(PrimitiveFieldRenderer));
+UnifiedFieldRegistry.registerFunction<number | null>('number', NumberField, withValidation(PrimitiveFieldRenderer));
 UnifiedFieldRegistry.registerFunction<string>('select', SelectStringField, withValidation(SingleSelectRenderer));
 UnifiedFieldRegistry.registerFunction<number>('select-number', SelectNumberField, withValidation(SingleSelectRenderer));
 UnifiedFieldRegistry.registerFunction<boolean>('switch', SwitchField, withValidation(SwitchRenderer));

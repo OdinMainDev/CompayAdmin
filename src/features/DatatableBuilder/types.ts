@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 export interface IResponse {
   success: boolean;
@@ -11,7 +11,7 @@ export interface IResponseError {
 }
 
 export interface IResponseList<T> extends IResponse {
-  success: true;
+  success: boolean;
   data: {
     recordsCount: number;
     recordsFiltered: number;

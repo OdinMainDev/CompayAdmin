@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { RawFormSection } from "../../../form-platform/packages/form-core/domain/field/RawFormSection";
 import { buildDefaultValues } from "../../../form-platform/packages/form-core/domain/utils/default";
-import type { FilterCondition } from "../../domain/value-objects/FilterCondition";
 import UnifiedFormBuilder from "../../../form-platform/packages/form-react-adapter/UnifiedFormBuilder";
+import type { DatatableEngine } from "../../runtime/DatatableEngine";
+import type { FilterCondition } from "../../domain/value-objects/FilterCondition";
 
 interface DatatableFiltersFormProps<T> {
+  engine?: DatatableEngine<T>;
   filterForm?: RawFormSection[];
   onFilterChange: (filters: FilterCondition[]) => void;
   className?: string;
 }
 
 export function DatatableFiltersForm<T>({
+  engine,
   filterForm,
   onFilterChange,
   className = ''
@@ -26,7 +29,6 @@ export function DatatableFiltersForm<T>({
       if (value !== undefined && value !== null && value !== '') {
         filters.push({
           field,
-          operator: 'contains',
           value
         });
       }
@@ -34,6 +36,31 @@ export function DatatableFiltersForm<T>({
     
     return filters;
   };
+
+  const convertFiltersToFormData = (filters: FilterCondition[]): Record<string, unknown> => {
+    const formData: Record<string, unknown> = {};
+    
+    filters.forEach(filter => {
+      formData[filter.field] = filter.value;
+    });
+    
+    return formData;
+  };
+
+  useEffect(() => {
+    if (engine) {
+      const filters = engine.getState().filters;
+      if (filters.length > 0) {
+        const newFormData = convertFiltersToFormData(filters);
+        setFormData(_ => ({
+          ...buildDefaultValues(filterForm || []),
+          ...newFormData
+        }));
+      } else {
+        setFormData(buildDefaultValues(filterForm || []));
+      }
+    }
+  }, [engine, filterForm]);
 
   const handleSubmit = () => {
     const filters = convertFormToFilters(formData);

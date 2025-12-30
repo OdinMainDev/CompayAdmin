@@ -11,10 +11,27 @@ export type GetUserListFiltersResponse = {
   success: boolean;
   data: FilterReponse[];
 };
-export type GetUserListResponse = {
-    id: number,
-    username: string
+
+export interface UserRecord {
+  id: number;
+  username: string;
+  created_at: string;
+  updated_at: string;
+  merchant_id: number;
+  is_twofa_enabled: boolean;
+  is_banned: boolean;
 }
+
+export interface GetUserListResponse {
+  data: {
+    data: UserRecord[],
+    recordsTotal: number;
+    recordsFiltered: number;
+    recordsCount: number;
+  };
+  success: boolean;
+}
+
 
 export const getUserList = () => {
   return postRequest<GetUserListResponse | ApiError>(
@@ -22,9 +39,9 @@ export const getUserList = () => {
     {
       isAuth: true,
       body: {
-        Length: 10,
-        OrderColumn: 'id',
-        OrderDirection: 'asc',
+        length: 10,
+        order_column: 'id',
+        order_direction: 'asc',
       },
     }
   );

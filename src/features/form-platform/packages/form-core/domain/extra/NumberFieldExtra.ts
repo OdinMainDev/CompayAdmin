@@ -1,4 +1,5 @@
-import type { BaseFieldExtra } from "./BaseFieldExtra";
+import type { TextFieldExtra } from "./TextFieldExtra";
 
-export interface NumberFieldExtra extends BaseFieldExtra {}
+export interface NumberFieldExtra extends TextFieldExtra {}
+
   

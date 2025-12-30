@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DatatableEngine } from '../../runtime/DatatableEngine';
 import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
 import type { DatatableState } from '../../domain/entities/DatatableState';
 import { DatatableFilters } from './DatatableFilters';
-import type { FilterCondition } from '../../domain/value-objects/FilterCondition';
 import { Dropdown, Form } from 'react-bootstrap';
+import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
+import { useDatatableState } from '../hooks/useDatatableState';
 
-interface DatatableHeaderProps<T = unknown> {
+interface DatatableHeaderProps<T> {
   config: DatatableConfig<T>;
   state: DatatableState<T>;
   engine: DatatableEngine<T>;
-  onSearch: (term: string) => void;
   onAction: (actionId: string, formData?: Record<string, unknown>) => Promise<void>;
 }
 
@@ -18,26 +18,19 @@ export function DatatableHeader<T>({
   config,
   state,
   engine,
-  onSearch,
   onAction
 }: DatatableHeaderProps<T>): React.ReactElement {
-  const [searchTerm, setSearchTerm] = React.useState('');
+  useDatatableState(engine); 
   const [showColumnDropdown, setShowColumnDropdown] = useState(false);
   
   const visibleColumns = Object.entries(state.columnState.visibility)
     .filter(([_, isVisible]) => isVisible !== false)
     .map(([columnId]) => columnId);
   
-  const hideableColumns = config.columns.filter(column => 
+  const hideableColumns = config.columns.filter((column: DatatableColumn<T>) => 
     column.visible !== false
   );
   
-  const handleFilter = (filters: FilterCondition[]) => {
-    if (engine) {
-      engine.filter(filters);
-    }
-  };
-
   const handleQuickAction = async (actionId: string) => {
     const action = config.quickActions?.find(a => a.id === actionId);
     if (!action) return;
@@ -58,18 +51,18 @@ export function DatatableHeader<T>({
   
   const handleColumnToggle = (columnId: string) => {
     const isCurrentlyVisible = state.columnState.visibility[columnId] !== false;
-    engine.getStateManager().updateColumnVisibility(columnId, !isCurrentlyVisible)
+    engine.updateColumnVisibility(columnId, !isCurrentlyVisible)
   };
   
   const showAllColumns = () => {
     config.columns.forEach(column => {
-        engine.getStateManager().updateColumnVisibility(column.id, true)
+        engine.updateColumnVisibility(column.id, true)
     });
   };
   
   const hideAllColumns = () => {
     config.columns.forEach(column => {
-        engine.getStateManager().updateColumnVisibility(column.id, false)
+        engine.updateColumnVisibility(column.id, false)
     });
   };
   
@@ -134,7 +127,7 @@ export function DatatableHeader<T>({
           display: 'flex',
           alignItems: 'center',
           gap: '1rem',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}>
           {config.ui?.columnVisibility && hideableColumns.length > 0 && (
             <div className="position-relative">
@@ -148,6 +141,11 @@ export function DatatableHeader<T>({
                   size="sm" 
                   id="column-selector-toggle"
                   className="d-flex align-items-center gap-1"
+                  style={
+                    {
+                      position: 'relative'
+                    }
+                  }
                 >
                   <i className="fas fa-columns"></i>
                   <span>Columns</span>
@@ -187,7 +185,7 @@ export function DatatableHeader<T>({
                   <div className="dropdown-divider my-1"></div>
                   
                   <div className="px-2 small text-muted mb-1">All Columns</div>
-                  {config.columns.map(column => {
+                  {config.columns.map((column: DatatableColumn<T>) => {
                     const isVisible = state.columnState.visibility[column.id] !== false;
                     
                     return (
@@ -238,7 +236,7 @@ export function DatatableHeader<T>({
           {config.export?.enabled && (
             <button
               className="btn btn-outline-success btn-sm"
-              onClick={() => onAction('export')}
+              onClick={() => onAction('export', {format: 'excel'})}
               disabled={state.loading || state.data.length === 0}
             >
               <i className="fas fa-download me-1"></i>
@@ -282,7 +280,6 @@ export function DatatableHeader<T>({
             <DatatableFilters
               config={config}
               engine={engine}
-              onFilter={handleFilter}
             />
           </div>
         )}
