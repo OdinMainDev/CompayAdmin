@@ -253,7 +253,7 @@ const DatatableDemoV2 = () => {
               start: query.start,
               order_column: query.order_column,
               order_direction: query.order_direction,
-              conditions: filtersObject
+              filters: filtersObject
             }
           }
         );
