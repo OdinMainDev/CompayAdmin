@@ -7,13 +7,15 @@ export const SwitchRenderer = (
   onChange: (value: boolean) => void
 ) => {
   return (
-    <Form.Check
-      type="switch"
-      id={`switch-${field.name}`}
-      label={field.label}
-      checked={!!field.value}
-      onChange={(e) => onChange(e.target.checked)}
-      disabled={field.extra?.disabled} 
-    />
+    <div className="mt-3">
+      <Form.Check
+        type="switch"
+        id={`switch-${field.name}`}
+        label={field.label}
+        checked={!!field.value}
+        onChange={(e) => onChange(e.target.checked)}
+        disabled={field.extra?.disabled} 
+      />
+    </div>
   );
 };

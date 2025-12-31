@@ -12,7 +12,6 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
   
       const handleChange = (value: T) => {
         onChange(value);
-        console.log(value);
         field.value = value;
         const validation = field.validate();
         setError(validation.isValid ? null : validation.errors);

@@ -16,6 +16,11 @@ import { RepeaterField, type RepeaterFieldExtra, type RepeaterFieldValue } from 
 import { RepeaterRenderer } from './components/Repeater';
 import { SingleSelectRenderer } from './components/Select';
 import { MultiSelectRenderer } from './components/MultiSelect';
+import { OptionalSwitchField } from '../form-core/domain/field/OptionalSwitchField';
+import { OptionalSwitchRenderer } from './components/OptionalSwitch';
+import { DaterangeField, type DaterangeValue } from '../form-core/domain/field/DaterangeField';
+import type { DaterangeFieldExtra } from '../form-core/domain/extra/DaterangeFieldExtra';
+import { DaterangeRenderer } from './components/Daterange';
 
 
 UnifiedFieldRegistry.registerFunction<TabFieldValue, TabsFieldExtra>('tabs', TabField, TabsRenderer);
@@ -25,8 +30,10 @@ UnifiedFieldRegistry.registerFunction<string>('password', PasswordField, withVal
 UnifiedFieldRegistry.registerFunction<number | null>('number', NumberField, withValidation(PrimitiveFieldRenderer));
 UnifiedFieldRegistry.registerFunction<string>('select', SelectStringField, withValidation(SingleSelectRenderer));
 UnifiedFieldRegistry.registerFunction<number>('select-number', SelectNumberField, withValidation(SingleSelectRenderer));
-UnifiedFieldRegistry.registerFunction<boolean>('switch', SwitchField, withValidation(SwitchRenderer));
+UnifiedFieldRegistry.registerFunction<boolean>('switch', SwitchField, SwitchRenderer);
+UnifiedFieldRegistry.registerFunction<boolean | null>('optional-switch', OptionalSwitchField, OptionalSwitchRenderer);
 UnifiedFieldRegistry.registerFunction<string[]>('multiselect', MultiSelectField, withValidation(MultiSelectRenderer));
 UnifiedFieldRegistry.registerFunction<number[]>('multiselect-number', MultiSelectNumberField, withValidation(MultiSelectRenderer));
 UnifiedFieldRegistry.registerFunction<ImageValue>('image',ImageField, withValidation(ImageInput));
 UnifiedFieldRegistry.registerFunction<RepeaterFieldValue, RepeaterFieldExtra>('repeater', RepeaterField, RepeaterRenderer);
+UnifiedFieldRegistry.registerFunction<DaterangeValue, DaterangeFieldExtra>('date-range', DaterangeField, DaterangeRenderer);

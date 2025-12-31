@@ -132,6 +132,7 @@ function BaseSelectRendererInner<T extends string | number>(
       value={selectedValue}
       onChange={handleChange}
       styles={styles as any}
+      isClearable={true}
       isMulti={isMulti}
       isSearchable
       placeholder={placeholder}

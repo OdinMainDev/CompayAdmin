@@ -46,13 +46,13 @@ const DatatableDemoV2 = () => {
             return 'text';
           case 'boolean':
           case 'bool':
-            return 'switch';
+            return 'optional-switch';
           case 'list':
             return 'select';
           case 'date':
           case 'datetime':
           case 'timestamp':
-            return 'text';
+            return 'date-range';
           case 'select':
           case 'dropdown':
           case 'enum':
@@ -74,7 +74,7 @@ const DatatableDemoV2 = () => {
 
             const baseField = {
               name: filter.name,
-              label: '', 
+              label: t(filter.name), 
               placeholder: t(filter.name), 
               type: transformFilterType(filter.type)
             };
@@ -175,7 +175,7 @@ const DatatableDemoV2 = () => {
       id: 'is_twofa_enabled',
       field: 'is_twofa_enabled',
       label: '2FA',
-      sortable: true,
+      sortable: false,
       filterable: true,
       visible: true,
       width: 80,
