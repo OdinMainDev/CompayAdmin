@@ -37,110 +37,101 @@ export const OptionalSwitchRenderer = (
   };
 
   return (
-    <div className="mt-3 d-flex align-items-center">
-      <div 
-        className="position-relative me-3"
-        style={{
-          width: '80px', 
-          height: '26px',
-          borderRadius: '13px',
-          backgroundColor: '#e9ecef',
-          border: '1px solid #dee2e6',
-          cursor: field.extra?.disabled ? 'not-allowed' : 'pointer',
-          opacity: field.extra?.disabled ? 0.6 : 1,
-          overflow: 'hidden'
-        }}
+    <div className="mt-3 flex items-center gap-3">
+      {/* Tri-state segmented switch (Tailwind only) */}
+      <div
+        role="switch"
+        aria-checked={internalValue === 'true'}
+        aria-disabled={!!field.extra?.disabled}
+        tabIndex={field.extra?.disabled ? -1 : 0}
         onClick={field.extra?.disabled ? undefined : handleToggle}
+        onKeyDown={(e) => {
+          if (field.extra?.disabled) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleToggle();
+          }
+        }}
+        className={[
+          'relative select-none',
+          'h-7 w-20 rounded-full',
+          'border border-slate-300 bg-slate-100',
+          'shadow-inner',
+          'transition',
+          field.extra?.disabled
+            ? 'cursor-not-allowed opacity-60'
+            : 'cursor-pointer hover:bg-slate-50',
+          'focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2',
+        ].join(' ')}
       >
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '33.33%',
-            height: '100%',
-            backgroundColor: internalValue === 'null' ? '#6c757d' : 'transparent',
-            transition: 'background-color 0.2s'
-          }}
+        {/* active segment highlight */}
+        <div
+          className={[
+            'absolute inset-y-0',
+            'w-1/3 rounded-full transition-all duration-200',
+            internalValue === 'null'
+              ? 'left-0 bg-slate-500/70'
+              : internalValue === 'true'
+              ? 'left-1/3 bg-emerald-600/80'
+              : 'left-2/3 bg-red-600/80',
+          ].join(' ')}
         />
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '33.33%',
-            width: '33.33%',
-            height: '100%',
-            backgroundColor: internalValue === 'true' ? '#198754' : 'transparent',
-            transition: 'background-color 0.2s'
-          }}
-        />
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '66.66%',
-            width: '33.33%',
-            height: '100%',
-            backgroundColor: internalValue === 'false' ? '#dc3545' : 'transparent',
-            transition: 'background-color 0.2s'
-          }}
-        />
-        
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '33.33%',
-            width: '1px',
-            height: '100%',
-            backgroundColor: '#adb5bd'
-          }}
-        />
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '66.66%',
-            width: '1px',
-            height: '100%',
-            backgroundColor: '#adb5bd'
-          }}
-        />
-        
-        <div 
-          style={{
-            position: 'absolute',
-            top: '2px',
-            left: internalValue === 'null' ? '2px' : 
-                  internalValue === 'true' ? '28px' : '54px',
-            width: '22px',
-            height: '22px',
-            backgroundColor: '#fff',
-            borderRadius: '11px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            transition: 'left 0.2s',
-            zIndex: 2
-          }}
-        />
+
+        {/* separators */}
+        <div className="absolute inset-y-0 left-1/3 w-px bg-slate-300/80" />
+        <div className="absolute inset-y-0 left-2/3 w-px bg-slate-300/80" />
+
+        {/* knob */}
+      <div
+        className={[
+          'absolute z-[2]',
+          'top-1/2 -translate-y-1/2 -translate-x-1/2',
+          'h-[18px] w-[18px] rounded-full bg-white',
+          'shadow-md ring-1 ring-black/5',
+          'transition-all duration-200',
+          internalValue === 'null'
+            ? 'left-[16.666%]'
+            : internalValue === 'true'
+            ? 'left-[50%]'
+            : 'left-[83.333%]',
+        ].join(' ')}
+      />
       </div>
 
-      <div className="d-flex align-items-center">
-        <label 
-          className="form-check-label"
-          style={{ cursor: field.extra?.disabled ? 'not-allowed' : 'pointer' }}
+      {/* Label + status */}
+      <div className="flex items-center gap-2">
+        <label
+          className={[
+            'text-sm text-slate-800',
+            field.extra?.disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+          ].join(' ')}
           onClick={field.extra?.disabled ? undefined : handleToggle}
         >
           {field.label}
         </label>
+
         {internalValue === 'null' && (
-          <span className="badge bg-secondary ms-2">All</span>
+          <span className="inline-flex items-center rounded-full bg-slate-200 px-2 py-0.5 text-[11px] font-medium text-slate-700">
+            All
+          </span>
+        )}
+        {internalValue === 'true' && (
+          <span className="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-700">
+            Yes
+          </span>
+        )}
+        {internalValue === 'false' && (
+          <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-medium text-red-700">
+            No
+          </span>
         )}
       </div>
 
-      <Form.Check
-        type="switch"
+      {/* Hidden native control for forms/compat */}
+      <input
+        type="checkbox"
+        className="sr-only"
         id={`optional-switch-${field.name}`}
-        className="visually-hidden"
         checked={internalValue === 'true'}
         onChange={handleToggle}
         disabled={field.extra?.disabled}
