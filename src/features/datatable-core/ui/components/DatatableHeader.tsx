@@ -159,7 +159,7 @@ export function DatatableHeader<T>({
                   maxHeight: '400px',
                   overflowY: 'auto',
                   padding: '0.5rem',
-                  zIndex: 60
+                  zIndex: 99999
 
                 }}>
                   <div className="d-flex justify-content-between align-items-center  mb-2 px-2">

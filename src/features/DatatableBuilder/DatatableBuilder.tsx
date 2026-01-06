@@ -92,7 +92,7 @@ const DatatableBuilder = <T,>({
   };
 
   return (
-    <Card className="shadow-sm border-0">
+    <Card className="shadow-sm border">
       <Card.Body>
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
           <div className="mb-3 mb-md-0">

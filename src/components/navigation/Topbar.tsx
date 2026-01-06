@@ -33,14 +33,14 @@ const Topbar = () => {
 
   return (
     <Navbar variant="dark" expanded className="ps-3 pe-3 py-2 topbar-filled">
-      <div className="d-flex justify-content-between w-100">
+      <div className="d-flex justify-content-between w-100 min-[768px]:px-3">
         <div className="d-flex align-items-center">
           <Dropdown className="btn-toolbar d-none d-md-block">
             <Dropdown.Toggle as={Button} variant="outline-warning" size="sm" className="me-2 text-dark">
               <FontAwesomeIcon icon={faPlus} className="me-2" />
               New Task
             </Dropdown.Toggle>
-            <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
+            <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2 !ml-auto">
               <Dropdown.Item className="fw-bold">
                 <FontAwesomeIcon icon={faTasks} className="me-2" /> New Task
               </Dropdown.Item>
@@ -81,7 +81,7 @@ const Topbar = () => {
                 {unreadCount > 0 && <span className="icon-badge rounded-circle unread-notifications" />}
               </span>
             </Dropdown.Toggle>
-            <Dropdown.Menu className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-center mt-2 py-0">
+            <Dropdown.Menu className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-center mt-2 py-0 !ml-auto">
               <ListGroup className="list-group-flush">
                 <Nav.Link href="#" className="text-center text-primary fw-bold border-bottom border-light py-3">
                   Notifications
@@ -118,7 +118,7 @@ const Topbar = () => {
                 </div>
               </div>
             </Dropdown.Toggle>
-            <Dropdown.Menu className="user-dropdown dropdown-menu-right">
+            <Dropdown.Menu className="user-dropdown dropdown-menu-right !min-w-[150px]">
               <Dropdown.Item className="fw-bold">
                 <FontAwesomeIcon icon={faUserCircle} className="me-2" /> My Profile
               </Dropdown.Item>

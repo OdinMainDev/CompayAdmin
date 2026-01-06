@@ -8,11 +8,25 @@ import type { ApiDatatableQuery } from '../../features/datatable-core/domain/ent
 import { postRequest, type ApiError } from '../../app/api/request';
 import type { IResponseList } from '../../features/datatable-core/domain/entities/DatatableResponse';
 import { formatTimestampWithTime } from '../../features/datatable-core/utils/helpers';
+import { useNavigate } from 'react-router-dom';
+import { useUsers } from '../../app/api/hooks/useUsers';
+
 
 
 const DatatableDemoV2 = () => {
   const { t, i18n } = useTranslation();
   const [refreshKey, setRefreshKey] = useState(0); 
+  const navigate = useNavigate();
+
+  const {
+    users,
+    isLoading,
+    error,
+    fetchUsers,
+    createUser,
+    deleteUser,
+    clearError,
+  } = useUsers();
 
   const refreshTable = useCallback(() => {
     setRefreshKey(prev => prev + 1); 
@@ -352,7 +366,7 @@ const DatatableDemoV2 = () => {
         icon: <i className="fas fa-plus"></i>,
         variant: 'primary',
         handler: () => {
-          console.log('Add merchant clicked');
+          navigate('panel/user-create');
         }
       },
       {
@@ -432,7 +446,7 @@ const DatatableDemoV2 = () => {
         ]}
       />
       
-      <div className="card shadow-sm">
+      <div className="card shadow-sm border-0">
         <div  key={`datatable-internal-${refreshKey}`}  className="card-body p-0">
           <Datatable
             config={config}

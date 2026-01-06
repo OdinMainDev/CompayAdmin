@@ -540,11 +540,18 @@ export default function LandingPage() {
   const { t, i18n } = useTranslation("landing");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const [open, setOpen] = useState<"q1" | "q2" | "q3">("q1");
+  type FaqKey = "q1" | "q2" | "q3";
 
-  const toggleFaq = (key: "q1" | "q2" | "q3") => {
-    setOpen(prev => (prev === key ? prev : key));
+  const [open, setOpen] = useState<Record<FaqKey, boolean>>({
+    q1: true,
+    q2: false,
+    q3: false,
+  });
+
+  const toggleFaq = (key: FaqKey) => {
+    setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
 
   const nav: NavItem[] = useMemo(
     () => [
@@ -769,16 +776,37 @@ const onNav = useCallback((id: string) => {
               }}
             >
               <div className="marquee_mode marquee__group flex items-center">
-                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
               </div>
               <div className="marquee_mode marquee__group flex items-center">
-                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
               </div>
               <div className="marquee_mode marquee__group flex items-center">
-                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
               </div>
               <div className="marquee_mode marquee__group flex items-center">
-                <h6 className="marquee__item max-[720px]:!text-[70px]">{t("marquee.text")}</h6>
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
+              </div>
+              <div className="marquee_mode marquee__group flex items-center">
+                <h6 className="marquee__item max-[720px]:!text-[70px] !text-white">{t("marquee.text")}</h6>
               </div>
             </div>
 
@@ -993,144 +1021,135 @@ const onNav = useCallback((id: string) => {
           </div>
         </section>
 
-        <section className="faq__area section-py-120">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-6">
-                <div className="faq__img" data-aos-delay="0">
-                  <img src="/landing/img/images/faq_img.png" alt="img" />
+            <section className="faq__area section-py-120">
+    <div className="container">
+      <div className="row align-items-start">
+        <div className="col-lg-6">
+          <div className="faq__img" data-aos-delay="0">
+            <img src="/landing/img/images/faq_img.png" alt="img" />
+          </div>
+        </div>
+
+        <div className="col-lg-6">
+          <div className="faq__content" data-aos-delay="0">
+            <div className="section__title mb-4">
+              <span className="sub-title">{t("faq.badge")}</span>
+              <div className="title flex items-center gap-[10px]">
+                <h2>{t("faq.title")} </h2>
+                <h2>{t("faq.title_2")} </h2>
+                <h2>{t("faq.title_3")}</h2>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {/* Q1 */}
+              <div
+                className="overflow-hidden transition-all duration-500"
+                style={{
+                  background:
+                    "linear-gradient(140deg, #222325 0%, rgba(21,21,21,0) 100%)",
+                  border: "1px solid var(--tg-border-1)",
+                  borderRadius: "10px",
+                }}
+              >
+                <button
+                  onClick={() => toggleFaq("q1")}
+                  className="w-full flex items-center justify-between px-4 py-3 text-left text-[20px] font-semibold"
+                >
+                  {t("faq.items.q1.question")}
+                  <PlusMinusIcon open={open.q1} />
+                </button>
+
+                <div
+                  className="px-4 transition-all duration-500 ease-in-out"
+                  style={{ maxHeight: open.q1 ? "300px" : "0px" }}
+                >
+                  <div
+                    className="transition-all duration-500 ease-in-out"
+                    style={{
+                      opacity: open.q1 ? 1 : 0,
+                      transform: open.q1 ? "translateY(0)" : "translateY(-6px)",
+                    }}
+                  >
+                    <p className="pb-2 text-white">{t("faq.items.q1.answer")}</p>
+                  </div>
                 </div>
               </div>
-              <div className="col-lg-6">
-                <div className="faq__content" data-aos-delay="0">
-                  <div className="section__title mb-4">
-                    <span className="sub-title">{t('faq.badge')}</span>
-                    <div className="title flex items-center gap-[10px]">
-                      <h2>{t('faq.title')} </h2>
-                      <h2>{t('faq.title_2')} </h2>
-                      <h2>{t('faq.title_3')}</h2>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
 
-                {/* Q1 */}
-                <div
-                  className="overflow-hidden transition-all duration-500"
-                  style={{
-                    background: "linear-gradient(140deg, #222325 0%, rgba(21,21,21,0) 100%)",
-                    border: "1px solid var(--tg-border-1)",
-                    borderRadius: "10px",
-                  }}
+              {/* Q2 */}
+              <div
+                className="overflow-hidden transition-all duration-500"
+                style={{
+                  background:
+                    "linear-gradient(140deg, #222325 0%, rgba(21,21,21,0) 100%)",
+                  border: "1px solid var(--tg-border-1)",
+                  borderRadius: "10px",
+                }}
+              >
+                <button
+                  onClick={() => toggleFaq("q2")}
+                  className="w-full flex items-center justify-between px-4 py-3 text-left text-[20px] font-semibold"
                 >
-                  <button
-                    onClick={() => toggleFaq("q1")}
-                    className="w-full flex items-center justify-between px-4 py-3 text-left text-[20px] font-semibold"
-                  >
-                    {t("faq.items.q1.question")}
-                    <PlusMinusIcon open={open === "q1"} />
-                  </button>
+                  {t("faq.items.q2.question")}
+                  <PlusMinusIcon open={open.q2} />
+                </button>
 
+                <div
+                  className="px-4 transition-all duration-500 ease-in-out"
+                  style={{ maxHeight: open.q2 ? "300px" : "0px" }}
+                >
                   <div
-                    className="px-4 transition-all duration-500 ease-in-out"
+                    className="transition-all duration-500 ease-in-out"
                     style={{
-                      maxHeight: open === "q1" ? "300px" : "0px",
+                      opacity: open.q2 ? 1 : 0,
+                      transform: open.q2 ? "translateY(0)" : "translateY(-6px)",
                     }}
                   >
-                    <div
-                      className="transition-all duration-500 ease-in-out"
-                      style={{
-                        opacity: open === "q1" ? 1 : 0,
-                        transform: open === "q1" ? "translateY(0)" : "translateY(-6px)",
-                      }}
-                    >
-                      <p className="pb-2 text-white">
-                        {t("faq.items.q1.answer")}
-                      </p>
-                    </div>
+                    <p className="pb-2 text-white">{t("faq.items.q2.answer")}</p>
                   </div>
                 </div>
+              </div>
 
+              {/* Q3 */}
+              <div
+                className="overflow-hidden transition-all duration-500"
+                style={{
+                  background:
+                    "linear-gradient(140deg, #222325 0%, rgba(21,21,21,0) 100%)",
+                  border: "1px solid var(--tg-border-1)",
+                  borderRadius: "10px",
+                }}
+              >
+                <button
+                  onClick={() => toggleFaq("q3")}
+                  className="w-full flex items-center justify-between px-4 py-3 text-left text-[20px] font-semibold"
+                >
+                  {t("faq.items.q3.question")}
+                  <PlusMinusIcon open={open.q3} />
+                </button>
 
-                  {/* Q2 */}
+                <div
+                  className="px-4 transition-all duration-500 ease-in-out"
+                  style={{ maxHeight: open.q3 ? "300px" : "0px" }}
+                >
                   <div
-                    className="overflow-hidden transition-all duration-500"
+                    className="transition-all duration-500 ease-in-out"
                     style={{
-                      background: "linear-gradient(140deg, #222325 0%, rgba(21,21,21,0) 100%)",
-                      border: "1px solid var(--tg-border-1)",
-                      borderRadius: "10px",
+                      opacity: open.q3 ? 1 : 0,
+                      transform: open.q3 ? "translateY(0)" : "translateY(-6px)",
                     }}
                   >
-                    <button
-                      onClick={() => toggleFaq("q2")}
-                      className="w-full flex items-center justify-between px-4 py-3 text-left text-[20px] font-semibold"
-                    >
-                      {t("faq.items.q2.question")}
-                      <PlusMinusIcon open={open === "q2"} />
-                    </button>
-
-                    <div
-                      className="px-4 transition-all duration-500 ease-in-out"
-                      style={{
-                        maxHeight: open === "q2" ? "300px" : "0px",
-                      }}
-                    >
-                      <div
-                        className="transition-all duration-500 ease-in-out"
-                        style={{
-                          opacity: open === "q2" ? 1 : 0,
-                          transform: open === "q2" ? "translateY(0)" : "translateY(-6px)",
-                        }}
-                      >
-                        <p className="pb-2 text-white">
-                          {t("faq.items.q2.answer")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-
-                    {/* Q3 */}
-                    <div
-                      className="overflow-hidden transition-all duration-500"
-                      style={{
-                        background: "linear-gradient(140deg, #222325 0%, rgba(21,21,21,0) 100%)",
-                        border: "1px solid var(--tg-border-1)",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <button
-                        onClick={() => toggleFaq("q3")}
-                        className="w-full flex items-center justify-between px-4 py-3 text-left text-[20px] font-semibold"
-                      >
-                        {t("faq.items.q3.question")}
-                        <PlusMinusIcon open={open === "q3"} />
-                      </button>
-
-                      <div
-                        className="px-4 transition-all duration-500 ease-in-out"
-                        style={{
-                          maxHeight: open === "q3" ? "300px" : "0px",
-                        }}
-                      >
-                        <div
-                          className="transition-all duration-500 ease-in-out"
-                          style={{
-                            opacity: open === "q3" ? 1 : 0,
-                            transform: open === "q3" ? "translateY(0)" : "translateY(-6px)",
-                          }}
-                        >
-                          <p className="pb-2 text-white">
-                            {t("faq.items.q3.answer")}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                    <p className="pb-2 text-white">{t("faq.items.q3.answer")}</p>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
-        </section>
+        </div>
+      </div>
+    </div>
+  </section>
 
         <section id="roadmap" className="roadmap__area section-py-120">
           <div className="container">
@@ -1178,7 +1197,7 @@ const onNav = useCallback((id: string) => {
             <div className="row justify-content-center">
               <div className="col-lg-8">
                 <div className="footer__content">
-                  <div className="footer__logo">
+                  <div className="footer__logo flex justify-center">
                     <a href="#home">
                       <img src="/landing/img/logo/logo.svg" alt="logo" />
                     </a>

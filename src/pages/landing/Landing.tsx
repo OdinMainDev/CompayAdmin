@@ -703,7 +703,7 @@ const LandingPage = () => {
             <div className="row justify-content-center">
               <div className="col-lg-8">
                 <div className="footer__content">
-                  <div className="footer__logo">
+                  <div className="footer__logo flex justify-center">
                     <a href="#home">
                       <img src="/landing/img/logo/logo.svg" alt="logo" />
                     </a>

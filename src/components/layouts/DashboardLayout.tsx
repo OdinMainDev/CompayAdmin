@@ -21,9 +21,9 @@ const DashboardLayout = () => {
   return (
     <div className="d-flex">
       <Sidebar routeGroups={routes} open={sidebarOpen} onToggle={handleSidebarToggle} />
-      <div className="content w-100 min-[768px]:max-w-[calc(100%_-_270px)] min-[768px]:ml-auto">
+      <div className="content w-100 min-[768px]:max-w-[calc(100%_-_260px)] min-[768px]:ml-auto max-[768px]:!px-0">
         <Topbar/>
-        <div className="content-body px-3 pb-4">
+        <div className="content-body min-[768px]:px-3 pb-4">
           <Container fluid className="pb-3">
             <Outlet />
           </Container>

@@ -11,6 +11,7 @@ const NotFound = lazy(() => import('../../../pages/errors/NotFound'));
 const Dashboard = lazy(() => import('../../../pages/dashboard/Overview'));
 const FormBuilderV2 = lazy(() => import('../../../pages/tools/FormBuilderDemoV2'));
 const DataTableV2 = lazy(() => import('../../../pages/tools/DatatableDemoV2'));
+const UserCreate = lazy(() => import('../../../pages/tools/UserCreate'));
 
 const DashboardLayout = lazy(() => import('../../../components/layouts/DashboardLayout'));
 
@@ -63,6 +64,13 @@ export const routeConfigs: RouteConfig[] = [
         component: FormBuilderV2,
         guard: RoleGuard,
         meta: { label: 'Form Builder', roles: ['admin'], icon: faScrewdriverWrench },
+      },
+      {
+        id: 'user-create',
+        path: 'user-create',
+        component: UserCreate,
+        guard: RoleGuard,
+        meta: { label: 'User create', roles: ['admin', 'merchant'], icon: faScrewdriverWrench },
       },
       {
         id: 'admin-datatable',

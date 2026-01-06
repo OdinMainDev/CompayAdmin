@@ -68,7 +68,7 @@ const DashboardOverview = () => {
 
       <Row className="mt-4">
         <Col xs={12} xl={8} className="mb-4">
-          <Card className="shadow-sm border-0">
+          <Card className="shadow-sm">
             <Card.Header className="bg-white border-0">
               <h5 className="mb-0">Page visits</h5>
             </Card.Header>
@@ -96,7 +96,7 @@ const DashboardOverview = () => {
         </Col>
 
         <Col xs={12} xl={4} className="mb-4">
-          <Card className="shadow-sm border-0">
+          <Card className="shadow-sm">
             <Card.Header className="bg-white border-0">
               <h5 className="mb-0">Team members</h5>
             </Card.Header>
@@ -120,7 +120,7 @@ const DashboardOverview = () => {
 
       <Row className="mt-2">
         <Col xs={12} xl={8} className="mb-4">
-          <Card className="shadow-sm border-0">
+          <Card className="shadow-sm">
             <Card.Header className="bg-white border-0">
               <h5 className="mb-0">Progress track</h5>
             </Card.Header>
@@ -139,7 +139,7 @@ const DashboardOverview = () => {
         </Col>
 
         <Col xs={12} xl={4} className="mb-4">
-          <Card className="shadow-sm border-0 mb-4">
+          <Card className="shadow-sm mb-4">
             <Card.Header className="bg-white border-0">
               <h5 className="mb-0">Ranking</h5>
             </Card.Header>
@@ -153,7 +153,7 @@ const DashboardOverview = () => {
             </Card.Body>
           </Card>
 
-          <Card className="shadow-sm border-0">
+          <Card className="shadow-sm">
             <Card.Header className="bg-white border-0">
               <h5 className="mb-0">Acquisition</h5>
             </Card.Header>

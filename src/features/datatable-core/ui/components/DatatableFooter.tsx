@@ -88,7 +88,7 @@ export function DatatableFooter<T = unknown>({
   const endRecord = Math.min(page * pageSize, filtered);
   
   return (
-    <div className="datatable-footer">
+    <div className="datatable-footer flex justify-between mt-[10px]">
       <div className="footer-info">
         Showing {startRecord} to {endRecord} of {filtered} entries
         {filtered !== total && ` (filtered from ${total} total entries)`}
@@ -137,7 +137,7 @@ export function DatatableFooter<T = unknown>({
           <div className="d-flex align-items-center gap-2">
             <span className="text-muted small">Show:</span>
             <select
-              className="form-select form-select-sm"
+              className="form-select form-select-sm !pr-[20px]"
               value={pageSize}
               onChange={handlePageSizeChange}
               disabled={state.loading}

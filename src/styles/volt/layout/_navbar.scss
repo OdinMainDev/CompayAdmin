@@ -13,6 +13,10 @@
     }
 }
 
+.lang-dropdown-menu {
+  max-width: 20px;
+}
+
 .navbar .navbar-nav {
 
     .nav-link {
@@ -41,6 +45,7 @@
 
         .dropdown-menu {
             top: 100%;
+            left: -200%;
             span{
                 width: 30px;
             }
