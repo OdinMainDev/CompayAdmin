@@ -60,7 +60,7 @@ const DatatableDemoV2 = () => {
             return 'text';
           case 'boolean':
           case 'bool':
-            return 'optional-switch';
+            return 'select';
           case 'list':
             return 'select';
           case 'date':
@@ -86,6 +86,8 @@ const DatatableDemoV2 = () => {
           title: '',
           fields: backendFiltersData.data.map(filter => {
 
+            const lowerType = filter.type.toLowerCase();
+
             const baseField = {
               name: filter.name,
               label: t(filter.name), 
@@ -93,7 +95,24 @@ const DatatableDemoV2 = () => {
               type: transformFilterType(filter.type)
             };
             
-            const lowerType = filter.type.toLowerCase();
+            if (lowerType == 'bool' || lowerType == 'boolean') {
+              const options = [
+                {
+                  label: t("yes"),
+                  value: true,
+                },
+                {
+                  label: t("no"),
+                  value: false,
+                },
+              ];
+
+              return {
+                ...baseField,
+                options: options
+              };
+            }
+
             if ((lowerType === 'list' || lowerType === 'select' || 
                  lowerType === 'dropdown' || lowerType === 'enum' ||
                  lowerType === 'multiselect') && 
@@ -253,7 +272,12 @@ const DatatableDemoV2 = () => {
     dataSource: async (query: ApiDatatableQuery) => {
 
       const filtersObject = query.type_filters.reduce((acc, filter) => {
-        acc[filter.field] = filter.value;
+        if (typeof filter.value === "object" && filter.value !== null && "from" in filter.value && "to" in filter.value) {
+          acc[`${filter.field}_from`] = filter.value.from;
+          acc[`${filter.field}_to`] = filter.value.to;
+        } else {
+          acc[filter.field] = filter.value;
+        }
         return acc;
       }, {} as Record<string, unknown>);
 
