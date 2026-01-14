@@ -1,5 +1,12 @@
+import heroBg from '@/assets/images/landing/banner/hero_bg.svg';
+import envelope from '@/assets/images/landing/icon/envelope.svg';
+import heroImg01 from '@/assets/images/landing/banner/hero_img01.png';
+import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
+import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
+import heroBgShape from '@/assets/images/landing/banner/hero_bg_shape.svg';
+
 export const Banner = () => (
-  <section className="banner__area banner__bg" data-background="assets/img/banner/hero_bg.svg">
+  <section className="banner__area banner__bg" data-background={heroBg}>
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-xl-7 col-lg-8 col-md-10">
@@ -21,7 +28,7 @@ export const Banner = () => (
               data-wow-duration="1s"
             >
               <label htmlFor="email">
-                <img src="assets/img/icon/envelope.svg" alt="" />
+                <img src={envelope} alt="" />
               </label>
               <input type="email" id="email" placeholder="Business email" />
               <button type="submit" className="tg-btn">
@@ -40,10 +47,10 @@ export const Banner = () => (
       </div>
     </div>
     <div className="banner__shape">
-      <img src="assets/img/banner/hero_img01.png" alt="shape" className="alltuchtopdown" />
-      <img src="assets/img/banner/hero_img02.png" alt="shape" className="rotateme" />
-      <img src="assets/img/banner/hero_img03.png" alt="shape" className="alltuchtopdown" />
-      <img src="assets/img/banner/hero_bg_shape.svg" alt="shape" className="banner__bg-shape" />
+      <img src={heroImg01} alt="shape" className="alltuchtopdown" />
+      <img src={heroImg02} alt="shape" className="rotateme" />
+      <img src={heroImg03} alt="shape" className="alltuchtopdown" />
+      <img src={heroBgShape} alt="shape" className="banner__bg-shape" />
     </div>
   </section>
 );

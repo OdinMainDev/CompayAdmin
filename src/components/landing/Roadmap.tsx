@@ -1,3 +1,9 @@
+import roadmapIcon01 from '@/assets/images/landing/icon/roadmap_icon01.png';
+import roadmapIcon02 from '@/assets/images/landing/icon/roadmap_icon02.png';
+import roadmapIcon03 from '@/assets/images/landing/icon/roadmap_icon03.png';
+import roadmapIcon04 from '@/assets/images/landing/icon/roadmap_icon04.png';
+import featuresShape from '@/assets/images/landing/images/features_shape.png';
+
 export const Roadmap = () => (
   <section id="roadmap" className="roadmap__area section-py-120">
     <div className="container">
@@ -16,7 +22,7 @@ export const Roadmap = () => (
           <div className="col-lg-3 col-md-6">
             <div className="roadmap__item">
               <div className="roadmap__icon">
-                <img src="assets/img/icon/roadmap_icon01.png" alt="icon" />
+                <img src={roadmapIcon01} alt="icon" />
               </div>
               <div className="roadmap__content">
                 <h3 className="title">2014</h3>
@@ -27,7 +33,7 @@ export const Roadmap = () => (
           <div className="col-lg-3 col-md-6">
             <div className="roadmap__item">
               <div className="roadmap__icon">
-                <img src="assets/img/icon/roadmap_icon02.png" alt="icon" />
+                <img src={roadmapIcon02} alt="icon" />
               </div>
               <div className="roadmap__content">
                 <h3 className="title">2017</h3>
@@ -38,7 +44,7 @@ export const Roadmap = () => (
           <div className="col-lg-3 col-md-6">
             <div className="roadmap__item">
               <div className="roadmap__icon">
-                <img src="assets/img/icon/roadmap_icon03.png" alt="icon" />
+                <img src={roadmapIcon03} alt="icon" />
               </div>
               <div className="roadmap__content">
                 <h3 className="title">2022</h3>
@@ -49,7 +55,7 @@ export const Roadmap = () => (
           <div className="col-lg-3 col-md-6">
             <div className="roadmap__item">
               <div className="roadmap__icon">
-                <img src="assets/img/icon/roadmap_icon04.png" alt="icon" />
+                <img src={roadmapIcon04} alt="icon" />
               </div>
               <div className="roadmap__content">
                 <h3 className="title">2025</h3>
@@ -61,7 +67,7 @@ export const Roadmap = () => (
       </div>
     </div>
     <div className="roadmap__shape">
-      <img src="assets/img/images/features_shape.png" alt="shape" />
+      <img src={featuresShape} alt="shape" />
     </div>
   </section>
 );

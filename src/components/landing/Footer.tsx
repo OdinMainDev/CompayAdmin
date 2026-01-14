@@ -1,3 +1,12 @@
+import logo from '@/assets/images/landing/logo/logo.svg';
+import iconsBg from '@/assets/images/landing/icon/icons_bg.svg';
+import facebook from '@/assets/images/landing/icon/facebook.svg';
+import twitter from '@/assets/images/landing/icon/twitter.svg';
+import telegram from '@/assets/images/landing/icon/telegram.svg';
+import discord from '@/assets/images/landing/icon/discord.svg';
+import footerShape01 from '@/assets/images/landing/images/footer_shape01.png';
+import footerShape02 from '@/assets/images/landing/images/footer_shape02.png';
+
 export const Footer = () => (
   <footer className="footer__area">
     <div className="container">
@@ -7,7 +16,7 @@ export const Footer = () => (
             <div className="footer__content">
               <div className="footer__logo">
                 <a href="index.html">
-                  <img src="assets/img/logo/logo.svg" alt="logo" />
+                  <img src={logo} alt="logo" />
                 </a>
               </div>
               <span className="sub-title">Built on web3. Powered by You</span>
@@ -19,33 +28,33 @@ export const Footer = () => (
                   <li>
                     <a href="#!">
                       <div className="shape">
-                        <img src="assets/img/icon/icons_bg.svg" alt="shape" />
+                        <img src={iconsBg} alt="shape" />
                       </div>
-                      <img src="assets/img/icon/facebook.svg" alt="icon" className="icon" />
+                      <img src={facebook} alt="icon" className="icon" />
                     </a>
                   </li>
                   <li>
                     <a href="#!">
                       <div className="shape">
-                        <img src="assets/img/icon/icons_bg.svg" alt="shape" />
+                        <img src={iconsBg} alt="shape" />
                       </div>
-                      <img src="assets/img/icon/twitter.svg" alt="icon" className="icon" />
+                      <img src={twitter} alt="icon" className="icon" />
                     </a>
                   </li>
                   <li>
                     <a href="#!">
                       <div className="shape">
-                        <img src="assets/img/icon/icons_bg.svg" alt="shape" />
+                        <img src={iconsBg} alt="shape" />
                       </div>
-                      <img src="assets/img/icon/telegram.svg" alt="icon" className="icon" />
+                      <img src={telegram} alt="icon" className="icon" />
                     </a>
                   </li>
                   <li>
                     <a href="#!">
                       <div className="shape">
-                        <img src="assets/img/icon/icons_bg.svg" alt="shape" />
+                        <img src={iconsBg} alt="shape" />
                       </div>
-                      <img src="assets/img/icon/discord.svg" alt="icon" className="icon" />
+                      <img src={discord} alt="icon" className="icon" />
                     </a>
                   </li>
                 </ul>
@@ -67,8 +76,8 @@ export const Footer = () => (
       </div>
     </div>
     <div className="footer__shape">
-      <img src="assets/img/images/footer_shape01.png" alt="shape" className="alltuchtopdown" />
-      <img src="assets/img/images/footer_shape02.png" alt="shape" className="alltuchtopdown" />
+      <img src={footerShape01} alt="shape" className="alltuchtopdown" />
+      <img src={footerShape02} alt="shape" className="alltuchtopdown" />
     </div>
   </footer>
 );

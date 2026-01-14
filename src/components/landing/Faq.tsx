@@ -1,10 +1,12 @@
+import faqImg from '@/assets/images/landing/images/faq_img.png';
+
 export const Faq = () => (
   <section className="faq__area section-py-120">
     <div className="container">
       <div className="row align-items-center">
         <div className="col-lg-6">
           <div className="faq__img" data-aos="fade-right" data-aos-delay="0">
-            <img src="assets/img/images/faq_img.png" alt="img" />
+            <img src={faqImg} alt="img" />
           </div>
         </div>
         <div className="col-lg-6">

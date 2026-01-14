@@ -1,3 +1,8 @@
+import cryptoIcon01 from '@/assets/images/landing/icon/crypto_icon01.svg';
+import cryptoIcon02 from '@/assets/images/landing/icon/crypto_icon02.svg';
+import cryptoIcon03 from '@/assets/images/landing/icon/crypto_icon03.svg';
+import featuresShape from '@/assets/images/landing/images/features_shape.png';
+
 export const Crypto = () => (
   <section className="crypto__area section-py-120">
     <div className="container">
@@ -15,7 +20,7 @@ export const Crypto = () => (
         <div className="col-lg-4 col-md-6">
           <div className="crypto__item">
             <div className="crypto__icon">
-              <img src="assets/img/icon/crypto_icon01.svg" alt="icon" />
+              <img src={cryptoIcon01} alt="icon" />
             </div>
             <div className="crypto__content">
               <h2 className="title">
@@ -30,7 +35,7 @@ export const Crypto = () => (
         <div className="col-lg-4 col-md-6">
           <div className="crypto__item">
             <div className="crypto__icon">
-              <img src="assets/img/icon/crypto_icon02.svg" alt="icon" />
+              <img src={cryptoIcon02} alt="icon" />
             </div>
             <div className="crypto__content">
               <h2 className="title">
@@ -45,7 +50,7 @@ export const Crypto = () => (
         <div className="col-lg-4 col-md-6">
           <div className="crypto__item">
             <div className="crypto__icon">
-              <img src="assets/img/icon/crypto_icon03.svg" alt="icon" />
+              <img src={cryptoIcon03} alt="icon" />
             </div>
             <div className="crypto__content">
               <h2 className="title">
@@ -60,7 +65,7 @@ export const Crypto = () => (
       </div>
     </div>
     <div className="crypto__shape">
-      <img src="assets/img/images/features_shape.png" alt="shape" />
+      <img src={featuresShape} alt="shape" />
     </div>
   </section>
 );

@@ -1,3 +1,6 @@
+import workImg from '@/assets/images/landing/images/work_img.png';
+import featuresShape from '@/assets/images/landing/images/features_shape.png';
+
 export const Work = () => (
   <section id="work" className="work__area section-py-120">
     <div className="container">
@@ -13,7 +16,7 @@ export const Work = () => (
       </div>
       <div className="work__item-wrap">
         <div className="work__img">
-          <img src="assets/img/images/work_img.png" alt="img" className="alltuchtopdown" />
+          <img src={workImg} alt="img" className="alltuchtopdown" />
         </div>
         <div className="row">
           <div className="col-lg-6" data-aos="fade-right" data-aos-delay="0">
@@ -52,7 +55,7 @@ export const Work = () => (
       </div>
     </div>
     <div className="work__shape">
-      <img src="assets/img/images/features_shape.png" alt="shape" />
+      <img src={featuresShape} alt="shape" />
     </div>
   </section>
 );

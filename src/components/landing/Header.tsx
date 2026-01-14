@@ -1,3 +1,5 @@
+import logo from '@/assets/images/landing/logo/logo.svg';
+
 export const Header = () => (
   <header id="home">
     <div id="sticky-header" className="tg-header__area transparent-header">
@@ -8,7 +10,7 @@ export const Header = () => (
               <nav className="tgmenu__nav">
                 <div className="logo">
                   <a href="index.html">
-                    <img src="assets/img/logo/logo.svg" alt="Logo" />
+                    <img src={logo} alt="Logo" />
                   </a>
                 </div>
                 <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-lg-flex">
@@ -77,7 +79,7 @@ export const Header = () => (
         </div>
         <div className="nav-logo">
           <a href="index.html">
-            <img src="assets/img/logo/logo.svg" alt="Logo" />
+            <img src={logo} alt="Logo" />
           </a>
         </div>
         <div className="tgmobile__search">

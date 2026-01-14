@@ -1,3 +1,6 @@
+import copy from '@/assets/images/landing/icon/copy.svg';
+import featuresShape from '@/assets/images/landing/images/features_shape.png';
+
 export const Token = () => (
   <section id="token" className="token__area section-py-120">
     <div className="container">
@@ -49,7 +52,7 @@ export const Token = () => (
             <div className="copy-text">
               <mark>0x2170Ed0880ac9A755fd29B2688956BD959F933F8</mark>
               <button className="copy-btn">
-                <img src="assets/img/icon/copy.svg" alt="" />
+                <img src={copy} alt="" />
               </button>
             </div>
           </div>
@@ -57,7 +60,7 @@ export const Token = () => (
       </div>
     </div>
     <div className="token__shape">
-      <img src="assets/img/images/features_shape.png" alt="" />
+      <img src={featuresShape} alt="" />
     </div>
   </section>
 );
