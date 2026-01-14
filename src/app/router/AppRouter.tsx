@@ -3,15 +3,14 @@ import { RouteConfig } from './types';
 import { routeConfigs } from './Routes';
 import { Suspense } from 'react';
 import Preloader from '@/components/base/Preloader';
-// import { router } from './routes';
 
 const AppRouter = () => {
     const router = createBrowserRouter(buildRouterConfig(routeConfigs));
     return (
-  <Suspense fallback={<Preloader />}>
-    <RouterProvider router={router} />
-  </Suspense>
-);
+      <Suspense fallback={<Preloader />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    );
 };
 
 const buildRouterConfig = (configs: RouteConfig[]): RouteObject[] => {
