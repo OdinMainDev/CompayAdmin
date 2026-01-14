@@ -6,6 +6,7 @@
 .banner {
     &__bg {
         background-size: cover;
+        background-image: url(/assets/images/landing/banner/hero_bg.svg);
         background-position: bottom center;
         position: relative;
         z-index: 1;

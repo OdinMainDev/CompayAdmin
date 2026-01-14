@@ -1,59 +1,126 @@
-import heroBg from '@/assets/images/landing/banner/hero_bg.svg';
-import envelope from '@/assets/images/landing/icon/envelope.svg';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+// Import images
 import heroImg01 from '@/assets/images/landing/banner/hero_img01.png';
 import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
 import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
 import heroBgShape from '@/assets/images/landing/banner/hero_bg_shape.svg';
-import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
+import envelopeIcon from '@/assets/images/landing/icon/envelope.svg';
 
-export const Banner = () => (
-  <section className="banner__area banner__bg" style={{backgroundImage: heroBg}}>
-    <Container>
-      <Row className="justify-content-center">
-        <Col xl={7} lg={8} md={10}>
-          <div className="banner__content">
-            <span className="sub-title wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1s">
-              Built on web3. Powered by You
-            </span>
-            <h2 className="title wow fadeInUp" data-wow-delay=".4s" data-wow-duration="1s">
-              The <span>future</span> of leverage is here
-            </h2>
-            <p className="wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1s">
-              Leverage on any tokens with a protocol trusted with billions for its performance and
-              reliability.
-            </p>
-            <Form
-              action="#"
-              className="banner__form wow fadeInUp"
-              data-wow-delay=".8s"
-              data-wow-duration="1s"
-            >
-              <InputGroup>
-                <InputGroup.Text as="label" htmlFor="email">
-                  <img src={envelope} alt="" />
-                </InputGroup.Text>
-                <Form.Control type="email" id="email" placeholder="Business email" />
-                <Button type="submit" className="tg-btn">
-                  get early access
-                </Button>
-              </InputGroup>
-            </Form>
-            <span
-              className="banner__content-bottom wow fadeInUp"
-              data-wow-delay=".8s"
-              data-wow-duration="1s"
-            >
-              Start monitoring for free or <a href="#!">msg us!</a>
-            </span>
+const Banner: React.FC = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <section className="banner__area banner__bg" ref={ref}>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-xl-7 col-lg-8 col-md-10">
+            <div className="banner__content">
+              <motion.span
+                className="sub-title"
+                variants={fadeInUp}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
+                Built on web3. Powered by You
+              </motion.span>
+              <motion.h2
+                className="title"
+                variants={fadeInUp}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                transition={{ duration: 1, delay: 0.4 }}
+              >
+                The <span>future</span> of leverage is here
+              </motion.h2>
+              <motion.p
+                variants={fadeInUp}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                transition={{ duration: 1, delay: 0.6 }}
+              >
+                Leverage on any tokens with a protocol trusted with billions for its performance and reliability.
+              </motion.p>
+
+              <motion.form
+                action="#"
+                className="banner__form"
+                variants={fadeInUp}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                transition={{ duration: 1, delay: 0.8 }}
+              >
+                <label htmlFor="email">
+                  <img src={envelopeIcon} alt="" />
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Business email"
+                />
+                <button type="submit" className="tg-btn">get early access</button>
+              </motion.form>
+
+              <motion.span
+                className="banner__content-bottom"
+                variants={fadeInUp}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                transition={{ duration: 1, delay: 0.8 }}
+              >
+                Start monitoring for free or <a href="#!">msg us!</a>
+              </motion.span>
+            </div>
           </div>
-        </Col>
-      </Row>
-    </Container>
-    <div className="banner__shape">
-      <img src={heroImg01} alt="shape" className="alltuchtopdown" />
-      <img src={heroImg02} alt="shape" className="rotateme" />
-      <img src={heroImg03} alt="shape" className="alltuchtopdown" />
-      <img src={heroBgShape} alt="shape" className="banner__bg-shape" />
-    </div>
-  </section>
-);
+        </div>
+      </div>
+
+      <div className="banner__shape">
+        <motion.img
+          src={heroImg01}
+          alt="shape"
+          animate={{ y: [0, -20, 0] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.img
+          src={heroImg02}
+          alt="shape"
+          animate={{ y: [0, 20, 0] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.img
+          src={heroImg03}
+          alt="shape"
+          animate={{ rotate: 360 }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <img src={heroBgShape} alt="shape" />
+      </div>
+    </section>
+  );
+};
+
+export default Banner;

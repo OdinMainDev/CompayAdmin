@@ -1,9 +1,14 @@
+import React from 'react';
 import { Container } from 'react-bootstrap';
 
-export const SectionDivider = () => (
-  <div className="section-divider">
-    <Container>
-      <span></span>
-    </Container>
-  </div>
-);
+const SectionDivider: React.FC = () => {
+  return (
+    <div className="section-divider">
+      <Container>
+        <span></span>
+      </Container>
+    </div>
+  );
+};
+
+export default SectionDivider;
