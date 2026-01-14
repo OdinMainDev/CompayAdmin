@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { UserService } from '../services/user';
 import type { Merchant, User } from '../types/entities';
 import type { ApiError } from '../types/core';
-import type { UserCreateRequest, UserListRequest, UserUpdateRequest } from '../types/user';
+import type { MerchantsSearchResponse, UserCreateRequest, UserListRequest, UserUpdateRequest } from '../types/user';
 
 
 interface UseUsersState {
@@ -150,11 +150,12 @@ export const useUsers = (): UseUsersReturn => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     const response = await UserService.searchMerchants(query);
+    console.log(response);
     
     if ('success' in response && response.success) {
       setState(prev => ({
         ...prev,
-        merchants: response.data,
+        merchants: (response as MerchantsSearchResponse).data,
         isLoading: false,
       }));
     } else {

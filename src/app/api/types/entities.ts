@@ -1,11 +1,15 @@
 export interface Merchant {
-    readonly id: number;
-    readonly name: string;
-    readonly slug: string;
-    readonly is_active: boolean;
-    readonly created_at: string;
-    readonly updated_at?: string;
-  }
+  readonly id: number;
+  readonly created_at: number;
+  readonly updated_at: number;
+  readonly name: string;
+  readonly token: string;
+  readonly is_enabled: boolean;
+  readonly settings: {
+    blocked_countries: string[] | null;
+    allowed_countries: string[] | null;
+  };
+}
   
   export interface User {
     readonly id: number;

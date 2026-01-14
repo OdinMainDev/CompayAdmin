@@ -5,8 +5,8 @@ import type { RequestOptions } from '../types/request';
 import type { FilterReponse, GetUserListFiltersResponse, MerchantsSearchResponse, UserCreateRequest, UserListRequest, UserResponse, UsersListResponse, UserUpdateRequest } from '../types/user';
 
 export class UserService {
-  private static readonly BASE_PATH = '/panel/admin/dev/users';
-  private static readonly MERCHANTS_PATH = '/panel/admin/dev/merchants';
+  private static readonly BASE_PATH = '/api/panel/admin/dev/users';
+  private static readonly MERCHANTS_PATH = '/api/panel/admin/dev/merchants';
 
   static async getList(
     params: UserListRequest = {},
@@ -148,7 +148,7 @@ export class UserService {
     options?: RequestOptions
   ): Promise<MerchantsSearchResponse | ApiError> {
     try {
-      return await apiClient.get<MerchantsSearchResponse['data']>(
+      return await apiClient.post<MerchantsSearchResponse['data']>(
         `${this.MERCHANTS_PATH}/search`,
         {
           ...options,

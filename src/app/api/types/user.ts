@@ -1,3 +1,5 @@
+import type { Merchant } from "./entities";
+
 export interface User {
   readonly id: number;
   readonly username: string;
@@ -57,11 +59,8 @@ export interface UsersListResponse {
   };
 }
 
-export interface Merchant {
-  readonly id: number;
-  readonly name: string;
-  readonly is_active: boolean;
-}
+
+
 
 export interface MerchantsSearchResponse {
   readonly success: boolean;

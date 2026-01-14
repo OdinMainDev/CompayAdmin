@@ -1,7 +1,6 @@
-export interface ApiError<T extends string = string> {
+export interface ApiError {
     readonly success: false;
-    readonly error: T;
-    readonly errors?: Readonly<Record<string, string | ReadonlyArray<string>>>;
+    readonly error: string;
   }
   
   export interface SuccessResponse<T, M extends Record<string, unknown> = Record<string, never>> {
@@ -10,9 +9,9 @@ export interface ApiError<T extends string = string> {
     readonly meta?: M;
   }
   
-  export type ApiResponse<T, M extends Record<string, unknown> = Record<string, never>, E extends string = string> = 
+  export type ApiResponse<T, M extends Record<string, unknown> = Record<string, never>> = 
     | SuccessResponse<T, M>
-    | ApiError<E>;
+    | ApiError;
   
   export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   

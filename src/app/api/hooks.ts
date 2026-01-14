@@ -164,7 +164,6 @@ export const useApiRequest = <
   };
 };
 
-// Хук для конкретного API
 export const useApi = () => {
   const request = useApiRequest();
 
