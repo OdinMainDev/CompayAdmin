@@ -15,10 +15,10 @@ const UserCreate = () => {
   const { t } = useTranslation();
   const { createUser, searchMerchants, merchants } = useUsers();
 
-  const merchantOptions = merchants.map(m => ({
-    label: m.name,
-    value: m.id,
-  }));
+  useEffect(() => {
+    searchMerchants("2"); 
+  }, []);
+
 
   const sections = useMemo<RawFormSection[]>(() => [
     {
@@ -32,16 +32,14 @@ const UserCreate = () => {
           name: 'merchant_id', 
           label: t('form_builder_demo.fields.merchant'), 
           type: 'select', 
-          options: merchantOptions, 
+          options: merchants.map(m => ({ label: m.name, value: m.id })), 
           helperText: t('form_builder_demo.fields.merchant_hint') 
         },
       ],
     },
-  ], [t]);
+  ], [t, merchants]); 
   
-  useEffect(() => {
-    searchMerchants("2"); 
-  }, []);
+  
   
   const [formData, setFormData] = useState<Record<string, unknown>>({});
   const [saved, setSaved] = useState(false);
