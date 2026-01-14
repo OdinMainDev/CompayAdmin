@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './i18n';
+import { AppRouter } from '@/app/router/AppRouter';
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <AppRouter />
+    <ToastContainer position="top-right" newestOnTop />
   </StrictMode>,
-)
+);

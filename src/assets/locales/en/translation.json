@@ -1,0 +1,120 @@
+{
+  "login_page": {
+    "title": "Authorization",
+    "description": "Access your account",
+    "submit": "Login"
+  },
+  "email": "Email",
+  "password": "Password",
+  "enter_email": "Enter your email",
+  "enter_password": "Enter your password",
+  "submit": "Submit",
+  "form": {
+    "select_placeholder": "Select a value",
+    "loading": "Loading...",
+    "clear": "Clear",
+    "saved": "Saved"
+  },
+  "toasts": {
+    "pending": "Processing action...",
+    "success": "Action successful!",
+    "fail": "Error processing action!",
+    "code": "Error: "
+  },
+  "routes": {
+    "admin": "Admin",
+    "merchant": "Merchant",
+    "management": "Management",
+    "tools": "Tools",
+    "dashboard": "Dashboard",
+    "tables": "Tables",
+    "datatable": "Datatable",
+    "form_builder": "Form Builder"
+  },
+  "notfound": {
+    "title": "Page not found",
+    "description": "We couldn’t find the page you’re looking for. Try going back to the dashboard.",
+    "cta": "Go to dashboard"
+  },
+  "datatable": {
+    "add_record": "Add record",
+    "page_size_option": "{{size}} / page",
+    "loading": "Loading...",
+    "empty": "No data to display",
+    "summary": "Showing {{count}} of {{total}} records"
+  },
+  "datatable_demo": {
+    "page": {
+      "title": "Datatable Builder",
+      "subtitle": "Updated look: basic table with sorting, pagination and actions.",
+      "tools": "Tools",
+      "datatable": "Datatable"
+    },
+    "table": {
+      "title": "Merchants",
+      "subtitle": "Matches old API structure: length/start/order_column/order_direction.",
+      "add": "Add merchant"
+    },
+    "columns": {
+      "merchant": "Merchant",
+      "status": "Status",
+      "turnover": "Turnover",
+      "currency": "Currency"
+    },
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "blocked": "Blocked"
+    }
+  },
+  "form_builder_demo": {
+    "page": {
+      "title": "Form Builder",
+      "subtitle": "Lightweight fields: inputs, multiselects and image upload for the new UI.",
+      "tools": "Tools",
+      "form_builder": "Form Builder"
+    },
+    "alert_saved": "Form saved (mock).",
+    "form": {
+      "title": "Merchant card",
+      "subtitle": "Only core elements: photo, inputs, multiselects.",
+      "submit": "Save"
+    },
+    "sections": {
+      "main": {
+        "title": "Main",
+        "description": "Minimal fields: text, numbers, passwords and textarea."
+      },
+      "display": {
+        "title": "Display settings",
+        "description": "Cover upload and base selects/multiselects."
+      }
+    },
+    "fields": {
+      "name": "Name",
+      "slug": "Slug",
+      "slug_hint": "URL part for API",
+      "limit": "Limit",
+      "password": "Section password",
+      "description": "Description",
+      "description_hint": "Short description of the offer or campaign.",
+      "cover": "Cover",
+      "cover_hint": "JPG/PNG up to 2MB",
+      "category": "Category",
+      "currencies": "Available currencies",
+      "currencies_hint": "You can choose several values"
+    },
+    "options": {
+      "casino": "Casino",
+      "sport": "Sport",
+      "payments": "Payments"
+    }
+  },
+  "totp_page": {
+    "title": "Two-factor verification",
+    "description": "Enter the 6-digit code from your authenticator app.",
+    "error": "Invalid code",
+    "error_prefix": "Error:",
+    "submit": "Confirm"
+  }
+}
