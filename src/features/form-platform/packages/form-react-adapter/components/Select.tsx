@@ -5,7 +5,8 @@ import { BaseSelectRenderer } from "./BaseSelect";
 
 export function SingleSelectRenderer<T extends string | number>(
   field: IField<T, SelectFieldExtra>,
-  onChange: (value: T) => void
+  onChange: (value: T) => void,
+  hasError: boolean
 ) {
-  return <BaseSelectRenderer<T> field={field} onChange={onChange} isMulti={false} />;
+  return <BaseSelectRenderer<T> field={field} onChange={onChange} hasError={hasError} isMulti={false} />;
 }

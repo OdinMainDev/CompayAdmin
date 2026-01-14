@@ -46,6 +46,7 @@ export const defaultStyles: StylesConfig<ReactSelectOption, boolean> = {
 export interface BaseSingleSelectRendererProps<T extends string | number> {
   field: IField<T, SelectFieldExtra>;
   onChange: (value: T) => void;
+  hasError: boolean,
   placeholder?: string;
   noOptionsMessage?: string;
   styles?: StylesConfig<ReactSelectOption, false>;
@@ -57,6 +58,7 @@ export interface BaseSingleSelectRendererProps<T extends string | number> {
 export interface BaseMultiSelectRendererProps<T extends string | number> {
   field: IField<T[], SelectFieldExtra>;
   onChange: (value: T[]) => void;
+  hasError: boolean
   placeholder?: string;
   noOptionsMessage?: string;
   styles?: StylesConfig<ReactSelectOption, true>;
@@ -76,6 +78,7 @@ function BaseSelectRendererInner<T extends string | number>(
   const {
     field,
     onChange,
+    hasError,
     isMulti,
     placeholder = 'Выберите опцию...',
     noOptionsMessage = 'Нет доступных опций',
@@ -106,12 +109,10 @@ function BaseSelectRendererInner<T extends string | number>(
     }
   }, [field.value, selectOptions, isMulti]);
   
-
   const handleChange = (
     newValue: SingleValue<ReactSelectOption> | MultiValue<ReactSelectOption>,
     _actionMeta: ActionMeta<ReactSelectOption>
   ) => {
-    debugger;
     if (isMulti) {
       const values = (newValue as MultiValue<ReactSelectOption>).map((o) =>
         Array.isArray(field.value) && field.type === 'multiselect-number' ? Number(o.originalValue) : o.originalValue
@@ -119,11 +120,40 @@ function BaseSelectRendererInner<T extends string | number>(
       onChange(values as T[]);
     } else {
       const option = newValue as SingleValue<ReactSelectOption>;
-      if (!option) return onChange('' as T);
+      if (!option)  return onChange(undefined as unknown as T); 
       const value =  field.type === 'select-number' ? Number(option.originalValue) : option.originalValue;
       onChange(value as T);
     }
   };
+
+  const selectStyles = useMemo<StylesConfig<ReactSelectOption, boolean>>(
+  () => ({
+    ...defaultStyles,
+
+    control: (provided, state) => {
+      const isError = hasError;
+
+      return {
+        ...provided,
+        borderRadius: '.5rem',
+        borderColor: isError
+          ? '#dc3545'
+          : state.isFocused
+            ? '#61DAFB'
+            : '#dee2e6',
+        boxShadow: isError
+          ? '0 0 0 0.25rem rgba(220, 53, 69, 0.25)'
+          : state.isFocused
+            ? '0 0 0 0.25rem rgba(97, 218, 251, 0.25)'
+            : 'none',
+        '&:hover': {
+          borderColor: isError ? '#dc3545' : '#61DAFB',
+        },
+      };
+    },
+  }),
+  [hasError]
+);
 
   return (
     <Select
@@ -131,7 +161,7 @@ function BaseSelectRendererInner<T extends string | number>(
       options={selectOptions}
       value={selectedValue}
       onChange={handleChange}
-      styles={styles as any}
+      styles={selectStyles}
       isClearable={true}
       isMulti={isMulti}
       isSearchable

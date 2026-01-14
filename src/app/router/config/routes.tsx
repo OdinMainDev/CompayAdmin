@@ -1,7 +1,8 @@
 import { lazy } from 'react';
 import type { RouteConfig } from '../types';
 import { Navigate } from 'react-router-dom';
-import { faChartPie, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faScrewdriverWrench, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import UserEdit from '../../../pages/tools/UserEdit';
 
 // const Landing  = lazy(() => import('../../../pages/landing/LandingPage'));
 const Landing2 = lazy(() => import('../../../pages/landing/Landing'));
@@ -25,76 +26,99 @@ const Landing = lazy(() => import('../../../pages/landing/LandingPage').then(mod
 export const routeConfigs: RouteConfig[] = [
   // Public routes
   {
-    id: 'landing',
-    path: '/',
+    id: "landing",
+    path: "/",
     component: Landing,
   },
   {
-    id: 'landing-alt',
-    path: '/landing',
+    id: "landing-alt",
+    path: "/landing",
     component: Landing2,
   },
   {
-    id: 'login',
-    path: '/auth/login',
+    id: "login",
+    path: "/auth/login",
     component: Login,
   },
   {
-    id: 'totp',
-    path: '/auth/totp',
+    id: "totp",
+    path: "/auth/totp",
     component: Totp,
   },
-  
+
   // Protected panel routes
   {
-    id: 'panel',
-    path: '/panel',
+    id: "panel",
+    path: "/panel",
     component: DashboardLayout,
     guard: AuthGuard,
     children: [
       {
-        id: 'dashboard',
-        path: 'dashboard',
+        id: "dashboard",
+        path: "dashboard",
         component: Dashboard,
-        meta: { label: 'Dashboard', icon: faChartPie },
+        meta: { label: "Dashboard", icon: faChartPie },
       },
       {
-        id: 'admin-forms',
-        path: 'admin/form-builder',
+        id: "admin-forms",
+        path: "admin/form-builder",
         component: FormBuilderV2,
         guard: RoleGuard,
-        meta: { label: 'Form Builder', roles: ['admin'], icon: faScrewdriverWrench },
+        meta: {
+          label: "Form Builder",
+          roles: ["admin"],
+          icon: faScrewdriverWrench,
+        },
       },
       {
-        id: 'user-create',
-        path: 'user-create',
+        id: "user-create",
+        path: "user-create",
         component: UserCreate,
         guard: RoleGuard,
-        meta: { label: 'User create', roles: ['admin', 'merchant'], icon: faScrewdriverWrench },
+        meta: {
+          label: "User create",
+          roles: ["admin"],
+          icon: faScrewdriverWrench,
+        },
       },
       {
-        id: 'admin-datatable',
-        path: 'admin/datatable',
+        id: "user-edit",
+        path: "admin/user-edit/:id",
+        component: UserEdit,
+        guard: RoleGuard, 
+        meta: {
+          label: "User edit",
+          roles: ["admin"],
+          icon: faUserEdit,
+        },
+      },
+      {
+        id: "admin-datatable",
+        path: "admin/datatable",
         component: DataTableV2,
         guard: RoleGuard,
-        meta: { label: 'Data Tables', roles: ['admin'], icon: faScrewdriverWrench },
+        meta: {
+          label: "Data Tables",
+          roles: ["admin"],
+          icon: faScrewdriverWrench,
+        },
       },
     ],
   },
-  
+
   // Redirects
   {
-    id: 'start-redirect',
-    path: '/start',
+    id: "start-redirect",
+    path: "/start",
     component: () => {
       return <Navigate to="/panel/dashboard" replace />;
     },
   },
-  
+
   // 404
   {
-    id: 'not-found',
-    path: '*',
+    id: "not-found",
+    path: "*",
     component: NotFound,
   },
 ];

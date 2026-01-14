@@ -27,6 +27,7 @@ interface UseUsersReturn extends UseUsersState {
   readonly fetchFilters: () => Promise<void>;
   readonly clearError: () => void;
   readonly clearSelectedUser: () => void;
+  readonly getFieldErrors: () => Record<string, string[]>; 
 }
 
 export const useUsers = (): UseUsersReturn => {
@@ -150,7 +151,6 @@ export const useUsers = (): UseUsersReturn => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
     
     const response = await UserService.searchMerchants(query);
-    console.log(response);
     
     if ('success' in response && response.success) {
       setState(prev => ({
@@ -194,6 +194,10 @@ export const useUsers = (): UseUsersReturn => {
   const clearSelectedUser = useCallback(() => {
     setState(prev => ({ ...prev, selectedUser: null }));
   }, []);
+  const getFieldErrors = useCallback((): Record<string, string[]> => {
+    if (!state.error || !state.error.errors) return {};
+    return state.error.errors as Record<string, string[]>; 
+  }, [state.error]);
 
   return {
     ...state,
@@ -206,5 +210,6 @@ export const useUsers = (): UseUsersReturn => {
     fetchFilters,
     clearError,
     clearSelectedUser,
+    getFieldErrors 
   };
 };

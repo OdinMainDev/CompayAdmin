@@ -1,6 +1,7 @@
 export interface ApiError {
     readonly success: false;
-    readonly error: string;
+    readonly error?: string;
+    readonly errors?: Record<string, string[]>; 
   }
   
   export interface SuccessResponse<T, M extends Record<string, unknown> = Record<string, never>> {

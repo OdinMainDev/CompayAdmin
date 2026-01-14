@@ -57,8 +57,9 @@ export class UserService {
     options?: RequestOptions
   ): Promise<UserResponse | ApiError> {
     try {
-      return await apiClient.get<UserResponse['data']>(
-        `${this.BASE_PATH}/get/${id}`,
+      return await apiClient.post<UserResponse['data']>(
+        `${this.BASE_PATH}/get/${id}`, 
+        {  }, 
         {
           ...options,
           isAuth: true,

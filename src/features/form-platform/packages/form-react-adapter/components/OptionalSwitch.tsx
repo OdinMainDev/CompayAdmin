@@ -1,4 +1,3 @@
-import { Form } from 'react-bootstrap';
 import type { IField } from '../../form-core/domain/field/IField';
 import type { BaseFieldExtra } from '../../form-core/domain/extra/BaseFieldExtra';
 import { useState, useEffect } from 'react';

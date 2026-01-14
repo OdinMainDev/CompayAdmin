@@ -3,4 +3,5 @@ export interface BaseFieldExtra {
     col?: number;
     helperText?: string;
     disabled?: boolean
+    error?: string[]
 }

@@ -1,4 +1,4 @@
-import { type FormEvent, useState, type ReactNode } from 'react';
+import { type FormEvent, useState, type ReactNode, useMemo } from 'react';
 import { Button, Card, Form, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { JsonFormLoader } from './JsonFormLoader';
@@ -7,7 +7,7 @@ import './setupFields';
 import { UnifiedFieldRegistry } from './UnifiedFieldRegistry';
 import type { RawFormSection } from '../form-core/domain/field/RawFormSection';
 
-type FieldErrors = Record<string, string | string[]>;
+type FieldErrors = Record<string, string[]>;
 
 interface FormBuilderProps<T extends Record<string, unknown>> {
   json: RawFormSection[];
@@ -18,7 +18,7 @@ interface FormBuilderProps<T extends Record<string, unknown>> {
   subTitle?: string;
   submitLabel?: ReactNode;
   saving?: boolean;
-  fieldErrors?: FieldErrors;
+  fieldErrors?: FieldErrors ;
 }
 
 
@@ -30,13 +30,25 @@ const UnifiedFormBuilder = <T extends Record<string, unknown>>({
   title,
   subTitle,
   submitLabel,
-  saving
+  saving,
+  fieldErrors
 }: FormBuilderProps<T>) => {
 
+  const errors = fieldErrors ?? {}; 
+
+  const sectionsWithErrors = useMemo(() => {
+    return json.map((section) => ({
+      ...section,
+      fields: section.fields.map((field) => ({
+        ...field,
+        error: errors[field.name as string],
+      })),
+    }));
+  }, [json, errors]);
+  
   const { t } = useTranslation();
   const [submitting, setSubmitting] = useState(false);
-  const sections: FormSection[] = JsonFormLoader.loadForm(json, formData);
-
+  const sections: FormSection[] = JsonFormLoader.loadForm(sectionsWithErrors, formData);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,6 +76,7 @@ const UnifiedFormBuilder = <T extends Record<string, unknown>>({
               {section.title && <h5 className="mb-1">{section.title}</h5>}
               {section.description && <div className="text-muted mb-3">{section.description}</div>}
               {section.fields.map((field) =>
+              
                 UnifiedFieldRegistry.render(field, (value) => {
                   setFormData((prev) => ({
                     ...prev,

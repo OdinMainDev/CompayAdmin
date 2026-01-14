@@ -411,7 +411,9 @@ const DatatableDemoV2 = () => {
         variant: 'primary',
         position: 'row',
         handler: (params: { currentRow?: UserRecord }) => {
-          console.log('edit', params);
+           if (!params.currentRow) return;
+           const userId = params.currentRow.id;
+           navigate(`/panel/admin/user-edit/${userId}`);
         }
       },
       {

@@ -1,7 +1,6 @@
 import i18next from 'i18next';
 import { toast, type ToastContent, type ToastOptions } from "react-toastify";
 import type { ApiError, SuccessResponse } from "./types/core";
-import { ApiErrorService } from './error-service';
 
 export interface ToastConfig {
   readonly success?: string;
@@ -42,7 +41,7 @@ export class ToastService {
       const result = await promise;
 
       if (ToastService.isApiError(result)) {
-        const errorMessage = ApiErrorService.getMessage(result) || mergedConfig.error;
+        const errorMessage = result.error || mergedConfig.error;
         toast.error(errorMessage as ToastContent, mergedConfig.options);
         return result;
       }
