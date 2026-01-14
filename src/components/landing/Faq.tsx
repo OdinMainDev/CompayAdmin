@@ -1,15 +1,16 @@
 import faqImg from '@/assets/images/landing/images/faq_img.png';
+import { Accordion, Col, Container, Row } from 'react-bootstrap';
 
 export const Faq = () => (
   <section className="faq__area section-py-120">
-    <div className="container">
-      <div className="row align-items-center">
-        <div className="col-lg-6">
+    <Container>
+      <Row className="align-items-center">
+        <Col lg={6}>
           <div className="faq__img" data-aos="fade-right" data-aos-delay="0">
             <img src={faqImg} alt="img" />
           </div>
-        </div>
-        <div className="col-lg-6">
+        </Col>
+        <Col lg={6}>
           <div className="faq__content" data-aos="fade-left" data-aos-delay="0">
             <div className="section__title mb-60">
               <span className="sub-title">faq & ans</span>
@@ -18,90 +19,43 @@ export const Faq = () => (
               </h2>
             </div>
             <div className="faq__wrap">
-              <div className="accordion" id="accordionExample">
-                <div className="accordion-item">
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      Main purpose of a cryptocurrency
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseOne"
-                    className="accordion-collapse collapse show"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body">
-                      <p>
-                        The private key, stored securely in the wallet, allows you to sign
-                        transactions and prove ownership of the funds cryptocurrency wallet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseTwo"
-                      aria-expanded="false"
-                      aria-controls="collapseTwo"
-                    >
-                      How can I make refund?
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseTwo"
-                    className="accordion-collapse collapse"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body">
-                      <p>
-                        The private key, stored securely in the wallet, allows you to sign
-                        transactions and prove ownership of the funds cryptocurrency wallet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                    >
-                      How do they operate on blockchain?
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseThree"
-                    className="accordion-collapse collapse"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div className="accordion-body">
-                      <p>
-                        The private key, stored securely in the wallet, allows you to sign
-                        transactions and prove ownership of the funds cryptocurrency wallet.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Accordion defaultActiveKey="0" id="accordionExample">
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>
+                    Main purpose of a cryptocurrency
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      The private key, stored securely in the wallet, allows you to sign
+                      transactions and prove ownership of the funds cryptocurrency wallet.
+                    </p>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>How can I make refund?</Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      The private key, stored securely in the wallet, allows you to sign
+                      transactions and prove ownership of the funds cryptocurrency wallet.
+                    </p>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                  <Accordion.Header>
+                    How do they operate on blockchain?
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <p>
+                      The private key, stored securely in the wallet, allows you to sign
+                      transactions and prove ownership of the funds cryptocurrency wallet.
+                    </p>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   </section>
 );

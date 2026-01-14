@@ -2,22 +2,23 @@ import cryptoIcon01 from '@/assets/images/landing/icon/crypto_icon01.svg';
 import cryptoIcon02 from '@/assets/images/landing/icon/crypto_icon02.svg';
 import cryptoIcon03 from '@/assets/images/landing/icon/crypto_icon03.svg';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 export const Crypto = () => (
   <section className="crypto__area section-py-120">
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-lg-7">
+    <Container>
+      <Row className="justify-content-center">
+        <Col lg={7}>
           <div className="section__title text-center mb-80">
             <span className="sub-title">crypto direction</span>
             <h2 className="title">
               Goods & assets <span>according</span> <br /> to users interests.
             </h2>
           </div>
-        </div>
-      </div>
-      <div className="row gutter-y-30 justify-content-center">
-        <div className="col-lg-4 col-md-6">
+        </Col>
+      </Row>
+      <Row className="gutter-y-30 justify-content-center">
+        <Col lg={4} md={6}>
           <div className="crypto__item">
             <div className="crypto__icon">
               <img src={cryptoIcon01} alt="icon" />
@@ -26,13 +27,13 @@ export const Crypto = () => (
               <h2 className="title">
                 Read our <span>white paper</span>
               </h2>
-              <a href="#!" className="tg-btn tg-btn-two">
+              <Button href="#!" className="tg-btn tg-btn-two">
                 open whitepaper
-              </a>
+              </Button>
             </div>
           </div>
-        </div>
-        <div className="col-lg-4 col-md-6">
+        </Col>
+        <Col lg={4} md={6}>
           <div className="crypto__item">
             <div className="crypto__icon">
               <img src={cryptoIcon02} alt="icon" />
@@ -41,13 +42,13 @@ export const Crypto = () => (
               <h2 className="title">
                 1 CRN token price <span>0.00014 BTC</span>
               </h2>
-              <a href="#!" className="tg-btn tg-btn-two">
+              <Button href="#!" className="tg-btn tg-btn-two">
                 Buy tokens <span>(-25%)</span>
-              </a>
+              </Button>
             </div>
           </div>
-        </div>
-        <div className="col-lg-4 col-md-6">
+        </Col>
+        <Col lg={4} md={6}>
           <div className="crypto__item">
             <div className="crypto__icon">
               <img src={cryptoIcon03} alt="icon" />
@@ -56,14 +57,14 @@ export const Crypto = () => (
               <h2 className="title">
                 ICO Participants <span>370,000+</span>
               </h2>
-              <a href="#!" className="tg-btn tg-btn-two">
+              <Button href="#!" className="tg-btn tg-btn-two">
                 join our telegram
-              </a>
+              </Button>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
     <div className="crypto__shape">
       <img src={featuresShape} alt="shape" />
     </div>

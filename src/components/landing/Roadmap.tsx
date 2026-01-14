@@ -3,23 +3,24 @@ import roadmapIcon02 from '@/assets/images/landing/icon/roadmap_icon02.png';
 import roadmapIcon03 from '@/assets/images/landing/icon/roadmap_icon03.png';
 import roadmapIcon04 from '@/assets/images/landing/icon/roadmap_icon04.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { Col, Container, Row } from 'react-bootstrap';
 
 export const Roadmap = () => (
   <section id="roadmap" className="roadmap__area section-py-120">
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-lg-6">
+    <Container>
+      <Row className="justify-content-center">
+        <Col lg={6}>
           <div className="section__title text-center mb-80" data-aos="fade-up" data-aos-delay="0">
             <span className="sub-title">roadmap</span>
             <h2 className="title">
               Our <span>strategy</span> & Planning
             </h2>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
       <div className="roadmap__item-wrap" data-aos="fade-up" data-aos-delay="300">
-        <div className="row gutter-y-40">
-          <div className="col-lg-3 col-md-6">
+        <Row className="gutter-y-40">
+          <Col lg={3} md={6}>
             <div className="roadmap__item">
               <div className="roadmap__icon">
                 <img src={roadmapIcon01} alt="icon" />
@@ -29,8 +30,8 @@ export const Roadmap = () => (
                 <p>Definitions of key terms in cryptocurrency</p>
               </div>
             </div>
-          </div>
-          <div className="col-lg-3 col-md-6">
+          </Col>
+          <Col lg={3} md={6}>
             <div className="roadmap__item">
               <div className="roadmap__icon">
                 <img src={roadmapIcon02} alt="icon" />
@@ -40,8 +41,8 @@ export const Roadmap = () => (
                 <p>Automated tools for executing strategies</p>
               </div>
             </div>
-          </div>
-          <div className="col-lg-3 col-md-6">
+          </Col>
+          <Col lg={3} md={6}>
             <div className="roadmap__item">
               <div className="roadmap__icon">
                 <img src={roadmapIcon03} alt="icon" />
@@ -51,8 +52,8 @@ export const Roadmap = () => (
                 <p>APIs for developers to build custom tools</p>
               </div>
             </div>
-          </div>
-          <div className="col-lg-3 col-md-6">
+          </Col>
+          <Col lg={3} md={6}>
             <div className="roadmap__item">
               <div className="roadmap__icon">
                 <img src={roadmapIcon04} alt="icon" />
@@ -62,10 +63,10 @@ export const Roadmap = () => (
                 <p>A space for users to discuss trends</p>
               </div>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
-    </div>
+    </Container>
     <div className="roadmap__shape">
       <img src={featuresShape} alt="shape" />
     </div>

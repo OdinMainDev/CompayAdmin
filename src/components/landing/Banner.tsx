@@ -4,12 +4,13 @@ import heroImg01 from '@/assets/images/landing/banner/hero_img01.png';
 import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
 import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
 import heroBgShape from '@/assets/images/landing/banner/hero_bg_shape.svg';
+import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 
 export const Banner = () => (
-  <section className="banner__area banner__bg" data-background={heroBg}>
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-xl-7 col-lg-8 col-md-10">
+  <section className="banner__area banner__bg" style={{backgroundImage: heroBg}}>
+    <Container>
+      <Row className="justify-content-center">
+        <Col xl={7} lg={8} md={10}>
           <div className="banner__content">
             <span className="sub-title wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1s">
               Built on web3. Powered by You
@@ -21,20 +22,22 @@ export const Banner = () => (
               Leverage on any tokens with a protocol trusted with billions for its performance and
               reliability.
             </p>
-            <form
+            <Form
               action="#"
               className="banner__form wow fadeInUp"
               data-wow-delay=".8s"
               data-wow-duration="1s"
             >
-              <label htmlFor="email">
-                <img src={envelope} alt="" />
-              </label>
-              <input type="email" id="email" placeholder="Business email" />
-              <button type="submit" className="tg-btn">
-                get early access
-              </button>
-            </form>
+              <InputGroup>
+                <InputGroup.Text as="label" htmlFor="email">
+                  <img src={envelope} alt="" />
+                </InputGroup.Text>
+                <Form.Control type="email" id="email" placeholder="Business email" />
+                <Button type="submit" className="tg-btn">
+                  get early access
+                </Button>
+              </InputGroup>
+            </Form>
             <span
               className="banner__content-bottom wow fadeInUp"
               data-wow-delay=".8s"
@@ -43,9 +46,9 @@ export const Banner = () => (
               Start monitoring for free or <a href="#!">msg us!</a>
             </span>
           </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
     <div className="banner__shape">
       <img src={heroImg01} alt="shape" className="alltuchtopdown" />
       <img src={heroImg02} alt="shape" className="rotateme" />

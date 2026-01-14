@@ -1,7 +1,9 @@
+import { Container } from 'react-bootstrap';
+
 export const SectionDivider = () => (
   <div className="section-divider">
-    <div className="container">
+    <Container>
       <span></span>
-    </div>
+    </Container>
   </div>
 );

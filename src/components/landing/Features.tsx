@@ -4,22 +4,23 @@ import featuresIcon03 from '@/assets/images/landing/icon/features_icon03.png';
 import featuresIcon04 from '@/assets/images/landing/icon/features_icon04.png';
 import featuresIcon05 from '@/assets/images/landing/icon/features_icon05.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { Col, Container, Row } from 'react-bootstrap';
 
 export const Features = () => (
   <section id="features" className="features__area section-pt-120">
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-lg-6">
+    <Container>
+      <Row className="justify-content-center">
+        <Col lg={6}>
           <div className="section__title text-center mb-80">
             <span className="sub-title">accessible for everyone</span>
             <h2 className="title">
               Crypto <span>development</span> accessible
             </h2>
           </div>
-        </div>
-      </div>
-      <div className="row gutter-y-40">
-        <div className="col-lg-6">
+        </Col>
+      </Row>
+      <Row className="gutter-y-40">
+        <Col lg={6}>
           <div className="features__item">
             <div className="features__icon">
               <img src={featuresIcon01} alt="icon" />
@@ -31,8 +32,8 @@ export const Features = () => (
               <p>Automated identity verification and anti-money</p>
             </div>
           </div>
-        </div>
-        <div className="col-lg-6">
+        </Col>
+        <Col lg={6}>
           <div className="features__item">
             <div className="features__icon">
               <img src={featuresIcon02} alt="icon" />
@@ -44,8 +45,8 @@ export const Features = () => (
               <p>A built-in explorer to track transactions</p>
             </div>
           </div>
-        </div>
-        <div className="col-lg-4">
+        </Col>
+        <Col lg={4}>
           <div className="features__item features__item-two">
             <div className="features__icon">
               <img src={featuresIcon03} alt="icon" />
@@ -57,8 +58,8 @@ export const Features = () => (
               <p>Global reach with content available in multiple</p>
             </div>
           </div>
-        </div>
-        <div className="col-lg-4">
+        </Col>
+        <Col lg={4}>
           <div className="features__item features__item-two">
             <div className="features__icon">
               <img src={featuresIcon04} alt="icon" />
@@ -70,8 +71,8 @@ export const Features = () => (
               <p>Visual dashboards for trade performance</p>
             </div>
           </div>
-        </div>
-        <div className="col-lg-4">
+        </Col>
+        <Col lg={4}>
           <div className="features__item features__item-two">
             <div className="features__icon">
               <img src={featuresIcon05} alt="icon" />
@@ -83,9 +84,9 @@ export const Features = () => (
               <p>Exportable reports for tax and accounting purposes</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
     <div className="features__shape">
       <img src={featuresShape} alt="shape" />
     </div>
