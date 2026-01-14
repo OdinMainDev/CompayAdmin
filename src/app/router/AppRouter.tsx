@@ -1,16 +1,16 @@
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RouteConfig } from './types';
 import { routeConfigs } from './Routes';
-// import { Suspense } from 'react';
-// import { Preloader } from '@/components/Preloader';
+import { Suspense } from 'react';
+import Preloader from '@/components/base/Preloader';
 // import { router } from './routes';
 
 const AppRouter = () => {
     const router = createBrowserRouter(buildRouterConfig(routeConfigs));
     return (
-//   <Suspense fallback={<Preloader />}>
+  <Suspense fallback={<Preloader />}>
     <RouterProvider router={router} />
-//   </Suspense>
+  </Suspense>
 );
 };
 
