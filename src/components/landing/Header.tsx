@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import logo from '@/assets/images/logo/logo.svg';
 import { useTranslation } from 'react-i18next';
+import { I18N_LANGUAGES } from '@/constants';
+import { changeLanguage } from '@/i18n';
 
 const Header: React.FC = () => {
   const [showMobile, setShowMobile] = useState(false);
   const [sticky, setSticky] = useState(false);
-  const { t } = useTranslation('landing');
+  const [langOpen, setLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
+  const { t, i18n } = useTranslation('landing');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,8 +18,36 @@ const Header: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.body.classList.toggle('mobile-menu-visible', showMobile);
+    return () => {
+      document.body.classList.remove('mobile-menu-visible');
+    };
+  }, [showMobile]);
+
+  useEffect(() => {
+    if (!langOpen && !mobileLangOpen) return;
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+      if (target.closest('.lang-dropdown')) return;
+      setLangOpen(false);
+      setMobileLangOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [langOpen, mobileLangOpen]);
+
+  useEffect(() => {
+    if (!showMobile) {
+      setMobileLangOpen(false);
+    }
+  }, [showMobile]);
 
   const scrollToSection = (sectionId: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -31,6 +63,19 @@ const Header: React.FC = () => {
       });
     }
     setShowMobile(false);
+    setLangOpen(false);
+    setMobileLangOpen(false);
+  };
+
+  const handleLanguageChange = (lng: string) => {
+    if (i18n.language === lng) {
+      setLangOpen(false);
+      setMobileLangOpen(false);
+      return;
+    }
+    changeLanguage(lng);
+    setLangOpen(false);
+    setMobileLangOpen(false);
   };
 
   return (
@@ -55,14 +100,60 @@ const Header: React.FC = () => {
                     </div>
                     <div className="tgmenu__action">
                       <ul className="list-wrap">
+                        <li>
+                          <div className="lang-dropdown">
+                            <button
+                              type="button"
+                              className={`lang-toggle${langOpen ? ' open' : ''}`}
+                              onClick={() => setLangOpen((prev) => !prev)}
+                              aria-haspopup="listbox"
+                              aria-expanded={langOpen}
+                              aria-label={t('nav.language')}
+                            >
+                              <span className="lang-label">{i18n.language.toUpperCase()}</span>
+                              <span className="caret" aria-hidden="true" />
+                            </button>
+                            {langOpen && (
+                              <ul className="lang-menu" role="listbox" aria-label={t('nav.language')}>
+                                {I18N_LANGUAGES.map((lng) => (
+                                  <li key={lng}>
+                                    <button
+                                      type="button"
+                                      className={`lang-option${i18n.language === lng ? ' active' : ''}`}
+                                      role="option"
+                                      aria-selected={i18n.language === lng}
+                                      onClick={() => handleLanguageChange(lng)}
+                                    >
+                                      {lng.toUpperCase()}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        </li>
                         <li className="header-btn">
                           <a href="#!" className="tg-btn">{t('hero.cta')}</a>
                         </li>
                       </ul>
                     </div>
-                    <div className="mobile-nav-toggler" onClick={() => setShowMobile(true)}>
-                      <i className="tg-flaticon-menu-1"></i>
-                    </div>
+                    <button
+                      type="button"
+                      className="mobile-nav-toggler"
+                      aria-label={t('nav.openMenu')}
+                      aria-expanded={showMobile}
+                      onClick={() => setShowMobile((prev) => !prev)}
+                    >
+                      <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true">
+                        <path
+                          d="M3 6h18M3 12h18M3 18h18"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </button>
                   </nav>
                 </div>
               </div>
@@ -71,11 +162,24 @@ const Header: React.FC = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`tgmobile__menu ${showMobile ? 'show' : ''}`}>
+        <div className="tgmobile__menu">
           <nav className="tgmobile__menu-box">
-            <div className="close-btn" onClick={() => setShowMobile(false)}>
-              <i className="tg-flaticon-close-1"></i>
-            </div>
+            <button
+              type="button"
+              className="close-btn"
+              aria-label={t('nav.closeMenu')}
+              onClick={() => setShowMobile(false)}
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path
+                  d="M6 6l12 12M18 6l-12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
             <div className="nav-logo">
               <a href="#home"><img src={logo} alt="ComPay" /></a>
             </div>
@@ -83,14 +187,46 @@ const Header: React.FC = () => {
               <ul className="navigation">
                 <li><a href="#home" onClick={(e) => scrollToSection('home', e)}>{t("nav.home")}</a></li>
                 <li><a href="#features" onClick={(e) => scrollToSection('features', e)}>{t("nav.features")}</a></li>
-                <li><a href="#token" onClick={(e) => scrollToSection('token', e)}>{t("nav.token")}</a></li>
+                <li><a href="#token" onClick={(e) => scrollToSection('token', e)}>{t("nav.integration")}</a></li>
                 <li><a href="#work" onClick={(e) => scrollToSection('work', e)}>{t("nav.work")}</a></li>
                 <li><a href="#roadmap" onClick={(e) => scrollToSection('roadmap', e)}>{t("nav.roadmap")}</a></li>
               </ul>
             </div>
+            <div className="tgmobile__lang">
+              <div className="lang-dropdown">
+                <button
+                  type="button"
+                  className={`lang-toggle${mobileLangOpen ? ' open' : ''}`}
+                  onClick={() => setMobileLangOpen((prev) => !prev)}
+                  aria-haspopup="listbox"
+                  aria-expanded={mobileLangOpen}
+                  aria-label={t('nav.language')}
+                >
+                  <span className="lang-label">{i18n.language.toUpperCase()}</span>
+                  <span className="caret" aria-hidden="true" />
+                </button>
+                {mobileLangOpen && (
+                  <ul className="lang-menu" role="listbox" aria-label={t('nav.language')}>
+                    {I18N_LANGUAGES.map((lng) => (
+                      <li key={lng}>
+                        <button
+                          type="button"
+                          className={`lang-option${i18n.language === lng ? ' active' : ''}`}
+                          role="option"
+                          aria-selected={i18n.language === lng}
+                          onClick={() => handleLanguageChange(lng)}
+                        >
+                          {lng.toUpperCase()}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
           </nav>
         </div>
-        <div className={`tgmobile__menu-backdrop ${showMobile ? 'show' : ''}`} onClick={() => setShowMobile(false)}></div>
+        <div className="tgmobile__menu-backdrop" onClick={() => setShowMobile(false)}></div>
       </header>
 
       <motion.button

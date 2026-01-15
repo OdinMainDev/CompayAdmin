@@ -9,7 +9,7 @@ import { I18N_DEFAULT_LANGUAGE, I18N_LANGUAGES, I18N_STORAGE_KEY } from './const
 const getInitialLanguage = () => {
   if (typeof window === 'undefined') return I18N_DEFAULT_LANGUAGE
 
-  const stored = window.localStorage.getItem('lang')
+  const stored = window.localStorage.getItem(I18N_STORAGE_KEY)
   if (stored && I18N_LANGUAGES.includes(stored as (typeof I18N_LANGUAGES)[number])) {
     return stored
   }
