@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import logo from '@/assets/images/landing/logo/logo.svg';
+import logo from '@/assets/images/logo/logo.svg';
 import { useTranslation } from 'react-i18next';
 
 const Header: React.FC = () => {

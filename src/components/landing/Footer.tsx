@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import logo from '@/assets/images/landing/logo/logo.svg';
+import logo from '@/assets/images/logo/logo.svg';
 import facebookIcon from '@/assets/images/landing/icon/facebook.svg';
 import twitterIcon from '@/assets/images/landing/icon/twitter.svg';
 import telegramIcon from '@/assets/images/landing/icon/telegram.svg';
