@@ -8,14 +8,11 @@ import discordIcon from '@/assets/images/landing/icon/discord.svg';
 import iconsBg from '@/assets/images/landing/icon/icons_bg.svg';
 import footerShape01 from '@/assets/images/landing/images/footer_shape01.png';
 import footerShape02 from '@/assets/images/landing/images/footer_shape02.png';
+import { useTranslation } from 'react-i18next';
 
-type FooterProps = {
-  badge: string;
-  title: string;
-  copyright: string;
-};
+const Footer: React.FC = () => {
+  const { t } = useTranslation('landing');
 
-const Footer: React.FC<FooterProps> = ({ badge, title, copyright }) => {
   const socialLinks = [
     { icon: facebookIcon, url: '#!' },
     { icon: twitterIcon, url: '#!' },
@@ -32,11 +29,11 @@ const Footer: React.FC<FooterProps> = ({ badge, title, copyright }) => {
               <div className="footer__content">
                 <div className="footer__logo">
                   <a href="index.html">
-                    <img src={logo} alt="logo" />
+                    <img src={logo} alt="ComPay" />
                   </a>
                 </div>
-                <span className="sub-title">{badge}</span>
-                <h2 className="title">{title}</h2>
+                <span className="sub-title">{t('footer.badge')}</span>
+                <h2 className="title">{t('footer.title')}</h2>
                 <div className="team__social-wrap">
                   <ul className="list-wrap d-flex gap-3 justify-content-center">
                     {socialLinks.map((link, index) => (
@@ -61,7 +58,7 @@ const Footer: React.FC<FooterProps> = ({ badge, title, copyright }) => {
         </div>
         <div className="footer__bottom">
           <div className="copyright-text">
-            <p>{copyright}</p>
+            <p>© Compay, 2025 - 2026</p>
           </div>
         </div>
       </div>

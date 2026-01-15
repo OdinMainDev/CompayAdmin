@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/assets/scss/landing/main.scss';
-import { useTranslation } from 'react-i18next';
 import Header from '@/components/landing/Header';
 import Banner from '@/components/landing/Banner';
 import Features from '@/components/landing/Features';
@@ -15,7 +14,6 @@ import Footer from '@/components/landing/Footer';
 import PlatformCapabilities from '@/components/landing/PlatformCapabilities';
 
 export default function Landing() {
-  const { t } = useTranslation('landing');
 
   return (
     <>
@@ -33,11 +31,7 @@ export default function Landing() {
         <SectionDivider />
         <Roadmap />
       </main>
-      <Footer
-        badge={t('footer.badge')}
-        title={t('footer.title')}
-        copyright={t('footer.copyright')}
-      />
+      <Footer />
     </>
   );
 }
