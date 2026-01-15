@@ -14,7 +14,7 @@ const Features: React.FC = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
-  const { t } = useTranslation("landing");
+  const { t } = useTranslation('landing');
 
   const features = [
     {

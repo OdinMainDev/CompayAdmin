@@ -12,7 +12,7 @@ const FAQ: React.FC = () => {
 
   const [activeIndex, setActiveIndex] = useState<string>('0');
 
-  const { t } = useTranslation("landing");
+  const { t } = useTranslation('landing');
 
   const faqs = [
     {

@@ -32,7 +32,7 @@ const MarqueeItem = styled.h6`
 `;
 
 const Marquee: React.FC = () => {
-  const { t } = useTranslation("landing");
+  const { t } = useTranslation('landing');
   return (
     <section className="marquee__area section-pt-120">
       <MarqueeWrapper className="slider__marquee clearfix marquee-wrap">
