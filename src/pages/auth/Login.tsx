@@ -1,24 +1,21 @@
 import { useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/useAuth';
-import { getRoleFromToken } from '../../auth/authState';
 import SignInIllustration from '../../assets/volt/illustrations/signin.svg';
-import { authLogin, type LoginPayload } from '../../app/api/auth/login';
-import Cookies from 'js-cookie';
-import { COOKIE_AUTH_NAME } from '../../constants';
-import type { ApiError } from '../../app/api/request';
 import { useTranslation } from 'react-i18next';
 import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
 import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
+import { useAuthContext } from '../../app/api/auth/auth-context';
+import type { LoginRequest } from '../../app/api/types/auth';
+
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
   const { t } = useTranslation();
-  const [formData, setFormData] = useState<LoginPayload>({} as LoginPayload);
-  const [fieldErrors, setFieldErrors] = useState<ApiError>();
+  const [formData, setFormData] = useState<LoginRequest>({} as LoginRequest);
+
+  const { login, getRole, getFieldErrors } = useAuthContext();
 
   const sections: RawFormSection[] = [
     {
@@ -43,23 +40,14 @@ const LoginPage = () => {
   ];
 
   const handleSubmit = async () => {
-    setFieldErrors(undefined);
-    const response = await authLogin(formData);
-
-    if (!('success' in response) || !response.success) {
-      setFieldErrors(response as ApiError);
+    const response = await login(formData);
+    if (!response) {
       return;
     }
-
-    if (!response.token) {
-      return;
-    }
-
-    Cookies.set(COOKIE_AUTH_NAME, response.token);
-    login(response.token);
-    const role = getRoleFromToken(response.token);
+    const role = getRole();
     const redirectTo =
       (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname || '/panel/dashboard';
+
     navigate(role === 'admin' ? redirectTo : '/panel/dashboard', { replace: true });
   };
 
@@ -88,7 +76,7 @@ const LoginPage = () => {
                   setFormData={setFormData}
                   handleSubmit={handleSubmit}
                   submitLabel={t('login_page.submit')}
-                  fieldErrors={fieldErrors?.errors}
+                  fieldErrors={getFieldErrors()}
                 />
               </Card.Body>
             </Card>

@@ -21,7 +21,7 @@ export class ApiClient {
 
   async request<T, M extends Record<string, unknown> = Record<string, never>, B = unknown>(
     config: RequestConfig<B>
-  ): Promise<ApiResponse<T, M, string>> {
+  ): Promise<ApiResponse<T, M>> {
     const {
       url,
       method = 'GET',
@@ -92,7 +92,7 @@ export class ApiClient {
   get<T, M extends Record<string, unknown> = Record<string, never>>(
     url: string, 
     options: Omit<RequestOptions, 'method' | 'body'> = {}
-  ): Promise<ApiResponse<T, M, string>> {
+  ): Promise<ApiResponse<T, M>> {
     return this.request<T, M>({ ...options, url, method: 'GET' });
   }
 
@@ -100,7 +100,7 @@ export class ApiClient {
     url: string, 
     body: B,
     options: Omit<RequestOptions<B>, 'method'> = {}
-  ): Promise<ApiResponse<T, M, string>> {
+  ): Promise<ApiResponse<T, M>> {
     return this.request<T, M, B>({ ...options, url, method: 'POST', body });
   }
 
@@ -108,7 +108,7 @@ export class ApiClient {
     url: string, 
     body: B,
     options: Omit<RequestOptions<B>, 'method'> = {}
-  ): Promise<ApiResponse<T, M, string>> {
+  ): Promise<ApiResponse<T, M>> {
     return this.request<T, M, B>({ ...options, url, method: 'PUT', body });
   }
 
@@ -116,14 +116,14 @@ export class ApiClient {
     url: string, 
     body: B,
     options: Omit<RequestOptions<B>, 'method'> = {}
-  ): Promise<ApiResponse<T, M, string>> {
+  ): Promise<ApiResponse<T, M>> {
     return this.request<T, M, B>({ ...options, url, method: 'PATCH', body });
   }
 
   delete<T, M extends Record<string, unknown> = Record<string, never>>(
     url: string, 
     options: Omit<RequestOptions, 'method' | 'body'> = {}
-  ): Promise<ApiResponse<T, M, string>> {
+  ): Promise<ApiResponse<T, M>> {
     return this.request<T, M>({ ...options, url, method: 'DELETE' });
   }
 }

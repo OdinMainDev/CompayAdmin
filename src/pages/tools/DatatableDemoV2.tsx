@@ -1,152 +1,30 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Datatable, type DatatableColumn, type DatatableConfig } from '../../features/datatable-core';
 import PageHeader from '../../components/common/PageHeader';
-import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
-import { getUserListFilters, type GetUserListFiltersResponse, type UserRecord } from '../../app/api/user/get_list';
 import type { ApiDatatableQuery } from '../../features/datatable-core/domain/entities/DatatableQuery';
-import { postRequest, type ApiError } from '../../app/api/request';
 import type { IResponseList } from '../../features/datatable-core/domain/entities/DatatableResponse';
 import { formatTimestampWithTime } from '../../features/datatable-core/utils/helpers';
 import { useNavigate } from 'react-router-dom';
+import { useBackendFilters } from '../../app/api/hooks/useBackendFilters';
+import type { User } from '../../app/api/types/user';
 import { useUsers } from '../../app/api/hooks/useUsers';
-
-
 
 const DatatableDemoV2 = () => {
   const { t, i18n } = useTranslation();
   const [refreshKey, setRefreshKey] = useState(0); 
   const navigate = useNavigate();
 
-  const {
-    users,
-    isLoading,
-    error,
-    fetchUsers,
-    createUser,
-    deleteUser,
-    clearError,
-  } = useUsers();
-
   const refreshTable = useCallback(() => {
     setRefreshKey(prev => prev + 1); 
   }, []);
   
-
-  const [backendFilters, setBackendFilters] = useState<RawFormSection[]>([]);
-
-
-  const loadFilters = useCallback(async () => {
-    try {
-      const response = await getUserListFilters();
-      
-      if ('success' in response && response.success === false) {
-        console.error('Failed to load filters:', response);
-        return;
-      }
-      
-      const backendFiltersData = response as GetUserListFiltersResponse;
-      const transformFilterType = (type: string): string => {
-        switch (type.toLowerCase()) {
-          case 'integer':
-          case 'number':
-          case 'float':
-          case 'decimal':
-          case 'merchant_id':
-            return 'number';
-          case 'string':
-          case 'text':
-          case 'varchar':
-            return 'text';
-          case 'boolean':
-          case 'bool':
-            return 'select';
-          case 'list':
-            return 'select';
-          case 'date':
-          case 'datetime':
-          case 'timestamp':
-            return 'date-range';
-          case 'select':
-          case 'dropdown':
-          case 'enum':
-            return 'select';
-          case 'multiselect':
-            return 'multiselect';
-          case 'range':
-          case 'slider':
-            return 'range';
-          default:
-            return 'text';
-        }
-      };
-      
-      const formSections: RawFormSection[] = [
-        {
-          title: '',
-          fields: backendFiltersData.data.map(filter => {
-
-            const lowerType = filter.type.toLowerCase();
-
-            const baseField = {
-              name: filter.name,
-              label: t(filter.name), 
-              placeholder: t(filter.name), 
-              type: transformFilterType(filter.type)
-            };
-            
-            if (lowerType == 'bool' || lowerType == 'boolean') {
-              const options = [
-                {
-                  label: t("yes"),
-                  value: true,
-                },
-                {
-                  label: t("no"),
-                  value: false,
-                },
-              ];
-
-              return {
-                ...baseField,
-                options: options
-              };
-            }
-
-            if ((lowerType === 'list' || lowerType === 'select' || 
-                 lowerType === 'dropdown' || lowerType === 'enum' ||
-                 lowerType === 'multiselect') && 
-                filter.values && Array.isArray(filter.values)) {
-              
-              const options = filter.values.map(value => ({
-                label: String(value),
-                value: value
-              }));
-              
-              return {
-                ...baseField,
-                options: options
-              };
-            }
-            
-            return baseField;
-          })
-        }
-      ];
-      
-      setBackendFilters(formSections);
-      
-    } catch (error) {
-      console.error('Error loading filters:', error);
-    } 
-  }, [t]); 
-
-  useEffect(() => {
-    loadFilters();
-  }, [loadFilters]);   
+  const { filters } = useBackendFilters();
+  const { fetchUsers, deleteUser } = useUsers();
 
   const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-  const columns = useMemo<DatatableColumn<UserRecord>[]>(() => [
+
+  const columns = useMemo<DatatableColumn<User>[]>(() => [
     {
       id: 'id',
       field: 'id',
@@ -168,7 +46,7 @@ const DatatableDemoV2 = () => {
       filterable: true,
       visible: true,
       minWidth: 200,
-      render: (value: unknown, _: UserRecord) => (
+      render: (value: unknown, _: User) => (
         <span className="text-truncate" title={String(value)}>
           {String(value)}
         </span>
@@ -185,7 +63,7 @@ const DatatableDemoV2 = () => {
       filterable: true,
       visible: true,
       width: 120,
-      render: (value: unknown, _: UserRecord) => {
+      render: (value: unknown, _: User) => {
         const isBanned = Boolean(value);
         const status = isBanned ? 'blocked' : 'active';
         return (
@@ -213,7 +91,7 @@ const DatatableDemoV2 = () => {
       visible: true,
       width: 80,
       align: 'center',
-      render: (value: unknown, _: UserRecord) => (
+      render: (value: unknown, _: User) => (
         <span className={`badge bg-${value ? 'success' : 'secondary'}`}>
           {value ? t('datatable_demo.status.enabled') : t('datatable_demo.status.disabled')}
         </span>
@@ -235,7 +113,7 @@ const DatatableDemoV2 = () => {
       visible: false,
       width: 120,
       align: 'center',
-      render: (value: unknown, _: UserRecord) => (
+      render: (value: unknown, _: User) => (
         <span>{String(value)}</span>
       ),
       filter: {
@@ -250,7 +128,7 @@ const DatatableDemoV2 = () => {
       filterable: true,
       visible: true,
       width: 120,
-      render: (value: unknown, _: UserRecord) => formatTimestampWithTime(value, locale),
+      render: (value: unknown, _: User) => formatTimestampWithTime(value, locale),
     },
     {
       id: 'updated_at',
@@ -260,14 +138,14 @@ const DatatableDemoV2 = () => {
       filterable: true,
       visible: false,
       width: 150,
-      render: (value: unknown, _: UserRecord) => formatTimestampWithTime(value, locale),
+      render: (value: unknown, _: User) => formatTimestampWithTime(value, locale),
       filter: {
         type: 'date',
       }
     },
   ], [t, locale]);
 
-  const config = useMemo<DatatableConfig<UserRecord>>(() => ({
+  const config = useMemo<DatatableConfig<User>>(() => ({
     id: 'users-table',
     dataSource: async (query: ApiDatatableQuery) => {
 
@@ -282,37 +160,19 @@ const DatatableDemoV2 = () => {
       }, {} as Record<string, unknown>);
 
       try {
-        const response = await postRequest<IResponseList<UserRecord> | ApiError>(
-          '/api/panel/admin/dev/users/list',
+
+        const response = await fetchUsers(
           {
-            isAuth: true,
-            body: {
               length: query.length,
               start: query.start,
               order_column: query.order_column,
               order_direction: query.order_direction,
               filters: filtersObject
             }
-          }
         );
-        
-        if ('success' in response && response.success === false) {
-          const errorResponse: IResponseList<UserRecord> = {
-            success: false,
-            data: {
-              data: [], 
-              recordsCount: 0,
-              recordsFiltered: 0,
-              recordsTotal: 0
-            }
-          };
-          return errorResponse;
-        }
-        
-        return response as IResponseList<UserRecord>;
-        
+        return response;
       } catch (error) {
-        const errorResponse: IResponseList<UserRecord> = {
+        const errorResponse: IResponseList<User> = {
           success: false,
           data: {
             data: [],
@@ -325,7 +185,7 @@ const DatatableDemoV2 = () => {
       }
     },
     columns,
-    filterForm: backendFilters,
+    filterForm: filters,
     title: t('datatable_demo.table.title'),
     subtitle: t('datatable_demo.table.subtitle'),
     pagination: {
@@ -373,13 +233,13 @@ const DatatableDemoV2 = () => {
       columnVisibility: true
     },
     events: {
-      onRowClick: (row: UserRecord, _: React.MouseEvent) => {
+      onRowClick: (row: User, _: React.MouseEvent) => {
         console.log('Row clicked:', row);
       },
-      onRowDoubleClick: (row: UserRecord, _: React.MouseEvent) => {
+      onRowDoubleClick: (row: User, _: React.MouseEvent) => {
         console.log('Row double clicked:', row);
       },
-      onSelectionChange: (selected: UserRecord[]) => {
+      onSelectionChange: (selected: User[]) => {
         console.log('Selection changed:', selected.length);
       },
     },
@@ -410,7 +270,7 @@ const DatatableDemoV2 = () => {
         icon: <i className="fas fa-edit"></i>,
         variant: 'primary',
         position: 'row',
-        handler: (params: { currentRow?: UserRecord }) => {
+        handler: (params: { currentRow?: User }) => {
            if (!params.currentRow) return;
            const userId = params.currentRow.id;
            navigate(`/panel/admin/user-edit/${userId}`);
@@ -428,7 +288,7 @@ const DatatableDemoV2 = () => {
           confirmText: t('datatable_demo.confirm.delete_confirm'),
           cancelText: t('datatable_demo.confirm.delete_cancel')
         },
-        handler: async ({ currentRow }: { currentRow?: UserRecord }) => {
+        handler: async ({ currentRow }: { currentRow?: User }) => {
           if (!currentRow?.id) return;
           
           const confirmed = window.confirm(
@@ -438,15 +298,9 @@ const DatatableDemoV2 = () => {
           if (!confirmed) return;
           
           try {
-            const response = await postRequest<{ success: boolean }>(
-              '/api/panel/admin/dev/users/delete',
-              {
-                isAuth: true,
-                body: { id: currentRow.id }
-              }
-            );
-            
-            if (response.success) {
+            const response = await deleteUser(currentRow.id);
+
+            if (response) {
               alert('User deleted successfully');
               refreshTable();
             } else {
@@ -459,7 +313,7 @@ const DatatableDemoV2 = () => {
         }
       }
     ]
-  }), [columns, backendFilters, t]);
+  }), [columns, filters, t]);
 
   return (
     <>

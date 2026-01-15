@@ -1,9 +1,9 @@
 import type { ApiError, SuccessResponse } from './core';
 
-export interface LoginRequest {
-  readonly email: string;
-  readonly password: string;
-}
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
 
 export interface TotpRequest {
   readonly code: string;
@@ -22,18 +22,10 @@ export interface LegacyLoginResponseData {
   };
 }
 
-export interface LoginResponseDataV2 {
+export type LoginResponse = {
+  readonly success: boolean;
   readonly token: string;
-  readonly user: {
-    readonly id: number;
-    readonly username: string;
-    readonly is_admin: boolean;
-    readonly merchant_id: number | null;
-  };
-}
-
-export type LoginResponseData = LegacyLoginResponseData | LoginResponseDataV2;
-export type LoginResponse = SuccessResponse<LoginResponseData>;
+};
 
 export interface TotpResponseData {
   readonly token: string;
@@ -46,23 +38,8 @@ export interface LogoutResponseData {
 }
 export type LogoutResponse = SuccessResponse<LogoutResponseData>;
 
-export interface VerifyTokenResponseData {
-  readonly valid: boolean;
-  readonly user?: LoginResponseDataV2['user'];
-}
-export type VerifyTokenResponse = SuccessResponse<VerifyTokenResponseData>;
 
-export type AuthErrorType = 
-  | 'INVALID_CREDENTIALS'
-  | 'ACCOUNT_LOCKED'
-  | 'TOTP_REQUIRED'
-  | 'TOTP_INVALID'
-  | 'TOTP_EXPIRED'
-  | 'TOKEN_EXPIRED'
-  | 'UNAUTHORIZED'
-  | 'NETWORK_ERROR';
-
-export type AuthError = ApiError<AuthErrorType>;
+export type AuthError = ApiError;
 
 export interface AuthUser {
   readonly id: number;
@@ -71,4 +48,4 @@ export interface AuthUser {
   readonly merchant_id: number | null;
 }
 
-export type UserRole = 'admin' | 'user';
+export type UserRole = 'admin' | 'merchant';

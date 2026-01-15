@@ -16,11 +16,11 @@ import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { Col, Button, Dropdown, Row, Image, ListGroup, Nav, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { useAuth } from '../../auth/useAuth';
 import Avatar from '../../assets/volt/team/profile-picture-1.jpg';
 import ProfileAvatar from '../../assets/images/profile/ava.svg';
 import { changeLanguage } from '../../i18n';
 import { I18N_DEFAULT_LANGUAGE, I18N_LANGUAGES, I18N_STORAGE_KEY, type I18NLanguage } from '../../constants';
+import { useAuthContext } from '../../app/api/auth/auth-context';
 
 const isLang = (v: unknown): v is I18NLanguage =>
   typeof v === 'string' && (I18N_LANGUAGES as readonly string[]).includes(v);
@@ -73,7 +73,7 @@ const LANG_UI: Record<I18NLanguage, { label: string; Flag: React.FC<{ className?
 };
 
 const Topbar = () => {
-  const { logout, user } = useAuth();
+  const { logout, user } = useAuthContext();
   const { i18n } = useTranslation();
 
   const notifications = useMemo(

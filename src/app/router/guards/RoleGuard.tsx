@@ -1,8 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../../auth/useAuth';
-import { useRole } from '../../../auth/useRole';
 import NotFound from '../../../pages/errors/NotFound';
 import type { ReactNode } from 'react';
+import { useAuthContext } from '../../api/auth/auth-context';
 
 export interface GuardProps {
     children: ReactNode;
@@ -13,15 +12,16 @@ export interface GuardProps {
 export type GuardComponent = React.ComponentType<GuardProps>;
 
 const RoleGuard = ({ children, roles }: GuardProps) => {
-  const { isAuthenticated } = useAuth();
+  const { getRole, isAuthenticated } = useAuthContext();
   const location = useLocation();
-  const role = useRole();
+
+  const role = getRole();
 
   if (!isAuthenticated) {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  if (roles && roles.length > 0 && !roles.includes(role)) {
+  if (role && roles && roles.length > 0 && !roles.includes(role)) {
     return <NotFound />;
   }
 

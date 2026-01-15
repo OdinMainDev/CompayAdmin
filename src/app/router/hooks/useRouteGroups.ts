@@ -1,43 +1,42 @@
 import { useMemo } from "react";
-import { useRole } from "../../../auth/useRole";
 import type { RouteConfig } from "../types";
 import { routeConfigs } from "../config/routes";
-
+import { useAuthContext } from "../../api/auth/auth-context";
 
 export const getPanelRoutes = (configs: RouteConfig[]) => {
   return configs.find(config => config.path === '/panel' || config.id.includes('panel'));
 };
 
 export const useRouteGroups = () => {
-    const role = useRole();
-    
-    return useMemo(() => {
-        const panelConfig = getPanelRoutes(routeConfigs);
-    
-        if (!panelConfig) return null;
-        
-        const filteredPanel = { ...panelConfig };
-        
-        if (filteredPanel.children) {
-          filteredPanel.children = filteredPanel.children.filter(route => {
-            if (!route.meta?.roles) return true;
-            return role && route.meta.roles.includes(role);
-          });
-          
-          const filterNestedChildren = (routes: RouteConfig[]): RouteConfig[] => {
-            return routes.map(route => {
-              const filteredRoute = { ...route };
-              if (filteredRoute.children) {
-                filteredRoute.children = filterNestedChildren(filteredRoute.children);
-              }
-              return filteredRoute;
-            });
-          };
-          
-          filteredPanel.children = filterNestedChildren(filteredPanel.children);
-        }
-        
-        return filteredPanel;
-    }, [role]);
-  };
-  
+  const { getRole } = useAuthContext();
+  const role = getRole();
+
+  return useMemo(() => {
+    const panelConfig = getPanelRoutes(routeConfigs);
+    if (!panelConfig) return null;
+
+    const filteredPanel = { ...panelConfig };
+
+    if (filteredPanel.children) {
+      filteredPanel.children = filteredPanel.children.filter(route => {
+        const roleAllowed = !route.meta?.roles || (role && route.meta.roles.includes(role));
+        const visibleInMenu = !route.meta?.hideInMenu;
+        return roleAllowed && visibleInMenu;
+      });
+
+      const filterNestedChildren = (routes: RouteConfig[]): RouteConfig[] => {
+        return routes.map(route => {
+          const filteredRoute = { ...route };
+          if (filteredRoute.children) {
+            filteredRoute.children = filterNestedChildren(filteredRoute.children);
+          }
+          return filteredRoute;
+        });
+      };
+
+      filteredPanel.children = filterNestedChildren(filteredPanel.children);
+    }
+
+    return filteredPanel;
+  }, [role]);
+};

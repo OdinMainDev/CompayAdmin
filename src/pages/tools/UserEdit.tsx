@@ -10,10 +10,7 @@ const UserEdit = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
-
   const { selectedUser, searchMerchants, fetchUser, updateUser, merchants, getFieldErrors } = useUsers();
-
   const [formData, setFormData] = useState<Record<string, unknown>>({});
 
   useEffect(() => {

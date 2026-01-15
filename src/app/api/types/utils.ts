@@ -1,14 +1,5 @@
 import type { ApiError, SuccessResponse, TypeGuard } from './core';
 
-export const isApiError = <E extends string = string>(val: unknown): val is ApiError<E> => {
-  if (!val || typeof val !== 'object') return false;
-  
-  const candidate = val as Record<string, unknown>;
-  return (
-    candidate.success === false || 
-    typeof candidate.error === 'string'
-  );
-};
 
 export const isSuccessResponse = <T, M extends Record<string, unknown>>(
   val: unknown

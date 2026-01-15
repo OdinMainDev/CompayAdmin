@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../../auth/useAuth';
+import { useAuthContext } from '../api/auth/auth-context';
 
 const AuthMiddleware = () => {
-  const { refreshUser } = useAuth();
+  const { refreshUser } = useAuthContext();
   const location = useLocation();
 
   useEffect(() => {

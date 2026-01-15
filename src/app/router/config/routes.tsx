@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom';
 import { faChartPie, faScrewdriverWrench, faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import UserEdit from '../../../pages/tools/UserEdit';
 
-// const Landing  = lazy(() => import('../../../pages/landing/LandingPage'));
 const Landing2 = lazy(() => import('../../../pages/landing/Landing'));
 const Login = lazy(() => import('../../../pages/auth/Login'));
 const Totp = lazy(() => import('../../../pages/auth/Totp'));
@@ -18,6 +17,7 @@ const DashboardLayout = lazy(() => import('../../../components/layouts/Dashboard
 
 const AuthGuard = lazy(() => import('../guards/AuthGuard'));
 const RoleGuard = lazy(() => import('../guards/RoleGuard'));
+const GuestGuard = lazy(() => import('../guards/GuestGuard'));
 
 const Landing = lazy(() => import('../../../pages/landing/LandingPage').then(module => ({
   default: module.default
@@ -38,6 +38,7 @@ export const routeConfigs: RouteConfig[] = [
   {
     id: "login",
     path: "/auth/login",
+    guard: GuestGuard,
     component: Login,
   },
   {
@@ -90,6 +91,7 @@ export const routeConfigs: RouteConfig[] = [
           label: "User edit",
           roles: ["admin"],
           icon: faUserEdit,
+          hideInMenu: true, 
         },
       },
       {

@@ -1,27 +1,19 @@
 import Cookies from 'js-cookie';
 import { apiClient } from '../client';
-import { ToastService } from '../toastService';
 import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../../../constants';
-import { isApiError } from '../types/utils';
 import { 
-  mapToAuthError, 
-  isLegacyResponse, 
-  getTokenFromResponse, 
-  getUserFromResponse,
   decodeJwtToken 
 } from '../types/auth-utils';
 import type { 
   LoginRequest, 
   LoginResponse, 
-  TotpRequest, 
-  TotpResponse,
   LogoutResponse,
-  VerifyTokenResponse,
   AuthError,
   AuthUser,
   UserRole 
 } from '../types/auth';
 import type { RequestOptions } from '../types/request';
+import type { ApiError } from '../types/core';
 
 export class AuthService {
   private static readonly ENDPOINTS = {
@@ -72,18 +64,27 @@ export class AuthService {
   }
 
   static getRoleFromToken(): UserRole | null {
-    const user = this.getUserFromToken();
-    if (!user) return null;
-    
-    return user.is_admin ? 'admin' : 'user';
+    try {
+      const payload = this.getToken()?.split(".")?.[1];
+      if (!payload) return "merchant";
+      const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const padded = normalized.padEnd(
+        normalized.length + ((4 - (normalized.length % 4)) % 4),
+        "="
+      );
+      const decoded = JSON.parse(atob(padded));
+      return decoded?.isa === true ? "admin" : "merchant";
+    } catch {
+      return "merchant";
+    }
   }
 
   static async login(
     credentials: LoginRequest,
     options: Omit<RequestOptions<LoginRequest>, 'method' | 'body'> = {}
-  ): Promise<LoginResponse | AuthError> {
+  ): Promise<LoginResponse | ApiError> {
     try {
-      const response = await apiClient.post<LoginResponse['data'], never, LoginRequest>(
+      const response = await apiClient.post<LoginResponse>(
         this.ENDPOINTS.LOGIN,
         credentials,
         { 
@@ -93,79 +94,20 @@ export class AuthService {
         }
       );
 
-      if (isApiError<string>(response)) {
-        return mapToAuthError(response);
+      if (!response.success) {
+        return response;
       }
 
-      const data = response.data;
-      const token = getTokenFromResponse(data);
-      const user = getUserFromResponse(data);
-
-      if (!token) {
-        if (isLegacyResponse(data) && !data.success) {
-          return mapToAuthError({ 
-            success: false, 
-            error: data.error || 'INVALID_CREDENTIALS',
-            errors: data.errors 
-          });
-        }
-        
-        return mapToAuthError(new Error('No token received'));
-      }
-
+      const token = response.data.token;
       this.saveToken(token);
 
-      const normalizedData = {
-        token,
-        user: user || this.getUserFromToken() || {
-          id: 0,
-          username: '',
-          is_admin: false,
-          merchant_id: null,
-        },
-      };
-
-      ToastService.success('Login successful');
-      
+      return response.data;
+    } catch (error) {
       return {
-        success: true,
-        data: normalizedData,
-      };
-
-    } catch (error) {
-      const authError = mapToAuthError(error);
-      ToastService.error('Network error occurred');
-      return authError;
-    }
-  }
-
-  static async verifyTotp(
-    code: string,
-    options: Omit<RequestOptions<TotpRequest>, 'method' | 'body'> = {}
-  ): Promise<TotpResponse | AuthError> {
-    const request: TotpRequest = { code };
-
-    try {
-      const response = await apiClient.post<TotpResponse['data'], never, TotpRequest>(
-        this.ENDPOINTS.TOTP,
-        request,
-        { 
-          ...options, 
-          isAuth: true,
-          hasToast: options.hasToast ?? true,
-        }
-      );
-
-      if (isApiError<string>(response)) {
-        return mapToAuthError(response);
-      }
-
-      this.saveToken(response.data.token);
-
-      return response;
-
-    } catch (error) {
-      return mapToAuthError(error);
+        success: false,
+        message: 'Login failed',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      } as ApiError;
     }
   }
 
@@ -182,44 +124,18 @@ export class AuthService {
         }
       );
 
-      if (isApiError<string>(response)) {
-        return mapToAuthError(response);
-      }
-
       this.clearToken();
-
-      ToastService.success('Logged out successfully');
       return response;
-
     } catch (error) {
       this.clearToken();
-      return mapToAuthError(error);
+      return {
+        success: false,
+        message: 'Logout error',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      } as ApiError;
     }
   }
 
-  static async verifyToken(
-    options: Omit<RequestOptions, 'method' | 'body'> = {}
-  ): Promise<VerifyTokenResponse | AuthError> {
-    try {
-      const response = await apiClient.get<VerifyTokenResponse['data']>(
-        this.ENDPOINTS.VERIFY,
-        { 
-          ...options, 
-          isAuth: true,
-          hasToast: options.hasToast ?? false,
-        }
-      );
-
-      if (isApiError<string>(response)) {
-        return mapToAuthError(response);
-      }
-
-      return response;
-
-    } catch (error) {
-      return mapToAuthError(error);
-    }
-  }
 
   static async checkAuthStatus(): Promise<{
     isAuthenticated: boolean;
@@ -234,20 +150,10 @@ export class AuthService {
       };
     }
 
-    const result = await this.verifyToken({ hasToast: false });
-
-    if (isApiError(result)) {
-      this.clearToken();
-      return {
-        isAuthenticated: false,
-        user: null,
-        error: result,
-      };
-    }
-
+    // verify if needed
     return {
       isAuthenticated: true,
-      user: result.data.user || this.getUserFromToken(),
+      user: this.getUserFromToken(),
       error: null,
     };
   }

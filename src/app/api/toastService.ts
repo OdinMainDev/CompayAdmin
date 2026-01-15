@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import { toast, type ToastContent, type ToastOptions } from "react-toastify";
 import type { ApiError, SuccessResponse } from "./types/core";
+import { isApiError } from './responseHandler';
 
 export interface ToastConfig {
   readonly success?: string;
@@ -24,11 +25,7 @@ export class ToastService {
     } as const,
   };
 
-  static isApiError<T, M extends Record<string, unknown>>(
-    response: SuccessResponse<T, M> | ApiError
-  ): response is ApiError {
-    return response && typeof response === 'object' && response.success === false;
-  }
+
 
   static async withToast<T, M extends Record<string, unknown>>(
     promise: Promise<SuccessResponse<T, M> | ApiError>,
@@ -37,10 +34,9 @@ export class ToastService {
     const mergedConfig = { ...this.DEFAULT_CONFIG, ...config };
 
     try {
-      debugger;
       const result = await promise;
 
-      if (ToastService.isApiError(result)) {
+      if (isApiError(result)) {
         const errorMessage = result.error || mergedConfig.error;
         toast.error(errorMessage as ToastContent, mergedConfig.options);
         return result;

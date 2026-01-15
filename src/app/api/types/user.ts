@@ -1,4 +1,15 @@
-import type { Merchant } from "./entities";
+export interface Merchant {
+  readonly id: number;
+  readonly created_at: number;
+  readonly updated_at: number;
+  readonly name: string;
+  readonly token: string;
+  readonly is_enabled: boolean;
+  readonly settings: {
+    blocked_countries: string[] | null;
+    allowed_countries: string[] | null;
+  };
+}
 
 export interface User {
   readonly id: number;
@@ -12,18 +23,11 @@ export interface User {
 }
 
 export interface UserListRequest {
-  id?: number;
-  merchant_id?: number;
-  username?: string;
-  is_banned?: boolean;
-  created_at?: string | { start?: string; end?: string };
-  draw?: number;
-  start?: number;
   length?: number;
-  order?: Array<{
-    column: number;
-    dir: "asc" | "desc";
-  }>;
+  start?: number;
+  order_column?: string;
+  order_direction?: string;
+  filters?: Record<string, unknown>
 }
 
 export interface UserCreateRequest {
@@ -58,8 +62,6 @@ export interface UsersListResponse {
     readonly recordsFiltered?: number;
   };
 }
-
-
 
 
 export interface MerchantsSearchResponse {

@@ -1,10 +1,16 @@
 import { handleAuthError, redirectTo } from './config';
-import { isApiError, isSuccessResponse } from './types/utils';
 import type { ApiError, SuccessResponse } from './types/core';
+import { isSuccessResponse } from './types/utils';
 
-export class ApiResponseError<T extends string = string> extends Error {
+export function isApiError<T, M extends Record<string, unknown>>(
+    response: SuccessResponse<T, M> | ApiError
+  ): response is ApiError {
+    return response && typeof response === 'object' && response.success === false;
+  }
+
+export class ApiResponseError extends Error {
   constructor(
-    public readonly error: ApiError<T>,
+    public readonly error: ApiError,
     public readonly status: number
   ) {
     super(error.error);
@@ -28,19 +34,24 @@ export class TimeoutError extends Error {
 
 export const handleResponse = async <T, M extends Record<string, unknown>>(
   response: Response
-): Promise<SuccessResponse<T, M> | ApiError<string>> => {
+): Promise<SuccessResponse<T, M> | ApiError> => {
   const text = await response.text();
-  let parsed: unknown;
+  let parsed: ApiError | SuccessResponse<unknown, Record<string, unknown>>;
   
   try {
     parsed = text ? JSON.parse(text) : null;
   } catch {
-    parsed = null;
+    parsed = {
+      success: false,
+      error: `Request failed with status ${response.status}`,
+      errors: {},
+    };
   }
 
   if (!response.ok) {
-    const errorData: ApiError<string> = isApiError(parsed) 
-      ? parsed 
+    const error = parsed as ApiError;
+    const errorData: ApiError = isApiError(error) 
+      ? error 
       : { 
           success: false, 
           error: `Request failed with status ${response.status}`,
