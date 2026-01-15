@@ -51,7 +51,13 @@
     "subtitle": "Compay helps online stores accept crypto and instantly convert it to stable currencies. No own blockchain infrastructure or heavy support.",
     "cta": "Connect Compay",
     "counterTitle": "Relaunching billing in:",
-    "received": "$49,222,300 processed in 2024"
+    "received": "$49,222,300 processed in 2024",
+    "countdown": {
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds"
+    }
   },
   "work": {
     "badge": "how it works",
