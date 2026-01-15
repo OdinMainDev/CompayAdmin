@@ -7,42 +7,44 @@ import featuresIcon03 from '@/assets/images/landing/icon/features_icon03.png';
 import featuresIcon04 from '@/assets/images/landing/icon/features_icon04.png';
 import featuresIcon05 from '@/assets/images/landing/icon/features_icon05.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { useTranslation } from 'react-i18next';
 
 const Features: React.FC = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { t } = useTranslation("landing");
 
   const features = [
     {
       icon: featuresIcon01,
-      title: 'Crypto <span>management</span>',
-      description: 'Automated identity verification and anti-money',
+      title:  t('features.items.accept.title'),
+      description: t('features.items.accept.desc'),
       colClass: 'col-lg-6'
     },
     {
       icon: featuresIcon02,
-      title: 'Crypto <span>exchange</span>',
-      description: 'A built-in explorer to track transactions',
+      title: t('features.items.convert.title'),
+      description: t('features.items.convert.desc'),
       colClass: 'col-lg-6'
     },
     {
       icon: featuresIcon03,
-      title: 'Real-time <span>data</span>',
-      description: 'Global reach with content available in multiple',
+      title: t('features.items.realtime.title'),
+      description: t('features.items.realtime.desc'),
       colClass: 'col-lg-4'
     },
     {
       icon: featuresIcon04,
-      title: 'Advanced <span>trading</span>',
-      description: 'Visual dashboards for trade performance',
+      title: t('features.items.risk.title'),
+      description: t('features.items.risk.desc'),
       colClass: 'col-lg-4'
     },
     {
       icon: featuresIcon05,
-      title: 'Blockchain <span>compliance</span>',
-      description: 'Exportable reports for tax and accounting purposes',
+      title: t('features.items.aml.title'),
+      description: t('features.items.aml.desc'),
       colClass: 'col-lg-4'
     },
   ];
@@ -53,9 +55,9 @@ const Features: React.FC = () => {
         <div className="row justify-content-center">
           <div className="col-lg-6">
             <div className="section__title text-center mb-80">
-              <span className="sub-title">accessible for everyone</span>
+              <span className="sub-title">{t('features.badge')}</span>
               <h2 className="title">
-                Crypto <span>development</span> accessible
+                {t('features.title')}
               </h2>
             </div>
           </div>

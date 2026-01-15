@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import faqImg from '@/assets/images/landing/images/faq_img.png';
+import { useTranslation } from 'react-i18next';
 
 const FAQ: React.FC = () => {
   const [ref, inView] = useInView({
@@ -11,18 +12,20 @@ const FAQ: React.FC = () => {
 
   const [activeIndex, setActiveIndex] = useState<string>('0');
 
+  const { t } = useTranslation("landing");
+
   const faqs = [
     {
-      question: 'Main purpose of a cryptocurrency',
-      answer: 'The private key, stored securely in the wallet, allows you to sign transactions and prove ownership of the funds cryptocurrency wallet.',
+      question: t('faq.items.q1.question'),
+      answer: t('faq.items.q1.answer'),
     },
     {
-      question: 'How can I make refund?',
-      answer: 'The private key, stored securely in the wallet, allows you to sign transactions and prove ownership of the funds cryptocurrency wallet.',
+      question: t('faq.items.q2.question'),
+      answer: t('faq.items.q2.answer'),
     },
     {
-      question: 'How do they operate on blockchain?',
-      answer: 'The private key, stored securely in the wallet, allows you to sign transactions and prove ownership of the funds cryptocurrency wallet.',
+      question: t('faq.items.q3.question'),
+      answer: t('faq.items.q3.answer'),
     },
   ];
 
@@ -49,9 +52,9 @@ const FAQ: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <div className="section__title mb-60">
-                <span className="sub-title">faq & ans</span>
+                <span className="sub-title">FAQ</span>
                 <h2 className="title">
-                  Get every <span>single</span> <br /> answer
+                  {t('faq.title')} <span>{t('faq.title_2')}</span> <br /> {t('faq.title_3')}
                 </h2>
               </div>
               <div className="faq__wrap">

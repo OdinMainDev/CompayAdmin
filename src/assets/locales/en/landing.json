@@ -48,27 +48,21 @@
   "token": {
     "badge": "for developers and no-code",
     "title": "Crypto-processing platform for your website",
-    "titleHtml": "Crypto-processing <span>platform</span> <br> for your website",
     "subtitle": "Compay helps online stores accept crypto and instantly convert it to stable currencies. No own blockchain infrastructure or heavy support.",
     "cta": "Connect Compay",
     "counterTitle": "Relaunching billing in:",
-    "received": "$49,222,300 processed in 2024",
-    "receivedHtml": "Processed <span>$49,222,300</span> in 2024",
-    "rangeStart": "$1M",
-    "rangeEnd": "$100M",
-    "copy": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
-    "progressLabel": "Turnover progress"
+    "received": "$49,222,300 processed in 2024"
   },
   "work": {
     "badge": "how it works",
     "title": "How Compay enables crypto payments",
     "steps": {
       "one": {
-        "title": "Create a Compay account",
+        "title": "Create account",
         "desc": "Fast business verification and merchant setup."
       },
       "two": {
-        "title": "Connect your site or app",
+        "title": "Complete integration",
         "desc": "Checkout page, widget or API/SDK — choose the way you like."
       },
       "three": {
@@ -87,28 +81,23 @@
     "titleHighlight": "availability",
     "desc": "99.9% uptime, backup nodes and anti-fraud in every transaction."
   },
-  "products": {
+  "platform_capabilities": {
     "badge": "compay products",
     "title": "Tools to accept crypto payments.",
-    "titleHtml": "Tools to <span>accept crypto</span> <br> payments.",
     "docs": {
       "title": "API Documentation",
-      "titleHtml": "API <span>Documentation</span>",
       "cta": "Open docs"
     },
     "pricing": {
       "title": "Fees from 0.4%",
-      "titleHtml": "Fees from <span>0.4%</span>",
       "cta": "Calculate pricing"
     },
     "support": {
       "title": "Support 24/7",
-      "titleHtml": "Support <span>24/7</span>",
       "cta": "Message on Telegram"
     }
   },
   "faq": {
-    "badge": "faq",
     "title": "Answering frequent",
     "title_2": "frequent",
     "title_3": "questions",

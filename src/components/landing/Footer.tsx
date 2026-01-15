@@ -9,7 +9,13 @@ import iconsBg from '@/assets/images/landing/icon/icons_bg.svg';
 import footerShape01 from '@/assets/images/landing/images/footer_shape01.png';
 import footerShape02 from '@/assets/images/landing/images/footer_shape02.png';
 
-const Footer: React.FC = () => {
+type FooterProps = {
+  badge: string;
+  title: string;
+  copyright: string;
+};
+
+const Footer: React.FC<FooterProps> = ({ badge, title, copyright }) => {
   const socialLinks = [
     { icon: facebookIcon, url: '#!' },
     { icon: twitterIcon, url: '#!' },
@@ -29,10 +35,8 @@ const Footer: React.FC = () => {
                     <img src={logo} alt="logo" />
                   </a>
                 </div>
-                <span className="sub-title">Built on web3. Powered by You</span>
-                <h2 className="title">
-                  Join with our <span>future</span> of Webzo currency
-                </h2>
+                <span className="sub-title">{badge}</span>
+                <h2 className="title">{title}</h2>
                 <div className="team__social-wrap">
                   <ul className="list-wrap d-flex gap-3 justify-content-center">
                     {socialLinks.map((link, index) => (
@@ -57,13 +61,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="footer__bottom">
           <div className="copyright-text">
-            <p>
-              Copyright & design by{' '}
-              <a href="https://themeforest.net/user/themeadapt" target="_blank" rel="noopener noreferrer">
-                @ThemeAdapt
-              </a>{' '}
-              - 2025
-            </p>
+            <p>{copyright}</p>
           </div>
         </div>
       </div>

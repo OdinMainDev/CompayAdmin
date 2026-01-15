@@ -6,12 +6,15 @@ import exchangeIcon01 from '@/assets/images/landing/icon/exchange_icon01.svg';
 import exchangeIcon02 from '@/assets/images/landing/icon/exchange_icon02.svg';
 import exchangeIcon03 from '@/assets/images/landing/icon/exchange_icon03.svg';
 import exchangeIcon04 from '@/assets/images/landing/icon/exchange_icon04.svg';
+import { useTranslation } from 'react-i18next';
 
 const Exchange: React.FC = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const { t } = useTranslation("landing");
 
   const icons = [
     exchangeIcon01,
@@ -36,9 +39,9 @@ const Exchange: React.FC = () => {
             </div>
             <div className="content">
               <h4 className="title">
-                Exchange <span>availability</span>
+                {t('uptime.titlePrefix')} <span>{t('uptime.titleHighlight')}</span>
               </h4>
-              <p>AI-powered tools to detect and prevent fraudulent activities.</p>
+              <p>{t('uptime.desc')}</p>
             </div>
           </div>
           <div className="exchange__icons">

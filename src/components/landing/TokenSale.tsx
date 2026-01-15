@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import copySvg from '@/assets/images/landing/icon/copy.svg';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { useTranslation } from 'react-i18next';
 
 interface TimeLeft {
   days: number;
@@ -25,6 +26,8 @@ const TokenSale: React.FC = () => {
    });
 
   const [copied, setCopied] = useState(false);
+
+  const { t } = useTranslation('landing');
 
   useEffect(() => {
     const targetDate = new Date('2026-12-30T23:59:59').getTime();
@@ -66,16 +69,16 @@ const TokenSale: React.FC = () => {
               ref={ref}
             >
               <div className="section__title mb-40">
-                <span className="sub-title">accessible for everyone</span>
+                <span className="sub-title">{t('token.badge')}</span>
                 <h2 className="title">
-                  Trading <span>platform</span> <br /> of the future!
+                  {t('token.title')}
                 </h2>
               </div>
               <p>
-                Webzi brings our love for cryptocurrency into Web3! Like a frog’s leap, the chart can jump at any moment. Boom!
+                {t('token.subtitle')}
               </p>
               <a href="#!" className="tg-btn tg-btn-two">
-                purchase now
+                {t('token.cta')}
               </a>
             </motion.div>
           </div>
@@ -87,34 +90,34 @@ const TokenSale: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <div className="token__wrap-inner">
-                <h4 className="title">Token sale ends in:</h4>
+                <h4 className="title">{t('token.counterTitle')}</h4>
                 <div className="countdown__wrap">
                   <div className="coming-time d-flex gap-3 justify-content-center">
                     <div className="time-count day">
                       <span>{timeLeft.days}</span>
-                      Days
+                      {t('token.countdown.days')}
                     </div>
                     <div className="time-count hour">
                       <span>{timeLeft.hours}</span>
-                      hour
+                      {t('token.countdown.hours')}
                     </div>
                     <div className="time-count min">
                       <span>{timeLeft.minutes}</span>
-                      minute
+                      {t('token.countdown.minutes')}
                     </div>
                     <div className="time-count sec">
                       <span>{timeLeft.seconds}</span>
-                      second
+                      {t('token.countdown.seconds')}
                     </div>
                   </div>
                 </div>
                 <h3 className="token__received">
-                  <span>$49,222,300</span> contribution received
+                  {t('token.received')}
                 </h3>
                 <div className="token__progress-wrap">
                   <ul className="list-wrap token__progress-title d-flex justify-content-between mb-2">
-                    <li>$5M</li>
-                    <li>$99M</li>
+                    <li>$1M</li>
+                    <li>$100M</li>
                   </ul>
                   <div className="progress token__progress-bar">
                     <div className="progress-bar" role="progressbar" style={{ width: '50%' }} aria-valuenow={50} aria-valuemin={0} aria-valuemax={100}></div>

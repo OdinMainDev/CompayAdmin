@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import workImg from '@/assets/images/landing/images/work_img.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { useTranslation } from 'react-i18next';
 
 const HowItWorks: React.FC = () => {
   const [ref, inView] = useInView({
@@ -10,29 +11,31 @@ const HowItWorks: React.FC = () => {
     threshold: 0.1,
   });
 
+  const { t } = useTranslation("landing");
+
   const leftItems = [
     {
       number: '01',
-      title: 'Currency <span>conversion</span>',
-      description: 'Exportable reports for tax and accounting purposes.',
+      title: t('work.steps.one.title'),
+      description: t('work.steps.one.desc'),
     },
     {
       number: '02',
-      title: 'Data <span>encryption</span>',
-      description: 'Visual dashboards for trade performance.',
+       title: t('work.steps.two.title'),
+      description: t('work.steps.two.desc'),
     },
   ];
 
   const rightItems = [
     {
       number: '03',
-      title: 'Cold wallet <span>storage</span>',
-      description: 'Regular updates on crypto trends and platform features.',
+      title: t('work.steps.three.title'),
+      description: t('work.steps.three.desc'),
     },
     {
       number: '04',
-      title: 'Transfer crypto <span>& data</span>',
-      description: 'Guides for beginners on crypto basics and trading.',
+      title: t('work.steps.four.title'),
+      description: t('work.steps.four.desc'),
     },
   ];
 
@@ -42,9 +45,9 @@ const HowItWorks: React.FC = () => {
         <div className="row justify-content-center">
           <div className="col-lg-6">
             <div className="section__title text-center mb-80">
-              <span className="sub-title">how it works?</span>
+              <span className="sub-title">{t('work.badge')}</span>
               <h2 className="title">
-                Core asset of the <span>crypto</span> marketplace
+                {t('work.title')}
               </h2>
             </div>
           </div>

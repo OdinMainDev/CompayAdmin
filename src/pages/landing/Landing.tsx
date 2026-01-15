@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/assets/scss/landing/main.scss';
+import { useTranslation } from 'react-i18next';
 import Header from '@/components/landing/Header';
 import Banner from '@/components/landing/Banner';
 import Features from '@/components/landing/Features';
@@ -8,12 +9,14 @@ import TokenSale from '@/components/landing/TokenSale';
 import SectionDivider from '@/components/landing/SectionDivider';
 import HowItWorks from '@/components/landing/HowItWorks';
 import Exchange from '@/components/landing/Exchange';
-import CryptoDirection from '@/components/landing/CryptoDirection';
-import FAQ from '@/components/landing/FAQ';
+import FAQ from '@/components/landing/Faq';
 import Roadmap from '@/components/landing/Roadmap';
 import Footer from '@/components/landing/Footer';
+import PlatformCapabilities from '@/components/landing/PlatformCapabilities';
 
 export default function Landing() {
+  const { t } = useTranslation('landing');
+
   return (
     <>
       <Header />
@@ -25,17 +28,19 @@ export default function Landing() {
         <SectionDivider />
         <HowItWorks />
         <Exchange />
-        <CryptoDirection />
+        <PlatformCapabilities />
         <FAQ />
         <SectionDivider />
         <Roadmap />
       </main>
-      <Footer />
+      <Footer
+        badge={t('footer.badge')}
+        title={t('footer.title')}
+        copyright={t('footer.copyright')}
+      />
     </>
   );
 }
-
-
 
 
 

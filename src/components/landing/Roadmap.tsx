@@ -6,6 +6,7 @@ import roadmapIcon02 from '@/assets/images/landing/icon/roadmap_icon02.png';
 import roadmapIcon03 from '@/assets/images/landing/icon/roadmap_icon03.png';
 import roadmapIcon04 from '@/assets/images/landing/icon/roadmap_icon04.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import { useTranslation } from 'react-i18next';
 
 const Roadmap: React.FC = () => {
   const [ref, inView] = useInView({
@@ -13,26 +14,28 @@ const Roadmap: React.FC = () => {
     threshold: 0.1,
   });
 
+  const { t } = useTranslation("landing");
+
   const roadmapItems = [
     {
       icon: roadmapIcon01,
-      year: '2014',
-      description: 'Definitions of key terms in cryptocurrency',
+      year: t('roadmap.items.y2023.year'),
+      description: t('roadmap.items.y2023.desc'),
     },
     {
       icon: roadmapIcon02,
-      year: '2017',
-      description: 'Automated tools for executing strategies',
+      year: t('roadmap.items.y2024.year'),
+      description: t('roadmap.items.y2024.desc'),
     },
     {
       icon: roadmapIcon03,
-      year: '2022',
-      description: 'APIs for developers to build custom tools',
+      year: t('roadmap.items.y2025.year'),
+      description: t('roadmap.items.y2025.desc'),
     },
     {
       icon: roadmapIcon04,
-      year: '2025',
-      description: 'A space for users to discuss trends',
+      year: t('roadmap.items.y2026.year'),
+      description: t('roadmap.items.y2026.desc'),
     },
   ];
 
@@ -48,9 +51,9 @@ const Roadmap: React.FC = () => {
               transition={{ duration: 0.8 }}
               ref={ref}
             >
-              <span className="sub-title">roadmap</span>
+              <span className="sub-title">{t('roadmap.badge')}</span>
               <h2 className="title">
-                Our <span>strategy</span> & Planning
+                {t('roadmap.title')}
               </h2>
             </motion.div>
           </div>

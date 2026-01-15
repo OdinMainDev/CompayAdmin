@@ -8,12 +8,14 @@ import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
 import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
 import heroBgShape from '@/assets/images/landing/banner/hero_bg_shape.svg';
 import envelopeIcon from '@/assets/images/landing/icon/envelope.svg';
+import { useTranslation } from 'react-i18next';
 
 const Banner: React.FC = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { t } = useTranslation("landing");
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
@@ -33,7 +35,7 @@ const Banner: React.FC = () => {
                 animate={inView ? "visible" : "hidden"}
                 transition={{ duration: 1, delay: 0.2 }}
               >
-                Built on web3. Powered by You
+                {t('hero.badge')}
               </motion.span>
               <motion.h2
                 className="title"
@@ -42,7 +44,7 @@ const Banner: React.FC = () => {
                 animate={inView ? "visible" : "hidden"}
                 transition={{ duration: 1, delay: 0.4 }}
               >
-                The <span>future</span> of leverage is here
+                {t('hero.title')}
               </motion.h2>
               <motion.p
                 variants={fadeInUp}
@@ -50,37 +52,19 @@ const Banner: React.FC = () => {
                 animate={inView ? "visible" : "hidden"}
                 transition={{ duration: 1, delay: 0.6 }}
               >
-                Leverage on any tokens with a protocol trusted with billions for its performance and reliability.
+                {t('hero.subtitle')}
               </motion.p>
 
-              <motion.form
-                action="#"
-                className="banner__form"
+              <motion.a
+                href={"#"}
+                className="tg-btn tg-btn-two"
                 variants={fadeInUp}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
                 transition={{ duration: 1, delay: 0.8 }}
               >
-                <label htmlFor="email">
-                  <img src={envelopeIcon} alt="" />
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Business email"
-                />
-                <button type="submit" className="tg-btn">get early access</button>
-              </motion.form>
-
-              <motion.span
-                className="banner__content-bottom"
-                variants={fadeInUp}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                transition={{ duration: 1, delay: 0.8 }}
-              >
-                Start monitoring for free or <a href="#!">msg us!</a>
-              </motion.span>
+                {t('hero.cta')}
+              </motion.a>
             </div>
           </div>
         </div>
