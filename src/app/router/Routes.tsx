@@ -14,11 +14,6 @@ export const routeConfigs: RouteConfig[] = [
     component: Landing,
   },
 //   {
-//     id: 'landing-alt',
-//     path: '/landing',
-//     component: Landing2,
-//   },
-//   {
 //     id: 'login',
 //     path: '/auth/login',
 //     component: Login,

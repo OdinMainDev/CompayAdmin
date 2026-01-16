@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { lazy, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/assets/scss/landing/main.scss';
-import Header from '@/components/landing/Header';
-import Banner from '@/components/landing/Banner';
-import Features from '@/components/landing/Features';
-import Marquee from '@/components/landing/Marquee';
-import TokenSale from '@/components/landing/TokenSale';
-import SectionDivider from '@/components/landing/SectionDivider';
-import HowItWorks from '@/components/landing/HowItWorks';
-import Exchange from '@/components/landing/Exchange';
-import FAQ from '@/components/landing/Faq';
-import Roadmap from '@/components/landing/Roadmap';
-import Footer from '@/components/landing/Footer';
-import PlatformCapabilities from '@/components/landing/PlatformCapabilities';
-import ContactModal from '@/components/landing/ContactModal';
+
+const Header = lazy(() => import('@/components/landing/Header'));
+const Banner = lazy(() => import('@/components/landing/Banner'));
+const Features = lazy(() => import('@/components/landing/Features'));
+const Marquee = lazy(() => import('@/components/landing/Marquee'));
+const TokenSale = lazy(() => import('@/components/landing/TokenSale'));
+const SectionDivider = lazy(() => import('@/components/landing/SectionDivider'));
+const HowItWorks = lazy(() => import('@/components/landing/HowItWorks'));
+const Exchange = lazy(() => import('@/components/landing/Exchange'));
+const FAQ = lazy(() => import('@/components/landing/Faq'));
+const Roadmap = lazy(() => import('@/components/landing/Roadmap'));
+const Footer = lazy(() => import('@/components/landing/Footer'));
+const PlatformCapabilities = lazy(() => import('@/components/landing/PlatformCapabilities'));
+const ContactModal = lazy(() => import('@/components/landing/ContactModal'));
 
 export default function Landing() {
   const [contactOpen, setContactOpen] = useState(false);
