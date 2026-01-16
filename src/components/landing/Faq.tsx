@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Accordion } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import faqImg from '@/assets/images/landing/images/faq_img.png';
@@ -10,8 +11,6 @@ const FAQ: React.FC = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
-
-  const [activeIndex, setActiveIndex] = useState<string>('0');
 
   const { t } = useTranslation('landing');
 
@@ -59,27 +58,16 @@ const FAQ: React.FC = () => {
                 </h2>
               </div>
               <div className="faq__wrap">
-                <div className="accordion" id="faqAccordion">
+                <Accordion>
                   {faqs.map((faq, index) => (
-                    <div key={index} className="accordion-item">
-                      <h2 className="accordion-header">
-                        <button
-                          className={`accordion-button ${activeIndex === index.toString() ? '' : 'collapsed'}`}
-                          type="button"
-                          onClick={() => setActiveIndex(activeIndex === index.toString() ? '' : index.toString())}
-                          aria-expanded={activeIndex === index.toString()}
-                        >
-                          {faq.question}
-                        </button>
-                      </h2>
-                      <div className={`accordion-collapse collapse ${activeIndex === index.toString() ? 'show' : ''}`}>
-                        <div className="accordion-body">
-                          <p>{faq.answer}</p>
-                        </div>
-                      </div>
-                    </div>
+                    <Accordion.Item key={index} eventKey={index.toString()}>
+                      <Accordion.Header>{faq.question}</Accordion.Header>
+                      <Accordion.Body>
+                        <p>{faq.answer}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
                   ))}
-                </div>
+                </Accordion>
               </div>
             </motion.div>
           </div>
