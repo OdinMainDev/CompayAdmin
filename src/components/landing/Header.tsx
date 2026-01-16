@@ -4,6 +4,7 @@ import logo from '@/assets/images/logo/logo.svg';
 import { useTranslation } from 'react-i18next';
 import { I18N_LANGUAGES } from '@/constants';
 import { changeLanguage } from '@/i18n';
+import '@/assets/scss/landing/layout/_header.scss';
 
 type HeaderProps = {
   onOpenContact?: () => void;

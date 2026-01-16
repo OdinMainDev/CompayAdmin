@@ -9,6 +9,8 @@ import iconsBg from '@/assets/images/landing/icon/icons_bg.svg';
 import footerShape01 from '@/assets/images/landing/images/footer_shape01.png';
 import footerShape02 from '@/assets/images/landing/images/footer_shape02.png';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_team.scss';
+import '@/assets/scss/landing/layout/_footer.scss';
 
 const Footer: React.FC = () => {
   const { t } = useTranslation('landing');

@@ -8,6 +8,7 @@ import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
 import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
 import heroBgShape from '@/assets/images/landing/banner/hero_bg_shape.svg';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_banner.scss';
 
 type BannerProps = {
   onOpenContact?: () => void;

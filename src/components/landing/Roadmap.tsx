@@ -7,6 +7,7 @@ import roadmapIcon03 from '@/assets/images/landing/icon/roadmap_icon03.png';
 import roadmapIcon04 from '@/assets/images/landing/icon/roadmap_icon04.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_roadmap.scss';
 
 const Roadmap: React.FC = () => {
   const [ref, inView] = useInView({

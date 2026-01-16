@@ -7,6 +7,7 @@ import exchangeIcon02 from '@/assets/images/landing/icon/exchange_icon02.svg';
 import exchangeIcon03 from '@/assets/images/landing/icon/exchange_icon03.svg';
 import exchangeIcon04 from '@/assets/images/landing/icon/exchange_icon04.svg';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_exchange.scss';
 
 const Exchange: React.FC = () => {
   const [ref, inView] = useInView({

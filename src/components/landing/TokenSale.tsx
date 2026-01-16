@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import copySvg from '@/assets/images/landing/icon/copy.svg';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_token.scss';
 
 interface TimeLeft {
   days: number;

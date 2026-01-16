@@ -11,6 +11,7 @@ import telegramIcon from '@/assets/images/landing/icon/telegram.svg';
 import discordIcon from '@/assets/images/landing/icon/discord.svg';
 import iconsBg from '@/assets/images/landing/icon/icons_bg.svg';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
+import '@/assets/scss/landing/layout/_team.scss';
 
 const Team: React.FC = () => {
   const [ref, inView] = useInView({

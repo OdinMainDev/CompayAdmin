@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { keyframes } from 'styled-components';
+import '@/assets/scss/landing/layout/_marquee.scss';
 
 const marqueeAnimation = keyframes`
   0% {

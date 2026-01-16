@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_modal.scss';
 
 type ContactModalProps = {
   open: boolean;

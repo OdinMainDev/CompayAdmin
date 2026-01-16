@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import workImg from '@/assets/images/landing/images/work_img.png';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_work.scss';
 
 const HowItWorks: React.FC = () => {
   const [ref, inView] = useInView({

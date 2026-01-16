@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import faqImg from '@/assets/images/landing/images/faq_img.png';
 import { useTranslation } from 'react-i18next';
+import '@/assets/scss/landing/layout/_faq.scss';
 
 const FAQ: React.FC = () => {
   const [ref, inView] = useInView({
