@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import copySvg from '@/assets/images/landing/icon/copy.svg';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
 import { useTranslation } from 'react-i18next';
 import '@/assets/scss/landing/layout/_token.scss';
@@ -132,7 +131,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
               <div className="copy-text d-flex align-items-center justify-content-between">
                 <mark>0x2170Ed0880ac9A755fd29B2688956BD959F933F8</mark>
                 <button className="btn btn-link copy-btn" onClick={handleCopy}>
-                  {copied ? '✔' : <img src={copySvg} alt="" />}
+                  {copied ? '✔' : '❏'}
                 </button>
               </div>
             </motion.div>
