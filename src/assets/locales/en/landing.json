@@ -152,7 +152,7 @@
   "modal": {
     "title": "Contact Compay",
     "subtitle": "Leave your contact and we will reach out.",
-    "placeholder": "@username",
+    "placeholder": "Jabber / Telegram / qTox",
     "submit": "Send request",
     "success": "Sent successfully"
   },

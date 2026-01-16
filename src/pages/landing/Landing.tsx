@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/assets/scss/landing/main.scss';
 import Header from '@/components/landing/Header';
@@ -12,30 +13,39 @@ import FAQ from '@/components/landing/Faq';
 import Roadmap from '@/components/landing/Roadmap';
 import Footer from '@/components/landing/Footer';
 import PlatformCapabilities from '@/components/landing/PlatformCapabilities';
+import ContactModal from '@/components/landing/ContactModal';
 
 export default function Landing() {
+  const [contactOpen, setContactOpen] = useState(false);
+
+  const handleOpenContact = () => {
+    setContactOpen(true);
+  };
+
+  const handleCloseContact = () => {
+    setContactOpen(false);
+  };
 
   return (
     <>
-      <Header />
+      <Header onOpenContact={handleOpenContact} />
       <main className="main-area fix">
-        <Banner />
+        <Banner onOpenContact={handleOpenContact} />
         <Features />
         <Marquee />
-        <TokenSale />
+        <TokenSale onOpenContact={handleOpenContact} />
         <SectionDivider />
         <HowItWorks />
         <Exchange />
-        <PlatformCapabilities />
+        <PlatformCapabilities onOpenContact={handleOpenContact} />
         <FAQ />
         <SectionDivider />
         <Roadmap />
       </main>
       <Footer />
+      <ContactModal open={contactOpen} onClose={handleCloseContact} />
     </>
   );
 }
-
-
 
 

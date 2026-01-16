@@ -12,7 +12,11 @@ interface TimeLeft {
   seconds: number;
 }
 
-const TokenSale: React.FC = () => {
+type TokenSaleProps = {
+  onOpenContact?: () => void;
+};
+
+const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -77,9 +81,9 @@ const TokenSale: React.FC = () => {
               <p>
                 {t('token.subtitle')}
               </p>
-              <a href="#!" className="tg-btn tg-btn-two">
+              <button type="button" className="tg-btn tg-btn-two" onClick={onOpenContact}>
                 {t('token.cta')}
-              </a>
+              </button>
             </motion.div>
           </div>
           <div className="col-lg-6">

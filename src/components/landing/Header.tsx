@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { I18N_LANGUAGES } from '@/constants';
 import { changeLanguage } from '@/i18n';
 
-const Header: React.FC = () => {
+type HeaderProps = {
+  onOpenContact?: () => void;
+};
+
+const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   const [showMobile, setShowMobile] = useState(false);
   const [sticky, setSticky] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -78,6 +82,12 @@ const Header: React.FC = () => {
     setMobileLangOpen(false);
   };
 
+  const handleOpenContact = () => {
+    if (onOpenContact) {
+      onOpenContact();
+    }
+  };
+
   return (
     <>
       <header id="home">
@@ -133,7 +143,9 @@ const Header: React.FC = () => {
                           </div>
                         </li>
                         <li className="header-btn">
-                          <a href="#!" className="tg-btn">{t('hero.cta')}</a>
+                          <button type="button" className="tg-btn" onClick={handleOpenContact}>
+                            {t('hero.cta')}
+                          </button>
                         </li>
                       </ul>
                     </div>

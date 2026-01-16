@@ -7,7 +7,11 @@ import cryptoIcon03 from '@/assets/images/landing/icon/crypto_icon03.svg';
 import featuresShape from '@/assets/images/landing/images/features_shape.png';
 import { useTranslation } from 'react-i18next';
 
-const PlatformCapabilities: React.FC = () => {
+type PlatformCapabilitiesProps = {
+  onOpenContact?: () => void;
+};
+
+const PlatformCapabilities: React.FC<PlatformCapabilitiesProps> = ({ onOpenContact }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -60,7 +64,12 @@ const PlatformCapabilities: React.FC = () => {
                 </div>
                 <div className="crypto__content">
                   <h2 className="title" dangerouslySetInnerHTML={{ __html: item.title }} />
-                  <a href="#!" className="tg-btn tg-btn-two" dangerouslySetInnerHTML={{ __html: item.buttonText }} />
+                  <button
+                    type="button"
+                    className="tg-btn tg-btn-two"
+                    onClick={onOpenContact}
+                    dangerouslySetInnerHTML={{ __html: item.buttonText }}
+                  />
                 </div>
               </motion.div>
             </div>

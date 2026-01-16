@@ -7,10 +7,13 @@ import heroImg01 from '@/assets/images/landing/banner/hero_img01.png';
 import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
 import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
 import heroBgShape from '@/assets/images/landing/banner/hero_bg_shape.svg';
-import envelopeIcon from '@/assets/images/landing/icon/envelope.svg';
 import { useTranslation } from 'react-i18next';
 
-const Banner: React.FC = () => {
+type BannerProps = {
+  onOpenContact?: () => void;
+};
+
+const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -55,16 +58,17 @@ const Banner: React.FC = () => {
                 {t('hero.subtitle')}
               </motion.p>
 
-              <motion.a
-                href={"#"}
+              <motion.button
+                type="button"
                 className="tg-btn tg-btn-two"
                 variants={fadeInUp}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
                 transition={{ duration: 1, delay: 0.8 }}
+                onClick={onOpenContact}
               >
                 {t('hero.cta')}
-              </motion.a>
+              </motion.button>
             </div>
           </div>
         </div>

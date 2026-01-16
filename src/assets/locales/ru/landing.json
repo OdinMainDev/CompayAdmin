@@ -151,7 +151,7 @@
   "modal": {
     "title": "Связаться с Compay",
     "subtitle": "Оставьте ваш контакт и мы с вами свяжемся.",
-    "placeholder": "@username",
+    "placeholder": "Jabber / Telegram / qTox",
     "submit": "Отправить заявку",
     "success": "Успешно отправлено"
   }
