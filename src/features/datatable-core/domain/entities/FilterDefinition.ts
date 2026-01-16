@@ -1,11 +1,9 @@
-import type { FilterOperator } from "../value-objects/FilterCondition";
 
 export interface FilterDefinition {
   id: string;
   field: string;
   label: string;
   type: FilterType;
-  operators: FilterOperator[];
   options?: FilterOption[];
   defaultValue?: unknown;
   validation?: FilterValidation;

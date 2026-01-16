@@ -1,4 +1,3 @@
-import type { DatatableColumn } from "../domain/entities/DatatableColumn";
 import type { DatatableConfig } from "../domain/entities/DatatableConfig";
 import type { FilterCondition } from "../domain/value-objects/FilterCondition";
 

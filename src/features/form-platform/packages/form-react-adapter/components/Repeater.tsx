@@ -8,7 +8,7 @@ import { createFieldCopy } from '../../form-core/domain/utils/copy';
 
 interface RepeaterItem {
   id: string;
-  values: any[];
+  values: unknown[];
 }
 
 
@@ -62,7 +62,7 @@ export const RepeaterRenderer = (
     onChange(newItems);
   }, [items, field.extra?.maxItems, onChange]);
 
-  const updateItemValue = useCallback((itemId: string, fieldName: string, value: any) => {
+  const updateItemValue = useCallback((itemId: string, fieldName: string, value: unknown) => {
     setItems(prevItems => {
       const newItems = prevItems.map(item => {
         if (item.id === itemId) {

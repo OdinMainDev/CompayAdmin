@@ -1,4 +1,4 @@
-import { postRequest, type ApiError } from '../request';
+import { postRequest, type ApiError } from '../core/request';
 
 export interface TotpResponse {
   success: true;

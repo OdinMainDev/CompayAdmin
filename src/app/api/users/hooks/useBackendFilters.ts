@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUsers } from './useUsers';
-import type { RawFormSection } from '../../../features/form-platform/packages/form-core/domain/field/RawFormSection';
-import type { FilterReponse } from '../types/user';
+import type { RawFormSection } from '../../../../features/form-platform/packages/form-core/domain/field/RawFormSection';
+import type { FilterReponse } from '../types';
 
 export const useBackendFilters = () => {
   const { t } = useTranslation();

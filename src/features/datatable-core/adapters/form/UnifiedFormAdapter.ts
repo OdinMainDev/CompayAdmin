@@ -16,7 +16,6 @@ export class UnifiedFormAdapter<T> implements IDatatableFormBuilder<T> {
               label: col.label,
               type: this.mapFieldType(filter.type),
               extra: {
-                placeholder: filter.placeholder || `Filter by ${col.label}`,
                 ...(filter.options ? { options: filter.options } : {})
               }
             };
@@ -75,10 +74,6 @@ export class UnifiedFormAdapter<T> implements IDatatableFormBuilder<T> {
     return JsonFormLoader.materializeField(rawField);
   }
 
-  async validateFilterForm(data: Record<string, unknown>): Promise<boolean> {
-    return true;
-  }
-
   getFormInstance(schema: FormSchema): FormInstance {
     const sections = JsonFormLoader.loadForm(schema, {});
     const fields = sections.flatMap(s => s.fields);
@@ -101,7 +96,6 @@ export class UnifiedFormAdapter<T> implements IDatatableFormBuilder<T> {
           values[field.name] = field.value;
         }
         
-        // const valid = await this.validate();
         const valid = true;
         return {
           valid,
@@ -122,7 +116,6 @@ export class UnifiedFormAdapter<T> implements IDatatableFormBuilder<T> {
         Object.keys(values).forEach(key => {
           delete values[key];
         });
-        const freshSections = JsonFormLoader.loadForm(schema, {});
       },
       
       fields

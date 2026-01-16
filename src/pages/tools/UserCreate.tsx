@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
 import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
 import { buildDefaultValues } from '../../features/form-platform/packages/form-core/domain/utils/default';
-import { useUsers } from '../../app/api/hooks/useUsers'; 
-import type { UserCreateRequest } from '../../app/api/types/user';
+import { useUsers } from '../../app/api/users/hooks/useUsers'; 
+import type { UserCreateRequest } from '../../app/api/users/types';
 
 
 const UserCreate = () => {

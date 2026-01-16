@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import { toast, type ToastContent, type ToastOptions } from "react-toastify";
-import type { ApiError, SuccessResponse } from "./types/core";
-import { isApiError } from './responseHandler';
+import type { ApiError, SuccessResponse } from "./core/types/core";
+import { isApiError } from './core/responseHandler';
 
 export interface ToastConfig {
   readonly success?: string;

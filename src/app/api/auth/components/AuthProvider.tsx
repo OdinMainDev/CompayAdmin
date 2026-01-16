@@ -1,5 +1,5 @@
 import { useEffect, useMemo, type ReactNode } from 'react';
-import { AuthContext } from './auth-context';
+import { AuthContext } from '../auth-context';
 import { useAuth } from '../hooks/useAuth';
 
 interface AuthProviderProps {

@@ -1,6 +1,6 @@
 import { API_CONFIG, buildHeaders } from './config';
 import { handleResponse } from './responseHandler';
-import { ToastService } from './toastService';
+import { ToastService } from '../toastService';
 import { NetworkError, TimeoutError } from './responseHandler';
 import type { 
   ApiResponse 

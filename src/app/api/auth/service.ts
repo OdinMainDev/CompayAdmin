@@ -1,26 +1,24 @@
 import Cookies from 'js-cookie';
-import { apiClient } from '../client';
+import { apiClient } from '../core/client';
 import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../../../constants';
-import { 
-  decodeJwtToken 
-} from '../types/auth-utils';
 import type { 
   LoginRequest, 
   LoginResponse, 
   LogoutResponse,
   AuthError,
-  AuthUser,
   UserRole 
-} from '../types/auth';
-import type { RequestOptions } from '../types/request';
-import type { ApiError } from '../types/core';
+} from './types';
+import type { RequestOptions } from '../core/types/request';
+import type { ApiError } from '../core/types/core';
+import type { User, UserResponse } from '../users/types';
 
 export class AuthService {
   private static readonly ENDPOINTS = {
-    LOGIN: '/api/auth/login',
-    TOTP: '/api/panel/auth/totp',
-    LOGOUT: '/api/panel/auth/logout',
-    VERIFY: '/api/panel/auth/verify',
+    LOGIN: "/api/auth/login",
+    TOTP: "/api/panel/auth/totp",
+    LOGOUT: "/api/panel/auth/logout",
+    VERIFY: "/api/panel/auth/verify",
+    ME: "/api/panel/get/me",
   } as const;
 
   static saveToken(token: string): void {
@@ -47,20 +45,26 @@ export class AuthService {
   static isAuthenticated(): boolean {
     return !!this.getToken();
   }
-
-  static getUserFromToken(): AuthUser | null {
-    const token = this.getToken();
-    if (!token) return null;
-
-    const decoded = decodeJwtToken(token);
-    if (!decoded || !decoded.user_id) return null;
-
-    return {
-      id: decoded.user_id,
-      username: decoded.username || '',
-      is_admin: decoded.is_admin || false,
-      merchant_id: decoded.merchant_id || null,
-    };
+  static async getMe(
+    options: Omit<RequestOptions, "method" | "body"> = {}
+  ): Promise<UserResponse | ApiError> {
+    try {
+      return await apiClient.post<UserResponse["data"]>(
+        this.ENDPOINTS.ME,
+        {},
+        {
+          ...options,
+          isAuth: true,
+          hasToast: options.hasToast ?? false,
+        }
+      );
+    } catch (error) {
+      return {
+        success: false,
+        message: "Failed to fetch current user",
+        error: error instanceof Error ? error.message : "Unknown error",
+      } as ApiError;
+    }
   }
 
   static getRoleFromToken(): UserRole | null {
@@ -81,14 +85,14 @@ export class AuthService {
 
   static async login(
     credentials: LoginRequest,
-    options: Omit<RequestOptions<LoginRequest>, 'method' | 'body'> = {}
+    options: Omit<RequestOptions<LoginRequest>, "method" | "body"> = {}
   ): Promise<LoginResponse | ApiError> {
     try {
       const response = await apiClient.post<LoginResponse>(
         this.ENDPOINTS.LOGIN,
         credentials,
-        { 
-          ...options, 
+        {
+          ...options,
           isAuth: false,
           hasToast: options.hasToast ?? true,
         }
@@ -105,20 +109,20 @@ export class AuthService {
     } catch (error) {
       return {
         success: false,
-        message: 'Login failed',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        message: "Login failed",
+        error: error instanceof Error ? error.message : "Unknown error",
       } as ApiError;
     }
   }
 
   static async logout(
-    options: Omit<RequestOptions, 'method' | 'body'> = {}
+    options: Omit<RequestOptions, "method" | "body"> = {}
   ): Promise<LogoutResponse | AuthError> {
     try {
-      const response = await apiClient.post<LogoutResponse['data']>(
+      const response = await apiClient.post<LogoutResponse["data"]>(
         this.ENDPOINTS.LOGOUT,
-        { 
-          ...options, 
+        {
+          ...options,
           isAuth: true,
           hasToast: options.hasToast ?? true,
         }
@@ -130,16 +134,15 @@ export class AuthService {
       this.clearToken();
       return {
         success: false,
-        message: 'Logout error',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        message: "Logout error",
+        error: error instanceof Error ? error.message : "Unknown error",
       } as ApiError;
     }
   }
 
-
   static async checkAuthStatus(): Promise<{
     isAuthenticated: boolean;
-    user: AuthUser | null;
+    user: User | null;
     error: AuthError | null;
   }> {
     if (!this.isAuthenticated()) {
@@ -149,11 +152,21 @@ export class AuthService {
         error: null,
       };
     }
-
     // verify if needed
+
+    const response = await this.getMe();
+
+    if (!response.success) {
+      return {
+        isAuthenticated: false,
+        user: null,
+        error: null,
+      };
+    }
+
     return {
       isAuthenticated: true,
-      user: this.getUserFromToken(),
+      user: response.data,
       error: null,
     };
   }

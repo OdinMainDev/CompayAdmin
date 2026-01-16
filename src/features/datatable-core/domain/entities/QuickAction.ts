@@ -1,6 +1,6 @@
 import type { RawFormSection } from "../../../form-platform/packages/form-core/domain/field/RawFormSection";
 
-export interface QuickAction<T> {
+export interface QuickAction {
   id: string;
   label: string;
   icon?: React.ReactNode;

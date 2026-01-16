@@ -1,8 +1,8 @@
 
-import { apiClient } from '../client';
-import type { ApiError } from '../types/core';
-import type { RequestOptions } from '../types/request';
-import type { FilterReponse, GetUserListFiltersResponse, MerchantsSearchResponse, UserCreateRequest, UserListRequest, UserResponse, UsersListResponse, UserUpdateRequest } from '../types/user';
+import { apiClient } from '../core/client';
+import type { ApiError } from '../core/types/core';
+import type { RequestOptions } from '../core/types/request';
+import type { FilterReponse, GetUserListFiltersResponse, MerchantsSearchResponse, UserCreateRequest, UserListRequest, UserResponse, UsersListResponse, UserUpdateRequest } from './types';
 
 export class UserService {
   private static readonly BASE_PATH = "/api/panel/admin/dev/users";

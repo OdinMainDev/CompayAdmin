@@ -19,6 +19,5 @@ export interface IDatatableFormBuilder<T> {
   createActionForm(actionId: string): FormSchema; 
   createQuickFilterForm(): FormSchema;
   mapColumnToField(column: DatatableColumn<T>): FormField;
-  validateFilterForm(data: Record<string, unknown>): Promise<boolean>;
   getFormInstance(schema: FormSchema): FormInstance;
 }

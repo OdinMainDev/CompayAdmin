@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
 import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
 import { useAuthContext } from '../../app/api/auth/auth-context';
-import type { LoginRequest } from '../../app/api/types/auth';
+import type { LoginRequest } from '../../app/api/auth/types';
 
 
 const LoginPage = () => {

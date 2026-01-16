@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
-import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../../constants';
+import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../../../constants';
+import { AuthService } from '../auth/service';
 
 export const API_CONFIG = {
   BASE_URL: import.meta.env.VITE_API_URL as string,
@@ -13,8 +14,7 @@ export type AuthErrorType = 'UNAUTHORIZED' | 'TOTP_EXPIRED';
 
 export const handleAuthError = (status: number, error?: string): AuthErrorType | null => {
   if (status === 401) {
-    Cookies.remove(COOKIE_AUTH_NAME);
-    Cookies.remove(COOKIE_AUTH_TOTP_NAME);
+    AuthService.clearToken();
     return 'UNAUTHORIZED';
   }
   

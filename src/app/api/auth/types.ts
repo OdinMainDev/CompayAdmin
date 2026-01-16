@@ -1,4 +1,4 @@
-import type { ApiError, SuccessResponse } from './core';
+import type { ApiError, SuccessResponse } from '../core/types/core';
 
 export type LoginRequest = {
   email: string;
@@ -7,19 +7,6 @@ export type LoginRequest = {
 
 export interface TotpRequest {
   readonly code: string;
-}
-
-export interface LegacyLoginResponseData {
-  readonly success: boolean;
-  readonly token?: string;
-  readonly error?: string;
-  readonly errors?: Record<string, string>;
-  readonly user?: {
-    readonly id: number;
-    readonly username: string;
-    readonly is_admin: boolean;
-    readonly merchant_id: number | null;
-  };
 }
 
 export type LoginResponse = {
@@ -38,14 +25,16 @@ export interface LogoutResponseData {
 }
 export type LogoutResponse = SuccessResponse<LogoutResponseData>;
 
-
 export type AuthError = ApiError;
 
-export interface AuthUser {
-  readonly id: number;
-  readonly username: string;
-  readonly is_admin: boolean;
-  readonly merchant_id: number | null;
-}
+// export type Me = {
+//   username: string;
+//   merchant: Merchant;
+// };
+
+// export type GetMeResponse = {
+//   success: boolean;
+//   data: EntityUser;
+// };
 
 export type UserRole = 'admin' | 'merchant';

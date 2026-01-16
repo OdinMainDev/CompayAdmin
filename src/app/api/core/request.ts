@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../../constants';
+import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '../../../constants';
 
 type RequestOptions = {
   isAuth?: boolean;

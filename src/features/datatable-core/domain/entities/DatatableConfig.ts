@@ -21,7 +21,7 @@ export interface DatatableConfig<T> {
   columns: DatatableColumn<T>[];
   filterForm?: RawFormSection[];
   actionForms?: Record<string, RawFormSection[]>;
-  quickActions?: QuickAction<RawFormSection[]>[];
+  quickActions?: QuickAction[];
   rowActions?: RowAction<T>[]; 
 
   pagination?: {

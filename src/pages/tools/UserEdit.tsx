@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import UnifiedFormBuilder from '../../features/form-platform/packages/form-react-adapter/UnifiedFormBuilder';
 import type { RawFormSection } from '../../features/form-platform/packages/form-core/domain/field/RawFormSection';
-import { useUsers } from '../../app/api/hooks/useUsers';
-import type { UserUpdateRequest } from '../../app/api/types/user';
+import { useUsers } from '../../app/api/users/hooks/useUsers';
+import type { UserUpdateRequest } from '../../app/api/users/types';
 
 const UserEdit = () => {
   const { t } = useTranslation();

@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import { UserService } from '../services/user';
-import type { ApiError } from '../types/core';
-import type { FilterReponse, Merchant, MerchantsSearchResponse, User, UserCreateRequest, UserListRequest, UsersListResponse, UserUpdateRequest } from '../types/user';
-import type { IResponseList } from '../../../features/datatable-core/domain/entities/DatatableResponse';
+import { UserService } from '../service';
+import type { ApiError } from '../../core/types/core';
+import type { FilterReponse, Merchant, MerchantsSearchResponse, User, UserCreateRequest, UserListRequest, UsersListResponse, UserUpdateRequest } from '../types';
+import type { IResponseList } from '../../../../features/datatable-core/domain/entities/DatatableResponse';
 
 interface UseUsersState {
   readonly users: User[];

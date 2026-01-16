@@ -1,14 +1,19 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Datatable, type DatatableColumn, type DatatableConfig } from '../../features/datatable-core';
-import PageHeader from '../../components/common/PageHeader';
-import type { ApiDatatableQuery } from '../../features/datatable-core/domain/entities/DatatableQuery';
-import type { IResponseList } from '../../features/datatable-core/domain/entities/DatatableResponse';
-import { formatTimestampWithTime } from '../../features/datatable-core/utils/helpers';
 import { useNavigate } from 'react-router-dom';
-import { useBackendFilters } from '../../app/api/hooks/useBackendFilters';
-import type { User } from '../../app/api/types/user';
-import { useUsers } from '../../app/api/hooks/useUsers';
+import { useTranslation } from 'react-i18next';
+import { 
+  Datatable, 
+  formatTimestampWithTime,
+  type ApiDatatableQuery,
+  type DatatableColumn, 
+  type IResponseList,
+  type DatatableConfig 
+} from '../../features/datatable-core';
+
+import PageHeader from '../../components/common/PageHeader';
+import { useBackendFilters } from '../../app/api/users/hooks/useBackendFilters';
+import type { User } from '../../app/api/users/types';
+import { useUsers } from '../../app/api/users/hooks/useUsers';
 
 const DatatableDemoV2 = () => {
   const { t, i18n } = useTranslation();
