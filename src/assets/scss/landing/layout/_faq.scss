@@ -30,8 +30,7 @@
                 padding: 18px 55px 18px 24px;
                 position: relative;
                 &::before {
-                    content: "\f109";
-                    font-family: "flaticon_tg_default";
+                    content: "+";
                     font-weight: 400;
                     position: absolute;
                     right: 24px;
@@ -47,7 +46,7 @@
                     background-color: transparent;
                     box-shadow: none;
                     &::before {
-                        content: "\f10a";
+                        content: "-";
                     }
                 }
                 &::after {
