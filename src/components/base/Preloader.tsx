@@ -1,4 +1,4 @@
-import "@/assets/scss/landing/components/_preloader.scss"
+import "@/assets/scss/landing/layout/_preloader.scss"
 
 export default function Preloader() {
   return (

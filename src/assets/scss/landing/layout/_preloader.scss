@@ -21,6 +21,10 @@
   color: var(--tg-primary-color);
   aspect-ratio: 1;
   border-radius: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
   box-shadow:
     19px -19px 0 0px, 38px -19px 0 0px, 57px -19px 0 0px,
     19px 0     0 5px, 38px 0     0 5px, 57px 0     0 5px,
