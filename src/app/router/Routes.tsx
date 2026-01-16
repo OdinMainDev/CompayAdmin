@@ -1,76 +1,48 @@
 import { lazy } from 'react';
 import type { RouteConfig } from '@/app/router/types';
-// import { Navigate } from 'react-router-dom';
-// import { faChartPie, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 
 const Landing = lazy(() => import('@/pages/landing/Landing'));
-const NotFound = lazy(() => import('@/pages/errors/NotFoundLanding'));
+const NotFound = lazy(() => import('@/pages/errors/NotFound'));
+const Login = lazy(() => import('@/pages/dashboard/auth/Login'));
+const PanelLayout = lazy(() => import('@/components/dashboard/layout/PanelLayout'));
+const DashboardLayout = lazy(() => import('@/components/dashboard/layout/DashboardLayout'));
 
 export const routeConfigs: RouteConfig[] = [
-  // Public routes
+  // Landing Routes
   {
     id: 'landing',
     path: '/',
     component: Landing,
   },
-//   {
-//     id: 'login',
-//     path: '/auth/login',
-//     component: Login,
-//   },
-//   {
-//     id: 'totp',
-//     path: '/auth/totp',
-//     component: Totp,
-//   },
-  
-  // Protected panel routes
-//   {
-//     id: 'panel',
-//     path: '/panel',
-//     component: DashboardLayout,
-//     guard: AuthGuard,
-//     children: [
-//         {
-//             id: 'not-found',
-//             path: '*',
-//             component: NotFound,
-//         },
-//         {
-//             id: 'dashboard',
-//             path: 'dashboard',
-//             component: Dashboard,
-//             meta: { label: 'Dashboard', icon: faChartPie },
-//         },
-//         {
-//             id: 'admin-forms',
-//             path: 'admin/form-builder',
-//             component: FormBuilderV2,
-//             guard: RoleGuard,
-//             meta: { label: 'Form Builder', roles: ['admin'], icon: faScrewdriverWrench },
-//         },
-//         {
-//             id: 'user-create',
-//             path: 'user-create',
-//             component: UserCreate,
-//             guard: RoleGuard,
-//             meta: { label: 'User create', roles: ['admin', 'merchant'], icon: faScrewdriverWrench },
-//         },
-//         {
-//             id: 'admin-datatable',
-//             path: 'admin/datatable',
-//             component: DataTableV2,
-//             guard: RoleGuard,
-//             meta: { label: 'Data Tables', roles: ['admin'], icon: faScrewdriverWrench },
-//         },
-//     ],
-//   },
+
+  // Dashboard Routes
+  {
+    id: "layout-panel",
+    path: "*",
+    component: PanelLayout,
+    children: [
+      {
+        id: "layout-dashboard",
+        path: "dashboard",
+        component: DashboardLayout,
+        children: [
+        //  ...
+        ]
+      },
+      // Auth Routes
+      {
+        id: 'login',
+        path: 'auth/login',
+        component: Login,
+      },
+      // Error Routes
+      {
+        id: 'not-found',
+        path: '*',
+        component: NotFound,
+      },
+    ]
+  },
 
   
-  // 404
-  {
-    id: 'not-found',
-    path: '*',
-    component: NotFound,
-  },
 ];

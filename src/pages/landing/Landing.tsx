@@ -1,6 +1,7 @@
 import { lazy, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/assets/scss/landing/main.scss';
+import ScrollToTop from '@/components/base/ScrollToTop';
 
 const Header = lazy(() => import('@/components/landing/Header'));
 const Banner = lazy(() => import('@/components/landing/Banner'));
@@ -29,6 +30,7 @@ export default function Landing() {
 
   return (
     <>
+      <ScrollToTop />
       <Header onOpenContact={handleOpenContact} />
       <main className="main-area fix">
         <Banner onOpenContact={handleOpenContact} />
