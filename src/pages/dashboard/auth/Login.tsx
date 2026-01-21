@@ -12,7 +12,7 @@ import { RawFormSection } from "@/features/form-builder/form-core/domain/field/R
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('panel');
   const [formData, setFormData] = useState<LoginRequest>({} as LoginRequest);
 
   const { login, getRole, getFieldErrors } = useAuthContext();
@@ -59,15 +59,15 @@ export default function Login() {
                 <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                   <div className="text-center mb-4">
                       <Image src={ImageLogo} className="img-fluid"/>
-                      <h3 className="mb-1">{t('login.title')}</h3>
-                      <div className="text-muted">{t('login.description')}</div>
+                      <h3 className="mb-1">{t('login_page.title')}</h3>
+                      <div className="text-muted">{t('login_page.description')}</div>
                   </div>
                   <UnifiedFormBuilder
                     json={sections}
                     formData={formData}
                     setFormData={setFormData}
                     handleSubmit={handleSubmit}
-                    submitLabel={t('login.submit')}
+                    submitLabel={t('login_page.submit')}
                     fieldErrors={getFieldErrors()}
                   />
                 </div>

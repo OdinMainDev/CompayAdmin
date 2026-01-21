@@ -1,8 +1,8 @@
 import "@/assets/scss/dashboard/volt.scss";
 
 import { Outlet } from "react-router-dom";
-import SideBar from "../navigation/SideBar";
-import TopBar from "../navigation/TopBar";
+import SideBar from "@/components/dashboard/navigation/SideBar";
+import TopBar from "@/components/dashboard/topbar/TopBar";
 
 export default function DashboardLayout() {
   return (
@@ -10,10 +10,11 @@ export default function DashboardLayout() {
       <SideBar />
       <main className="content">
         <TopBar />
-        <Outlet />
+         <div className="content-main">
+          <Outlet />
+        </div>
         {/* <Footer toggleSettings={toggleSettings} showSettings={showSettings} /> */}
       </main>
-      <Outlet />
     </>
   )
 }

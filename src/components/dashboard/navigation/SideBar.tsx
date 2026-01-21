@@ -6,10 +6,11 @@ import SimpleBar from 'simplebar-react';
 import { CSSTransition } from 'react-transition-group';
 import ImageLogo from "@/assets/images/logo/logo.svg";
 import ProfilePicture from "@/assets/images/dashboard/examples/profile-picture-1.jpg";
-import { faChartPie, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faRocket, faSignOut, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import { useGetAvailMenuRoutes } from '@/features/router/hooks/useGetAvailMenuRoutes';
 import { RouteConfig } from '@/features/router/types';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -18,6 +19,7 @@ const SideBar = () => {
   const showClass = show ? "show" : "";
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const routes = useGetAvailMenuRoutes();
+  const { t } = useTranslation("menu");
  
   if (!routes) {
     return null;
@@ -25,9 +27,8 @@ const SideBar = () => {
 
   const onCollapse = () => setShow(!show);
 
-  const renderNavLink = (route: RouteConfig): ReactNode => {
+  const renderNavLink = (route: RouteConfig, nextPath: string): ReactNode => {
    const hasChildren = Boolean(route.children?.length);
-    // const childActive = route.children?.some((child) => isActive(child)) ?? false;
 
     if (!hasChildren) {
       if (!route.meta?.label || !route.meta.icon) {
@@ -35,16 +36,20 @@ const SideBar = () => {
       }
       return (
         <NavItem
+        
           key={route.id}
           setShow={setShow}
           title={route.meta?.label ?? ''}
-          link={route.path}
+          link={nextPath + "/" + route.path}
           icon={route.meta.icon}
         />
       );
     }
 
-    return route.children!.map(child => renderNavLink(child));
+    if(route.path != ""){
+      nextPath = nextPath + "/" + route.path;
+    }
+    return route.children!.map(child => renderNavLink(child, nextPath));
   };
 
   return (
@@ -77,16 +82,18 @@ const SideBar = () => {
                   />
                 </div>
                 <div>
-                  <h6>Hi, Jane</h6>
-                  <Button
-                    as={"button"}
-                    variant="secondary"
-                    size="sm"
-                    className="text-dark"
-                  >
-                    <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
-                    Sign Out
-                  </Button>
+                  <h6>{`{USERNAME}`}</h6>
+                  <Link to={'/dashboard/logout'}>
+                    <Button
+                      as={"button"}
+                      variant="secondary"
+                      size="sm"
+                      className="text-dark"
+                    >
+                      <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
+                      {t("logout")}
+                    </Button>
+                  </Link>
                 </div>
               </div>
               <Nav.Link className="collapse-close" onClick={onCollapse}>
@@ -99,9 +106,11 @@ const SideBar = () => {
                 <Image src={ImageLogo} className="img-fluid" />
               </NavLink>
 
-              <NavItem setShow={setShow} title="Overview" link={'/'} icon={faChartPie} isHiddenDesktop/>
+              <NavItem setShow={setShow} title="dashboard" link={'/dashboard'} icon={faRocket} isHiddenDesktop/>
 
-              {routes.children?.map((route) => renderNavLink(route))}
+              {routes.children?.map((route) => renderNavLink(route, ""))}
+
+              <NavItem setShow={setShow} title="logout" link={'/dashboard/logout'} icon={faSignOut} isHiddenMobile/>
               
             </Nav>
           </div>

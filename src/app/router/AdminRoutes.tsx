@@ -15,7 +15,7 @@ export const adminRoutes: RouteConfig[] = [
       {
         id: 'admin-dashboard',
         path: '',
-        component: Dashboard,
+        // component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
       // Users
@@ -28,13 +28,13 @@ export const adminRoutes: RouteConfig[] = [
       {
         id: 'admin-users-create',
         path: 'users/create',
-        component: Dashboard,
+        // component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
       {
         id: 'admin-users-update',
         path: 'users/edit',
-        component: Dashboard,
+        // component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
     ],

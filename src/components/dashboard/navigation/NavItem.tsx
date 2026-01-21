@@ -14,6 +14,7 @@ interface NavItemProps {
     icon?: IconDefinition;
     image?: string;
     isHiddenDesktop?: boolean;
+    isHiddenMobile?: boolean;
 }
 
 const NavItem: React.FC<NavItemProps> = ({
@@ -25,20 +26,40 @@ const NavItem: React.FC<NavItemProps> = ({
     icon,
     image,
     isHiddenDesktop,
+    isHiddenMobile,
   }) => {
     const location = useLocation();
     const { pathname } = location;
     const { t } = useTranslation("menu");
 
-    const navItemClassName = link === pathname ? "active" : "";
+    let navItemClassName = pathname == link ? "active" : "";
+
+    if(isHiddenDesktop){
+        if(navItemClassName == ""){
+            navItemClassName = "hidden-nav-desktop"
+        }else{
+            navItemClassName += " hidden-nav-desktop"
+        }
+    }
+
+    if(isHiddenMobile){
+        if(navItemClassName == ""){
+            navItemClassName = "hidden-nav-mobile"
+        }else{
+            navItemClassName += " hidden-nav-mobile"
+        }
+    }
 
     const linkProps = external
         ? { href: link, to: '/' }
         : { as: Link, to: link };
 
+
+        
+
     return (
         <Nav.Item className={navItemClassName} onClick={() => setShow(false)} >
-            <Nav.Link {...linkProps} target={target} className={isHiddenDesktop ? 'hidden-nav-desktop' : ''}>
+            <Nav.Link {...linkProps} target={target}>
                 <span>
                     {icon && (
                         <span className="sidebar-icon">

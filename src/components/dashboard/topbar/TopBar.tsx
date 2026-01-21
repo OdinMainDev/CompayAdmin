@@ -2,9 +2,10 @@ import { useState } from "react";
 
 
 import Profile1 from "@/assets/images/dashboard/examples/profile-picture-1.jpg"
-import { Col, Container, Dropdown, Form, Image, InputGroup, ListGroup, Nav, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Image, ListGroup, Nav, Navbar, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faCog, faEnvelopeOpen, faSearch, faSignOutAlt, faUserCircle, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCog, faEnvelopeOpen, faPlus, faSignOutAlt, faTrash, faUserCircle, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 const notificationsData = [
     {
@@ -57,6 +58,7 @@ const notificationsData = [
 const TopBar = () => {
     const [notifications, setNotifications] = useState(notificationsData);
     const areNotificationsRead = notifications.reduce((acc, notif) => acc && notif.read, true);
+    const { t } = useTranslation("panel");
 
     const markNotificationsAsRead = () => {
     setTimeout(() => {
@@ -92,18 +94,21 @@ const TopBar = () => {
     };
 
     return (
-    <Navbar variant="dark" expanded className="ps-0 pe-2 pb-0">
+    <Navbar expanded className="top-bar">
         <Container fluid className="px-0">
         <div className="d-flex justify-content-between w-100">
             <div className="d-flex align-items-center">
-            <Form className="navbar-search">
-                <Form.Group id="topbarSearch">
-                <InputGroup className="input-group-merge search-bar">
-                    <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
-                    <Form.Control type="text" placeholder="Search" />
-                </InputGroup>
-                </Form.Group>
-            </Form>
+            <Dropdown className="btn-toolbar d-none d-md-block">
+            <Dropdown.Toggle as={Button} variant="outline-warning" size="sm" className="me-2 text-dark">
+              {t("topbar.fast_actions.title")}
+              <FontAwesomeIcon icon={faPlus} className="ms-2" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2 !ml-auto">
+              <Dropdown.Item className="fw-bold">
+                <FontAwesomeIcon icon={faTrash} className="me-2" /> {t("topbar.fast_actions.action_1")}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
             </div>
             <Nav className="align-items-center">
             <Dropdown as={Nav.Item} onToggle={markNotificationsAsRead} >

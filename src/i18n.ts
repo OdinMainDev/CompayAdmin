@@ -4,8 +4,8 @@ import translationEN from '@/assets/locales/en/translation.json';
 import translationRU from '@/assets/locales/ru/translation.json';
 import landingEN from '@/assets/locales/en/landing.json';
 import landingRU from '@/assets/locales/ru/landing.json';
-import authEN from '@/assets/locales/en/auth.json';
-import authRU from '@/assets/locales/ru/auth.json';
+import panelEN from '@/assets/locales/en/panel.json';
+import panelRU from '@/assets/locales/ru/panel.json';
 import menuEN from '@/assets/locales/en/menu.json';
 import menuRU from '@/assets/locales/ru/menu.json';
 import { I18N_DEFAULT_LANGUAGE, I18N_LANGUAGES, I18N_STORAGE_KEY } from './constants';
@@ -38,8 +38,8 @@ export const changeLanguage = (lng: string) => {
 };
 
 const resources = {
-  en: { translation: translationEN, landing: landingEN, auth: authEN, menu: menuEN },
-  ru: { translation: translationRU, landing: landingRU, auth: authRU, menu: menuRU },
+  en: { translation: translationEN, landing: landingEN, panel: panelEN, menu: menuEN },
+  ru: { translation: translationRU, landing: landingRU, panel: panelRU, menu: menuRU },
 } as const;
 
 i18n.use(initReactI18next).init({

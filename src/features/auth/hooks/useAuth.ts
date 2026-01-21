@@ -93,14 +93,13 @@ export const useAuth = (): UseAuthReturn => {
     const response = await ProfileService.getMe();
 
     if (!('success' in response) || !response.success) {
-      setState(prev => ({
-        ...prev,
-        isAuthenticated: false,
-        isLoading: false,
-        error: response as ApiError,
-        user: null,
-        role: null,
-      }));
+      logout();
+      return false;
+    }
+
+    const role = getRoleFromToken();
+    if(!role){
+      logout();
       return false;
     }
 
@@ -110,7 +109,7 @@ export const useAuth = (): UseAuthReturn => {
       isLoading: false,
       error: null,
       user: response.data,
-      role: response.data.is_admin ? 'admin' : 'merchant',
+      role: role,
     }));
 
     scheduleRefresh();
@@ -129,19 +128,9 @@ export const useAuth = (): UseAuthReturn => {
       return false;
     }
   
-    // verify token if needed
-  
-    setState(prev => ({
-      ...prev,
-      isAuthenticated: true,
-      isLoading: false,
-      error: null,
-      role: getRoleFromToken(),
-    }));
-  
-    scheduleRefresh();
+    getMe();
     return true;
-  }, [scheduleRefresh]);
+  }, []);
   
 
   const refreshUser = useCallback(async (): Promise<void> => {

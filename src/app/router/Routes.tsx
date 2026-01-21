@@ -10,6 +10,7 @@ const NotFound = lazy(() => import('@/pages/errors/NotFound'));
 const Login = lazy(() => import('@/pages/dashboard/auth/Login'));
 const PanelLayout = lazy(() => import('@/components/dashboard/layout/PanelLayout'));
 const DashboardLayout = lazy(() => import('@/components/dashboard/layout/DashboardLayout'));
+const Logout = lazy(() => import('@/pages/dashboard/auth/Logout'));
 
 export const routeConfigs: RouteConfig[] = [
   // Landing Routes
@@ -34,6 +35,13 @@ export const routeConfigs: RouteConfig[] = [
         children: [
           ...adminRoutes,
           ...merchantRoutes,
+
+          // Service Routes
+          {
+            id: 'logout',
+            path: 'logout',
+            component: Logout,
+          },
         ]
       },
       // Auth Routes
