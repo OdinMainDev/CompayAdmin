@@ -2,10 +2,10 @@ import { type FormEvent, useState, type ReactNode, useMemo } from 'react';
 import { Button, Card, Form, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { JsonFormLoader } from './JsonFormLoader';
-import type { FormSection } from '../form-core/domain/field/FormSection';
+import type { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
 import './setupFields';
 import { UnifiedFieldRegistry } from './UnifiedFieldRegistry';
-import type { RawFormSection } from '../form-core/domain/field/RawFormSection';
+import type { RawFormSection } from '@/features/form-builder/form-core/domain/field/RawFormSection';
 
 type FieldErrors = Record<string, string[]>;
 

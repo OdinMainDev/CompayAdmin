@@ -1,6 +1,6 @@
-import type { AnyField } from "../../../form-platform/packages/form-core/domain/field/IField";
-import type { RawFormSection } from "../../../form-platform/packages/form-core/domain/field/RawFormSection";
-import type { DatatableColumn } from "../entities/DatatableColumn";
+import type { AnyField } from "@/features/form-builder/form-core/domain/field/IField";
+import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
+import type { DatatableColumn } from "@/features/datatable-core/domain/entities/DatatableColumn";
 
 
 export type FormSchema = RawFormSection[];

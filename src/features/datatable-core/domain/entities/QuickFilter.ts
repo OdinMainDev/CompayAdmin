@@ -1,4 +1,4 @@
-import type { FilterCondition } from "../value-objects/FilterCondition";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 
 export interface QuickFilter {
   id: string;

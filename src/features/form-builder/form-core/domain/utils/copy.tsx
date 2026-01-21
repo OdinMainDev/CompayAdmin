@@ -1,5 +1,5 @@
-import type { BaseFieldExtra } from "../extra/BaseFieldExtra";
-import type { IField } from "../field/IField";
+import type { BaseFieldExtra } from "@/features/form-builder/form-core/domain/extra/BaseFieldExtra";
+import type { IField } from "@/features/form-builder/form-core/domain/field/IField";
 
 export interface FieldFactory<T, E extends BaseFieldExtra> {
   createCopy(original: IField<T, E>, value: T): IField<T, E>;

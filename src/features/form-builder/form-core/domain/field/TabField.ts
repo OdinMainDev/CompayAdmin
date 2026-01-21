@@ -1,5 +1,5 @@
-import type { TabsFieldExtra } from "../extra/TabFieldExtra";
-import type { ValidationResult } from "../validation/ValidationResult";
+import type { TabsFieldExtra } from "@/features/form-builder/form-core/domain/extra/TabFieldExtra";
+import type { ValidationResult } from "@/features/form-builder/form-core/domain/validation/ValidationResult";
 import { BaseField } from "./BaseField";
 import type { CompositeField } from "./CompositeField";
 import type { AnyField } from "./IField";

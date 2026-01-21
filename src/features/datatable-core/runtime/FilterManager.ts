@@ -1,5 +1,5 @@
-import type { DatatableConfig } from "../domain/entities/DatatableConfig";
-import type { FilterCondition } from "../domain/value-objects/FilterCondition";
+import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 
 export class FilterManager<T> {
   constructor(private config: DatatableConfig<T>) {}

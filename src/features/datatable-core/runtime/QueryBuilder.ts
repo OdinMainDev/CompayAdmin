@@ -1,8 +1,8 @@
-import type { DatatableConfig } from "../domain/entities/DatatableConfig";
-import type { ApiDatatableQuery } from "../domain/entities/DatatableQuery";
-import type { DatatableState } from "../domain/entities/DatatableState";
-import type { SortState } from "../domain/value-objects/SortDirection";
-import type { FilterCondition } from "../domain/value-objects/FilterCondition";
+import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
+import type { ApiDatatableQuery } from "@/features/datatable-core/domain/entities/DatatableQuery";
+import type { DatatableState } from "@/features/datatable-core/domain/entities/DatatableState";
+import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 
 export class QueryBuilder<T> {
   constructor(private config: DatatableConfig<T>) {}

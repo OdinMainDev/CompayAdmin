@@ -1,7 +1,7 @@
-import type { DatatableConfig } from "../domain/entities/DatatableConfig";
-import type { DatatableState } from "../domain/entities/DatatableState";
-import type { FilterCondition } from "../domain/value-objects/FilterCondition";
-import type { SortState } from "../domain/value-objects/SortDirection";
+import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
+import type { DatatableState } from "@/features/datatable-core/domain/entities/DatatableState";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
+import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
 
 export class StateManager<T> {
   private state: DatatableState<T>;

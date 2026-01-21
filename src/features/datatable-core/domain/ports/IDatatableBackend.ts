@@ -1,6 +1,6 @@
-import type { ApiDatatableQuery } from "../entities/DatatableQuery";
-import type { IResponseList } from "../entities/DatatableResponse";
-import type { FilterDefinition } from "../entities/FilterDefinition";
+import type { ApiDatatableQuery } from "@/features/datatable-core/domain/entities/DatatableQuery";
+import type { IResponseList } from "@/features/datatable-core/domain/entities/DatatableResponse";
+import type { FilterDefinition } from "@/features/datatable-core/domain/entities/FilterDefinition";
 
 
 export interface IDatatableBackend<T> {

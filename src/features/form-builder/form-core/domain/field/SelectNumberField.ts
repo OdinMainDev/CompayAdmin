@@ -1,4 +1,4 @@
-import type { SelectFieldExtra } from "../extra/SelectFieldExtra";
+import type { SelectFieldExtra } from "@/features/form-builder/form-core/domain/extra/SelectFieldExtra";
 import { SelectFieldGeneric } from "./SelectFieldGeneric";
 
 export class SelectNumberField extends SelectFieldGeneric<number> {

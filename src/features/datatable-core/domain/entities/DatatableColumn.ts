@@ -1,4 +1,4 @@
-import type { FormField } from "../ports/IDatatableFormBuilder";
+import type { FormField } from "@/features/datatable-core/domain/ports/IDatatableFormBuilder";
 
 export interface DatatableColumn<T> {
   id: string;

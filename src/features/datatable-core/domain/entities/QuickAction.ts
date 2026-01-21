@@ -1,4 +1,4 @@
-import type { RawFormSection } from "../../../form-platform/packages/form-core/domain/field/RawFormSection";
+import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
 
 export interface QuickAction {
   id: string;

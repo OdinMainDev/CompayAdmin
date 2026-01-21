@@ -1,5 +1,5 @@
-import type { FilterCondition } from "../value-objects/FilterCondition";
-import type { SortState } from "../value-objects/SortDirection";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
+import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
 
 export interface DatatableState<T> {
   data: T[];

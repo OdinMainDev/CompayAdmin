@@ -1,6 +1,6 @@
 import React from 'react';
-import type { BaseFieldExtra } from '../form-core/domain/extra/BaseFieldExtra';
-import type { IField } from '../form-core/domain/field/IField';
+import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
+import type { IField } from '@/features/form-builder/form-core/domain/field/IField';
 
 export type FieldConstructor<
   T = unknown,

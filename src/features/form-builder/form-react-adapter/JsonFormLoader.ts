@@ -1,7 +1,7 @@
-import type { CompositeField } from "../form-core/domain/field/CompositeField";
-import type { FormSection } from "../form-core/domain/field/FormSection";
-import type { AnyField } from "../form-core/domain/field/IField";
-import type { RawFormSection } from "../form-core/domain/field/RawFormSection";
+import type { CompositeField } from "@/features/form-builder/form-core/domain/field/CompositeField";
+import type { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
+import type { AnyField } from "@/features/form-builder/form-core/domain/field/IField";
+import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
 import { UnifiedFieldRegistry } from "./UnifiedFieldRegistry";
 
 export interface RawFieldData {
