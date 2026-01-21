@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import type { RouteConfig } from '@/app/router/types';
+import { RouteConfig } from '@/features/router/types';
 
 const Landing = lazy(() => import('@/pages/landing/Landing'));
 const NotFound = lazy(() => import('@/pages/errors/NotFound'));

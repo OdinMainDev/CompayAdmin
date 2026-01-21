@@ -13,6 +13,7 @@ export interface RouteConfig {
     roles?: string[];
     permissions?: string[];
     icon?: IconDefinition;
+    hideInMenu?: boolean;
   };
   children?: RouteConfig[];
 }

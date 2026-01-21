@@ -1,9 +1,9 @@
-import { RouteConfig } from "./types";
+import { RouteConfig } from '@/features/router/types';
 
 export const adminRoutes: RouteConfig[] = [
-  {
-    id: 'landing',
-    path: '/',
-    component: Landing,
-  },
+  // {
+  //   id: 'landing',
+  //   path: '/',
+  //   component: <>asdasd</>,
+  // },
 ];

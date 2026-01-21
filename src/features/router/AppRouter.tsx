@@ -1,8 +1,8 @@
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RouteConfig } from './types';
-import { routeConfigs } from './Routes';
 import { Suspense } from 'react';
 import Preloader from '@/components/base/Preloader';
+import { routeConfigs } from '@/app/router/Routes';
 
 const AppRouter = () => {
     const router = createBrowserRouter(buildRouterConfig(routeConfigs));
