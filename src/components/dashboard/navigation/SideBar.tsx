@@ -109,9 +109,6 @@ const SideBar = () => {
               <NavItem setShow={setShow} title="dashboard" link={'/dashboard'} icon={faRocket} isHiddenDesktop/>
 
               {routes.children?.map((route) => renderNavLink(route, ""))}
-
-              <NavItem setShow={setShow} title="logout" link={'/dashboard/logout'} icon={faSignOut} isHiddenMobile/>
-              
             </Nav>
           </div>
         </SimpleBar>
