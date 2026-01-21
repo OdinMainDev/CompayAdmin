@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '../validation/ValidationResult';
-import type { NumberFieldExtra } from '../extra/NumberFieldExtra';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import type { NumberFieldExtra } from '@/features/form-builder/form-core/domain/extra/NumberFieldExtra';
 
 
 export class NumberField extends BaseField<number | null, NumberFieldExtra> {

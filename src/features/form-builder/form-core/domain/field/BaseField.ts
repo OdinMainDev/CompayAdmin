@@ -1,6 +1,6 @@
 import type { AnyField, IField } from './IField';
-import type { ValidationResult } from '../validation/ValidationResult';
-import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 
 export abstract class BaseField<
   T,

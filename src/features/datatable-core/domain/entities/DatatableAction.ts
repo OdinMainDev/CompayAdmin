@@ -1,4 +1,4 @@
-import type { FormSchema } from '../ports/IDatatableFormBuilder';
+import type { FormSchema } from '@/features/datatable-core/domain/ports/IDatatableFormBuilder';
 import type { DatatableState } from './DatatableState';
 
 export interface DatatableAction<T = unknown> {

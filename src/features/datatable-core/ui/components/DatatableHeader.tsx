@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { DatatableEngine } from '../../runtime/DatatableEngine';
-import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
-import type { DatatableState } from '../../domain/entities/DatatableState';
+import { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 import { DatatableFilters } from './DatatableFilters';
 import { Dropdown, Form } from 'react-bootstrap';
-import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
-import { useDatatableState } from '../hooks/useDatatableState';
+import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
+import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
 
 interface DatatableHeaderProps<T> {
   config: DatatableConfig<T>;

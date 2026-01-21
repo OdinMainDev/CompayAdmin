@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '../validation/ValidationResult';
-import type { SelectFieldExtra } from '../extra/SelectFieldExtra';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import type { SelectFieldExtra } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 
 export class MultiSelectFieldGeneric<T extends string | number = string> extends BaseField<T[], SelectFieldExtra> {
   type: string;

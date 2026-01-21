@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DatatableState } from '../../domain/entities/DatatableState';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 
 interface DatatableFooterProps<T = unknown> {
   state: DatatableState<T>;

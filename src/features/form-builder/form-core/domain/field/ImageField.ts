@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '../validation/ValidationResult';
-import type { ImageFieldExtra } from '../extra/ImageFieldExtra';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import type { ImageFieldExtra } from '@/features/form-builder/form-core/domain/extra/ImageFieldExtra';
 
 export type ImageValue = File | string | null;
 

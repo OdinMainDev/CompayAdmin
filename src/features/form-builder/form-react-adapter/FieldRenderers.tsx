@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import type { ReactElement } from 'react';
-import type { IField } from '../form-core/domain/field/IField';
-import type { BaseFieldExtra } from '../form-core/domain/extra/BaseFieldExtra';
+import type { IField } from '@/features/form-builder/form-core/domain/field/IField';
+import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 
 export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
     fieldRenderer: (field: IField<T, E>, onChange: (value: T) => void, hasError: boolean) => ReactElement

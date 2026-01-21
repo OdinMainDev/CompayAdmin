@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import type { DatatableEngine } from '../../runtime/DatatableEngine';
+import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 
 export function useDatatableState<T>(engine: DatatableEngine<T>) {
   const [state, setState] = useState(() => engine.getState());

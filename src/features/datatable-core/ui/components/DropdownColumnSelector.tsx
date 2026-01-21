@@ -1,5 +1,5 @@
 import { Dropdown, Form } from 'react-bootstrap';
-import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
+import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
 import { useState } from 'react';
 
 interface DropdownColumnSelectorProps<T = unknown> {
