@@ -1,22 +1,3 @@
 {
-  "login_page": {
-    "title": "Authorization",
-    "description": "Access your account",
-    "submit": "Login"
-  },
-  "error_page": {
-
-  },
-  "datatable": {
-
-  },
-  "topbar": {
-      "fast_actions": {
-        "title": "Fast actions",
-        "action_1": "Clear cache"
-      }
-  },
-  "sidebar": {
-   
-  }
+ 
 }

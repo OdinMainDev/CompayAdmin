@@ -190,8 +190,6 @@ const List = () => {
     },
     columns,
     filterForm: filters,
-    title: t('datatable_demo.table.title'),
-    subtitle: t('datatable_demo.table.subtitle'),
     pagination: {
       enabled: true,
       pageSize: 10,
@@ -324,10 +322,7 @@ const List = () => {
       <PageHeader
         title={t('datatable_demo.page.title')}
         subtitle={t('datatable_demo.page.subtitle')}
-        trail={[
-          { label: t('datatable_demo.page.tools') }, 
-          { label: t('datatable_demo.page.datatable') }
-        ]}
+        
       />
       
       <div className="card shadow-sm border-0">

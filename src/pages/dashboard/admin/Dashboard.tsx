@@ -1,10 +1,12 @@
 import { Col, Container, Image, Row } from "react-bootstrap";
 
 import NotFoundImage from "@/assets/images/dashboard/illustrations/404.svg";
+import PageHeader from "@/components/dashboard/common/PageHeader";
 
 export default function Dashboard() {
   return (
     <main>
+      <PageHeader title="TEST" subtitle="TEST2"/>
       <section className="vh-100 d-flex align-items-center justify-content-center">
         <Container>
           <Row>
