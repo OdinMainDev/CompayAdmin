@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Image, Nav, Navbar } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 import { CSSTransition } from 'react-transition-group';
 import ImageLogo from "@/assets/images/logo/logo.svg";
 import ProfilePicture from "@/assets/images/dashboard/examples/profile-picture-1.jpg";
 import { faChartPie, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
+import { useGetAvailMenuRoutes } from '@/features/router/hooks/useGetAvailMenuRoutes';
+import { RouteConfig } from '@/features/router/types';
 
 
 
@@ -15,13 +17,35 @@ const SideBar = () => {
   const [show, setShow] = useState(false);
   const showClass = show ? "show" : "";
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  // const routes = useRouteGroups();
+  const routes = useGetAvailMenuRoutes();
  
-  // if (!routes) {
-  //   return null;
-  // }
+  if (!routes) {
+    return null;
+  }
 
   const onCollapse = () => setShow(!show);
+
+  const renderNavLink = (route: RouteConfig): ReactNode => {
+   const hasChildren = Boolean(route.children?.length);
+    // const childActive = route.children?.some((child) => isActive(child)) ?? false;
+
+    if (!hasChildren) {
+      if (!route.meta?.label || !route.meta.icon) {
+        return;
+      }
+      return (
+        <NavItem
+          key={route.id}
+          setShow={setShow}
+          title={route.meta?.label ?? ''}
+          link={route.path}
+          icon={route.meta.icon}
+        />
+      );
+    }
+
+    return route.children!.map(child => renderNavLink(child));
+  };
 
   return (
     <>
@@ -76,6 +100,8 @@ const SideBar = () => {
               </NavLink>
 
               <NavItem setShow={setShow} title="Overview" link={'/'} icon={faChartPie} isHiddenDesktop/>
+
+              {routes.children?.map((route) => renderNavLink(route))}
               
             </Nav>
           </div>

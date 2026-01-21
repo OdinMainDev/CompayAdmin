@@ -1,16 +1,8 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import type { ReactNode } from 'react';
 import { useAuthContext } from '@/features/auth/auth-context';
+import { GuardProps } from './types';
 
-export interface GuardProps {
-    children: ReactNode;
-    roles?: string[];
-    permissions?: string[];
-}
-
-export type GuardComponent = React.ComponentType<GuardProps>;
-
-const RoleGuard = ({ children, roles }: GuardProps) => {
+const MerchantGuard = ({ children }: GuardProps) => {
   const { getRole, isAuthenticated } = useAuthContext();
   const location = useLocation();
 
@@ -20,11 +12,11 @@ const RoleGuard = ({ children, roles }: GuardProps) => {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  if (role && roles && roles.length > 0 && !roles.includes(role)) {
+  if (role && role != "merchant") {
     return  <Navigate to="/404" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
 };
 
-export default RoleGuard;
+export default MerchantGuard;

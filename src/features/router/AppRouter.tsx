@@ -1,4 +1,4 @@
-import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Outlet, RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RouteConfig } from './types';
 import { Suspense } from 'react';
 import Preloader from '@/components/base/Preloader';
@@ -24,7 +24,13 @@ const buildRouterConfig = (configs: RouteConfig[]): RouteObject[] => {
 const buildRouteElement = (config: RouteConfig) => {
   const { component: Component, layout: Layout, guard: Guard } = config;
   
-  let element = <Component />;
+  let element: React.ReactNode;
+
+  if (Component) {
+    element = <Component />;
+  } else {
+    element = <Outlet />;
+  }
   
   if (Layout) {
     const LayoutComponent = Layout;

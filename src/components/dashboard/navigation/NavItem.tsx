@@ -2,6 +2,7 @@ import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction } from "react";
 import { Image, Nav } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 
 interface NavItemProps {
@@ -27,6 +28,7 @@ const NavItem: React.FC<NavItemProps> = ({
   }) => {
     const location = useLocation();
     const { pathname } = location;
+    const { t } = useTranslation("menu");
 
     const navItemClassName = link === pathname ? "active" : "";
 
@@ -51,7 +53,7 @@ const NavItem: React.FC<NavItemProps> = ({
                             className="sidebar-icon svg-icon"
                         />
                     )}
-                    <span className="sidebar-text">{title}</span>
+                    <span className="sidebar-text">{t(title)}</span>
                 </span>
             </Nav.Link>
         </Nav.Item>

@@ -30,7 +30,7 @@ export interface UseAuthReturn extends UseAuthState {
 
 export const useAuth = (): UseAuthReturn => {
   const [state, setState] = useState<UseAuthState>(() => ({
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated: false,
     isLoading: false,
     error: null,
     user: null,
