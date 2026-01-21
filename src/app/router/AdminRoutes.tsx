@@ -4,6 +4,7 @@ import AdminGuard from '@/features/router/guards/AdminGuard';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/admin/Dashboard'));
+const UserList = lazy(() => import('@/pages/dashboard/admin/user/List'));
 
 export const adminRoutes: RouteConfig[] = [
   {
@@ -15,14 +16,14 @@ export const adminRoutes: RouteConfig[] = [
       {
         id: 'admin-dashboard',
         path: '',
-        // component: Dashboard,
+        component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
       // Users
       {
         id: 'admin-users-list',
         path: 'users/list',
-        component: Dashboard,
+        component: UserList,
         meta: {roles: ["admin"], showInMenu: true, label: "users_list", icon: faUsers },
       },
       {
