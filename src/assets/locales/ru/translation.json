@@ -1,0 +1,120 @@
+{
+  "login_page": {
+    "title": "Авторизация",
+    "description": "Получите доступ к своей учетной записи",
+    "submit": "Войти"
+  },
+  "email": "Почта",
+  "password": "Пароль",
+  "enter_email": "Введите почту",
+  "enter_password": "Введите пароль",
+  "submit": "Подтвердить",
+  "form": {
+    "select_placeholder": "Выберите значение",
+    "loading": "Загрузка...",
+    "clear": "Очистить",
+    "saved": "Сохранено"
+  },
+  "toasts": {
+    "pending": "Обработка действия...",
+    "success": "Действие успешно!",
+    "fail": "Ошибка во время обработки!",
+    "code": "Ошибка: "
+  },
+  "routes": {
+    "admin": "Админ",
+    "merchant": "Мерчант",
+    "management": "Управление",
+    "tools": "Инструменты",
+    "dashboard": "Главная",
+    "tables": "Таблицы",
+    "datatable": "Datatable",
+    "form_builder": "Form Builder"
+  },
+  "notfound": {
+    "title": "Страница не найдена",
+    "description": "Мы не смогли найти страницу, которую вы ищете. Попробуйте вернуться на главную.",
+    "cta": "На главную"
+  },
+  "datatable": {
+    "add_record": "Добавить запись",
+    "page_size_option": "{{size}} / стр.",
+    "loading": "Загрузка...",
+    "empty": "Нет данных для отображения",
+    "summary": "Показаны {{count}} из {{total}} записей"
+  },
+  "datatable_demo": {
+    "page": {
+      "title": "Datatable Builder",
+      "subtitle": "Обновлённый вид: базовая таблица с сортировкой, пагинацией и кнопкой действий.",
+      "tools": "Инструменты",
+      "datatable": "Datatable"
+    },
+    "table": {
+      "title": "Мерчанты",
+      "subtitle": "Структура повторяет старый API: length/start/order_column/order_direction.",
+      "add": "Добавить мерчанта"
+    },
+    "columns": {
+      "merchant": "Мерчант",
+      "status": "Статус",
+      "turnover": "Оборот",
+      "currency": "Валюта"
+    },
+    "status": {
+      "active": "Активен",
+      "paused": "На паузе",
+      "blocked": "Заблокирован"
+    }
+  },
+  "form_builder_demo": {
+    "page": {
+      "title": "Form Builder",
+      "subtitle": "Облегчённые поля: ввод, мультиселекты и загрузка фото под новый UI.",
+      "tools": "Инструменты",
+      "form_builder": "Form Builder"
+    },
+    "alert_saved": "Форма сохранена (mock).",
+    "form": {
+      "title": "Карточка мерчанта",
+      "subtitle": "Используются только основные элементы: фото, инпуты, мультиселекты.",
+      "submit": "Сохранить"
+    },
+    "sections": {
+      "main": {
+        "title": "Основное",
+        "description": "Минимальный набор полей: текст, числа, пароли и textarea."
+      },
+      "display": {
+        "title": "Настройки отображения",
+        "description": "Загрузка обложки и базовые селекты/мультиселекты."
+      }
+    },
+    "fields": {
+      "name": "Название",
+      "slug": "Слаг",
+      "slug_hint": "URL-часть для API",
+      "limit": "Лимит",
+      "password": "Пароль секции",
+      "description": "Описание",
+      "description_hint": "Краткое описание оффера или кампании.",
+      "cover": "Обложка",
+      "cover_hint": "JPG/PNG до 2MB",
+      "category": "Категория",
+      "currencies": "Доступные валюты",
+      "currencies_hint": "Можно выбрать несколько значений"
+    },
+    "options": {
+      "casino": "Казино",
+      "sport": "Спорт",
+      "payments": "Платежи"
+    }
+  },
+  "totp_page": {
+    "title": "Подтверждение входа",
+    "description": "Введите 6-значный код из приложения-аутентификатора.",
+    "error": "Неверный код",
+    "error_prefix": "Ошибка:",
+    "submit": "Подтвердить"
+  }
+}

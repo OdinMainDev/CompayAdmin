@@ -1,0 +1,25 @@
+{
+    "login_page": {
+        "title": "Авторизация",
+        "description": "Получите доступ к своей учетной записи",
+        "submit": "Войти"
+    },
+    "error_page": {
+
+    },
+    "datatable": {
+
+    },
+    "topbar": {
+        "fast_actions": {
+            "title": "Быстрые действия",
+            "action_1": "Очистить кеш"
+        },
+        "notifications": {
+            "title": "Уведомдения",
+            "open_all": "Все уведомления"
+        }
+    },
+    "sidebar": {
+    }
+}

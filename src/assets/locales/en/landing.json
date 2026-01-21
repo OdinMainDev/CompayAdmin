@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "integration": "Integration",
+    "work": "How it works",
+    "roadmap": "Roadmap",
+    "contact": "Contact",
+    "language": "Language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "badge": "Crypto processing for online business",
+    "title": "Compay — accept crypto payments on your site",
+    "subtitle": "Accept USDT, BTC and other coins via checkout or API. Rate lock, protection and notifications by default.",
+    "cta": "Request access"
+  },
+  "features": {
+    "badge": "for internet businesses",
+    "title": "Crypto acquiring without heavy integration",
+    "items": {
+      "accept": {
+        "title": "Accept cryptocurrencies",
+        "desc": "USDT, BTC, ETH and card payments with auto-conversion to stables."
+      },
+      "convert": {
+        "title": "Instant conversion",
+        "desc": "Lock the rate and withdraw to USDT or fiat right after payment."
+      },
+      "realtime": {
+        "title": "Realtime data",
+        "desc": "Dashboards by payment status and webhook notifications."
+      },
+      "risk": {
+        "title": "Risk protection",
+        "desc": "Fraud monitoring, limits and 3DS for cards."
+      },
+      "aml": {
+        "title": "AML compliance",
+        "desc": "KYT checks for addresses and reports for accounting."
+      }
+    }
+  },
+  "marquee": {
+    "text": "Accept crypto the way your customers love with Compay"
+  },
+  "token": {
+    "badge": "for developers and no-code",
+    "title": "Crypto-processing platform for your website",
+    "subtitle": "Compay helps online stores accept crypto and instantly convert it to stable currencies. No own blockchain infrastructure or heavy support.",
+    "cta": "Connect Compay",
+    "counterTitle": "Relaunching billing in:",
+    "received": "$49,222,300 processed in 2024",
+    "countdown": {
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds"
+    }
+  },
+  "work": {
+    "badge": "how it works",
+    "title": "How Compay enables crypto payments",
+    "steps": {
+      "one": {
+        "title": "Create account",
+        "desc": "Fast business verification and merchant setup."
+      },
+      "two": {
+        "title": "Complete integration",
+        "desc": "Checkout page, widget or API/SDK — choose the way you like."
+      },
+      "three": {
+        "title": "Configure notifications",
+        "desc": "Webhooks and email for every payment status."
+      },
+      "four": {
+        "title": "Receive payouts",
+        "desc": "Auto-withdraw to stables or fiat on schedule."
+      }
+    }
+  },
+  "uptime": {
+    "title": "Gateway availability",
+    "titlePrefix": "Gateway",
+    "titleHighlight": "availability",
+    "desc": "99.9% uptime, backup nodes and anti-fraud in every transaction."
+  },
+  "platform_capabilities": {
+    "badge": "compay products",
+    "title": "Tools to accept crypto payments.",
+    "docs": {
+      "title": "API Documentation",
+      "cta": "Open docs"
+    },
+    "pricing": {
+      "title": "Fees from 0.4%",
+      "cta": "Calculate pricing"
+    },
+    "support": {
+      "title": "Support 24/7",
+      "cta": "Message on Telegram"
+    }
+  },
+  "faq": {
+    "title": "Answering frequent",
+    "title_2": "frequent",
+    "title_3": "questions",
+    
+    "items": {
+      "q1": {
+        "question": "Why accept crypto on a website?",
+        "answer": "Crypto payments open sales to customers worldwide with no chargebacks and instant confirmations."
+      },
+      "q2": {
+        "question": "How fast can I connect?",
+        "answer": "Register, verify the business and get API keys. We can issue a ready checkout page without development."
+      },
+      "q3": {
+        "question": "How conversion and payouts work?",
+        "answer": "We lock the rate at payment time, keep funds in cold wallets and withdraw to stables or fiat on your schedule."
+      }
+    }
+  },
+  "roadmap": {
+    "badge": "roadmap",
+    "title": "Compay plans and growth",
+    "items": {
+      "y2023": {
+        "year": "2023",
+        "desc": "MVP checkout page and first merchants."
+      },
+      "y2024": {
+        "year": "2024",
+        "desc": "Tron/ETH support and auto conversion to stables."
+      },
+      "y2025": {
+        "year": "2025",
+        "desc": "Multi-currency payouts and virtual accounts for merchants."
+      },
+      "y2026": {
+        "year": "2026",
+        "desc": "Plugin marketplace and developer console."
+      }
+    }
+  },
+  "footer": {
+    "badge": "Borderless crypto processing",
+    "title": "Join the future of payments with Compay"
+  },
+  "modal": {
+    "title": "Contact Compay",
+    "subtitle": "Leave your contact and we will reach out.",
+    "placeholder": "Jabber / Telegram / qTox",
+    "submit": "Send request",
+    "success": "Sent successfully"
+  },
+  "form": {
+    "search": "Search the site"
+  }
+}
