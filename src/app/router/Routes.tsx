@@ -22,7 +22,7 @@ export const routeConfigs: RouteConfig[] = [
 
   // Dashboard Routes
   {
-    id: "layout-panel",
+    id: "layout-panel-NAHUY",
     path: "*",
     component: PanelLayout,
     children: [
