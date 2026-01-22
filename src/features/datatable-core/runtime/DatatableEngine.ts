@@ -1,13 +1,13 @@
-import type { DatatableConfig } from '../domain/entities/DatatableConfig';
-import type { DatatableState } from '../domain/entities/DatatableState';
-import type { FilterCondition } from '../domain/value-objects/FilterCondition';
-import type { IDatatableBackend } from '../domain/ports/IDatatableBackend';
-import type { IDatatableEventEmitter } from '../domain/ports/IDatatableEventEmitter';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
+import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
+import type { IDatatableEventEmitter } from '@/features/datatable-core/domain/ports/IDatatableEventEmitter';
 import { QueryBuilder } from './QueryBuilder';
 import { StateManager } from './StateManager';
 import { FilterManager } from './FilterManager';
-import type { SortState } from '../domain/value-objects/SortDirection';
-import type { IDatatableFormBuilder } from '../domain/ports/IDatatableFormBuilder';
+import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
+import type { IDatatableFormBuilder } from '@/features/datatable-core/domain/ports/IDatatableFormBuilder';
 
 export class DatatableEngine<T> {
   private config: DatatableConfig<T>;

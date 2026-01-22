@@ -1,5 +1,5 @@
-import type { SelectFieldExtra } from "../../form-core/domain/extra/SelectFieldExtra";
-import type { IField } from "../../form-core/domain/field/IField";
+import type { SelectFieldExtra } from "@/features/form-builder/form-core/domain/extra/SelectFieldExtra";
+import type { IField } from "@/features/form-builder/form-core/domain/field/IField";
 import { BaseSelectRenderer } from "./BaseSelect";
 
 

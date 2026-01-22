@@ -1,6 +1,6 @@
 
 import { useMemo } from 'react';
-import { UnifiedFormAdapter } from '../../adapters/form/UnifiedFormAdapter';
+import { UnifiedFormAdapter } from '@/features/datatable-core/adapters/form/UnifiedFormAdapter';
 
 export function useUnifiedFormBuilder<T>() {
     const formBuilder = useMemo(() => new UnifiedFormAdapter<T>(), []);

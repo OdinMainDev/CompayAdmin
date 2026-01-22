@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { DatatableEngine } from '../../runtime/DatatableEngine';
-import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
-import type { DatatableState } from '../../domain/entities/DatatableState';
+import { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 import { DatatableHeader } from './DatatableHeader';
 import { DatatableFooter } from './DatatableFooter';
-import type { ApiDatatableQuery } from '../../domain/entities/DatatableQuery';
+import type { ApiDatatableQuery } from '@/features/datatable-core/domain/entities/DatatableQuery';
 import { DatatableBody } from './DatatableBody';
-import type { IDatatableBackend } from '../../domain/ports/IDatatableBackend';
-import { useUnifiedFormBuilder } from '../hooks/useUnifiedFormBuilder';
+import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
+import { useUnifiedFormBuilder } from '@/features/datatable-core/ui/hooks/useUnifiedFormBuilder';
 
 interface DatatableProps<T> {
   config: DatatableConfig<T>;

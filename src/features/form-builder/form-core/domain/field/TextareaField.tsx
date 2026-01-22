@@ -1,5 +1,5 @@
 import { TextField } from "./TextField";
-import type { TextFieldExtra } from "../extra/TextFieldExtra";
+import type { TextFieldExtra } from "@/features/form-builder/form-core/domain/extra/TextFieldExtra";
 
 export class TextareaField  extends TextField {
     type = 'textarea';

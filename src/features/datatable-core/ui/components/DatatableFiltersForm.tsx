@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
 import { buildDefaultValues } from "@/features/form-builder/form-core/domain/utils/default";
 import UnifiedFormBuilder from "@/features/form-builder/form-react-adapter/UnifiedFormBuilder";
-import type { DatatableEngine } from "../../runtime/DatatableEngine";
-import type { FilterCondition } from "../../domain/value-objects/FilterCondition";
+import type { DatatableEngine } from "@/features/datatable-core/runtime/DatatableEngine";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 
 interface DatatableFiltersFormProps<T> {
   engine?: DatatableEngine<T>;

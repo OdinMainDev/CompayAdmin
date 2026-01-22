@@ -1,10 +1,10 @@
 import React from 'react';
-import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
-import type { DatatableState } from '../../domain/entities/DatatableState';
-import type { SortState } from '../../domain/value-objects/SortDirection';
-import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
-import { useDatatableState } from '../hooks/useDatatableState';
-import type { DatatableEngine } from '../../runtime/DatatableEngine';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
+import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
+import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
+import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
+import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 
 interface DatatableBodyProps<T> {
   config: DatatableConfig<T>;

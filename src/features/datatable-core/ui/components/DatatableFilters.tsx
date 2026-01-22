@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
-import type { DatatableEngine } from '../../runtime/DatatableEngine';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 import { DatatableFiltersForm } from './DatatableFiltersForm';
-import type { FilterCondition } from '../../domain/value-objects/FilterCondition';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
 
 interface DatatableFiltersProps<T> {
   config: DatatableConfig<T>;

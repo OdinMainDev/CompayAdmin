@@ -1,6 +1,6 @@
-import type { RawFormSection } from "../../../form-platform/packages/form-core/domain/field/RawFormSection";
-import type { FilterCondition } from "../value-objects/FilterCondition";
-import type { SortDirection, SortState } from "../value-objects/SortDirection";
+import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
+import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
+import type { SortDirection, SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
 import type { BulkAction } from "./BulkAction";
 import type { DatatableColumn } from "./DatatableColumn";
 import type { ApiDatatableQuery } from "./DatatableQuery";

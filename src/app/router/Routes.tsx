@@ -10,6 +10,7 @@ const NotFound = lazy(() => import('@/pages/errors/NotFound'));
 const Login = lazy(() => import('@/pages/dashboard/auth/Login'));
 const PanelLayout = lazy(() => import('@/components/dashboard/layout/PanelLayout'));
 const DashboardLayout = lazy(() => import('@/components/dashboard/layout/DashboardLayout'));
+const Profile = lazy(() => import('@/pages/dashboard/common/Profile'));
 const Logout = lazy(() => import('@/pages/dashboard/auth/Logout'));
 
 export const routeConfigs: RouteConfig[] = [
@@ -36,7 +37,12 @@ export const routeConfigs: RouteConfig[] = [
           ...adminRoutes,
           ...merchantRoutes,
 
-          // Service Routes
+          // General Admin Routes
+          {
+            id: 'profile',
+            path: 'profile',
+            component: Profile,
+          },
           {
             id: 'logout',
             path: 'logout',

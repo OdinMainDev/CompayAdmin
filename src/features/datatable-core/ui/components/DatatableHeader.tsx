@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { DatatableEngine } from '../../runtime/DatatableEngine';
-import type { DatatableConfig } from '../../domain/entities/DatatableConfig';
-import type { DatatableState } from '../../domain/entities/DatatableState';
+import { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 import { DatatableFilters } from './DatatableFilters';
 import { Dropdown, Form } from 'react-bootstrap';
-import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
-import { useDatatableState } from '../hooks/useDatatableState';
+import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
+import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
 
 interface DatatableHeaderProps<T> {
   config: DatatableConfig<T>;
@@ -74,25 +74,6 @@ export function DatatableHeader<T>({
       padding: '1rem',
       borderBottom: '1px solid #e9ecef'
     }}>
-      <div style={{ marginBottom: '1rem' }}>
-        {config.title && (
-          <h3 style={{
-            margin: 0,
-            fontSize: '1.5rem',
-            fontWeight: 600,
-            color: '#343a40'
-          }}>{config.title}</h3>
-        )}
-        
-        {config.subtitle && (
-          <p style={{
-            margin: '0.25rem 0 0 0',
-            color: '#6c757d',
-            fontSize: '0.875rem'
-          }}>{config.subtitle}</p>
-        )}
-      </div>
-      
       <div style={{
         display: 'flex',
         alignItems: 'center',

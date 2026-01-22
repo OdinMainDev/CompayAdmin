@@ -1,5 +1,5 @@
 import { MultiSelectFieldGeneric } from './MultiSelectFieldGeneric';
-import type { SelectFieldExtra } from '../extra/SelectFieldExtra';
+import type { SelectFieldExtra } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 
 export class MultiSelectStringField extends MultiSelectFieldGeneric<string> {
   type = 'multiselect';

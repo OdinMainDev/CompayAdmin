@@ -22,20 +22,20 @@ export const adminRoutes: RouteConfig[] = [
       // Users
       {
         id: 'admin-users-list',
-        path: 'users/list',
+        path: 'users',
         component: UserList,
-        meta: {roles: ["admin"], showInMenu: true, label: "users_list", icon: faUsers },
+        meta: {roles: ["admin"], showInMenu: true, label: "users", icon: faUsers },
       },
       {
         id: 'admin-users-create',
         path: 'users/create',
-        // component: Dashboard,
+        component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
       {
         id: 'admin-users-update',
-        path: 'users/edit',
-        // component: Dashboard,
+        path: 'users/edit/:id',
+        component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
     ],

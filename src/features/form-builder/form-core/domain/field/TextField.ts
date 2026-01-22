@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '../validation/ValidationResult';
-import type { TextFieldExtra } from '../extra/TextFieldExtra';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import type { TextFieldExtra } from '@/features/form-builder/form-core/domain/extra/TextFieldExtra';
 
 export class TextField extends BaseField<string, TextFieldExtra> {
   type = 'text';

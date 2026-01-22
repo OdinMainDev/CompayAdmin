@@ -1,5 +1,5 @@
-import type { FormState } from "../application/FormState";
-import type { SubmitFormUseCase } from "../application/SubmitFormUseCase";
+import type { FormState } from "@/features/form-builder/form-core/application/FormState";
+import type { SubmitFormUseCase } from "@/features/form-builder/form-core/application/SubmitFormUseCase";
 export type FormEventPayload =
 
   | { type: 'FIELD_CHANGE'; fieldKey: string; value: unknown }

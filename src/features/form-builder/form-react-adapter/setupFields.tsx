@@ -4,22 +4,22 @@ import {
   TextField, TextareaField, PasswordField, NumberField,
   ImageField, SwitchField, SelectStringField, SelectNumberField, MultiSelectField,
   type ImageValue
-} from '../form-core/domain/field';
+} from '@/features/form-builder/form-core/domain/field';
 import { PrimitiveFieldRenderer } from './components/PrimitiveField';
 import { ImageInput } from './components/ImageInput';
 import { SwitchRenderer } from './components/Switch';
-import { MultiSelectNumberField } from '../form-core/domain/field/MultiSelectNumberField';
-import { TabField, type TabFieldValue } from '../form-core/domain/field/TabField';
-import type { TabsFieldExtra } from '../form-core/domain/extra/TabFieldExtra';
+import { MultiSelectNumberField } from '@/features/form-builder/form-core/domain/field/MultiSelectNumberField';
+import { TabField, type TabFieldValue } from '@/features/form-builder/form-core/domain/field/TabField';
+import type { TabsFieldExtra } from '@/features/form-builder/form-core/domain/extra/TabFieldExtra';
 import { TabsRenderer } from './components/Tabs';
-import { RepeaterField, type RepeaterFieldExtra, type RepeaterFieldValue } from '../form-core/domain/field/RepeaterField';
+import { RepeaterField, type RepeaterFieldExtra, type RepeaterFieldValue } from '@/features/form-builder/form-core/domain/field/RepeaterField';
 import { RepeaterRenderer } from './components/Repeater';
 import { SingleSelectRenderer } from './components/Select';
 import { MultiSelectRenderer } from './components/MultiSelect';
-import { OptionalSwitchField } from '../form-core/domain/field/OptionalSwitchField';
+import { OptionalSwitchField } from '@/features/form-builder/form-core/domain/field/OptionalSwitchField';
 import { OptionalSwitchRenderer } from './components/OptionalSwitch';
-import { DaterangeField, type DaterangeValue } from '../form-core/domain/field/DaterangeField';
-import type { DaterangeFieldExtra } from '../form-core/domain/extra/DaterangeFieldExtra';
+import { DaterangeField, type DaterangeValue } from '@/features/form-builder/form-core/domain/field/DaterangeField';
+import type { DaterangeFieldExtra } from '@/features/form-builder/form-core/domain/extra/DaterangeFieldExtra';
 import { DaterangeRenderer } from './components/Daterange';
 
 

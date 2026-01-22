@@ -25,7 +25,7 @@ export interface UseAuthReturn extends UseAuthState {
   readonly clearError: () => void;
   readonly getRole: () => UserRole | null;
   readonly getFieldErrors: () => Record<string, string[]>;
-  saveToken: (s: string) => void;
+  readonly saveToken: (s: string) => void;
 }
 
 export const useAuth = (): UseAuthReturn => {

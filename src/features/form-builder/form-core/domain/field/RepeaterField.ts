@@ -1,8 +1,8 @@
-import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
+import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 import { BaseField } from './BaseField';
 import type { CompositeField } from './CompositeField';
 import type { AnyField } from './IField';
-import type { ValidationResult } from '../validation/ValidationResult';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
 
 export interface RepeaterItem {
   id: string;

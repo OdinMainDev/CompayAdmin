@@ -1,7 +1,7 @@
 
 import { JsonFormLoader } from '@/features/form-builder/form-react-adapter/JsonFormLoader';
-import type { DatatableColumn } from '../../domain/entities/DatatableColumn';
-import type { IDatatableFormBuilder, FormSchema, FormField, FormInstance } from '../../domain/ports/IDatatableFormBuilder';
+import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
+import type { IDatatableFormBuilder, FormSchema, FormField, FormInstance } from '@/features/datatable-core/domain/ports/IDatatableFormBuilder';
 
 export class UnifiedFormAdapter<T> implements IDatatableFormBuilder<T> {
   

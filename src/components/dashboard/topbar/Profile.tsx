@@ -12,14 +12,15 @@ const Profile = () => {
     <Dropdown as={Nav.Item}>
         <Dropdown.Toggle as={Nav.Link} className="pt-1 px-0">
             <div className="media d-flex align-items-center">
-                <Image src={Profile1} className="user-avatar md-avatar rounded-circle" />
+                <FontAwesomeIcon icon={faUserCircle} className="user-avatar icon icon-sm rounded-circle text-dark" />
+                {/* <Image src={Profile1} className="user-avatar md-avatar rounded-circle" /> */}
                 <div className="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                 <span className="mb-0 font-small fw-bold">{`{USERNAME}`}</span>
                 </div>
             </div>
         </Dropdown.Toggle>
         <Dropdown.Menu className="user-dropdown dropdown-menu-right mt-2">
-            <Dropdown.Item className="fw-bold">
+            <Dropdown.Item className="fw-bold" as={Link} to={"/dashboard/profile"}>
                 <FontAwesomeIcon icon={faUserCircle} className="me-2" /> {t("profile")}
             </Dropdown.Item>
 

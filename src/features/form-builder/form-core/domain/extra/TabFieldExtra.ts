@@ -1,4 +1,4 @@
-import type { IField } from "../field/IField";
+import type { IField } from "@/features/form-builder/form-core/domain/field/IField";
 import type { BaseFieldExtra } from "./BaseFieldExtra";
 
 export interface TabConfig {

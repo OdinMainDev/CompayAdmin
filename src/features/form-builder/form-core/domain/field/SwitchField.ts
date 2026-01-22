@@ -1,6 +1,6 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '../validation/ValidationResult';
-import type { BaseFieldExtra } from '../extra/BaseFieldExtra';
+import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 
 export class SwitchField extends BaseField<boolean, BaseFieldExtra> {
   type = 'switch';
