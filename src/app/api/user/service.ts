@@ -1,6 +1,6 @@
 
 import { FilterReponse } from '@/features/api-client/types/datatable';
-import type { GetListFiltersResponse, UserCreateRequest, UserResponse, UserUpdateRequest } from './types';
+import type { GetListFiltersResponse, UserCreateRequest, UserResponse, UserSearchResponse, UserUpdateRequest } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
 import { apiClient } from '@/features/api-client/client';
@@ -17,6 +17,7 @@ export class UserService {
     CREATE: "/api/panel/admin/dev/users/create",
     UPDATE: "/api/panel/admin/dev/users/update",
     DELETE: "/api/panel/admin/dev/users/delete",
+    SEARCH: "/api/panel/admin/dev/users/search",
   } as const;
 
   static async getList(
@@ -125,6 +126,25 @@ export class UserService {
       );
     } catch (error) {
       return makeError("Failed to delete user", error);
+    }
+  }
+  
+  static async search(
+    query: string = "",
+    options?: RequestOptions
+  ): Promise<UserSearchResponse | ApiError> {
+    try {
+      return await apiClient.post<UserSearchResponse["data"]>(
+        `${this.ENDPOINTS.SEARCH}`,
+        {
+          ...options,
+          params: { q: query },
+          isAuth: true,
+          hasToast: options?.hasToast ?? false,
+        }
+      );
+    } catch (error) {
+      return makeError("Failed to search users", error);
     }
   }
 }

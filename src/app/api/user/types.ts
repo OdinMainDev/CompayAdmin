@@ -1,8 +1,6 @@
 import { User } from "@/app/entities/user";
 import { FilterReponse } from "@/features/api-client/types/datatable";
 
-
-
 export interface UserCreateRequest {
   username: string;
   password: string;
@@ -27,3 +25,8 @@ export type GetListFiltersResponse = {
   success: boolean;
   data: FilterReponse[];
 };
+
+export interface UserSearchResponse {
+  readonly success: boolean;
+  readonly data: User[];
+}

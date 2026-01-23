@@ -8,7 +8,7 @@ import { makeError } from '@/features/api-client/types/utils';
 
 export class ProfileService {
   private static readonly ENDPOINTS = {
-    ME: "/api/panel/get/me",
+    GET: "/api/panel/profile/get",
   } as const;
 
  static async getMe(
@@ -16,7 +16,7 @@ export class ProfileService {
   ): Promise<ProfileResponse | ApiError> {
     try {
       return await apiClient.post<ProfileResponse["data"]>(
-        this.ENDPOINTS.ME,
+        this.ENDPOINTS.GET,
         {},
         {
           ...options,
@@ -25,7 +25,7 @@ export class ProfileService {
         }
       );
     } catch (error) {
-      return makeError("Failed to fetch current user", error);
+      return makeError("Failed to fetch current profile", error);
     }
   }
 }
