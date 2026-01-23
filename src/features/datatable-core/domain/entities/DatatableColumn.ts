@@ -4,7 +4,7 @@ export interface DatatableColumn<T> {
   id: string;
   field: keyof T | string;
   label: string;
-  visible: boolean;
+  visible?: boolean;
   width?: number | string;
   minWidth?: number;
   maxWidth?: number;
@@ -12,12 +12,12 @@ export interface DatatableColumn<T> {
   className?: string;
   headerClassName?: string;
   sortable: boolean;
-  filterable: boolean;
+  filterable?: boolean;
   groupable?: boolean;
   resizable?: boolean;
   draggable?: boolean;
   sticky?: 'left' | 'right' | boolean;
-  render?: (value: unknown, row: T, index: number) => React.ReactNode;
+  render?: (row: T, value: unknown, index: number) => React.ReactNode;
   headerRender?: (column: DatatableColumn<T>) => React.ReactNode;
   formatter?: (value: unknown, row: T) => unknown;
   exportFormatter?: (value: unknown, row: T) => string | number;

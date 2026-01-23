@@ -1,9 +1,13 @@
 
 import { FilterReponse } from '@/features/api-client/types/datatable';
-import type { GetUserListFiltersResponse, UserCreateRequest, UserListRequest, UserResponse, UsersListResponse, UserUpdateRequest } from './types';
+import type { GetListFiltersResponse, UserCreateRequest, UserResponse, UserUpdateRequest } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
 import { apiClient } from '@/features/api-client/client';
+import { makeError } from '@/features/api-client/types/utils';
+import { IResponseList } from '@/features/datatable-core';
+import { User } from '@/app/entities/user';
+import { IRequestOptions } from '@/features/datatable-core/domain/entities/DatatableRequest';
 
 export class UserService {
   private static readonly ENDPOINTS = {
@@ -16,12 +20,12 @@ export class UserService {
   } as const;
 
   static async getList(
-    params: UserListRequest = {},
+    params: IRequestOptions = {},
     options?: RequestOptions
-  ): Promise<UsersListResponse | ApiError> {
+  ): Promise<IResponseList<User> | ApiError> {
     try {
-      return await apiClient.post<UsersListResponse["data"]>(
-        `${this.ENDPOINTS.LIST}`,
+      return await apiClient.post<IResponseList<User>["data"]>(
+        `${UserService.ENDPOINTS.LIST}`,
         params,
         {
           ...options,
@@ -30,29 +34,21 @@ export class UserService {
         }
       );
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to fetch users",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to fetch users", error);
     }
   }
 
   static async getFilters(
     options?: RequestOptions
-  ): Promise<GetUserListFiltersResponse | ApiError> {
+  ): Promise<GetListFiltersResponse | ApiError> {
     try {
-      return await apiClient.post<FilterReponse[]>(`${this.ENDPOINTS.FILTERS}`, {
+      return await apiClient.post<FilterReponse[]>(`${UserService.ENDPOINTS.FILTERS}`, {
         ...options,
         isAuth: true,
         hasToast: options?.hasToast ?? false,
       });
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to fetch filters",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to fetch filters", error);
     }
   }
 
@@ -71,11 +67,7 @@ export class UserService {
         }
       );
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to fetch user",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to fetch user", error);
     }
   }
 
@@ -94,11 +86,7 @@ export class UserService {
         }
       );
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to create user",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to create user", error);
     }
   }
 
@@ -117,11 +105,7 @@ export class UserService {
         }
       );
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to update user",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to update user", error);
     }
   }
 
@@ -140,11 +124,7 @@ export class UserService {
         }
       );
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to delete user",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to delete user", error);
     }
   }
 }

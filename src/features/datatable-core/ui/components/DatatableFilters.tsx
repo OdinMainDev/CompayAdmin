@@ -3,6 +3,7 @@ import type { DatatableConfig } from '@/features/datatable-core/domain/entities/
 import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 import { DatatableFiltersForm } from './DatatableFiltersForm';
 import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
+import { buildBackendFilters } from '../../filters/buildBackendFilters';
 
 interface DatatableFiltersProps<T> {
   config: DatatableConfig<T>;
@@ -20,11 +21,11 @@ export function DatatableFilters<T>({
     () => engine.getState().filters ?? []
   );
 
-  const filterMode: FilterMode = (config.filtering?.mode as FilterMode) || 'inline';
+  const filterMode: FilterMode = (config.filtering?.mode as FilterMode) || 'modal';
 
   const filterForm = useMemo(() => {
-    return config.filterForm ?? [];
-  }, [config.filterForm]);
+    return buildBackendFilters(engine.getState().remoteFilters);
+  }, [engine.getState().remoteFilters]);
 
   useEffect(() => {
     if (!showModal) return;

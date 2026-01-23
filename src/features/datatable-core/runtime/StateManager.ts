@@ -1,3 +1,4 @@
+import { FilterReponse } from "@/features/api-client/types/datatable";
 import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
 import type { DatatableState } from "@/features/datatable-core/domain/entities/DatatableState";
 import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
@@ -13,10 +14,12 @@ export class StateManager<T> {
 
   private createInitialState(): DatatableState<T> {
     const pageSize = this.config.pagination?.pageSize || 10;
+    const pageSizeOptions = this.config.pagination?.pageSizeOptions || [5, 10, 25, 50];
     
     return {
       data: [],
       total: 0,
+      remoteFilters: [],
       filtered: 0,
       loading: false,
       error: null,
@@ -26,13 +29,14 @@ export class StateManager<T> {
       pagination: {
         page: 1,
         pageSize,
-        totalPages: 0
+        totalPages: 0,
+        pageSizeOptions 
       },
       columnState: {
         order: this.config.columns.map(col => col.id),
         visibility: this.config.columns.reduce((acc, col) => ({
           ...acc,
-          [col.id]: col.visible
+          [col.id]: col.visible ?? true
         }), {}),
         widths: {}
       },
@@ -60,6 +64,10 @@ export class StateManager<T> {
     this.state.total = total;
     this.state.filtered = filtered || total;
     this.state.pagination.totalPages = Math.ceil(this.state.filtered / this.state.pagination.pageSize);
+  }
+
+  setRemoteFilters(filters: FilterReponse[]) {
+    this.state.remoteFilters = filters;
   }
 
   setLoading(loading: boolean): void {

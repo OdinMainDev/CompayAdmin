@@ -1,13 +1,7 @@
 import { User } from "@/app/entities/user";
 import { FilterReponse } from "@/features/api-client/types/datatable";
 
-export interface UserListRequest {
-  length?: number;
-  start?: number;
-  order_column?: string;
-  order_direction?: string;
-  filters?: Record<string, unknown>
-}
+
 
 export interface UserCreateRequest {
   username: string;
@@ -29,20 +23,7 @@ export interface UserResponse {
   readonly data: User;
 }
 
-export interface UsersListResponse {
-  readonly success: boolean;
-  readonly data: {
-    readonly data: User[];
-    readonly total: number;
-    readonly per_page: number;
-    readonly current_page: number;
-    readonly draw?: number;
-    readonly recordsTotal?: number;
-    readonly recordsFiltered?: number;
-  };
-}
-
-export type GetUserListFiltersResponse = {
+export type GetListFiltersResponse = {
   success: boolean;
   data: FilterReponse[];
 };

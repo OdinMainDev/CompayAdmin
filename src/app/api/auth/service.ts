@@ -7,6 +7,7 @@ import type {
 import { ApiError } from '@/features/api-client/types/core';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { COOKIE_AUTH_NAME } from '@/constants';
+import { makeError } from '@/features/api-client/types/utils';
 
 export class AuthService {
   private static readonly ENDPOINTS = {
@@ -37,11 +38,7 @@ export class AuthService {
 
       return response.data;
     } catch (error) {
-      return {
-        success: false,
-        message: "Login failed",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Login failed", error);
     }
   }
 }

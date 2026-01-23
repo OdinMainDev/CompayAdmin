@@ -8,6 +8,9 @@ import { StateManager } from './StateManager';
 import { FilterManager } from './FilterManager';
 import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
 import type { IDatatableFormBuilder } from '@/features/datatable-core/domain/ports/IDatatableFormBuilder';
+import { IFilter } from '../domain/entities/IFilterResponse';
+import { IRequestOptions } from '../domain/entities/DatatableRequest';
+import { ApiDatatableQuery } from '../domain/entities/DatatableQuery';
 
 export class DatatableEngine<T> {
   private config: DatatableConfig<T>;
@@ -38,7 +41,50 @@ export class DatatableEngine<T> {
   async initialize(): Promise<DatatableState<T>> {
     const initialState = this.stateManager.getInitialState();
     await this.loadData(initialState);
+    const filters = await this.loadFilters();
+    this.stateManager.setRemoteFilters(filters);
     return this.stateManager.getState();
+  }
+
+  async loadFilters(): Promise<IFilter[]> {
+      this.stateManager.setLoading(true);
+      const response = await this.backend.fetchFilters();
+      this.stateManager.setLoading(false);
+      if ('success' in response && response.success) {
+        return response.data;
+      }
+      return [];
+  }
+
+  mapFilters(typeFilters?: FilterCondition[]): Record<string, unknown> {
+    return (
+      typeFilters?.reduce((acc, filter) => {
+        if (
+          typeof filter.value === 'object' &&
+          filter.value !== null &&
+          'from' in filter.value &&
+          'to' in filter.value
+        ) {
+          acc[`${filter.field}_from`] = (filter.value as { from: unknown; to: unknown }).from;
+          acc[`${filter.field}_to`] = (filter.value as { from: unknown; to: unknown }).to;
+        } else {
+          acc[filter.field] = filter.value;
+        }
+        return acc;
+      }, {} as Record<string, unknown>)
+    ) ?? {};
+  }
+  
+  mapDatatableQueryToRequest(
+    query: ApiDatatableQuery
+  ): IRequestOptions {
+    return {
+      start: query.start,
+      length: query.length,
+      order_column: query.order_column,
+      order_direction: query.order_direction,
+      filters: this.mapFilters(query.filters),
+    };
   }
 
   async loadData(state: DatatableState<T>): Promise<void> {
@@ -46,8 +92,21 @@ export class DatatableEngine<T> {
     
     try {
       const query = this.queryBuilder.build(state);
-      const response = await this.backend.fetch(query);
-      this.stateManager.updateData(response.data.data, response.data.recordsTotal, response.data.recordsFiltered);
+
+      const response = await this.backend.fetch(
+        this.mapDatatableQueryToRequest(query)
+      );
+
+      if (!('success' in response) || !response.success) {
+        throw response;
+      }
+
+      this.stateManager.updateData(
+        response.data.data, 
+        response.data.recordsTotal, 
+        response.data.recordsFiltered
+      );
+
       this.stateManager.setLoading(false);
       this.eventEmitter.emit('data-loaded', { data: response.data, total: response.data.recordsTotal });
     } catch (error) {

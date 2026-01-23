@@ -106,7 +106,7 @@ export function Datatable<T>({
         onSelectionChange={handleSelectionChange}
       />
       
-      {config.pagination?.enabled && (
+      {(config.pagination?.enabled ?? true) && (
         <DatatableFooter
           state={state}
           onPageChange={handlePageChange}
@@ -133,7 +133,7 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
           return config.filtersSource();
         }
       }
-      return [];
+      return { success: true, data: [] }; 
     },
     
     async export(query: ApiDatatableQuery, format: 'csv' | 'excel') {

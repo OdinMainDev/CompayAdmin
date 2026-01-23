@@ -5,5 +5,5 @@ export interface ApiDatatableQuery {
   start?: number;         
   order_column?: string; 
   order_direction?: 'asc' | 'desc'; 
-  type_filters: FilterCondition[]
+  filters?: FilterCondition[]
 }

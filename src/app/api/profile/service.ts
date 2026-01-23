@@ -4,6 +4,7 @@ import type {
 } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
+import { makeError } from '@/features/api-client/types/utils';
 
 export class ProfileService {
   private static readonly ENDPOINTS = {
@@ -24,11 +25,7 @@ export class ProfileService {
         }
       );
     } catch (error) {
-      return {
-        success: false,
-        message: "Failed to fetch current user",
-        error: error instanceof Error ? error.message : "Unknown error",
-      } as ApiError;
+      return makeError("Failed to fetch current user", error);
     }
   }
 }

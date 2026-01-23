@@ -4,15 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { 
   Datatable, 
   formatTimestampWithTime,
-  type ApiDatatableQuery,
   type DatatableColumn, 
-  type IResponseList,
   type DatatableConfig 
 } from '@/features/datatable-core';
 import { User } from '@/app/entities/user';
 import PageHeader from '@/components/dashboard/common/PageHeader';
-import { useBackendFilters } from '@/app/api/user/hooks/useBackendFilters';
-import { useUsers } from '@/app/api/user/hooks/useUsers';
+import { UserService } from '@/app/api/user/service';
 
 const List = () => {
   const { t, i18n } = useTranslation();
@@ -23,9 +20,6 @@ const List = () => {
     setRefreshKey(prev => prev + 1); 
   }, []);
   
-  const { filters } = useBackendFilters();
-  const { fetchUsers, deleteUser } = useUsers();
-
   const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
 
   const columns = useMemo<DatatableColumn<User>[]>(() => [
@@ -34,42 +28,20 @@ const List = () => {
       field: 'id',
       label: 'ID',
       sortable: true,
-      filterable: true,
-      visible: true,
-      width: 80,
-      align: 'center',
-      filter: {
-        type: 'number',
-      }
     },
     {
       id: 'username',
       field: 'username',
       label: t('datatable_demo.columns.username'),
       sortable: true,
-      filterable: true,
-      visible: true,
-      minWidth: 200,
-      render: (value: unknown, _: User) => (
-        <span className="text-truncate" title={String(value)}>
-          {String(value)}
-        </span>
-      ),
-      filter: {
-        type: 'text'
-      }
     },
     {
       id: 'is_banned',
       field: 'is_banned',
       label: t('datatable_demo.columns.status'),
       sortable: true,
-      filterable: true,
-      visible: true,
-      width: 120,
-      render: (value: unknown, _: User) => {
-        const isBanned = Boolean(value);
-        const status = isBanned ? 'blocked' : 'active';
+      render: (user: User) => {
+        const status = user.is_banned ? 'blocked' : 'active';
         return (
           <span
             className={`badge bg-${status === 'active' ? 'success' : 'danger'}`}
@@ -78,172 +50,49 @@ const List = () => {
           </span>
         );
       },
-      filter: {
-        type: 'select',
-        options: [
-          { label: t('datatable_demo.status.active'), value: false },
-          { label: t('datatable_demo.status.blocked'), value: true }
-        ],
-      }
     },
     {
       id: 'is_twofa_enabled',
       field: 'is_twofa_enabled',
       label: '2FA',
       sortable: false,
-      filterable: true,
-      visible: true,
-      width: 80,
-      align: 'center',
-      render: (value: unknown, _: User) => (
-        <span className={`badge bg-${value ? 'success' : 'secondary'}`}>
-          {value ? t('datatable_demo.status.enabled') : t('datatable_demo.status.disabled')}
+      render: (user: User) => (
+        <span className={`badge bg-${user.is_twofa_enabled ? 'success' : 'secondary'}`}>
+          {user.is_twofa_enabled ? t('datatable_demo.status.enabled') : t('datatable_demo.status.disabled')}
         </span>
       ),
-      filter: {
-        type: 'select',
-        options: [
-          { label: t('datatable_demo.status.enabled'), value: true },
-          { label: t('datatable_demo.status.disabled'), value: false }
-        ],
-      }
     },
     {
       id: 'merchant_id',
       field: 'merchant_id',
       label: 'Merchant ID',
       sortable: true,
-      filterable: true,
       visible: false,
-      width: 120,
-      align: 'center',
-      render: (value: unknown, _: User) => (
-        <span>{String(value)}</span>
-      ),
-      filter: {
-        type: 'number',
-      }
     },
     {
       id: 'created_at',
       field: 'created_at',
       label: t('datatable_demo.columns.created_at'),
       sortable: true,
-      filterable: true,
-      visible: true,
-      width: 120,
-      render: (value: unknown, _: User) => formatTimestampWithTime(value, locale),
+      render: (user: User) => formatTimestampWithTime(user.created_at, locale),
     },
     {
       id: 'updated_at',
       field: 'updated_at',
       label: t('datatable_demo.columns.updated_at'),
       sortable: true,
-      filterable: true,
       visible: false,
-      width: 150,
-      render: (value: unknown, _: User) => formatTimestampWithTime(value, locale),
-      filter: {
-        type: 'date',
-      }
+      render: (user: User) => formatTimestampWithTime(user.updated_at, locale),
     },
   ], [t, locale]);
 
   const config = useMemo<DatatableConfig<User>>(() => ({
-    id: 'users-table',
-    dataSource: async (query: ApiDatatableQuery) => {
-
-      const filtersObject = query.type_filters.reduce((acc, filter) => {
-        if (typeof filter.value === "object" && filter.value !== null && "from" in filter.value && "to" in filter.value) {
-          acc[`${filter.field}_from`] = filter.value.from;
-          acc[`${filter.field}_to`] = filter.value.to;
-        } else {
-          acc[filter.field] = filter.value;
-        }
-        return acc;
-      }, {} as Record<string, unknown>);
-
-      try {
-
-        const response = await fetchUsers(
-          {
-              length: query.length,
-              start: query.start,
-              order_column: query.order_column,
-              order_direction: query.order_direction,
-              filters: filtersObject
-            }
-        );
-        return response;
-      } catch (error) {
-        const errorResponse: IResponseList<User> = {
-          success: false,
-          data: {
-            data: [],
-            recordsCount: 0,
-            recordsFiltered: 0,
-            recordsTotal: 0
-          }
-        };
-        return errorResponse;
-      }
-    },
+    filtersSource:  UserService.getFilters,
+    dataSource:     UserService.getList,
     columns,
-    filterForm: filters,
-    pagination: {
-      enabled: true,
-      pageSize: 10,
-      pageSizeOptions: [5, 10, 25, 50],
-      position: 'both'
-    },
     sorting: {
       enabled: true,
-      multiColumn: false,
       defaultSort: { column: 'id', direction: 'asc' }
-    },
-    filtering: {
-      enabled: true,
-      mode: 'modal',
-      quickFilters: [
-        {
-          id: 'active-only',
-          label: t('datatable_demo.filters.active_only'),
-          filters: [{ field: 'status', value: 'active' }]
-        },
-        {
-          id: 'high-turnover',
-          label: t('datatable_demo.filters.high_turnover'),
-          filters: [{ field: 'turnover', value: 100000 }]
-        }
-      ]
-    },
-    export: {
-      enabled: true,
-      formats: ['csv', 'excel'],
-      columns: ['id'],
-      handler: async (_: ApiDatatableQuery, format: 'csv' | 'excel', ) => {
-        console.log('export', format);
-      }
-    },
-    ui: {
-      density: 'normal',
-      striped: true,
-      bordered: true,
-      hoverable: true,
-      stickyHeader: true,
-      resizableColumns: false,
-      columnVisibility: true
-    },
-    events: {
-      onRowClick: (row: User, _: React.MouseEvent) => {
-        console.log('Row clicked:', row);
-      },
-      onRowDoubleClick: (row: User, _: React.MouseEvent) => {
-        console.log('Row double clicked:', row);
-      },
-      onSelectionChange: (selected: User[]) => {
-        console.log('Selection changed:', selected.length);
-      },
     },
     quickActions: [
       {
@@ -255,15 +104,6 @@ const List = () => {
           navigate('panel/user-create');
         }
       },
-      {
-        id: 'refresh',
-        label: t('datatable_demo.actions.refresh'),
-        icon: <i className="fas fa-sync"></i>,
-        variant: 'secondary',
-        handler: () => {
-          console.log('Refresh clicked');
-        }
-      },
     ],
     rowActions: [
       {
@@ -271,7 +111,6 @@ const List = () => {
         label: t('datatable_demo.actions.edit'),
         icon: <i className="fas fa-edit"></i>,
         variant: 'primary',
-        position: 'row',
         handler: (params: { currentRow?: User }) => {
            if (!params.currentRow) return;
            const userId = params.currentRow.id;
@@ -283,7 +122,6 @@ const List = () => {
         label: t('datatable_demo.actions.delete'),
         icon: <i className="fas fa-trash"></i>,
         variant: 'danger',
-        position: 'row',
         confirm: {
           title: t('datatable_demo.confirm.delete_title'),
           message: t('datatable_demo.confirm.delete_message'),
@@ -292,17 +130,14 @@ const List = () => {
         },
         handler: async ({ currentRow }: { currentRow?: User }) => {
           if (!currentRow?.id) return;
-          
           const confirmed = window.confirm(
             `${t('datatable_demo.confirm.delete_title')}\n${t('datatable_demo.confirm.delete_message')}`
           );
-          
           if (!confirmed) return;
-          
           try {
-            const response = await deleteUser(currentRow.id);
+            const response = await UserService.delete(currentRow.id);
 
-            if (response) {
+            if ('success' in response && response.success) {
               alert('User deleted successfully');
               refreshTable();
             } else {
@@ -315,16 +150,13 @@ const List = () => {
         }
       }
     ]
-  }), [columns, filters, t]);
-
+  }), [columns, t]);
   return (
     <>
       <PageHeader
         title={t('datatable_demo.page.title')}
         subtitle={t('datatable_demo.page.subtitle')}
-        
       />
-      
       <div className="card shadow-sm border-0">
         <div  key={`datatable-internal-${refreshKey}`}  className="card-body p-0">
           <Datatable

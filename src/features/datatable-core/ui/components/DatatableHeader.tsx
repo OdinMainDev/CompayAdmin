@@ -28,7 +28,7 @@ export function DatatableHeader<T>({
     .map(([columnId]) => columnId);
   
   const hideableColumns = config.columns.filter((column: DatatableColumn<T>) => 
-    column.visible !== false
+    (column.visible ?? true) !== false
   );
   
   const handleQuickAction = async (actionId: string) => {
@@ -110,7 +110,7 @@ export function DatatableHeader<T>({
           gap: '1rem',
           justifyContent: 'center',
         }}>
-          {config.ui?.columnVisibility && hideableColumns.length > 0 && (
+          {(config.ui?.columnVisibility ?? true) && hideableColumns.length > 0 && (
             <div className="position-relative">
               <Dropdown 
                 show={showColumnDropdown} 
@@ -256,7 +256,7 @@ export function DatatableHeader<T>({
           )}
         </div>
         
-        {config.filtering?.enabled && (
+        {(config.filtering?.enabled ?? true) && (
           <div style={{ marginLeft: 'auto' }}>
             <DatatableFilters
               config={config}

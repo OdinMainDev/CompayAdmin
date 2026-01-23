@@ -1,8 +1,10 @@
+import { FilterReponse } from "@/features/api-client/types/datatable";
 import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
 
 export interface DatatableState<T> {
   data: T[];
+  remoteFilters: FilterReponse[];
   total: number;
   filtered: number;
   loading: boolean;
@@ -14,6 +16,7 @@ export interface DatatableState<T> {
     page: number;
     pageSize: number;
     totalPages: number;
+    pageSizeOptions: number[];
   };
   columnState: {
     order: string[];

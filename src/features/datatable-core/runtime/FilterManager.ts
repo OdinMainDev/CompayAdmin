@@ -16,7 +16,7 @@ export class FilterManager<T> {
     }
 
     const column = this.config.columns.find(col => col.id === filter.field);
-    if (!column || !column.filterable) {
+    if (!column || !(column.filterable ?? true)) {
       return false;
     }
 
@@ -43,28 +43,6 @@ export class FilterManager<T> {
       ...filter,
       value: normalizedValue,
     };
-  }
-
-  convertFormToFilters(formData: Record<string, unknown>): FilterCondition[] {
-    const filters: FilterCondition[] = [];
-
-    Object.entries(formData).forEach(([field, value]) => {
-      if (value === undefined || value === null || value === '') {
-        return;
-      }
-
-      const column = this.config.columns.find(col => col.id === field);
-      if (!column?.filterable) {
-        return;
-      }
-
-      filters.push({
-        field,
-        value
-      });
-    });
-
-    return this.normalize(filters);
   }
 
   mergeFilters(existing: FilterCondition[], newFilters: FilterCondition[]): FilterCondition[] {

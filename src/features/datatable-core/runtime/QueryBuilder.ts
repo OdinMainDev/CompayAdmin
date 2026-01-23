@@ -13,10 +13,10 @@ export class QueryBuilder<T> {
     const apiQuery: ApiDatatableQuery = {
       length: pagination.pageSize,
       start: (pagination.page - 1) * pagination.pageSize,
-      type_filters: filters
+      filters: filters
     };
 
-    if (sort.length > 0 && this.config.sorting?.enabled) {
+    if (sort.length > 0 && (this.config.sorting?.enabled ?? true)) {
       const sortItem = sort[0];
       apiQuery.order_column = sortItem.column;
       apiQuery.order_direction = sortItem.direction;
@@ -42,7 +42,7 @@ export class QueryBuilder<T> {
       return [];
     }
 
-    if (this.config.sorting.multiColumn) {
+    if (this.config.sorting.multiColumn ?? false) {
       return this.updateMultiSort(column, direction);
     } else {
       return [{ column, direction }];
@@ -69,7 +69,7 @@ export class QueryBuilder<T> {
   }
 
   private applyFilters(apiQuery: ApiDatatableQuery, filters: FilterCondition[]): void {
-    apiQuery.type_filters = [...apiQuery.type_filters, ...filters];
+    apiQuery.filters = [...apiQuery.filters ?? [], ...filters];
   }
 
   private updateMultiSort(column: string, direction: SortState['direction']): SortState[] {

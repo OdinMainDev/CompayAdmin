@@ -223,7 +223,7 @@ export function DatatableBody<T>({
                         }}
                       >
                         {column.render 
-                          ? column.render(cellValue, row, index)
+                          ? column.render(row, cellValue, index)
                           : String(cellValue ?? '')
                         }
                       </td>

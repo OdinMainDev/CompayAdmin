@@ -5,19 +5,20 @@ import type { BulkAction } from "./BulkAction";
 import type { DatatableColumn } from "./DatatableColumn";
 import type { ApiDatatableQuery } from "./DatatableQuery";
 import type { IResponseList } from "./DatatableResponse";
-import type { FilterDefinition } from "./FilterDefinition";
 import type { FilterPreset } from "./FilterPreset";
 import type { QuickAction } from "./QuickAction";
-import type { QuickFilter } from "./QuickFilter";
 import type { RowAction } from "./RowAction";
+import { ApiError } from "@/features/api-client/types/core";
+import { IFilterResponse } from "./IFilterResponse";
+import { IRequestOptions } from "./DatatableRequest";
 
 
 export interface DatatableConfig<T> {
   title?: string;
   subtitle?: string;
-  id: string;
-  dataSource: ((query: ApiDatatableQuery) => Promise<IResponseList<T>>);
-  filtersSource?: string | (() => Promise<FilterDefinition[]>);
+  dataSource: ((query: IRequestOptions) => Promise<IResponseList<T> | ApiError>);
+  filtersSource?: (() => Promise<IFilterResponse | ApiError>);
+
   columns: DatatableColumn<T>[];
   filterForm?: RawFormSection[];
   actionForms?: Record<string, RawFormSection[]>;
@@ -28,18 +29,16 @@ export interface DatatableConfig<T> {
     enabled: boolean;
     pageSize: number;
     pageSizeOptions: number[];
-    position: 'top' | 'bottom' | 'both';
   };
   sorting?: {
     enabled: boolean;
-    multiColumn: boolean;
+    multiColumn?: boolean;
     defaultSort?: { column: string; direction: SortDirection };
   };
   filtering?: {
     enabled: boolean;
     mode: 'inline' | 'modal' | 'sidebar';
     presets?: FilterPreset[];
-    quickFilters?: QuickFilter[];
   };
   selection?: {
     enabled: boolean;
@@ -48,7 +47,7 @@ export interface DatatableConfig<T> {
   };
   export?: {
     enabled: boolean;
-    formats: ('csv' | 'excel' | 'pdf')[];
+    formats?: ('csv' | 'excel' | 'pdf')[];
     columns?: string[];
     handler?(query: ApiDatatableQuery, format: 'csv' | 'excel'): Promise<unknown>;
 

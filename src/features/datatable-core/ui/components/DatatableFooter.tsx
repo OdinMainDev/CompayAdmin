@@ -7,14 +7,13 @@ interface DatatableFooterProps<T = unknown> {
   onPageSizeChange: (pageSize: number) => void;
 }
 
-export function DatatableFooter<T = unknown>({
+export function DatatableFooter<T>({
   state,
   onPageChange,
   onPageSizeChange
 }: DatatableFooterProps<T>): React.ReactElement | null {
-  const { page, pageSize, totalPages } = state.pagination;
+  const { page, pageSize, totalPages, pageSizeOptions } = state.pagination;
   const { filtered, total } = state;
-  const pageSizeOptions = [10, 25, 50, 100];
   
   if (filtered <= pageSize && page === 1) {
     return (
