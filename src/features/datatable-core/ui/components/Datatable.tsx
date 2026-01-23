@@ -8,6 +8,7 @@ import type { ApiDatatableQuery } from '@/features/datatable-core/domain/entitie
 import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
 import { useUnifiedFormBuilder } from '@/features/datatable-core/ui/hooks/useUnifiedFormBuilder';
+import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 
 interface DatatableProps<T> {
   config: DatatableConfig<T>;
@@ -120,7 +121,7 @@ export function Datatable<T>({
 
 function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<T> {
   const methods = {
-    async fetch(query: ApiDatatableQuery) {
+    async fetch(query: IRequestOptions) {
       if (typeof config.dataSource === 'function') {
         return config.dataSource(query);
       }
