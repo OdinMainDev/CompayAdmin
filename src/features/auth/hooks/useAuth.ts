@@ -21,7 +21,7 @@ export interface UseAuthReturn extends UseAuthState {
   readonly logout: () => Promise<void>;
   readonly checkAuth: () => Promise<boolean>;
   readonly refreshUser: () => Promise<void>;
-  readonly getMe: () => Promise<boolean>;
+  readonly getProfile: () => Promise<boolean>;
   readonly clearError: () => void;
   readonly getRole: () => UserRole | null;
   readonly getFieldErrors: () => Record<string, string[]>;
@@ -77,7 +77,7 @@ export const useAuth = (): UseAuthReturn => {
     }, 300_000);
   }, []);
 
-  const getMe = useCallback(async (): Promise<boolean> => {
+  const getProfile = useCallback(async (): Promise<boolean> => {
     if (!isAuthenticated()) {
       setState(prev => ({
         ...prev,
@@ -90,7 +90,7 @@ export const useAuth = (): UseAuthReturn => {
 
     setState(prev => ({ ...prev, isLoading: true }));
 
-    const response = await ProfileService.getMe();
+    const response = await ProfileService.get();
 
     if (!('success' in response) || !response.success) {
       logout();
@@ -128,14 +128,14 @@ export const useAuth = (): UseAuthReturn => {
       return false;
     }
   
-    getMe();
+    getProfile();
     return true;
   }, []);
   
 
   const refreshUser = useCallback(async (): Promise<void> => {
-    await getMe();
-  }, [getMe]);
+    await getProfile();
+  }, [getProfile]);
 
   const login = useCallback(async (credentials: LoginRequest): Promise<boolean> => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
@@ -151,8 +151,8 @@ export const useAuth = (): UseAuthReturn => {
       return false;
     }
 
-    return await getMe();
-  }, [getMe]);
+    return await getProfile();
+  }, [getProfile]);
 
   const logout = useCallback(async (): Promise<void> => {
     setState(prev => ({ ...prev, isLoading: true }));
@@ -209,11 +209,11 @@ export const useAuth = (): UseAuthReturn => {
         clearTimeout(refreshTimeoutRef.current);
       }
     };
-  }, [getMe]);
+  }, [getProfile]);
 
   return {
     ...state,
-    getMe,
+    getProfile,
     login,
     logout,
     checkAuth,

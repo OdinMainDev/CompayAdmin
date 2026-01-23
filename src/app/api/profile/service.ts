@@ -11,7 +11,7 @@ export class ProfileService {
     GET: "/api/panel/profile/get",
   } as const;
 
- static async getMe(
+ static async get(
     options: Omit<RequestOptions, "method" | "body"> = {}
   ): Promise<ProfileResponse | ApiError> {
     try {
