@@ -5,7 +5,6 @@ import {
 import { AsyncSelect } from '../AsyncSelect';
 import { MerchantService } from '@/app/api/merchant/service';
 
-
 export function MerchantFieldRenderer(
     field: IField<number | null, SelectFieldExtra>,
     onChange: (value: number | null) => void
@@ -14,7 +13,6 @@ export function MerchantFieldRenderer(
         field={field}
         cacheKey="merchants"
         fetcher={() => MerchantService.search().then(res => res.success ? res.data : [])}
-        mapOption={(m) => ({ label: m.name, value: m.id.toString() })}
         onChange={onChange}
     />
   }

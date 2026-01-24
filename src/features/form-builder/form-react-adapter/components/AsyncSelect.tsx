@@ -3,6 +3,7 @@ import { SelectField } from '@/features/form-builder/form-core/domain/field/Sele
 import { IField } from '@/features/form-builder/form-core/domain/field/IField';
 import { DynamicFilterCache } from '../../form-core/domain/utils/DynamicFilterCacheService';
 import { UnifiedFieldRegistry } from '../UnifiedFieldRegistry';
+import { BaseFieldExtra } from '../../form-core/domain/extra/BaseFieldExtra';
 
 export function AsyncSelect<T>({
   field,
@@ -11,12 +12,14 @@ export function AsyncSelect<T>({
   mapOption,
   onChange,
 }: {
-  field: IField<number | null, any>;
+  field: IField<number | null, BaseFieldExtra>;
   cacheKey: string;
   fetcher: () => Promise<T[]>;
-  mapOption: (item: T) => { label: string; value: string };
+  mapOption?: (item: T) => { label: string; value: string };
   onChange: (value: number | null) => void;
 }) {
+    const mapper = mapOption ?? ((item: any) => ({ label: item.name ?? String(item.id), value: String(item.id) }));
+
   const [selectField, setSelectField] = useState(() =>
     SelectField.fromJson({ key: field.name, label: field.label, defaultValue: field.value?.toString() ?? '', options: { options: [] } })
   );
@@ -30,7 +33,7 @@ export function AsyncSelect<T>({
           key: prev.name, 
           label: prev.label,
           defaultValue: prev.value ?? '',
-          options: { ...(prev.extra ?? {}), options: data.map(mapOption) },
+          options: { ...(prev.extra ?? {}), options: data.map(mapper) },
         })
       );
       
