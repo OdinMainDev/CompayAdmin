@@ -15,10 +15,9 @@ export function AsyncSelect<T>({
   field: IField<number | null, BaseFieldExtra>;
   cacheKey: string;
   fetcher: () => Promise<T[]>;
-  mapOption?: (item: T) => { label: string; value: string };
+  mapOption: (item: T) => { label: string; value: string };
   onChange: (value: number | null) => void;
 }) {
-    const mapper = mapOption ?? ((item: any) => ({ label: item.name ?? String(item.id), value: String(item.id) }));
 
   const [selectField, setSelectField] = useState(() =>
     SelectField.fromJson({ key: field.name, label: field.label, defaultValue: field.value?.toString() ?? '', options: { options: [] } })
@@ -33,7 +32,7 @@ export function AsyncSelect<T>({
           key: prev.name, 
           label: prev.label,
           defaultValue: prev.value ?? '',
-          options: { ...(prev.extra ?? {}), options: data.map(mapper) },
+          options: { ...(prev.extra ?? {}), options: data.map(mapOption)},
         })
       );
       

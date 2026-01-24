@@ -13,6 +13,7 @@ export function MerchantFieldRenderer(
         field={field}
         cacheKey="merchants"
         fetcher={() => MerchantService.search().then(res => res.success ? res.data : [])}
+        mapOption={(m) => ({ label: m.name, value: m.id.toString() })}
         onChange={onChange}
     />
   }
