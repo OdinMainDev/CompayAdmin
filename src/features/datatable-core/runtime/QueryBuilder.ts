@@ -20,9 +20,20 @@ export class QueryBuilder<T> {
       const sortItem = sort[0];
       apiQuery.order_column = sortItem.column;
       apiQuery.order_direction = sortItem.direction;
-    } else if (this.config.sorting?.defaultSort) {
-      apiQuery.order_column = this.config.sorting.defaultSort.column;
-      apiQuery.order_direction = this.config.sorting.defaultSort.direction;
+    } else {
+      const defaultSort =
+        this.config.sorting?.defaultSort ??
+        (this.config.columns?.length
+          ? {
+              column: this.config.columns[0].id,
+              direction: 'asc' as const,
+            }
+          : undefined);
+
+      if (defaultSort) {
+        apiQuery.order_column = defaultSort.column;
+        apiQuery.order_direction = defaultSort.direction;
+      }
     }
 
     if (filters.length > 0) {
@@ -33,7 +44,7 @@ export class QueryBuilder<T> {
   }
 
   applySort(column: string, direction: SortState['direction']): SortState[] {
-    if (!this.config.sorting?.enabled) {
+    if (!this.config.sorting?.enabled ?? true) {
       return [];
     }
 

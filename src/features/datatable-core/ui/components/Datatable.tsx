@@ -118,7 +118,6 @@ export function Datatable<T>({
   );
 }
 
-
 function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<T> {
   const methods = {
     async fetch(query: IRequestOptions) {

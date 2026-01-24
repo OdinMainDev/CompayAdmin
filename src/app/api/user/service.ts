@@ -116,7 +116,7 @@ export class UserService {
   ): Promise<{ success: boolean; message?: string } | ApiError> {
     try {
       return await apiClient.post<null>(
-        `${this.ENDPOINTS.DELETE}`,
+        `${UserService.ENDPOINTS.DELETE}`,
         { id },
         {
           ...options,

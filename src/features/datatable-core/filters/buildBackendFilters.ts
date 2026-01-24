@@ -1,5 +1,5 @@
 
-import { RawFormSection } from '@/features/form-builder/form-core/domain/field/RawFormSection';
+import { RawField, RawFormSection } from '@/features/form-builder/form-core/domain/field/RawFormSection';
 import { FilterReponse } from '@/features/api-client/types/datatable';
 import { mapBackendTypeToFormType } from './filterTypeMapper';
 import { t } from 'i18next';
@@ -15,7 +15,7 @@ export const buildBackendFilters = (
       fields: backendFilters.map(filter => {
         const type = mapBackendTypeToFormType(filter.type);
 
-        const field: any = {
+        const field: RawField = {
           name: filter.name,
           label: t(filter.name),
           placeholder: t(filter.name),

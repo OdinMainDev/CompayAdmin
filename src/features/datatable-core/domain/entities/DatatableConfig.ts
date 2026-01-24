@@ -31,7 +31,7 @@ export interface DatatableConfig<T> {
     pageSizeOptions: number[];
   };
   sorting?: {
-    enabled: boolean;
+    enabled?: boolean;
     multiColumn?: boolean;
     defaultSort?: { column: string; direction: SortDirection };
   };

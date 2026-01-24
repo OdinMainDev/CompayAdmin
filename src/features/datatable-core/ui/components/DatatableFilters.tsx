@@ -89,7 +89,6 @@ export function DatatableFilters<T>({
             <i className="fas fa-filter me-2" aria-hidden="true"></i>
             <span>Filter</span>
 
-            {/* индикатор только если есть выбранные */}
             {count > 0 && (
               <span
                 className={[

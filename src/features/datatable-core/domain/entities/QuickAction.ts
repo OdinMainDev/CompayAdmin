@@ -2,7 +2,7 @@ import type { RawFormSection } from "@/features/form-builder/form-core/domain/fi
 
 export interface QuickAction {
   id: string;
-  label: string;
+  label: React.ReactNode;
   icon?: React.ReactNode;
   variant: 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'outline';
   position?: 'header' | 'toolbar' | 'inline';

@@ -4,8 +4,9 @@ export const mapBackendTypeToFormType = (type: string) => {
       case 'number':
       case 'float':
       case 'decimal':
-      case 'merchant_id':
         return 'number';
+      case 'merchant_id':
+        return 'merchant_id';
   
       case 'string':
       case 'text':

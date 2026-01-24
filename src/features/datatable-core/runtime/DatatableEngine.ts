@@ -40,9 +40,9 @@ export class DatatableEngine<T> {
 
   async initialize(): Promise<DatatableState<T>> {
     const initialState = this.stateManager.getInitialState();
-    await this.loadData(initialState);
     const filters = await this.loadFilters();
     this.stateManager.setRemoteFilters(filters);
+    await this.loadData(initialState);
     return this.stateManager.getState();
   }
 

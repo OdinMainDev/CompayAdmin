@@ -6,10 +6,13 @@ import type {
   ApiResponse 
 } from './types/core';
 import type { RequestOptions, RequestConfig } from './types/request';
+import { fingerprintService } from './fingerprint';
+
+
+
 
 export class ApiClient {
   private static instance: ApiClient;
-  
   private constructor() {}
 
   static getInstance(): ApiClient {
@@ -88,21 +91,29 @@ export class ApiClient {
     const queryString = searchParams.toString();
     return queryString ? `?${queryString}` : '';
   }
-
   get<T, M extends Record<string, unknown> = Record<string, never>>(
     url: string, 
     options: Omit<RequestOptions, 'method' | 'body'> = {}
   ): Promise<ApiResponse<T, M>> {
     return this.request<T, M>({ ...options, url, method: 'GET' });
   }
-
-  post<T, M extends Record<string, unknown> = Record<string, never>, B = unknown>(
+ 
+  async post<T, M extends Record<string, unknown> = Record<string, never>, B = unknown>(
     url: string, 
     body: B,
-    options: Omit<RequestOptions<B>, 'method'> = {}
+    options: Omit<RequestOptions<B>, 'method'> = {},
   ): Promise<ApiResponse<T, M>> {
-    return this.request<T, M, B>({ ...options, url, method: 'POST', body });
+    const enrichedBody = (options?.withFingerprint ?? true)
+    ? { ...body, fp: await fingerprintService.get() }
+    : body;
+    return this.request<T, M, B>({
+      ...options,
+      url,
+      method: 'POST',
+      body: enrichedBody, 
+    });
   }
+  
 
   put<T, M extends Record<string, unknown> = Record<string, never>, B = never>(
     url: string, 

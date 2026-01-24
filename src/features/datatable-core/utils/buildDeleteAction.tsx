@@ -1,0 +1,44 @@
+import { RowAction } from "../domain/entities/RowAction";
+import { Entity } from "@/app/entities/entity";
+import { t } from "i18next";
+import { ApiError } from "@/features/api-client/types/core";
+
+export function buildDeleteAction<T extends Entity>(
+  label: string,
+  deleteFn: (id: number) => Promise<{ success: boolean; message?: string } | ApiError>,
+  onSuccess?: () => void 
+): RowAction<T> & { handler: (params: { currentRow?: T }) => void } {
+  return {
+    id: 'delete',
+    label,
+    icon: <i className="fas fa-trash"></i>,
+    variant: 'danger',
+    confirm: {
+      title: t('datatable_demo.confirm.delete_title'),
+      message: t('datatable_demo.confirm.delete_message'),
+      confirmText: t('datatable_demo.confirm.delete_confirm'),
+      cancelText: t('datatable_demo.confirm.delete_cancel')
+    },
+    handler: async ({ currentRow }: { currentRow?: T }) => {
+      if (!currentRow?.id) return;
+
+      const confirmed = window.confirm(
+        `${t('datatable_demo.confirm.delete_title')}\n${t('datatable_demo.confirm.delete_message')}`
+      );
+      if (!confirmed) return;
+
+      try {
+        const response = await deleteFn(currentRow.id);
+        if ('success' in response && response.success) {
+          alert('User deleted successfully');
+          onSuccess?.(); 
+        } else {
+          alert('Failed to delete user');
+        }
+      } catch (error) {
+        alert('Error deleting user');
+        console.error('Delete error:', error);
+      }
+    },
+  };
+}

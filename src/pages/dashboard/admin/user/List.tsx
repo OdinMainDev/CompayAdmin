@@ -8,8 +8,10 @@ import {
   type DatatableConfig 
 } from '@/features/datatable-core';
 import { User } from '@/app/entities/user';
-import PageHeader from '@/components/dashboard/common/PageHeader';
 import { UserService } from '@/app/api/user/service';
+import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
+import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
+import { buildDeleteAction } from '@/features/datatable-core/utils/buildDeleteAction';
 
 const List = () => {
   const { t, i18n } = useTranslation();
@@ -90,82 +92,20 @@ const List = () => {
     filtersSource:  UserService.getFilters,
     dataSource:     UserService.getList,
     columns,
-    sorting: {
-      enabled: true,
-      defaultSort: { column: 'id', direction: 'asc' }
-    },
     quickActions: [
-      {
-        id: 'add',
-        label: t('datatable_demo.actions.add_merchant'),
-        icon: <i className="fas fa-plus"></i>,
-        variant: 'primary',
-        handler: () => {
-          navigate('panel/user-create');
-        }
-      },
+      buildAddAction(t('datatable_demo.actions.add_merchant'), 'panel/user-create', navigate)
     ],
     rowActions: [
-      {
-        id: 'edit',
-        label: t('datatable_demo.actions.edit'),
-        icon: <i className="fas fa-edit"></i>,
-        variant: 'primary',
-        handler: (params: { currentRow?: User }) => {
-           if (!params.currentRow) return;
-           const userId = params.currentRow.id;
-           navigate(`/panel/admin/user-edit/${userId}`);
-        }
-      },
-      {
-        id: 'delete',
-        label: t('datatable_demo.actions.delete'),
-        icon: <i className="fas fa-trash"></i>,
-        variant: 'danger',
-        confirm: {
-          title: t('datatable_demo.confirm.delete_title'),
-          message: t('datatable_demo.confirm.delete_message'),
-          confirmText: t('datatable_demo.confirm.delete_confirm'),
-          cancelText: t('datatable_demo.confirm.delete_cancel')
-        },
-        handler: async ({ currentRow }: { currentRow?: User }) => {
-          if (!currentRow?.id) return;
-          const confirmed = window.confirm(
-            `${t('datatable_demo.confirm.delete_title')}\n${t('datatable_demo.confirm.delete_message')}`
-          );
-          if (!confirmed) return;
-          try {
-            const response = await UserService.delete(currentRow.id);
-
-            if ('success' in response && response.success) {
-              alert('User deleted successfully');
-              refreshTable();
-            } else {
-              alert('Failed to delete user');
-            }
-          } catch (error) {
-            alert('Error deleting user');
-            console.error('Delete error:', error);
-          }
-        }
-      }
+      buildEditAction(t('datatable_demo.actions.edit'), '/panel/admin/user-edit/', navigate),
+      buildDeleteAction(t('datatable_demo.actions.delete'), UserService.delete, refreshTable)
     ]
   }), [columns, t]);
   return (
-    <>
-      <PageHeader
-        title={t('datatable_demo.page.title')}
-        subtitle={t('datatable_demo.page.subtitle')}
-      />
-      <div className="card shadow-sm border-0">
-        <div  key={`datatable-internal-${refreshKey}`}  className="card-body p-0">
-          <Datatable
-            config={config}
-            className="border-0"
-          />
-        </div>
-      </div>
-    </>
+    <Datatable
+      key={refreshKey}
+      config={config}
+      className="border-0"
+    />
   );
 };
 
