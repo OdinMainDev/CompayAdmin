@@ -168,7 +168,7 @@
 
 .sidebar-inner {
 	position: relative;
-	overflow-y: hidden;
+	overflow: hidden;
 	.accordion-button{
 		&::after {
 			background-image: none;

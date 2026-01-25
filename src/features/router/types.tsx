@@ -14,6 +14,7 @@ export interface RouteConfig {
     permissions?: string[];
     icon?: IconDefinition;
     showInMenu?: boolean;
+    dividerLabel?: string;
   };
   children?: RouteConfig[];
 }

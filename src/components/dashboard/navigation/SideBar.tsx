@@ -36,12 +36,12 @@ const SideBar = () => {
       }
       return (
         <NavItem
-        
           key={route.id}
           setShow={setShow}
           title={route.meta?.label ?? ''}
           link={nextPath + "/" + route.path}
           icon={route.meta.icon}
+          dividerLabel={route.meta.dividerLabel}
         />
       );
     }

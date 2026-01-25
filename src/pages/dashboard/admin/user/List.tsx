@@ -82,7 +82,7 @@ const List = () => {
       id: 'updated_at',
       field: 'updated_at',
       label: t('datatable_demo.columns.updated_at'),
-      sortable: true,
+      sortable: false,
       visible: false,
       render: (user: User) => formatTimestampWithTime(user.updated_at, locale),
     },
