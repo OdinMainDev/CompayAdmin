@@ -1,7 +1,7 @@
 import React from "react";
 import { ClientData } from "@/app/entities/client_data";
 import { useTranslation } from "react-i18next";
-import { Card } from "react-bootstrap";
+import { Accordion, Card } from "react-bootstrap";
 
 interface Props {
   clientData: ClientData;
@@ -24,14 +24,20 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
 
   const renderRow = (label: string, value?: React.ReactNode) =>
     value ? (
-        <div style={{ display: "flex", gap: 8 }}>
-            <strong>{label}:</strong>
-            <span>{value}</span>
-        </div>
+      <div style={{ display: "flex", gap: 8 }}>
+        <strong>{label}:</strong>
+        <span>{value}</span>
+      </div>
     ) : null;
 
-    return (
-      <Card border="light" className="bg-white shadow-sm mb-4 p-4">
+  return (
+    <Accordion className="mb-4">
+      <Accordion.Item eventKey="0">
+        <Accordion.Header>
+          {t("datatable.client_data")}
+        </Accordion.Header>
+
+        <Accordion.Body className="shadow-sm p-3">
           <h5>{t("datatable.client_data")}</h5>
 
           {!hideBaseData && (
@@ -54,7 +60,7 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
           {traits && (
             <>
               <hr />
-              <h5>Network Traits</h5>
+              <h6>Network Traits</h6>
               {renderRow(
                 "Anonymous Proxy",
                 traits.IsAnonymousProxy ? "Yes" : "No"
@@ -66,6 +72,8 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
               )}
             </>
           )}
-      </Card>
-    );
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
+  );
 }

@@ -4,14 +4,11 @@
 
  .accordion-button {
     text-align: left;
+    background-color: transparent !important;
 
     .btn-check:focus + .btn, .btn:focus {
         outline: 0;
         box-shadow: none;
-    }
-    
-    &:hover{
-        background-color: $gray-200;
     }
 }
 
@@ -21,10 +18,7 @@
 
 .accordion-flush {
     .accordion-button {
-        background-color: transparent;
-        &:not(.collapsed) {
-            color: $secondary;
-        }
+        background-color: transparent !important;
         &:focus {
             border-color: $gray-300;
             box-shadow: none;
