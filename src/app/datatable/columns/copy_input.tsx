@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 interface CopyInputProps {
   value?: string;
@@ -39,7 +40,7 @@ export function RenderCopyInput({ value }: CopyInputProps) {
         onClick={handleCopy}
         style={{ whiteSpace: "nowrap" }}
       >
-        <FontAwesomeIcon icon={copied ? faCheck : faCopy} />
+        <FontAwesomeIcon icon={copied ? faCheckCircle : faCopy} />
       </Button>
     </div>
   );
