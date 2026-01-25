@@ -5,6 +5,7 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/admin/Dashboard'));
 const UserList = lazy(() => import('@/pages/dashboard/admin/user/List'));
+const UserCreate = lazy(() => import('@/pages/dashboard/admin/user/Create'));
 
 export const adminRoutes: RouteConfig[] = [
   {
@@ -29,7 +30,7 @@ export const adminRoutes: RouteConfig[] = [
       {
         id: 'admin-users-create',
         path: 'users/create',
-        component: Dashboard,
+        component: UserCreate,
         meta: {roles: ["admin"], showInMenu: false},
       },
       {
