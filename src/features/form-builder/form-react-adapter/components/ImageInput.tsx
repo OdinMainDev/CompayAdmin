@@ -46,7 +46,6 @@ export function ImageInput(
           accept={value.extra?.accept}
           onChange={(e) => {
               const target = e.target as HTMLInputElement;
-              debugger;
               onChange(target.files?.[0] ?? null);
           }}
         />

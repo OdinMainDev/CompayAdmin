@@ -18,7 +18,6 @@ export class MerchantField extends BaseField<number | null, NumberFieldExtra> {
   }
 
   static fromJson(json: { key: string; label: string; defaultValue?: number | null; options?: NumberFieldExtra }) {
-    debugger;
     return new MerchantField(json.key, json.label, json.defaultValue ?? null, json.options);
   }
 }
