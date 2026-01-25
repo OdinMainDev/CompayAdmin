@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
 import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
@@ -118,10 +118,10 @@ export function DatatableHeader<T>({
                 align="end"
               >
                 <Dropdown.Toggle 
-                  variant="outline-secondary" 
+                  variant="outline-warning" 
                   size="sm" 
                   id="column-selector-toggle"
-                  className="d-flex align-items-center gap-1"
+                  className="d-flex align-items-center gap-1 text-black"
                   style={
                     {
                       position: 'relative'
