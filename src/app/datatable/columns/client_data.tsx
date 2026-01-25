@@ -1,7 +1,7 @@
 import React from "react";
 import { ClientData } from "@/app/entities/client_data";
 import { useTranslation } from "react-i18next";
-import { Accordion, Card } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 
 interface Props {
   clientData: ClientData;

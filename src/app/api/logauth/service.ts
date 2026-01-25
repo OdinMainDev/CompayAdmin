@@ -1,6 +1,6 @@
 
 import { FilterReponse } from '@/features/api-client/types/datatable';
-import type { GetListFiltersResponse, LogAuthCreateRequest, LogAuthResponse, LogAuthSearchResponse, LogAuthUpdateRequest } from './types';
+import type { GetListFiltersResponse } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
 import { apiClient } from '@/features/api-client/client';
@@ -30,7 +30,7 @@ export class LogAuthService {
         }
       );
     } catch (error) {
-      return makeError("Failed to fetch logauths", error);
+      return makeError("Failed to fetch logauth", error);
     }
   }
 

@@ -9,6 +9,7 @@ const UserCreate = lazy(() => import('@/pages/dashboard/admin/user/Create'));
 
 // LOGS
 const LogAuth = lazy(() => import('@/pages/dashboard/admin/logs/Auth'));
+const LogUser = lazy(() => import('@/pages/dashboard/admin/logs/User'));
 
 export const adminRoutes: RouteConfig[] = [
   {
@@ -54,7 +55,7 @@ export const adminRoutes: RouteConfig[] = [
       {
         id: 'admin-logs-user',
         path: 'logs-user',
-        component: UserList,
+        component: LogUser,
         meta: {roles: ["admin"], showInMenu: true, label: "logs-user", icon: faClipboardCheck,},
       },
     ],
