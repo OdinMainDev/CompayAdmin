@@ -1,9 +1,5 @@
-import { Button, Card, Col, Container, Dropdown, Form, Image, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faCartArrowDown, faChartPie, faChevronDown, faChevronLeft, faClipboard, faCommentDots, faFileAlt, faPlus, faRocket, faStore } from "@fortawesome/free-solid-svg-icons";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 
-import NotFoundImage from "@/assets/images/dashboard/illustrations/404.svg";
 import TwofaSidebar from "@/components/dashboard/sidebars/2fa";
 import PageHeader from "@/components/dashboard/common/PageHeader";
 
