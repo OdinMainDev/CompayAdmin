@@ -10,6 +10,7 @@ import { ApiError } from '@/features/api-client/types/core';
 import { User } from '@/app/entities/user';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TabField } from '@/features/form-builder/form-core/domain/field/TabField';
+import { SelectField } from '@/features/form-builder/form-core/domain/field';
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +29,7 @@ const Edit = () => {
     const getData = async () => {
       const response = await UserService.getById(Number(id));
       if (!response.success) {
-        navigate('/dashboard')
+        navigate('/dashboard');
         return;
       }
 
@@ -49,8 +50,10 @@ const Edit = () => {
               name: 'main',
               label: t('tabs.personal_data'),
               elements: [
-                TextField.create('new_username', t('fields.new_username'), { col: 12, }),
-                PasswordField.create('new_password', t('fields.new_password'), { col: 12 }),
+                TextField.create('title', t('fields.title'), { col: 8 }),
+                TextField.create('code_alpha', t('fields.code_alpha'), { col: 4, }),
+                SelectField.create('network', t('fields.network'), { col: 4, }),
+                TextField.create('code_alpha', t('fields.code_alpha'), { col: 4, }),
               ],
             },
           ],
@@ -76,7 +79,7 @@ const Edit = () => {
   return (
     <>
       <UnifiedFormBuilder 
-        title={t('users_page.edit') + " " + model?.username}
+        title={t('users_page.edit') + ": " + model?.username}
         fields={sections}
         setFormData={setFormData}
         formData={formData}

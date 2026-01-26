@@ -70,6 +70,21 @@ const List = () => {
       },
     },
     {
+      id: 'creator_id',
+      field: 'creator_id',
+      label: t('datatable.creator_id'),
+      sortable: true,
+      render: (row: User) => {
+        return (
+          <Link to={`/dashboard/users/edit/${row.creator_id}`}>
+              <Button bsPrefix="text" href="#info" variant="info">
+                {t('datatable.go_to_user')}
+              </Button>
+          </Link>
+        );
+      },
+    },
+    {
       id: 'created_at',
       field: 'created_at',
       label: t('datatable.created_at'),

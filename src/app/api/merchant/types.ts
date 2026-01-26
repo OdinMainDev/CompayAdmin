@@ -22,8 +22,8 @@ export interface MerchantResponse {
 }
 
 export type GetListFiltersResponse = {
-  success: boolean;
-  data: FilterReponse[];
+  readonly success: boolean;
+  readonly data: FilterReponse[];
 };
 
 export interface MerchantSearchRequest {

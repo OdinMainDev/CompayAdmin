@@ -9,6 +9,6 @@ export interface Merchant {
 }
 
 export interface MerchantSettings {
-    blocked_countries: string[];
-    allowed_countries: string[];
+    readonly blocked_countries: string[];
+    readonly allowed_countries: string[];
 }

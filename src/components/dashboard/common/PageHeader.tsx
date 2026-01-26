@@ -26,7 +26,7 @@ const PageHeader = ({ title, subtitle }: PageHeaderProps) => {
       label,
       href,
       isLast: index === segments.length - 1,
-      isDisabled: index === segments.length - 1 || label == "edit" || label == "logs"
+      isDisabled: index === segments.length - 1 || label == "edit" || label == "logs" || label == "process"
     };
   });
 

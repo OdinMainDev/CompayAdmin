@@ -174,7 +174,6 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       };
       
       if (hasMethod(this, actionId)) {
-        console.log(data);
         return (this as Record<string, ActionMethod>)[actionId](data);
       }
       

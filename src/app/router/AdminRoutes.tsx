@@ -1,13 +1,16 @@
 import { lazy } from 'react';
 import { RouteConfig } from '@/features/router/types';
 import AdminGuard from '@/features/router/guards/AdminGuard';
-import { faClipboardCheck, faClipboardUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBitcoinSign, faClipboardCheck, faClipboardUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/admin/Dashboard'));
 
 const UserList = lazy(() => import('@/pages/dashboard/admin/user/List'));
 const UserCreate = lazy(() => import('@/pages/dashboard/admin/user/Create'));
 const UserEdit = lazy(() => import('@/pages/dashboard/admin/user/Edit'));
+
+const CurrencyList = lazy(() => import('@/pages/dashboard/admin/currency/List'));
+const CurrencyProcess = lazy(() => import('@/pages/dashboard/admin/currency/Process'));
 
 // LOGS
 const LogAuth = lazy(() => import('@/pages/dashboard/admin/logs/Auth'));
@@ -26,6 +29,21 @@ export const adminRoutes: RouteConfig[] = [
         component: Dashboard,
         meta: {roles: ["admin"], showInMenu: false},
       },
+
+      // Currencies
+      {
+        id: 'admin-currencies-list',
+        path: 'currencies',
+        component: CurrencyList,
+        meta: {roles: ["admin"], showInMenu: true, label: "currencies", icon: faBitcoinSign },
+      },
+      {
+        id: 'admin-currencies-create',
+        path: 'currencies/process/:id',
+        component: CurrencyProcess,
+        meta: {roles: ["admin"], showInMenu: false},
+      },
+
       // Users
       {
         id: 'admin-users-list',
