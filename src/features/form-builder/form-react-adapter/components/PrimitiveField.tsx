@@ -34,7 +34,7 @@ export function PrimitiveFieldRenderer<T extends string | number | null>(
       <Form.Control
         as="input"
         type={field.type}
-        placeholder={field.extra?.placeholder}
+        placeholder={field.extra?.placeholder ?? field.label}
         required={field.extra?.required}
         value={field.value ?? ''}
         isInvalid={hasError}          

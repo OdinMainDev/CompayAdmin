@@ -24,7 +24,7 @@ export const DaterangeRenderer = (
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
   const [isValidRange, setIsValidRange] = useState(true);
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("panel");
   const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export const DaterangeRenderer = (
   }, [onChange]);
 
   const quickPeriods = [
-    { label: 'Сегодня', getDates: () => {
+    { label: t('datatable.date_filter.today'), getDates: () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const tomorrow = new Date(today);
@@ -93,7 +93,7 @@ export const DaterangeRenderer = (
         to: dateToTimestamp(tomorrow) 
       };
     }},
-    { label: 'Вчера', getDates: () => {
+    { label: t('datatable.date_filter.yesterday'), getDates: () => {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
@@ -104,7 +104,7 @@ export const DaterangeRenderer = (
         to: dateToTimestamp(today) 
       };
     }},
-    { label: 'Эта неделя', getDates: () => {
+    { label: t('datatable.date_filter.week'), getDates: () => {
       const now = new Date();
       const firstDay = new Date(now);
       firstDay.setDate(now.getDate() - now.getDay() + 1);
@@ -116,7 +116,7 @@ export const DaterangeRenderer = (
         to: dateToTimestamp(lastDay) 
       };
     }},
-    { label: 'Этот месяц', getDates: () => {
+    { label: t('datatable.date_filter.month'), getDates: () => {
       const now = new Date();
       const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
       const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 1);
@@ -138,14 +138,14 @@ export const DaterangeRenderer = (
   }, [onChange]);
 
   const dateFormat = field.extra?.dateFormat || 'dd.MM.yyyy';
-  const placeholderFrom = field.extra?.placeholderFrom || 'С даты';
-  const placeholderTo = field.extra?.placeholderTo || 'По дату';
+  const placeholderFrom = t("datatable.date_filter.from");
+  const placeholderTo = t("datatable.date_filter.to");
 
   return (
-    <div className="mt-3">
+    <div className="mb-2">
       {field.label && (
-        <Form.Label className="fw-semibold d-flex align-items-center justify-content-between">
-          {field.label}
+        <Form.Label className="fw-semibold d-flex align-items-center justify-content-between" onClick={(e) => e.preventDefault()}>
+          {t("datatable.date_filter." + field.label)}
           {(fromDate || toDate) && (
             <button
               type="button"
@@ -153,7 +153,7 @@ export const DaterangeRenderer = (
               onClick={handleClearAll}
               disabled={field.extra?.disabled}
             >
-              <small>Очистить</small>
+              <small>{t('datatable.date_filter.clear')}</small>
             </button>
           )}
         </Form.Label>
@@ -165,7 +165,7 @@ export const DaterangeRenderer = (
             <button
               key={index}
               type="button"
-              className="btn btn-sm btn-outline-secondary"
+              className="btn btn-sm btn-outline-warning text-black"
               onClick={() => handleQuickPeriod(period.getDates)}
               disabled={field.extra?.disabled}
             >
@@ -175,9 +175,8 @@ export const DaterangeRenderer = (
         </div>
       )}
 
-      <div className="d-flex align-items-start gap-3">
+      <div className="d-flex align-items-center gap-3">
         <div className="flex-grow-1">
-          <Form.Label className="small text-muted mb-1">С</Form.Label>
           <div className="position-relative">
             <DatePicker
               selected={fromDate}
@@ -214,10 +213,9 @@ export const DaterangeRenderer = (
           </div>
         </div>
 
-        <div className="text-muted mt-4">—</div>
+        <div className="text-muted">—</div>
 
         <div className="flex-grow-1">
-          <Form.Label className="small text-muted mb-1">По</Form.Label>
           <div className="position-relative">
             <DatePicker
               selected={toDate}
@@ -257,13 +255,13 @@ export const DaterangeRenderer = (
 
       {!isValidRange && (
         <div className="invalid-feedback d-block mt-1">
-          Дата "с" не может быть позже даты "по"
+          {t("datatable.date_filter.invalid_range")}
         </div>
       )}
 
       {(fromDate || toDate) && (
         <div className="mt-2 small">
-          <span className="text-muted">Выбрано: </span>
+          <span className="text-muted">{t("datatable.date_filter.selected_date")}: </span>
           <span className="badge bg-light text-dark border">
             {fromDate ? fromDate.toLocaleDateString(locale) : '∞'}
             {' → '}

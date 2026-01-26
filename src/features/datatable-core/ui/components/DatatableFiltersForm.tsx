@@ -4,6 +4,7 @@ import UnifiedFormBuilder from "@/features/form-builder/form-react-adapter/Unifi
 import type { DatatableEngine } from "@/features/datatable-core/runtime/DatatableEngine";
 import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 import { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
+import { useTranslation } from "react-i18next";
 
 interface DatatableFiltersFormProps<T> {
   engine?: DatatableEngine<T>;
@@ -21,6 +22,7 @@ export function DatatableFiltersForm<T>({
   const [formData, setFormData] = useState<Record<string, unknown>>(() => 
     filterForm ? buildDefaultValues(filterForm) : {}
   );
+  const { t } = useTranslation("panel")
 
   const convertFormToFilters = (data: Record<string, unknown>): FilterCondition[] => {
     const filters: FilterCondition[] = [];
@@ -78,6 +80,7 @@ export function DatatableFiltersForm<T>({
         formData={formData}
         setFormData={setFormData}
         handleSubmit={handleSubmit}
+        submitLabel={t("datatable.filters_submit")}
       />
     </div>
   );

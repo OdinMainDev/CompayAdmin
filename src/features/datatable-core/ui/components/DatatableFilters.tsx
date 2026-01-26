@@ -4,6 +4,9 @@ import type { DatatableEngine } from '@/features/datatable-core/runtime/Datatabl
 import { DatatableFiltersForm } from './DatatableFiltersForm';
 import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
 import { buildBackendFilters } from '../../filters/buildBackendFilters';
+import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 interface DatatableFiltersProps<T> {
   config: DatatableConfig<T>;
@@ -20,6 +23,7 @@ export function DatatableFilters<T>({
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>(
     () => engine.getState().filters ?? []
   );
+  const { t } = useTranslation("panel");
 
   const filterMode: FilterMode = (config.filtering?.mode as FilterMode) || 'modal';
 
@@ -86,13 +90,13 @@ export function DatatableFilters<T>({
             ].join(' ')}
             onClick={() => setShowModal(true)}
           >
-            <i className="fas fa-filter me-2" aria-hidden="true"></i>
-            <span>Filter</span>
+            <FontAwesomeIcon icon={faFilter} className='me-2'/>
+            <span>{t("datatable.filters")}</span>
 
             {count > 0 && (
               <span
                 className={[
-                  'ml-1 inline-flex min-w-[1.25rem] items-center justify-center',
+                  'ml-1 inline-flex items-center justify-center',
                   'rounded-full bg-blue-600 px-1.5 py-0.5',
                   'text-[11px] font-semibold leading-none text-white'
                 ].join(' ')}
@@ -113,7 +117,6 @@ export function DatatableFilters<T>({
             style={{ display: 'block' }}
             role="dialog"
             aria-modal="true"
-            onClick={() => setShowModal(false)}
           >
             <div
               className={[
@@ -126,8 +129,8 @@ export function DatatableFilters<T>({
               <div className="modal-content rounded-lg border border-slate-200 shadow-xl">
                 <div className="modal-header">
                   <h5 className="modal-title inline-flex items-center gap-2">
-                    <i className="fas fa-filter me-2" aria-hidden="true"></i>
-                    <span>Filters</span>
+                    <FontAwesomeIcon icon={faFilter} className='me-2'/>
+                    <span>{t("datatable.filters")}</span>
 
                     {count > 0 && (
                       <span className="ml-1 inline-flex items-center justify-center rounded-full bg-blue-600 px-2 py-0.5 text-[11px] font-semibold leading-none text-white">

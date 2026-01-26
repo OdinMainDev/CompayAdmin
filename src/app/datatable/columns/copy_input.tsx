@@ -39,6 +39,7 @@ export function RenderCopyInput({ value }: CopyInputProps) {
         variant={copied ? "warning" : "outline-warning"}
         onClick={handleCopy}
         style={{ whiteSpace: "nowrap" }}
+        className="text-black"
       >
         <FontAwesomeIcon icon={copied ? faCheckCircle : faCopy} />
       </Button>

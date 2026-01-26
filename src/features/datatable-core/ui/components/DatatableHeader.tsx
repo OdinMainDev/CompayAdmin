@@ -6,6 +6,9 @@ import { DatatableFilters } from './DatatableFilters';
 import { Dropdown, Form } from 'react-bootstrap';
 import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
 import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faEye, faEyeSlash, faTableColumns } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 interface DatatableHeaderProps<T> {
   config: DatatableConfig<T>;
@@ -22,6 +25,7 @@ export function DatatableHeader<T>({
 }: DatatableHeaderProps<T>): React.ReactElement {
   useDatatableState(engine); 
   const [showColumnDropdown, setShowColumnDropdown] = useState(false);
+  const { t } = useTranslation("panel");
   
   const visibleColumns = Object.entries(state.columnState.visibility)
     .filter(([_, isVisible]) => isVisible !== false)
@@ -116,8 +120,8 @@ export function DatatableHeader<T>({
                     }
                   }
                 >
-                  <i className="fas fa-columns"></i>
-                  <span>Columns</span>
+                  <FontAwesomeIcon icon={faTableColumns} />
+                  <span>{t("datatable.columns")}</span>
                   <span className="badge bg-primary rounded-pill ms-1">
                     {visibleColumns.length}/{config.columns.length}
                   </span>
@@ -132,28 +136,12 @@ export function DatatableHeader<T>({
 
                 }}>
                   <div className="d-flex justify-content-between align-items-center  mb-2 px-2">
-                    <h6 className="mb-0 fw-bold">Manage Columns</h6>
-                    <div className="d-flex gap-1">
-                      <button 
-                        className="btn btn-sm btn-link p-0"
-                        onClick={showAllColumns}
-                        title="Show all columns"
-                      >
-                        <i className="fas fa-eye"></i>
-                      </button>
-                      <button 
-                        className="btn btn-sm btn-link p-0"
-                        onClick={hideAllColumns}
-                        title="Hide optional columns"
-                      >
-                        <i className="fas fa-eye-slash"></i>
-                      </button>
-                    </div>
+                    <h6 className="mb-0 fw-bold">{t("datatable.manage_columns")}</h6>
                   </div>
                   
                   <div className="dropdown-divider my-1"></div>
                   
-                  <div className="px-2 small text-muted mb-1">All Columns</div>
+                  <div className="px-2 small text-muted mb-1">{t("datatable.all_columns")}</div>
                   {config.columns.map((column: DatatableColumn<T>) => {
                     const isVisible = state.columnState.visibility[column.id] !== false;
                     
@@ -172,7 +160,7 @@ export function DatatableHeader<T>({
                           className="w-100 text-dark"
                         />
                         {!isVisible && (
-                          <i className="black-text fas fa-eye-slash text-muted ms-2" title="Hidden"></i>
+                          <FontAwesomeIcon icon={faEyeSlash} className='black-text text-muted ms-2' />
                         )}
                       </div>
                     );
@@ -180,21 +168,20 @@ export function DatatableHeader<T>({
                   
                   <div className="dropdown-divider my-2"></div>
                   
-                  <div className="px-2 small text-muted mb-1">Quick Actions</div>
                   <div className="d-flex flex-wrap gap-1 px-2">
                     <button 
                       className="btn btn-sm btn-outline-primary flex-grow-1"
                       onClick={showAllColumns}
                       disabled={state.loading}
                     >
-                      Show All
+                      {t("datatable.show_all")}
                     </button>
                     <button 
                       className="btn btn-sm btn-outline-secondary flex-grow-1"
                       onClick={hideAllColumns}
                       disabled={state.loading}
                     >
-                      Hide Optional
+                      {t("datatable.hide_all")}
                     </button>
                   </div>
                 </Dropdown.Menu>
@@ -208,8 +195,8 @@ export function DatatableHeader<T>({
               onClick={() => onAction('export', {format: 'excel'})}
               disabled={state.loading || state.data.length === 0}
             >
-              <i className="fas fa-download me-1"></i>
-              Export
+              <FontAwesomeIcon icon={faDownload} className='me-1' />
+              {t("datatable.export")}
             </button>
           )}
           

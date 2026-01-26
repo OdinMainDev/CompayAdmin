@@ -12,7 +12,37 @@
         }
     },
     "datatable": {
-
+        "show_all_entries": "Показаны все записи",
+        "showing": "Показано с",
+        "to": "до",
+        "of": "из",
+        "entries": "записей",
+        "total_entries": "Всего записей",
+        "columns": "Столбцы",
+        "columns_visible": "Видимые столбцы",
+        "manage_columns": "Настройки столбцов",
+        "all_columns": "Все столбцы",
+        "show_all": "Показать все",
+        "hide_all": "Скрыть все",
+        "export": "Экспортировать",
+        "filters": "Фильтры",
+        "filters_submit": "Применить",
+        "retry_request": "Повторить запрос",
+        "no_data_available": "Данные отсутствуют",
+        "records_null": "Не найдено записей, соответствующих вашим критериям",
+        "date_filter": {
+            "created_at": "Дата создания",
+            "updated_at": "Дата обновления",
+            "clear": "Очистить",
+            "from": "С даты",
+            "to": "По дату",
+            "today": "Сегодня",
+            "yesterday": "Вчера",
+            "week": "Эта неделя",
+            "month": "Этот месяц",
+            "invalid_range": "Дата \"с\" не может быть позже даты \"по\"",
+            "selected_date": "Выбрана дата"
+        }
     },
     "topbar": {
         "fast_actions": {

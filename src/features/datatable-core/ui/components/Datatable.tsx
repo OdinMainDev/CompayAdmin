@@ -9,6 +9,7 @@ import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 import PageHeader from '@/components/dashboard/common/PageHeader';
+import Preloader from '@/components/base/Preloader';
 
 interface DatatableProps<T> {
   pageTitle?: string,
@@ -88,7 +89,7 @@ export function Datatable<T>({
   };
 
   if (!engine || !state) {
-    return <div>Loading...</div>;
+    return <Preloader />;
   }
 
   return (
