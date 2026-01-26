@@ -1,4 +1,4 @@
-import { BaseField } from '../../../features/form-builder/form-core/domain/field/BaseField';
+import { BaseField } from '@/features/form-builder/form-core/domain/field/BaseField';
 import type { NumberFieldExtra } from '@/features/form-builder/form-core/domain/extra/NumberFieldExtra';
 
 

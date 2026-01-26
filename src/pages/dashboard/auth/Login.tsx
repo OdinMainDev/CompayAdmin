@@ -20,7 +20,6 @@ export default function Login() {
 
   const sections: FormSection[] = [
     {
-      title: '',
       fields: [
           TextField.create('email', 'Email', { placeholder: 'example@example.com' }),
           TextField.create('password', 'Password', { placeholder: '••••••' }),

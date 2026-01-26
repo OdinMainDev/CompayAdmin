@@ -21,8 +21,8 @@ import { OptionalSwitchRenderer } from './components/OptionalSwitch';
 import { DaterangeField, type DaterangeValue } from '@/features/form-builder/form-core/domain/field/DaterangeField';
 import type { DaterangeFieldExtra } from '@/features/form-builder/form-core/domain/extra/DaterangeFieldExtra';
 import { DaterangeRenderer } from './components/Daterange';
-import { MerchantField } from '../../../app/datatable/custom-fields/MerchantField';
-import { MerchantFieldRenderer } from './components/custom/Merchant';
+import { MerchantField } from '../../../app/datatable/custom/fields/MerchantField';
+import { MerchantFieldRenderer } from '../../../app/datatable/custom/components/Merchant';
 
 
 UnifiedFieldRegistry.registerFunction<TabFieldValue, TabsFieldExtra>('tabs', TabField, TabsRenderer);

@@ -8,7 +8,7 @@ import { MultiSelectNumberField } from '../form-core/domain/field/MultiSelectNum
 import { DaterangeField } from '../form-core/domain/field/DaterangeField';
 import { RepeaterField } from '../form-core/domain/field/RepeaterField';
 import { TabField } from '../form-core/domain/field/TabField';
-import { MerchantField } from '@/app/datatable/custom-fields/MerchantField';
+import { MerchantField } from '@/app/datatable/custom/fields/MerchantField';
 
 
 export const FieldClasses = {

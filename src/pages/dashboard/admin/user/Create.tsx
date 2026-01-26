@@ -8,10 +8,12 @@ import { TabField } from '@/features/form-builder/form-core/domain/field/TabFiel
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { PasswordField } from '@/features/form-builder/form-core/domain/field/PasswordField';
 import { SwitchField } from '@/features/form-builder/form-core/domain/field/SwitchField';
-import { MerchantField } from '@/app/datatable/custom-fields/MerchantField';
+import { MerchantField } from '@/app/datatable/custom/fields/MerchantField';
+import { ApiError } from '@/features/api-client/types/core';
 
 const Create = () => {
   const { t } = useTranslation();
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
 
   const sections = useMemo<FormSection[]>(() => [
     {
@@ -42,6 +44,7 @@ const Create = () => {
     },
   ], [t]);
   
+
   const [formData, setFormData] = useState<UserCreateRequest>({
     username: '',
     password: '',
@@ -59,6 +62,11 @@ const Create = () => {
     if ('success' in response && response.success) {
         // navigate(`/dashboard/users/${success}`);
     }
+    else {
+      const errorResponse = response as ApiError;
+      if (errorResponse.errors)
+        setFieldErrors(errorResponse.errors);
+    }
   }
 
   return (
@@ -71,7 +79,7 @@ const Create = () => {
         formData={formData}
         handleSubmit={handleSubmit}
         submitLabel={t('form_builder_demo.form.submit')}
-        // fieldErrors={getFieldErrors()}
+        fieldErrors={fieldErrors}
       />
     </>
   );
