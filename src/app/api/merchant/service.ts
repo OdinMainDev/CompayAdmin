@@ -1,6 +1,6 @@
 
 import { FilterReponse } from '@/features/api-client/types/datatable';
-import type { GetListFiltersResponse, MerchantCreateRequest, MerchantResponse, MerchantSearchResponse, MerchantUpdateRequest } from './types';
+import type { GetListFiltersResponse, MerchantCreateRequest, MerchantResponse, MerchantSearchRequest, MerchantSearchResponse, MerchantUpdateRequest } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
 import { apiClient } from '@/features/api-client/client';
@@ -130,7 +130,7 @@ export class MerchantService {
   }
   
   static async search(
-    query: string = "",
+    data: MerchantSearchRequest,
     options?: RequestOptions
   ): Promise<MerchantSearchResponse | ApiError> {
     try {
@@ -138,7 +138,7 @@ export class MerchantService {
         `${this.ENDPOINTS.SEARCH}`,
         {
           ...options,
-          params: { q: query },
+          data,
           isAuth: true,
           hasToast: options?.hasToast ?? false,
         }
