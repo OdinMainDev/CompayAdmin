@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { 
   Datatable, 
@@ -12,6 +12,8 @@ import { UserService } from '@/app/api/user/service';
 import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
 import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
 import { buildDeleteAction } from '@/features/datatable-core/utils/buildDeleteAction';
+import { RenderBool } from '@/app/datatable/columns/bool';
+import { Button } from 'react-bootstrap';
 
 const List = () => {
   const { t, i18n } = useTranslation();
@@ -34,57 +36,53 @@ const List = () => {
     {
       id: 'username',
       field: 'username',
-      label: t('datatable_demo.columns.username'),
+      label: t('datatable.username'),
       sortable: true,
     },
     {
       id: 'is_banned',
       field: 'is_banned',
-      label: t('datatable_demo.columns.status'),
+      label: t('datatable.is_banned'),
       sortable: true,
-      render: (user: User) => {
-        const status = user.is_banned ? 'blocked' : 'active';
-        return (
-          <span
-            className={`badge bg-${status === 'active' ? 'success' : 'danger'}`}
-          >
-            {t(`datatable_demo.status.${status}`)}
-          </span>
-        );
-      },
+      render: (row: User) => <RenderBool value={row.is_banned}/>,
     },
     {
       id: 'is_twofa_enabled',
       field: 'is_twofa_enabled',
-      label: '2FA',
+      label: t('datatable.is_twofa_enabled'),
       sortable: false,
-      render: (user: User) => (
-        <span className={`badge bg-${user.is_twofa_enabled ? 'success' : 'secondary'}`}>
-          {user.is_twofa_enabled ? t('datatable_demo.status.enabled') : t('datatable_demo.status.disabled')}
-        </span>
-      ),
+      visible: false,
+      render: (row: User) => <RenderBool value={row.is_twofa_enabled}/>,
     },
     {
       id: 'merchant_id',
       field: 'merchant_id',
-      label: 'Merchant ID',
+      label: t('datatable.merchant_id'),
       sortable: true,
-      visible: false,
+      render: (row: User) => {
+        return (
+          <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
+              <Button bsPrefix="text" href="#info" variant="info">
+                {t('datatable.go_to_merchant')}
+              </Button>
+          </Link>
+        );
+      },
     },
     {
       id: 'created_at',
       field: 'created_at',
-      label: t('datatable_demo.columns.created_at'),
+      label: t('datatable.created_at'),
       sortable: true,
-      render: (user: User) => formatTimestampWithTime(user.created_at, locale),
+      render: (row: User) => formatTimestampWithTime(row.created_at, locale),
     },
     {
       id: 'updated_at',
       field: 'updated_at',
-      label: t('datatable_demo.columns.updated_at'),
+      label: t('datatable.updated_at'),
       sortable: false,
       visible: false,
-      render: (user: User) => formatTimestampWithTime(user.updated_at, locale),
+      render: (row: User) => formatTimestampWithTime(row.updated_at, locale),
     },
   ], [t, locale]);
 
@@ -93,20 +91,18 @@ const List = () => {
     dataSource:     UserService.getList,
     columns,
     quickActions: [
-      buildAddAction(t('datatable_demo.actions.add_merchant'), 'panel/user-create', navigate)
+      buildAddAction(t('datatable.add_record'), '/dashboard/users/create', navigate)
     ],
     rowActions: [
-      buildEditAction(t('datatable_demo.actions.edit'), '/panel/admin/user-edit/', navigate),
-      buildDeleteAction(t('datatable_demo.actions.delete'), UserService.delete, refreshTable)
+      buildEditAction('/dashboard/users/edit/', navigate),
+      buildDeleteAction(UserService.delete, refreshTable)
     ]
   }), [columns, t]);
   return (
     <Datatable
-      pageTitle={t('datatable_demo.page.title')}
-      pageSubtitle={t('datatable_demo.page.subtitle')}
+      pageTitle={t('users_page.list')}
       key={refreshKey}
       config={config}
-      className="border-0"
     />
   );
 };

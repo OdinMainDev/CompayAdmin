@@ -32,7 +32,7 @@ const Auth = () => {
       sortable: true,
       render: (row: LogAuth) => {
         return (
-          <Link to={`/panel/users/edit/${row.user_id}`}>
+          <Link to={`/dashboard/users/edit/${row.user_id}`}>
               <Button bsPrefix="text" href="#info" variant="info">
                 {t('datatable.go_to_user')}
               </Button>
@@ -47,7 +47,7 @@ const Auth = () => {
       sortable: true,
       render: (row: LogAuth) => {
         return (
-          <Link to={`/panel/merchants/edit/${row.merchant_id}`}>
+          <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
               <Button bsPrefix="text" href="#info" variant="info">
                 {t('datatable.go_to_merchant')}
               </Button>
@@ -118,6 +118,7 @@ const Auth = () => {
   }), [columns, t]);
   return (
     <Datatable
+      pageTitle={t('logs_pages.auth')}
       config={config}
       className="border-0"
     />

@@ -12,8 +12,6 @@ export interface UserUpdateRequest {
   id: number;
   username?: string;
   password?: string;
-  is_banned?: boolean;
-  do_disable_twofa?: boolean;
 }
 
 export interface UserResponse {

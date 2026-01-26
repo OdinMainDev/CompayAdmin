@@ -15,7 +15,7 @@ export class UserService {
     FILTERS: "/api/panel/admin/dev/users/list/filters",
     GET: "/api/panel/admin/dev/users/get",
     CREATE: "/api/panel/admin/dev/users/create",
-    UPDATE: "/api/panel/admin/dev/users/update",
+    UPDATE: "/api/panel/admin/dev/users/process",
     DELETE: "/api/panel/admin/dev/users/delete",
     SEARCH: "/api/panel/admin/dev/users/search",
   } as const;

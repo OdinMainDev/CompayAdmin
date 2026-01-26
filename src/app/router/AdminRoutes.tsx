@@ -4,8 +4,10 @@ import AdminGuard from '@/features/router/guards/AdminGuard';
 import { faClipboardCheck, faClipboardUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/admin/Dashboard'));
+
 const UserList = lazy(() => import('@/pages/dashboard/admin/user/List'));
 const UserCreate = lazy(() => import('@/pages/dashboard/admin/user/Create'));
+const UserEdit = lazy(() => import('@/pages/dashboard/admin/user/Edit'));
 
 // LOGS
 const LogAuth = lazy(() => import('@/pages/dashboard/admin/logs/Auth'));
@@ -40,7 +42,7 @@ export const adminRoutes: RouteConfig[] = [
       {
         id: 'admin-users-update',
         path: 'users/edit/:id',
-        component: Dashboard,
+        component: UserEdit,
         meta: {roles: ["admin"], showInMenu: false},
       },
 
@@ -48,13 +50,13 @@ export const adminRoutes: RouteConfig[] = [
       // LOGS 
       {
         id: 'admin-logs-auth',
-        path: 'logs-auth',
+        path: 'logs/logs-auth',
         component: LogAuth,
         meta: {roles: ["admin"], showInMenu: true, label: "logs-auth", icon: faClipboardUser, dividerLabel: "logs", },
       },
       {
         id: 'admin-logs-user',
-        path: 'logs-user',
+        path: 'logs/logs-user',
         component: LogUser,
         meta: {roles: ["admin"], showInMenu: true, label: "logs-user", icon: faClipboardCheck,},
       },
