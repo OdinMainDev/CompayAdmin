@@ -11,6 +11,7 @@ const Login = lazy(() => import('@/pages/dashboard/auth/Login'));
 const PanelLayout = lazy(() => import('@/components/dashboard/layout/PanelLayout'));
 const DashboardLayout = lazy(() => import('@/components/dashboard/layout/DashboardLayout'));
 const Profile = lazy(() => import('@/pages/dashboard/common/Profile'));
+const Notifications = lazy(() => import('@/pages/dashboard/common/Notifications'));
 const Logout = lazy(() => import('@/pages/dashboard/auth/Logout'));
 
 export const routeConfigs: RouteConfig[] = [
@@ -42,6 +43,11 @@ export const routeConfigs: RouteConfig[] = [
             id: 'profile',
             path: 'profile',
             component: Profile,
+          },
+          {
+            id: 'notifications',
+            path: 'notifications',
+            component: Notifications,
           },
           {
             id: 'logout',

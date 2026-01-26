@@ -11,7 +11,6 @@ import { LogUser } from '@/app/entities/loguser';
 import { LogUserService } from '@/app/api/loguser/service';
 import { Button } from 'react-bootstrap';
 import { RenderClientData } from '@/app/datatable/columns/client_data';
-import { RenderCopyInput } from '@/app/datatable/columns/copy_input';
 import { RenderCopyTextarea } from '@/app/datatable/columns/copy_textarea';
 
 const User = () => {
