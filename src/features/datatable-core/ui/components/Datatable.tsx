@@ -100,7 +100,7 @@ export function Datatable<T>({
       />
     )}
   
-    <div className={`datatable ${className}`}>
+    <div className={`datatable card shadow-sm border-0 ${className}`}>
       <DatatableHeader
         config={config}
         state={state}

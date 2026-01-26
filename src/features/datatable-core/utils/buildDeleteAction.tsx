@@ -2,16 +2,17 @@ import { RowAction } from "../domain/entities/RowAction";
 import { Entity } from "@/app/entities/entity";
 import { t } from "i18next";
 import { ApiError } from "@/features/api-client/types/core";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function buildDeleteAction<T extends Entity>(
-  label: string,
   deleteFn: (id: number) => Promise<{ success: boolean; message?: string } | ApiError>,
   onSuccess?: () => void 
 ): RowAction<T> & { handler: (params: { currentRow?: T }) => void } {
   return {
     id: 'delete',
-    label,
-    icon: <i className="fas fa-trash"></i>,
+    label: '',
+    icon: <FontAwesomeIcon icon={faTrashCan} />,
     variant: 'danger',
     confirm: {
       title: t('datatable_demo.confirm.delete_title'),
