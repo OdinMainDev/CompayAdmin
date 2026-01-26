@@ -202,7 +202,7 @@ export function DatatableHeader<T>({
             </div>
           )}
           
-          {config.export?.enabled && (
+          {!config.export?.disabled && (
             <button
               className="btn btn-outline-success btn-sm"
               onClick={() => onAction('export', {format: 'excel'})}
