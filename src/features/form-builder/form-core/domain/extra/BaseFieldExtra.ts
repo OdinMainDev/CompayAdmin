@@ -4,4 +4,5 @@ export interface BaseFieldExtra {
     helperText?: string;
     disabled?: boolean
     error?: string[]
+    onInputChange?: (value: string) => void;
 }

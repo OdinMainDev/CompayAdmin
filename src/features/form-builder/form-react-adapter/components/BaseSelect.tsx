@@ -50,7 +50,6 @@ export interface BaseSingleSelectRendererProps<T extends string | number> {
   placeholder?: string;
   noOptionsMessage?: string;
   styles?: StylesConfig<ReactSelectOption, false>;
-  onInputChange?: (value: string) => void;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
 }
@@ -62,7 +61,6 @@ export interface BaseMultiSelectRendererProps<T extends string | number> {
   placeholder?: string;
   noOptionsMessage?: string;
   styles?: StylesConfig<ReactSelectOption, true>;
-  onInputChange?: (value: string) => void;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
 }
@@ -83,10 +81,15 @@ function BaseSelectRendererInner<T extends string | number>(
     placeholder = 'Выберите опцию...',
     noOptionsMessage = 'Нет доступных опций',
     styles = defaultStyles,
-    onInputChange = () => {},
     onMenuOpen = () => {},
     onMenuClose = () => {},
   } = props;
+
+
+  const onInputChange = useMemo(
+    () => field.extra?.onInputChange ?? (() => {}),
+    [field.extra?.onInputChange]
+  );
 
   const selectOptions = useMemo(
     () =>
@@ -155,6 +158,7 @@ function BaseSelectRendererInner<T extends string | number>(
   [hasError]
 );
 
+  debugger;
   return (
     <Select
       ref={ref} 
