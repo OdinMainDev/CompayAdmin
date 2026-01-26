@@ -85,7 +85,6 @@ function BaseSelectRendererInner<T extends string | number>(
     onMenuClose = () => {},
   } = props;
 
-
   const onInputChange = useMemo(
     () => field.extra?.onInputChange ?? (() => {}),
     [field.extra?.onInputChange]

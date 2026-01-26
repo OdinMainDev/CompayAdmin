@@ -1,8 +1,8 @@
-import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
+import { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
 import { AnyField } from "@/features/form-builder/form-react-adapter/fields";
 
 
-export type FormSchema = RawFormSection[];
+export type FormSchema = FormSection[];
 export type FormField = AnyField;
 export type FormInstance = {
   validate: () => Promise<boolean>;
@@ -13,8 +13,6 @@ export type FormInstance = {
   fields?: AnyField[];
 };
 
-export interface IDatatableFormBuilder<T> {
-  createActionForm(actionId: string): FormSchema; 
-  createQuickFilterForm(): FormSchema;
+export interface IDatatableFormBuilder {
   getFormInstance(schema: FormSchema): FormInstance;
 }

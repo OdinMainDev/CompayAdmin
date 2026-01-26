@@ -26,6 +26,7 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
         setError(validation.isValid ? null : validation.errors);
       };
   
+
       return (
         <Form.Group controlId={`form-${field.name}`}>
           <Form.Label className="fw-semibold">{field.label}</Form.Label>
@@ -40,12 +41,34 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
       );
     };
   }
-  
-export const asComponent = <T, E extends BaseFieldExtra>(
-  renderFunc: (field: IField<T, E>, onChange: (value: T) => void) => ReactElement
-): React.FC<{ field: IField<T, E>; onChange: (value: T) => void }> => {
-  return (props) => renderFunc(props.field, props.onChange);
-};
 
+export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
+  fieldRenderer: (field: IField<T, E>, onChange: (value: T) => void, hasError: boolean) => ReactElement
+) {
+  return (field: IField<T, E>, onChange: (value: T) => void): ReactElement => {
+    const [error, setError] = useState<string[] | null>(null);
 
+    useEffect(() => {
+      setError(field.extra?.error ?? null);
+    }, [field.extra?.error]);
+
+    const handleChange = (value: T) => {
+      onChange(value);
+      field.value = value;
+      const validation = field.validate();
+      setError(validation.isValid ? null : validation.errors);
+    };
+
+    return (
+      <div>
+        {fieldRenderer(field, handleChange, error != null)}
+        {error && (
+          <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+            {error.join(', ')}
+          </Form.Control.Feedback>
+        )}
+      </div>
+    );
+  };
+}
   

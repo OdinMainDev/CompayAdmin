@@ -1,4 +1,3 @@
-import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
 import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
 import type { SortDirection, SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
 import type { BulkAction } from "./BulkAction";
@@ -20,8 +19,6 @@ export interface DatatableConfig<T> {
   filtersSource?: (() => Promise<IFilterResponse | ApiError>);
 
   columns: DatatableColumn<T>[];
-  filterForm?: RawFormSection[];
-  actionForms?: Record<string, RawFormSection[]>;
   quickActions?: QuickAction[];
   rowActions?: RowAction<T>[]; 
 

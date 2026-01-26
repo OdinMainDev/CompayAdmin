@@ -1,4 +1,3 @@
-import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
 
 export interface QuickAction {
   id: string;
@@ -7,7 +6,6 @@ export interface QuickAction {
   variant: 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'outline';
   position?: 'header' | 'toolbar' | 'inline';
 
-  form?: RawFormSection[]; 
   handler: () => void | Promise<void>;
   shortcut?: string;
   tooltip?: string;

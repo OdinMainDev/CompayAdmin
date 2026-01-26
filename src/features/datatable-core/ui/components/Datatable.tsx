@@ -7,7 +7,6 @@ import { DatatableFooter } from './DatatableFooter';
 import type { ApiDatatableQuery } from '@/features/datatable-core/domain/entities/DatatableQuery';
 import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
-import { useUnifiedFormBuilder } from '@/features/datatable-core/ui/hooks/useUnifiedFormBuilder';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 import PageHeader from '@/components/dashboard/common/PageHeader';
 
@@ -26,7 +25,6 @@ export function Datatable<T>({
 }: DatatableProps<T>): React.ReactElement {
   const [engine, setEngine] = useState<DatatableEngine<T> | null>(null);
   const [state, setState] = useState<DatatableState<T> | null>(null);
-  const formAdapter = useUnifiedFormBuilder<T>(); 
   
 
   useEffect(() => {
@@ -40,7 +38,6 @@ export function Datatable<T>({
         config,
         backend,
         eventEmitter,
-        formAdapter 
       );
 
       const initialState = await newEngine.initialize();

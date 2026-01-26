@@ -34,19 +34,7 @@ export function DatatableHeader<T>({
   const handleQuickAction = async (actionId: string) => {
     const action = config.quickActions?.find(a => a.id === actionId);
     if (!action) return;
-    
-    if (action.form) {
-      const formBuilder = engine.getFormBuilder();
-      const formSchema = formBuilder.createActionForm(action.id);
-      const formInstance = formBuilder.getFormInstance(formSchema);
-      
-      const result = await formInstance.submit();
-      if (result.valid) {
-        await onAction(actionId, result.data);
-      }
-    } else {
-      await onAction(actionId);
-    }
+    await onAction(actionId);
   };
   
   const handleColumnToggle = (columnId: string) => {

@@ -8,12 +8,7 @@ export type FieldConstructor<
   E extends BaseFieldExtra = BaseFieldExtra
 > = {
   new (key: string, label: string, value: T, extra?: E): IField<T, E>;
-  fromJson?: (json: { 
-    key: string; 
-    label: string; 
-    defaultValue?: T; 
-    extra?: E 
-  }) => IField<T, E>;
+  create?: (name: string, label: string, extra?: E, value?: T) => IField<T, E>;
 };
 
 export type Renderer<
@@ -57,38 +52,6 @@ export class UnifiedFieldRegistry {
     return new typedCtor(key, label, value, extra);
   }
 
-  static createFromJson<T = unknown, E extends BaseFieldExtra = BaseFieldExtra>(
-    json: { 
-      type: string; 
-      key: string; 
-      label: string; 
-      defaultValue?: T; 
-      options?: E 
-    },
-    currentValues?: Record<string, unknown>
-  ): IField<T, E> {
-    const entry = this.registry.get(json.type);
-    if (!entry) {
-      throw new Error(`Field type "${json.type}" is not registered`);
-    }
-
-    const typedCtor = entry.ctor as unknown as FieldConstructor<T, E>;
-    
-    const field = typedCtor.fromJson
-      ? typedCtor.fromJson(json)
-      : new typedCtor(
-          json.key,
-          json.label,
-          json.defaultValue as T,
-          json.options
-        );
-
-    if (currentValues && currentValues[json.key] !== undefined) {
-      field.value = currentValues[json.key] as T;
-    }
-
-    return field;
-  }
   static renderAny(field: AnyField, onChange: (value: unknown | Record<string, unknown>) => void): React.ReactElement {
     const entry = this.registry.get(field.type);
     if (!entry) {
@@ -153,6 +116,14 @@ export class UnifiedFieldRegistry {
         rendererOrFunction as Renderer<T, E>
       );
     }
+  }
+
+   static getConstructor<T = unknown, E extends BaseFieldExtra = BaseFieldExtra>(
+    type: string
+  ): FieldConstructor<T, E> | undefined {
+    const entry = this.registry.get(type);
+    if (!entry) return undefined;
+    return entry.ctor as unknown as FieldConstructor<T, E>;
   }
 
   static isRegistered(type: string): boolean {

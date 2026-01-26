@@ -1,5 +1,5 @@
 import { UnifiedFieldRegistry } from './UnifiedFieldRegistry';
-import { withValidation } from './FieldRenderers';
+import { withErrors, withValidation } from './FieldRenderers';
 import {
   TextField, TextareaField, PasswordField, NumberField,
   ImageField, SwitchField, SelectStringField, SelectNumberField, MultiSelectField,
@@ -40,4 +40,4 @@ UnifiedFieldRegistry.registerFunction<ImageValue>('image',ImageField, withValida
 UnifiedFieldRegistry.registerFunction<RepeaterFieldValue, RepeaterFieldExtra>('repeater', RepeaterField, RepeaterRenderer);
 UnifiedFieldRegistry.registerFunction<DaterangeValue, DaterangeFieldExtra>('date-range', DaterangeField, DaterangeRenderer);
 
-UnifiedFieldRegistry.registerFunction<number | null>('merchant_id', MerchantField, MerchantFieldRenderer);
+UnifiedFieldRegistry.registerFunction<number | null>('merchant_id', MerchantField, withErrors(MerchantFieldRenderer));

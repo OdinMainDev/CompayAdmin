@@ -1,45 +1,48 @@
-
-import { RawField, RawFormSection } from '@/features/form-builder/form-core/domain/field/RawFormSection';
 import { FilterReponse } from '@/features/api-client/types/datatable';
 import { mapBackendTypeToFormType } from './filterTypeMapper';
 import { t } from 'i18next';
+import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
+import { UnifiedFieldRegistry } from '@/features/form-builder/form-react-adapter/UnifiedFieldRegistry';
+import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 
 export const buildBackendFilters = (
   backendFilters: FilterReponse[]
-): RawFormSection[] => {
+): FormSection[] => {
   if (!backendFilters?.length) return [];
 
   return [
     {
-      title: '',
       fields: backendFilters.map(filter => {
-        const type = mapBackendTypeToFormType(filter.type);
+        const formType = mapBackendTypeToFormType(filter.type);
 
-        const field: RawField = {
-          name: filter.name,
-          label: t(filter.name),
-          placeholder: t(filter.name),
-          type,
-        };
+        const FieldClass = UnifiedFieldRegistry.getConstructor(formType);
+        if (!FieldClass) throw new Error(`No field registered for type "${formType}"`);
+
+        let extra: Record<string, unknown> = {};
 
         if (['bool', 'boolean'].includes(filter.type.toLowerCase())) {
-          field.options = [
+          extra.options = [
             { label: t('yes'), value: true },
             { label: t('no'), value: false },
           ];
         }
-
-        if (
-          ['list', 'select', 'dropdown', 'enum', 'multiselect'].includes(filter.type.toLowerCase()) &&
-          Array.isArray(filter.values)
-        ) {
-          field.options = filter.values.map(v => ({
-            label: String(v),
-            value: v,
-          }));
+        else if (['select', 'multiselect', 'merchant_id'].includes(formType)) {
+          extra.options = Array.isArray(filter.values)
+            ? filter.values.map(v => ({ label: String(v), value: v }))
+            : [];
+        } 
+        else if (formType === 'text') {
+          extra.placeholder = t(filter.name);
         }
 
-        return field;
+        const defaultValue = filter.values ?? null;
+
+        const fieldInstance =
+          'create' in FieldClass && typeof FieldClass.create === 'function'
+            ? FieldClass.create(filter.name, t(filter.name), extra, defaultValue)
+            : new FieldClass(filter.name, t(filter.name), defaultValue, extra);
+
+        return fieldInstance as unknown as AnyField;
       }),
     },
   ];

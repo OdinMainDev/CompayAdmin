@@ -7,7 +7,6 @@ import { QueryBuilder } from './QueryBuilder';
 import { StateManager } from './StateManager';
 import { FilterManager } from './FilterManager';
 import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
-import type { IDatatableFormBuilder } from '@/features/datatable-core/domain/ports/IDatatableFormBuilder';
 import { IFilter } from '../domain/entities/IFilterResponse';
 import { IRequestOptions } from '../domain/entities/DatatableRequest';
 import { ApiDatatableQuery } from '../domain/entities/DatatableQuery';
@@ -19,19 +18,15 @@ export class DatatableEngine<T> {
   private queryBuilder: QueryBuilder<T>;
   private stateManager: StateManager<T>;
   private filterManager: FilterManager<T>;
-  private formBuilder: IDatatableFormBuilder<T>;
 
   constructor(
     config: DatatableConfig<T>,
     backend: IDatatableBackend<T>,
     eventEmitter: IDatatableEventEmitter,
-    formBuilder: IDatatableFormBuilder<T>
-
   ) {
     this.config = config;
     this.backend = backend;
     this.eventEmitter = eventEmitter;
-    this.formBuilder = formBuilder; 
     this.queryBuilder = new QueryBuilder(config);
     this.stateManager = new StateManager<T>(config);
     this.filterManager = new FilterManager(config);
@@ -203,10 +198,6 @@ export class DatatableEngine<T> {
   }
   getConfig(): DatatableConfig<T> {
     return this.config;
-  }
-
-  getFormBuilder(): IDatatableFormBuilder<T> {
-    return this.formBuilder;
   }
 
   subscribe(callback: () => void): () => void {
