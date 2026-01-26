@@ -22,7 +22,7 @@ export function DatatableFooter<T>({
   
   if (filtered <= pageSize && page === 1) {
     return (
-      <div className="datatable-footer mt-[10px]">
+      <div className="datatable-footer py-4 px-3">
         <div className="footer-info">
           {t("datatable.show_all_entries")} ({filtered})
         </div>
