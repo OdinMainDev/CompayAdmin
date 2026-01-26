@@ -12,7 +12,7 @@ export function MerchantFieldRenderer(
     return <AsyncSelect
         field={field}
         cacheKey="merchants"
-        fetcher={(query) => MerchantService.search(query).then(res => res.success ? res.data : [])}
+        fetcher={(query) => MerchantService.search({ search: query }).then(res => res.success ? res.data : [])}
         mapOption={(m) => ({ label: m.name, value: m.id.toString() })}
         onChange={onChange}
     />
