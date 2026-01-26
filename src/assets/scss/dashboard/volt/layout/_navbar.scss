@@ -136,6 +136,7 @@
 }
 
 .navbar-brand {
+    color: #fff;
     text-align: center;
     // margin-bottom: 1vh;
     // border-bottom: 1px var(--bs-body-bg) solid;
@@ -148,6 +149,11 @@
     img {
         height: 3vh;
         margin-bottom: 1vh;
+    }
+
+    &:focus {
+        color: #fff;
+        box-shadow: none !important;
     }
 }
 
