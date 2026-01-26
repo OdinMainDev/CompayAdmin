@@ -136,9 +136,9 @@ export class MerchantService {
     try {
       return await apiClient.post<MerchantSearchResponse["data"]>(
         `${this.ENDPOINTS.SEARCH}`,
+        { ...data }, 
         {
           ...options,
-          data,
           isAuth: true,
           hasToast: options?.hasToast ?? false,
         }
