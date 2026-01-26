@@ -21,7 +21,7 @@ import { OptionalSwitchRenderer } from './components/OptionalSwitch';
 import { DaterangeField, type DaterangeValue } from '@/features/form-builder/form-core/domain/field/DaterangeField';
 import type { DaterangeFieldExtra } from '@/features/form-builder/form-core/domain/extra/DaterangeFieldExtra';
 import { DaterangeRenderer } from './components/Daterange';
-import { MerchantField } from '../form-core/domain/field/MerchantField';
+import { MerchantField } from '../../../app/datatable/custom-fields/MerchantField';
 import { MerchantFieldRenderer } from './components/custom/Merchant';
 
 

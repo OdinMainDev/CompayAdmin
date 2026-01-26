@@ -1,19 +1,20 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
 import type { TextFieldExtra } from '@/features/form-builder/form-core/domain/extra/TextFieldExtra';
 
 export class TextField extends BaseField<string, TextFieldExtra> {
   type = 'text';
 
-  validate(): ValidationResult {
-    const isValid =
-      (this.value !== null && this.value !== undefined) || !this.extra?.required;
-  
-    return { isValid, errors: isValid ? [] : ['Field cannot be empty'] };
-  }
-  
+  static defaultExtra: TextFieldExtra = { col: 12 };
 
-  static fromJson(json: { key: string; label: string; defaultValue?: string; options?: TextFieldExtra }) {
-    return new TextField(json.key, json.label, json.defaultValue ?? '', json.options);
+  static create(
+    this: typeof TextField, 
+    name: string,
+    label: string,
+    extra?: TextFieldExtra,
+    value?: string
+  ) {
+    const finalExtra: TextFieldExtra = { ...this.defaultExtra, ...extra };
+    return new this(name, label, value ?? '', finalExtra);
   }
+  
 }

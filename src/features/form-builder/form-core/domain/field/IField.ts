@@ -1,10 +1,8 @@
 import type { BaseFieldExtra } from "@/features/form-builder/form-core/domain/extra/BaseFieldExtra";
 import type { ValidationResult } from "@/features/form-builder/form-core/domain/validation/ValidationResult";
 
-export type AnyField = IField<unknown, BaseFieldExtra>;
-
 export interface IField<
-  T = unknown, 
+  T, 
   E extends BaseFieldExtra = BaseFieldExtra
 > {
   name: string;            
@@ -12,7 +10,5 @@ export interface IField<
   value: T;
   type: string;
   validate(): ValidationResult;
-  toJSON(): AnyField;
-
   extra?: E;    
 }

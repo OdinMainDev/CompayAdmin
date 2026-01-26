@@ -7,7 +7,8 @@ import { useAuthContext } from "@/features/auth/auth-context";
 import BgImage from "@/assets/images/dashboard/illustrations/signin.svg";
 import ImageLogo from "@/assets/images/logo/logo_3.svg";
 import UnifiedFormBuilder from "@/features/form-builder/form-react-adapter/UnifiedFormBuilder";
-import { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
+import { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
+import { TextField } from "@/features/form-builder/form-core/domain/field";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,24 +18,12 @@ export default function Login() {
 
   const { login, getRole, getFieldErrors } = useAuthContext();
 
-  const sections: RawFormSection[] = [
+  const sections: FormSection[] = [
     {
       title: '',
       fields: [
-        {
-          name: 'email',
-          label: 'Email',
-          type: 'text',
-          placeholder: 'example@example.com',
-          col: 12,
-        },
-        {
-          name: 'password',
-          label: t('password'),
-          type: 'password',
-          placeholder: '••••••',
-          col: 12,
-        },
+          TextField.create('email', 'Email', { placeholder: 'example@example.com' }),
+          TextField.create('password', 'Password', { placeholder: '••••••' }),
       ],
     },
   ];
@@ -63,7 +52,7 @@ export default function Login() {
                       <div className="text-muted">{t('login_page.description')}</div>
                   </div>
                   <UnifiedFormBuilder
-                    json={sections}
+                    fields={sections}
                     formData={formData}
                     setFormData={setFormData}
                     handleSubmit={handleSubmit}

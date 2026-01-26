@@ -9,13 +9,18 @@ import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
 import { useUnifiedFormBuilder } from '@/features/datatable-core/ui/hooks/useUnifiedFormBuilder';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
+import PageHeader from '@/components/dashboard/common/PageHeader';
 
 interface DatatableProps<T> {
+  pageTitle?: string,
+  pageSubtitle?: string,
   config: DatatableConfig<T>;
   className?: string;
 }
 
 export function Datatable<T>({
+  pageTitle,
+  pageSubtitle,
   config,
   className = ''
 }: DatatableProps<T>): React.ReactElement {
@@ -90,6 +95,14 @@ export function Datatable<T>({
   }
 
   return (
+    <>
+    {(pageTitle || pageSubtitle) && (
+      <PageHeader
+        title={pageTitle ?? ''}
+        subtitle={pageSubtitle ?? ''}
+      />
+    )}
+  
     <div className={`datatable ${className}`}>
       <DatatableHeader
         config={config}
@@ -115,6 +128,7 @@ export function Datatable<T>({
         />
       )}
     </div>
+  </>
   );
 }
 

@@ -26,7 +26,8 @@ export function TabsRenderer(
             <Row className="g-3">
               {tab.elements.map(inner => (
                 <Col key={inner.name} md={inner.extra?.col ?? 6}>
-                  {UnifiedFieldRegistry.render(inner, value => {
+                  
+                  {UnifiedFieldRegistry.renderAny(inner, value => {
                     onChange({
                       ...(field.value ?? {}),
                       [inner.name]: value,

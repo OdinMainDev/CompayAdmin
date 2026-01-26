@@ -74,7 +74,7 @@ export function DatatableFiltersForm<T>({
   return (
     <div className={`datatable-filters-form ${className}`}>
       <UnifiedFormBuilder
-        json={filterForm}
+        fields={filterForm}
         formData={formData}
         setFormData={setFormData}
         handleSubmit={handleSubmit}

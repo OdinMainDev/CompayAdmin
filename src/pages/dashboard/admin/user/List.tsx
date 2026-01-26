@@ -102,6 +102,8 @@ const List = () => {
   }), [columns, t]);
   return (
     <Datatable
+      pageTitle={t('datatable_demo.page.title')}
+      pageSubtitle={t('datatable_demo.page.subtitle')}
       key={refreshKey}
       config={config}
       className="border-0"

@@ -1,4 +1,4 @@
-import type { AnyField } from './IField';
+import { AnyField } from "@/features/form-builder/form-react-adapter/fields";
 
 export interface FormSection {
   title: string;

@@ -1,6 +1,5 @@
-import type { AnyField } from "@/features/form-builder/form-core/domain/field/IField";
 import type { RawFormSection } from "@/features/form-builder/form-core/domain/field/RawFormSection";
-import type { DatatableColumn } from "@/features/datatable-core/domain/entities/DatatableColumn";
+import { AnyField } from "@/features/form-builder/form-react-adapter/fields";
 
 
 export type FormSchema = RawFormSection[];

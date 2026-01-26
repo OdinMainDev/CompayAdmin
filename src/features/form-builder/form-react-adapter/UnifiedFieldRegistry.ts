@@ -1,6 +1,7 @@
 import React from 'react';
 import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 import type { IField } from '@/features/form-builder/form-core/domain/field/IField';
+import { AnyField } from './fields';
 
 export type FieldConstructor<
   T = unknown,
@@ -88,28 +89,23 @@ export class UnifiedFieldRegistry {
 
     return field;
   }
-
-  static render<T = unknown, E extends BaseFieldExtra = BaseFieldExtra>(
-    field: IField<T, E>,
-    onChange: (value: T) => void
-  ): React.ReactElement {
+  static renderAny(field: AnyField, onChange: (value: unknown | Record<string, unknown>) => void): React.ReactElement {
     const entry = this.registry.get(field.type);
     if (!entry) {
       throw new Error(`Renderer for type "${field.type}" not found`);
     }
-
-    const typedRenderer = entry.renderer as unknown as Renderer<T, E>;
-    
-    return React.createElement(
-      typedRenderer,
-      {
-        field,
-        onChange
-      }
-    );
+  
+    const typedRenderer = entry.renderer as Renderer<unknown, BaseFieldExtra>;
+  
+    return React.createElement(typedRenderer, {
+      field,
+      onChange,
+    });
   }
+  
+  
 
-  static registerFunction<T = unknown, E extends BaseFieldExtra = BaseFieldExtra>(
+  static registerFunction<T, E extends BaseFieldExtra = BaseFieldExtra>(
     type: string,
     ctor: FieldConstructor<T, E>,
     renderFunction: RenderFunction<T, E>

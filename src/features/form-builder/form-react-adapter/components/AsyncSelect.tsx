@@ -19,38 +19,35 @@ export function AsyncSelect<T>({
   onChange: (value: number | null) => void;
 }) {
   const [selectField, setSelectField] = useState(() =>
-    SelectField.fromJson({
-      key: field.name,
-      label: field.label,
-      defaultValue: field.value?.toString() ?? '',
-      options: { options: [] },
-    })
+    SelectField.create(
+      field.name,
+      field.label,
+      {},
+      field.value?.toString() ?? '',
+    )
   );
-
   const inputRef = useRef('');
   const debounceRef = useRef<number | undefined>(undefined);
-
-
   const load = (query: string) => {
     DynamicFilterCache.get(`${cacheKey}:${query}`, () => fetcher(query))
       .then((data) => {
-        console.log(data);
         setSelectField((prev) =>
-          SelectField.fromJson({
-            key: prev.name,
-            label: prev.label,
-            defaultValue: prev.value ?? '',
-            options: {
+          SelectField.create(
+            prev.name,
+            prev.label,
+            {
               ...(prev.extra ?? {}),
               options: data.map(mapOption),
               onInputChange
             },
-          })
+            prev.value ?? '',
+          )
         );
       });
   };
 
-  const onInputChange = (value: string) => {
+  const onInputChange = (value: string, actionMeta: { action: string }) => {
+    if (actionMeta.action !== 'input-change') return;
     inputRef.current = value;
     window.clearTimeout(debounceRef.current);
     debounceRef.current = window.setTimeout(() => {
@@ -64,19 +61,42 @@ export function AsyncSelect<T>({
 
   useEffect(() => {
     const nextValue = field.value?.toString() ?? '';
-    setSelectField((prev) =>
-      prev.value === nextValue
-        ? prev
-        : SelectField.fromJson({
-            key: prev.name,
-            label: prev.label,
-            defaultValue: nextValue,
-            options: prev.extra ?? { options: [] },
-          })
-    );
+  
+    setSelectField(prev => {
+      if (prev.value === nextValue) {
+        return prev;
+      }
+  
+      return SelectField.create(
+        prev.name,
+        prev.label,
+        prev.extra ?? { options: [] },
+        nextValue,
+      );
+    });
+  }, [field.value]);
+  
+
+  useEffect(() => {
+    const nextValue = field.value?.toString() ?? '';
+     if (nextValue ) {
+      DynamicFilterCache.get(`${cacheKey}:value:${nextValue}`, async () => [''])
+        .then(([lastQuery]) => {
+          load(lastQuery);
+        });
+    }
   }, [field.value]);
 
-  return UnifiedFieldRegistry.render(selectField, (v: string) =>
-    onChange(v ? Number(v) : null),
+  const onChangeHandler = (v: unknown) => {
+    onChange(v ? Number(v) : null);
+
+    if (v) {
+      DynamicFilterCache.get(`${cacheKey}:value:${v}`, async () => [inputRef.current]);
+    }
+  };
+
+
+  return UnifiedFieldRegistry.renderAny(selectField, (v) =>
+    onChangeHandler(v)
   );
 }

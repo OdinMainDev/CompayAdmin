@@ -1,8 +1,8 @@
 import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 import { BaseField } from './BaseField';
 import type { CompositeField } from './CompositeField';
-import type { AnyField } from './IField';
 import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
+import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 
 export interface RepeaterItem {
   id: string;
@@ -19,28 +19,17 @@ export interface RepeaterFieldExtra extends BaseFieldExtra {
 
 export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldExtra> 
   implements CompositeField {
-  
-  readonly type = 'repeater' as const;
-
-  constructor(
-    name: string,
-    label: string,
-    value: RepeaterFieldValue = [],
-    extra?: RepeaterFieldExtra
-  ) {
-    super(name, label, value, extra);
-  }
+  readonly isComposite = true;
+  readonly type = 'repeater';
 
   getChildren(): AnyField[] {
     return this.extra?.elements ?? [];
   }
-
   replaceChildren(children: AnyField[]): void {
     if (this.extra) {
       this.extra.elements = children;
     }
   }
-
   validate(): ValidationResult {
     const errors: string[] = [];
     const min = this.extra?.minItems ?? 0;
@@ -67,17 +56,4 @@ export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldEx
     };
   }
 
-  static fromJson(json: { 
-    key: string; 
-    label: string; 
-    defaultValue?: RepeaterFieldValue; 
-    options?: RepeaterFieldExtra 
-  }): RepeaterField {
-    return new RepeaterField(
-      json.key, 
-      json.label, 
-      json.defaultValue ?? [], 
-      json.options
-    );
-  }
 }

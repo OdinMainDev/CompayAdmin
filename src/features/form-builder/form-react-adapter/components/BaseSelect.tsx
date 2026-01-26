@@ -158,7 +158,6 @@ function BaseSelectRendererInner<T extends string | number>(
   [hasError]
 );
 
-  debugger;
   return (
     <Select
       ref={ref} 

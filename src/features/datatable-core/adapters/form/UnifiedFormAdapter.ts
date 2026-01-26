@@ -1,5 +1,5 @@
 
-import { JsonFormLoader } from '@/features/form-builder/form-react-adapter/JsonFormLoader';
+import { JsonFormLoader } from '@/features/form-builder/form-react-adapter/Hydrator';
 import type { IDatatableFormBuilder, FormSchema, FormInstance } from '@/features/datatable-core/domain/ports/IDatatableFormBuilder';
 
 export class UnifiedFormAdapter<T> implements IDatatableFormBuilder<T> {
