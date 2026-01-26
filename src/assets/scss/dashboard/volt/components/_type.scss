@@ -182,3 +182,8 @@ p, .docs-list li {
 .code-editor-error pre {
 	margin-bottom: 0;
 }
+
+.font-small-i {
+  font-size: $font-size-sm !important;
+  font-weight: $font-weight-light;
+}

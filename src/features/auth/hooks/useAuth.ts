@@ -26,6 +26,7 @@ export interface UseAuthReturn extends UseAuthState {
   readonly getRole: () => UserRole | null;
   readonly getFieldErrors: () => Record<string, string[]>;
   readonly saveToken: (s: string) => void;
+  readonly getUsername: () => string;
 }
 
 export const useAuth = (): UseAuthReturn => {
@@ -211,6 +212,11 @@ export const useAuth = (): UseAuthReturn => {
     };
   }, [getProfile]);
 
+
+  const getUsername = useCallback((): string => {
+    return state.user ? state.user.username : 'undefined';
+  }, [state.user]); 
+
   return {
     ...state,
     getProfile,
@@ -222,5 +228,6 @@ export const useAuth = (): UseAuthReturn => {
     getRole,
     getFieldErrors,
     saveToken,
+    getUsername,
   };
 };
