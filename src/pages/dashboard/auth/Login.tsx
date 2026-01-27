@@ -8,7 +8,7 @@ import BgImage from "@/assets/images/dashboard/illustrations/signin.svg";
 import ImageLogo from "@/assets/images/logo/logo_3.svg";
 import UnifiedFormBuilder from "@/features/form-builder/form-react-adapter/UnifiedFormBuilder";
 import { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
-import { TextField } from "@/features/form-builder/form-core/domain/field";
+import { PasswordField, TextField } from "@/features/form-builder/form-core/domain/field";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Login() {
     {
       fields: [
           TextField.create('email', 'Email', { placeholder: 'example@example.com' }),
-          TextField.create('password', 'Password', { placeholder: '••••••' }),
+          PasswordField.create('password', 'Password', { placeholder: '••••••' }),
       ],
     },
   ];

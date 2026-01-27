@@ -1,5 +1,5 @@
 import { UnifiedFieldRegistry } from './UnifiedFieldRegistry';
-import { withErrors, withValidation } from './FieldRenderers';
+import { withValidation } from './FieldRenderers';
 import {
   TextField, TextareaField, PasswordField, NumberField,
   ImageField, SwitchField, SelectStringField, SelectNumberField, MultiSelectField,
@@ -21,8 +21,7 @@ import { OptionalSwitchRenderer } from './components/OptionalSwitch';
 import { DaterangeField, type DaterangeValue } from '@/features/form-builder/form-core/domain/field/DaterangeField';
 import type { DaterangeFieldExtra } from '@/features/form-builder/form-core/domain/extra/DaterangeFieldExtra';
 import { DaterangeRenderer } from './components/Daterange';
-import { MerchantField } from '../../../app/datatable/custom/fields/MerchantField';
-import { MerchantFieldRenderer } from '../../../app/datatable/custom/components/Merchant';
+import '@/app/datatable/custom/setup'
 
 
 UnifiedFieldRegistry.registerFunction<TabFieldValue, TabsFieldExtra>('tabs', TabField, TabsRenderer);
@@ -39,5 +38,3 @@ UnifiedFieldRegistry.registerFunction<number[]>('multiselect-number', MultiSelec
 UnifiedFieldRegistry.registerFunction<ImageValue>('image',ImageField, withValidation(ImageInput));
 UnifiedFieldRegistry.registerFunction<RepeaterFieldValue, RepeaterFieldExtra>('repeater', RepeaterField, RepeaterRenderer);
 UnifiedFieldRegistry.registerFunction<DaterangeValue, DaterangeFieldExtra>('date-range', DaterangeField, DaterangeRenderer);
-
-UnifiedFieldRegistry.registerFunction<number | null>('merchant_id', MerchantField, withErrors(MerchantFieldRenderer));

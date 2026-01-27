@@ -4,7 +4,6 @@ import type { DatatableConfig } from '@/features/datatable-core/domain/entities/
 import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 import { DatatableHeader } from './DatatableHeader';
 import { DatatableFooter } from './DatatableFooter';
-import type { ApiDatatableQuery } from '@/features/datatable-core/domain/entities/DatatableQuery';
 import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
@@ -151,16 +150,6 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       return { success: true, data: [] }; 
     },
     
-    async export(query: ApiDatatableQuery, format: 'csv' | 'excel') {
-      if (config.export?.handler) {
-        return config.export.handler(query, format);
-      }
-      
-      return { 
-        success: true, 
-        data: { url: '#', filename: `export.${format}` } 
-      };
-    },
     async add(_: Record<string, unknown>) {
       const addAction = config.quickActions?.find(action => action.id === 'add');
       
@@ -179,8 +168,16 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       if (hasMethod(this, actionId)) {
         return (this as Record<string, ActionMethod>)[actionId](data);
       }
-      
-      throw new Error(`Action "${actionId}" not implemented`);
+      const currentAction = config.quickActions?.find(action => action.id === actionId);
+
+      if (!currentAction) {
+        throw new Error(`Action "${actionId}" not implemented`);
+      }
+      if (currentAction.handler) {
+        return currentAction.handler();
+      } else {
+        throw new Error(`Action "${actionId}" does not have a handler`);
+      }
     }
   };
   

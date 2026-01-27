@@ -152,11 +152,10 @@ export class DatatableEngine<T> {
 
   async executeAction(actionId: string, formData?: Record<string, unknown>): Promise<void> {
     const selectedRows = this.getSelectedRows();
-    
     try {
       const result = await this.backend.executeAction(actionId, {
         ...formData,
-        selectedIds: Array.from(this.stateManager.getState().selection)
+        selectedIds: Array.from(this.stateManager.getState().data)
       });
       
       this.eventEmitter.emit('action-executed', { actionId, result, selectedRows });

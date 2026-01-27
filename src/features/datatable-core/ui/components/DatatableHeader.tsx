@@ -8,6 +8,7 @@ import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatab
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEyeSlash, faTableColumns } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { handleExport } from '../../utils/export';
 
 interface DatatableHeaderProps<T> {
   config: DatatableConfig<T>;
@@ -188,13 +189,15 @@ export function DatatableHeader<T>({
           
           {!config.export?.disabled && (
             <button
-              className="btn btn-outline-success btn-sm"
-              onClick={() => onAction('export', {format: 'excel'})}
-              disabled={state.loading || state.data.length === 0}
-            >
-              <FontAwesomeIcon icon={faDownload} className='me-1' />
-              {t("datatable.export")}
-            </button>
+            className="btn btn-outline-success btn-sm"
+            onClick={async () => {
+              await handleExport(state.data as Record<string, unknown>[], config.export?.format ?? 'excel', config.export?.fileName ?? 'export')
+            }}
+            disabled={state.loading || state.data.length === 0}
+          >
+            <FontAwesomeIcon icon={faDownload} className="me-1" />
+            {t("datatable.export")}
+          </button>
           )}
           
           {showBulkActions && (
