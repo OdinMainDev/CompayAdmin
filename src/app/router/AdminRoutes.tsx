@@ -1,9 +1,13 @@
 import { lazy } from 'react';
 import { RouteConfig } from '@/features/router/types';
 import AdminGuard from '@/features/router/guards/AdminGuard';
-import { faBitcoinSign, faClipboardCheck, faClipboardUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBitcoinSign, faBuildingColumns, faClipboardCheck, faClipboardUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/admin/Dashboard'));
+
+const MerchantList = lazy(() => import('@/pages/dashboard/admin/merchant/List'));
+const MerchantCreate = lazy(() => import('@/pages/dashboard/admin/merchant/Create'));
+const MerchantEdit = lazy(() => import('@/pages/dashboard/admin/merchant/Edit'));
 
 const UserList = lazy(() => import('@/pages/dashboard/admin/user/List'));
 const UserCreate = lazy(() => import('@/pages/dashboard/admin/user/Create'));
@@ -30,17 +34,23 @@ export const adminRoutes: RouteConfig[] = [
         meta: {roles: ["admin"], showInMenu: false},
       },
 
-      // Currencies
+      // Merchants
       {
-        id: 'admin-currencies-list',
-        path: 'currencies',
-        component: CurrencyList,
-        meta: {roles: ["admin"], showInMenu: true, label: "currencies", icon: faBitcoinSign },
+        id: 'admin-merchants-list',
+        path: 'merchants',
+        component: MerchantList,
+        meta: {roles: ["admin"], showInMenu: true, label: "merchants", icon: faBuildingColumns },
       },
       {
-        id: 'admin-currencies-create',
-        path: 'currencies/process/:id',
-        component: CurrencyProcess,
+        id: 'admin-merchants-create',
+        path: 'merchants/create',
+        component: MerchantCreate,
+        meta: {roles: ["admin"], showInMenu: false},
+      },
+      {
+        id: 'admin-merchants-update',
+        path: 'merchants/edit/:id',
+        component: MerchantEdit,
         meta: {roles: ["admin"], showInMenu: false},
       },
 
@@ -61,6 +71,20 @@ export const adminRoutes: RouteConfig[] = [
         id: 'admin-users-update',
         path: 'users/edit/:id',
         component: UserEdit,
+        meta: {roles: ["admin"], showInMenu: false},
+      },
+
+      // Currencies
+      {
+        id: 'admin-currencies-list',
+        path: 'currencies',
+        component: CurrencyList,
+        meta: {roles: ["admin"], showInMenu: true, label: "currencies", icon: faBitcoinSign },
+      },
+      {
+        id: 'admin-currencies-create',
+        path: 'currencies/process/:id',
+        component: CurrencyProcess,
         meta: {roles: ["admin"], showInMenu: false},
       },
 

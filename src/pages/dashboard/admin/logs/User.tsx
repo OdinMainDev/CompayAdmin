@@ -34,7 +34,7 @@ const User = () => {
         return (
           <Link to={`/dashboard/users/edit/${row.user_id}`}>
               <Button bsPrefix="text" href="#info" variant="info">
-                {t('datatable.go_to_user')}
+                {t('datatable.go_to_user')} ({row.user_id})
               </Button>
           </Link>
         );
@@ -49,7 +49,7 @@ const User = () => {
         return (
           <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
               <Button bsPrefix="text" href="#info" variant="info">
-                {t('datatable.go_to_merchant')}
+                {t('datatable.go_to_merchant')} ({row.merchant_id})
               </Button>
           </Link>
         );

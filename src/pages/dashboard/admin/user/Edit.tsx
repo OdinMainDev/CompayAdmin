@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
 import { UserService } from '@/app/api/user/service';
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
-import { PasswordField } from '@/features/form-builder/form-core/domain/field/PasswordField';
 import { ApiError } from '@/features/api-client/types/core';
 import { User } from '@/app/entities/user';
 import { useNavigate, useParams } from 'react-router-dom';

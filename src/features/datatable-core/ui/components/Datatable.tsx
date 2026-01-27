@@ -89,7 +89,13 @@ export function Datatable<T>({
   };
 
   if (!engine || !state) {
-    return <Preloader />;
+    return (
+      <div className="datatable-loading">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   return (

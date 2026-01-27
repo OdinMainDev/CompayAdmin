@@ -14,7 +14,8 @@
         "is_banned": "В бане?",
         "is_twofa_enabled": "2FA установлен?",
         "request": "Запрос",
-        "creator_id": "Создатель"
+        "creator_id": "Создатель",
+        "owner_id": "Владелец"
     },
     "toasts": {
         "pending": "Обработка действия...",
@@ -33,10 +34,18 @@
         "code_alpha": "Код валюты",
         "network": "Сеть валюты",
         "minor_units": "Разрядность валюты",
-        "is_coin": "Является коином?"
+        "is_coin": "Является коином?",
+        "admin_username": "Логин админа",
+        "admin_password": "Пароль админа",
+        "notification_telegram_chat_id": "Id телеграмм чата для уведомлений",
+        "is_enabled": "Включено?"
     },
     "tabs": {
-        "personal_data": "Персональные данные"
+        "personal_data": "Персональные данные",
+        "general": "Основные",
+        "settings": "Настройки",
+        "minimum_amounts": "Минимальные суммы",
+        "fee_amounts": "Комиссии"
     },
     "users_page": {
         "create": "Создать пользователя",
@@ -52,5 +61,10 @@
         "create": "Добавить валюту",
         "edit": "Изменить валюту",
         "import": "Импортировать валюты"
+    },
+    "merchants_page": {
+        "list": "Список мерчантов",
+        "create": "Добавить мерчант",
+        "edit": "Изменить мерчант"
     }
 }

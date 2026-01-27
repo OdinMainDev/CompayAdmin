@@ -58,7 +58,7 @@ const Create = () => {
 
     const response = await UserService.create(dataToSend);
     if ('success' in response && response.success) {
-        navigate(`/dashboard/users/${response.data.id}`);
+        navigate(`/dashboard/users/edit/${response.data.id}`);
     }
     else {
       const errorResponse = response as ApiError;
