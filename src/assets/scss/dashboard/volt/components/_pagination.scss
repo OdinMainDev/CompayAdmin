@@ -14,3 +14,18 @@
     }
 }
 
+.pagination .page-link {
+  background-color: var(--bs-outline-warning);
+  border-color: var(--bs-warning);
+  margin-right: 0.25rem !important;
+
+  &:hover {
+    background-color: var(--bs-warning);
+  }
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--bs-warning);
+  border-color: var(--bs-warning);
+  color: #000;
+}

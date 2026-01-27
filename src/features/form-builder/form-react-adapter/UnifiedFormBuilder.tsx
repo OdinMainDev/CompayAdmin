@@ -5,6 +5,7 @@ import type { FormSection } from '@/features/form-builder/form-core/domain/field
 import './setupFields';
 import { UnifiedFieldRegistry } from './UnifiedFieldRegistry';
 import { FormHydrator } from './Hydrator';
+import PageHeader from '@/components/dashboard/common/PageHeader';
 
 interface FormBuilderProps<T> {
   fields: FormSection[];
@@ -50,54 +51,59 @@ const UnifiedFormBuilder = <T,>({
   const resolvedSubmitLabel = submitLabel ?? t('submit');
 
   return (
-    <Form onSubmit={onSubmit}>
-      {title && <h2 className="h4 mb-1 text-dark">{title}</h2>}
-      {subTitle && <p className="text-muted mb-4">{subTitle}</p>}
-
-      <Card className="border-0">
-      <Card.Body>
-          {sections.map((section, index) => (
-            <div key={`${section.title}-${index}`} className="mb-4">
-              {section.title && <h5 className="mb-1">{section.title}</h5>}
-              {section.description && <div className="text-muted mb-3">{section.description}</div>}
-              {section.fields.map((field) =>
-              
-                UnifiedFieldRegistry.renderAny(field, (value) => {
-                  setFormData((prev) => {
-                    if ('isComposite' in field && field.isComposite && typeof value === 'object' && value !== null) {
+    <>
+      {(title || subTitle) && (
+        <PageHeader
+          title={title ?? ''}
+          subtitle={subTitle ?? ''}
+        />
+      )}
+      <Form onSubmit={onSubmit}>
+        <Card className="border-0">
+        <Card.Body>
+            {sections.map((section, index) => (
+              <div key={`${section.title}-${index}`} className="mb-4">
+                {section.title && <h5 className={section.description ? "mb-1" : "mb-3"}>{section.title}</h5>}
+                {section.description && <div className="text-muted mb-3">{section.description}</div>}
+                {section.fields.map((field) =>
+                
+                  UnifiedFieldRegistry.renderAny(field, (value) => {
+                    setFormData((prev) => {
+                      if ('isComposite' in field && field.isComposite && typeof value === 'object' && value !== null) {
+                        return {
+                          ...prev,
+                          ...value,
+                        };
+                      }
+                  
                       return {
                         ...prev,
-                        ...value,
+                        [field.name]: value,
                       };
-                    }
-                
-                    return {
-                      ...prev,
-                      [field.name]: value,
-                    };
-                  });
-                })
-              )}
-            </div>
-          ))}
-        </Card.Body>
+                    });
+                  })
+                )}
+              </div>
+            ))}
+          </Card.Body>
 
-      </Card>
-      <div className="d-flex justify-content-end mt-3">
-        <Button type="submit" disabled={isSaving} variant="primary">
-          {isSaving ? (
-            <>
-              <Spinner animation="border" size="sm" role="status" className="me-2">
-                <span className="visually-hidden">{t('form.loading')}</span>
-              </Spinner>
-              {resolvedSubmitLabel}
-            </>
-          ) : (
-            resolvedSubmitLabel
-          )}
-        </Button>
-      </div>
-    </Form>
+        </Card>
+        <div className="d-flex justify-content-end mt-3">
+          <Button type="submit" disabled={isSaving} variant="primary">
+            {isSaving ? (
+              <>
+                <Spinner animation="border" size="sm" role="status" className="me-2">
+                  <span className="visually-hidden">{t('form.loading')}</span>
+                </Spinner>
+                {resolvedSubmitLabel}
+              </>
+            ) : (
+              resolvedSubmitLabel
+            )}
+          </Button>
+        </div>
+      </Form>
+    </>
   );
 };
 

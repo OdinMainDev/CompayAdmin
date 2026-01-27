@@ -12,8 +12,6 @@ export interface UserUpdateRequest {
   id: number;
   username?: string;
   password?: string;
-  is_banned?: boolean;
-  do_disable_twofa?: boolean;
 }
 
 export interface UserResponse {
@@ -22,8 +20,8 @@ export interface UserResponse {
 }
 
 export type GetListFiltersResponse = {
-  success: boolean;
-  data: FilterReponse[];
+  readonly success: boolean;
+  readonly data: FilterReponse[];
 };
 
 export interface UserSearchResponse {

@@ -5,6 +5,9 @@ import type { SortState } from '@/features/datatable-core/domain/value-objects/S
 import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
 import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
 import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
+import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle, faInbox, faSort, faSortDown, faSortUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface DatatableBodyProps<T> {
   config: DatatableConfig<T>;
@@ -27,6 +30,7 @@ export function DatatableBody<T>({
   const visibleColumns = config.columns.filter((col: DatatableColumn<T>) => 
     state.columnState.visibility[col.id] !== false
   );
+  const { t } = useTranslation('panel');
   
   const getRowId = (row: T): string => {
     return (row as { id: string }).id || String((row as { _id: string })._id);
@@ -71,10 +75,10 @@ export function DatatableBody<T>({
     onSelectionChange(Array.from(newSelection));
   };
   
-  const getSortIcon = (columnId: string) => {
+  const getSortIcon = (columnId: string): IconDefinition => {
     const sort = state.sort.find(s => s.column === columnId);
-    if (!sort) return 'fa-sort';
-    return sort.direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down';
+    if (!sort) return faSort;
+    return sort.direction === 'asc' ? faSortUp : faSortDown;
   };
   
   if (state.loading && state.data.length === 0) {
@@ -91,14 +95,14 @@ export function DatatableBody<T>({
     return (
       <div className="datatable-error">
         <div className="alert alert-danger">
-          <i className="fas fa-exclamation-triangle me-2"></i>
+          <FontAwesomeIcon icon={faExclamationTriangle} className='me-2'/>
           {state.error.message}
         </div>
         <button 
           className="btn btn-primary mt-2"
           onClick={() => window.location.reload()}
         >
-          Retry
+          {t("datatable.retry_request")}
         </button>
       </div>
     );
@@ -108,9 +112,9 @@ export function DatatableBody<T>({
     return (
       <div className="datatable-empty">
         <div className="empty-state">
-          <i className="fas fa-inbox fa-3x text-muted mb-3"></i>
-          <h5>No data available</h5>
-          <p className="text-muted">No records found matching your criteria</p>
+          <FontAwesomeIcon size="3x" icon={faInbox} className='text-muted mb-3'/>
+          <h5>{t("datatable.no_data_available")}</h5>
+          <p className="text-muted">{t("datatable.records_null")}</p>
         </div>
       </div>
     );
@@ -165,7 +169,7 @@ export function DatatableBody<T>({
                     }
                     
                     {column.sortable && (
-                      <i className={`fas ${getSortIcon(column.id)} ms-2`}></i>
+                      <FontAwesomeIcon icon={getSortIcon(column.id)} className='ms-2'/>
                     )}
                     
                     {column.resizable && (

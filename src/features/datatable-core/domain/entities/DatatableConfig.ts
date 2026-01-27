@@ -43,7 +43,7 @@ export interface DatatableConfig<T> {
     actions?: BulkAction[];
   };
   export?: {
-    enabled: boolean;
+    disabled: boolean;
     formats?: ('csv' | 'excel' | 'pdf')[];
     columns?: string[];
     handler?(query: ApiDatatableQuery, format: 'csv' | 'excel'): Promise<unknown>;

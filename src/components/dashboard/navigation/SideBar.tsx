@@ -5,21 +5,22 @@ import { ReactNode, useRef, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 import { CSSTransition } from 'react-transition-group';
 import ImageLogo from "@/assets/images/logo/logo.svg";
-import ProfilePicture from "@/assets/images/dashboard/examples/profile-picture-1.jpg";
-import { faChartPie, faRocket, faSignOut, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faRocket, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import { useGetAvailMenuRoutes } from '@/features/router/hooks/useGetAvailMenuRoutes';
 import { RouteConfig } from '@/features/router/types';
 import { useTranslation } from 'react-i18next';
+import { useAuthContext } from '@/features/auth/auth-context';
 
 
 
 const SideBar = () => {
   const [show, setShow] = useState(false);
-  const showClass = show ? "show" : "";
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const routes = useGetAvailMenuRoutes();
   const { t } = useTranslation("menu");
+   const { getUsername } = useAuthContext();
+  const showClass = show ? "show" : "";
  
   if (!routes) {
     return null;
@@ -75,14 +76,8 @@ const SideBar = () => {
           <div className="sidebar-inner px-4 pt-3">
             <div className="user-card d-flex d-md-none align-items-center justify-content-between pb-4">
               <div className="d-flex align-items-center">
-                <div className="user-avatar lg-avatar me-4">
-                  <Image
-                    src={ProfilePicture}
-                    className="card-img-top rounded-circle border-white"
-                  />
-                </div>
                 <div>
-                  <h6>{`{USERNAME}`}</h6>
+                  <h6>{getUsername()}</h6>
                   <Link to={'/dashboard/logout'}>
                     <Button
                       as={"button"}

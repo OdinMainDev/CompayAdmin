@@ -2,7 +2,7 @@ import type { InputActionMeta } from 'react-select';
 
 export interface BaseFieldExtra {
     required?: boolean;
-    col?: number;
+    col?: number | 'auto';
     helperText?: string;
     disabled?: boolean
     error?: string[]

@@ -1,9 +1,5 @@
-import { Button, Card, Col, Container, Dropdown, Form, Image, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faCartArrowDown, faChartPie, faChevronDown, faChevronLeft, faClipboard, faCommentDots, faFileAlt, faPlus, faRocket, faStore } from "@fortawesome/free-solid-svg-icons";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 
-import NotFoundImage from "@/assets/images/dashboard/illustrations/404.svg";
 import TwofaSidebar from "@/components/dashboard/sidebars/2fa";
 import PageHeader from "@/components/dashboard/common/PageHeader";
 
@@ -31,6 +27,13 @@ export default function Profile() {
                       </Form.Group>
                     </Col>
                     <h5 className="mb-4">Изменить Password</h5>
+                    
+                    <div className="col col-12">
+                      <div className="position-relative">
+                        <hr className="bg-body-secondary mb-4 mt-5" />
+                        <div className="divider-content-center">Аккаунт администратора:</div>
+                      </div>
+                    </div>
                     <Col md={6} className="mb-3">
                       <Form.Group id="firstName">
                         <Form.Label>Old Username</Form.Label>

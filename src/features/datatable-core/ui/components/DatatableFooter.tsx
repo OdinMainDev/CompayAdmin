@@ -1,5 +1,9 @@
 import React from 'react';
 import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
+import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { Form, Pagination } from 'react-bootstrap';
 
 interface DatatableFooterProps<T = unknown> {
   state: DatatableState<T>;
@@ -14,13 +18,13 @@ export function DatatableFooter<T>({
 }: DatatableFooterProps<T>): React.ReactElement | null {
   const { page, pageSize, totalPages, pageSizeOptions } = state.pagination;
   const { filtered, total } = state;
+  const { t } = useTranslation("panel");
   
   if (filtered <= pageSize && page === 1) {
     return (
-      <div className="datatable-footer mt-[10px]">
+      <div className="datatable-footer py-4 px-3">
         <div className="footer-info">
-          Showing all {filtered} entries
-          {filtered !== total && ` (filtered from ${total} total entries)`}
+          {t("datatable.show_all_entries")} ({filtered})
         </div>
       </div>
     );
@@ -69,14 +73,17 @@ export function DatatableFooter<T>({
     
     for (let i = startPage; i <= endPage; i++) {
       pages.push(
-        <button
-          key={i}
-          className={`btn btn-sm ${i === page ? 'btn-primary' : 'btn-outline-secondary'}`}
-          onClick={() => onPageChange(i)}
-          disabled={state.loading}
-        >
+        <Pagination.Item key={i} active={i === page} onClick={() => onPageChange(i)} className={`text-black`}>
           {i}
-        </button>
+        </Pagination.Item>
+        // <button
+        //   key={i}
+        //   className={`btn btn-sm text-black ${i === page ? 'btn-warning' : 'btn-outline-warning'}`}
+        //   onClick={() => onPageChange(i)}
+        //   disabled={state.loading}
+        // >
+        //   {i}
+        // </button>
       );
     }
     
@@ -87,71 +94,63 @@ export function DatatableFooter<T>({
   const endRecord = Math.min(page * pageSize, filtered);
   
   return (
-    <div className="datatable-footer flex justify-between mt-[10px]">
+    <div className="datatable-footer d-flex justify-content-between py-4 px-3">
       <div className="footer-info">
-        Showing {startRecord} to {endRecord} of {filtered} entries
-        {filtered !== total && ` (filtered from ${total} total entries)`}
+        {t("datatable.showing")} {startRecord} {t("datatable.to")} {endRecord} {t("datatable.of")} {filtered} {t("datatable.entries")}
+        {filtered !== total && ` (${t("datatable.total_entries")}: ${total})`}
       </div>
       
-      <div className="footer-pagination">
-        <div className="pagination-controls d-flex align-items-center gap-3">
-          <div className="btn-group">
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={handleFirstPage}
-              disabled={page === 1 || state.loading}
-              title="First page"
-            >
-              <i className="fas fa-angle-double-left"></i>
-            </button>
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={handlePrevPage}
-              disabled={page === 1 || state.loading}
-              title="Previous page"
-            >
-              <i className="fas fa-angle-left"></i>
-            </button>
-            
-            {renderPageNumbers()}
-            
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={handleNextPage}
-              disabled={page === totalPages || state.loading}
-              title="Next page"
-            >
-              <i className="fas fa-angle-right"></i>
-            </button>
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={handleLastPage}
-              disabled={page === totalPages || state.loading}
-              title="Last page"
-            >
-              <i className="fas fa-angle-double-right"></i>
-            </button>
-          </div>
-          
-          <div className="d-flex align-items-center gap-2">
-            <span className="text-muted small">Show:</span>
-            <select
-              className="form-select form-select-sm !pr-[20px]"
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              disabled={state.loading}
-              style={{ width: 'auto' }}
-            >
-              {pageSizeOptions.map(option => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            <span className="text-muted small">per page</span>
-          </div>
-        </div>
+      <div className="footer-pagination d-flex align-items-center gap-3">
+        <Form.Select
+          value={pageSize}
+          onChange={handlePageSizeChange}
+          disabled={state.loading}
+          style={{ width: '4vw' }}
+        >
+          {pageSizeOptions.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </Form.Select>
+
+        <Pagination className="mb-0">
+          <Pagination.First
+            onClick={handleFirstPage}
+            disabled={page === 1 || state.loading}
+            className='text-black'
+          >
+            <FontAwesomeIcon icon={faAnglesLeft} />
+          </Pagination.First>
+
+          <Pagination.Prev
+            onClick={handlePrevPage}
+            disabled={page === 1 || state.loading}
+            className='text-black'
+          >
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </Pagination.Prev>
+
+          {renderPageNumbers()}
+
+          <Pagination.Next
+            onClick={handleNextPage}
+            disabled={page === totalPages || state.loading}
+            className='text-black'
+          >
+            <FontAwesomeIcon icon={faAngleRight} />
+          </Pagination.Next>
+
+          <Pagination.Last
+            onClick={handleLastPage}
+            disabled={page === totalPages || state.loading}
+            className='text-black'
+          >
+            <FontAwesomeIcon icon={faAnglesRight} />
+          </Pagination.Last>
+        </Pagination>
       </div>
+
     </div>
   );
 }

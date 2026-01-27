@@ -32,9 +32,9 @@ const User = () => {
       sortable: true,
       render: (row: LogUser) => {
         return (
-          <Link to={`/panel/users/edit/${row.user_id}`}>
+          <Link to={`/dashboard/users/edit/${row.user_id}`}>
               <Button bsPrefix="text" href="#info" variant="info">
-                {t('datatable.go_to_user')}
+                {t('datatable.go_to_user')} ({row.user_id})
               </Button>
           </Link>
         );
@@ -47,9 +47,9 @@ const User = () => {
       sortable: true,
       render: (row: LogUser) => {
         return (
-          <Link to={`/panel/merchants/edit/${row.merchant_id}`}>
+          <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
               <Button bsPrefix="text" href="#info" variant="info">
-                {t('datatable.go_to_merchant')}
+                {t('datatable.go_to_merchant')} ({row.merchant_id})
               </Button>
           </Link>
         );
@@ -105,6 +105,7 @@ const User = () => {
   }), [columns, t]);
   return (
     <Datatable
+      pageTitle={t('logs_pages.user')}
       config={config}
       className="border-0"
     />

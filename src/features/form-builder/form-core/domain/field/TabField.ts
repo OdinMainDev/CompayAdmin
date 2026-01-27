@@ -32,10 +32,9 @@ export class TabField
 
   static create(
     this: typeof TabField, 
-    name: string,
     label: string,
     extra?: TabsFieldExtra,
   ) {
-    return new this(name, label, {}, extra );
+    return new this("default_name_tab", label, {}, extra );
   }
 }

@@ -9,6 +9,7 @@ import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 import PageHeader from '@/components/dashboard/common/PageHeader';
+import Preloader from '@/components/base/Preloader';
 
 interface DatatableProps<T> {
   pageTitle?: string,
@@ -88,7 +89,13 @@ export function Datatable<T>({
   };
 
   if (!engine || !state) {
-    return <div>Loading...</div>;
+    return (
+      <div className="datatable-loading">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -100,7 +107,7 @@ export function Datatable<T>({
       />
     )}
   
-    <div className={`datatable ${className}`}>
+    <div className={`datatable card shadow-sm border-0 ${className}`}>
       <DatatableHeader
         config={config}
         state={state}
@@ -173,7 +180,6 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       };
       
       if (hasMethod(this, actionId)) {
-        console.log(data);
         return (this as Record<string, ActionMethod>)[actionId](data);
       }
       

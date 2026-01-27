@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { QuickAction } from '../domain/entities/QuickAction';
 import type { NavigateFunction } from 'react-router-dom';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export function buildAddAction(
   title: string,
@@ -9,7 +11,7 @@ export function buildAddAction(
   return {
     id: 'add',
     label: title,
-    icon: <i className="fas fa-plus" />,
+    icon: <FontAwesomeIcon icon={faPlus} />,
     variant: 'primary',
     handler: () => navigate(link),
   };

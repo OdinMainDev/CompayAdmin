@@ -20,26 +20,26 @@ export const defaultStyles: StylesConfig<ReactSelectOption, boolean> = {
   control: (provided, state) => ({
     ...provided,
     borderRadius: '.5rem',
-    borderColor: state.isFocused ? '#61DAFB' : '#dee2e6',
+    borderColor: state.isFocused ? 'unset' : 'rgba(248, 189, 122, 0.25)',
     boxShadow: state.isFocused ? '0 0 0 0.25rem rgba(97, 218, 251, 0.25)' : 'none',
-    '&:hover': { borderColor: '#61DAFB' },
+    '&:hover': { borderColor: 'rgba(248, 189, 122, 1)' },
   }),
   singleValue: (provided) => ({ ...provided, color: '#212529' }),
-  multiValue: (provided) => ({ ...provided, borderRadius: '.5rem', backgroundColor: '#61DAFB', color: '#fff' }),
-  multiValueLabel: (provided) => ({ ...provided, color: '#fff' }),
+  multiValue: (provided) => ({ ...provided, borderRadius: '.5rem', backgroundColor: 'rgba(248, 189, 122, 1)', color: '#000' }),
+  multiValueLabel: (provided) => ({ ...provided, color: '#000' }),
   multiValueRemove: (provided) => ({
     ...provided,
     borderRadius: '.5rem',
-    color: '#fff',
-    ':hover': { backgroundColor: '#4a9ec9', color: '#fff' },
+    color: '#000',
+    ':hover': { backgroundColor: 'rgba(248, 189, 122, 0.75)', color: '#000' },
   }),
   placeholder: (provided) => ({ ...provided, color: '#6c757d' }),
   menu: (provided) => ({ ...provided, borderRadius: '.5rem', boxShadow: '0 0.5rem 1rem rgba(0,0,0,0.15)' }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isSelected ? '#61DAFB' : state.isFocused ? '#f8f9fa' : 'white',
-    color: state.isSelected ? 'white' : '#212529',
-    ':active': { backgroundColor: '#61DAFB', color: 'white' },
+    backgroundColor: state.isSelected ? 'rgba(248, 189, 122, 1)' : state.isFocused ? '#f8f9fa' : '#fff',
+    color: state.isSelected ? '#000' : '#212529',
+    ':active': { backgroundColor: 'rgba(248, 189, 122, 1)', color: '#000' },
   }),
 };
 
@@ -80,7 +80,6 @@ function BaseSelectRendererInner<T extends string | number>(
     isMulti,
     placeholder = 'Выберите опцию...',
     noOptionsMessage = 'Нет доступных опций',
-    styles = defaultStyles,
     onMenuOpen = () => {},
     onMenuClose = () => {},
   } = props;
@@ -141,15 +140,15 @@ function BaseSelectRendererInner<T extends string | number>(
         borderColor: isError
           ? '#dc3545'
           : state.isFocused
-            ? '#61DAFB'
+            ? ''
             : '#dee2e6',
         boxShadow: isError
           ? '0 0 0 0.25rem rgba(220, 53, 69, 0.25)'
           : state.isFocused
-            ? '0 0 0 0.25rem rgba(97, 218, 251, 0.25)'
+            ? 'inset 0 1px 2px rgba(46, 54, 80, 0.075), 0 0 0 0.2rem rgba(38, 43, 64, 0.25)'
             : 'none',
         '&:hover': {
-          borderColor: isError ? '#dc3545' : '#61DAFB',
+          borderColor: isError ? '#dc3545' : '',
         },
       };
     },
@@ -177,13 +176,6 @@ function BaseSelectRendererInner<T extends string | number>(
       theme={(theme) => ({
         ...theme,
         borderRadius: 0,
-        colors: {
-          ...theme.colors,
-          primary25: '#f0f8ff',
-          primary50: '#e1f5fe',
-          primary75: '#b3e5fc',
-          primary: '#61DAFB',
-        },
       })}
     />
   );

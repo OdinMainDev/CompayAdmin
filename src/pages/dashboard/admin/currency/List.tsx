@@ -1,0 +1,123 @@
+import React, { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { 
+  Datatable, 
+  formatTimestampWithTime,
+  type DatatableColumn, 
+  type DatatableConfig 
+} from '@/features/datatable-core';
+import { Currency } from '@/app/entities/currency';
+import { CurrencyService } from '@/app/api/currency/service';
+import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
+import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
+import { RenderBool } from '@/app/datatable/columns/bool';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileImport } from '@fortawesome/free-solid-svg-icons';
+import { buildDeleteAction } from '@/features/datatable-core/utils/buildDeleteAction';
+
+const List = () => {
+  const { t, i18n } = useTranslation();
+  const [refreshKey, setRefreshKey] = useState(0);
+  const navigate = useNavigate();
+
+  const refreshTable = useCallback(() => {
+    setRefreshKey(prev => prev + 1); 
+  }, []);
+
+  const importCurrencies = async (): Promise<void> => {
+    await CurrencyService.import();
+  };
+  
+  const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+
+  const columns = useMemo<DatatableColumn<Currency>[]>(() => [
+    {
+      id: 'id',
+      field: 'id',
+      label: 'ID',
+      sortable: true,
+    },
+    {
+      id: 'image',
+      field: 'image',
+      label: t('datatable.image'),
+      sortable: false,
+    },
+    {
+      id: 'code_alpha',
+      field: 'code_alpha',
+      label: t('datatable.code_alpha'),
+      sortable: true,
+    },
+    {
+      id: 'title',
+      field: 'title',
+      label: t('datatable.name'),
+      sortable: true,
+    },
+    {
+      id: 'network',
+      field: 'network',
+      label: t('datatable.network'),
+      sortable: true,
+    },
+    {
+      id: 'minor_units',
+      field: 'minor_units',
+      label: t('datatable.minor_units'),
+      sortable: true,
+    },
+    {
+      id: 'is_coin',
+      field: 'is_coin',
+      label: t('datatable.is_coin'),
+      sortable: true,
+      render: (row: Currency) => <RenderBool value={row.is_coin}/>,
+    },
+    {
+      id: 'created_at',
+      field: 'created_at',
+      label: t('datatable.created_at'),
+      sortable: true,
+      render: (row: Currency) => formatTimestampWithTime(row.created_at, locale),
+    },
+    {
+      id: 'updated_at',
+      field: 'updated_at',
+      label: t('datatable.updated_at'),
+      sortable: false,
+      visible: false,
+      render: (row: Currency) => formatTimestampWithTime(row.updated_at, locale),
+    },
+  ], [t, locale]);
+
+  const config = useMemo<DatatableConfig<Currency>>(() => ({
+    filtersSource:  CurrencyService.getFilters,
+    dataSource:     CurrencyService.getList,
+    columns,
+    quickActions: [
+      buildAddAction(t('datatable.add_record'), '/dashboard/currencies/process/0', navigate),
+      {
+        id: 'import',
+        label: t('currencies_page.import'),
+        icon: <FontAwesomeIcon icon={faFileImport} />,
+        variant: 'warning',
+        handler: importCurrencies,
+      },
+    ],
+    rowActions: [
+      buildEditAction('/dashboard/currencies/process/', navigate),
+      buildDeleteAction(CurrencyService.delete, refreshTable)
+    ]
+  }), [columns, t]);
+  return (
+    <Datatable
+      pageTitle={t('currencies_page.list')}
+      key={refreshKey}
+      config={config}
+    />
+  );
+};
+
+export default List;
