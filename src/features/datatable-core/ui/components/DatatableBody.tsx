@@ -176,8 +176,13 @@ export function DatatableBody<T>({
                       <div className="resize-handle"></div>
                     )}
                   </div>
-                </th>
+                </th>          
               ))}
+               {config.rowActions && config.rowActions.length > 0 && (
+                <th className="text-center">
+                  {t('datatable.actions')}
+                </th>
+              )}
             </tr>
           </thead>
           

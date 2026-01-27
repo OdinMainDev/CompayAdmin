@@ -62,7 +62,7 @@ const List = () => {
       render: (row: User) => {
         return (
           <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
-              <Button bsPrefix="text" href="#info" variant="info">
+              <Button bsPrefix="text" variant="info">
                 {t('datatable.go_to_merchant')} ({row.merchant_id})
               </Button>
           </Link>
@@ -77,7 +77,7 @@ const List = () => {
       render: (row: User) => {
         return (
           <Link to={`/dashboard/users/edit/${row.creator_id}`}>
-              <Button bsPrefix="text" href="#info" variant="info">
+              <Button bsPrefix="text" variant="info">
                 {t('datatable.go_to_user')} ({row.creator_id})
               </Button>
           </Link>

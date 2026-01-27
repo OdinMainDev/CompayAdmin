@@ -65,24 +65,25 @@ const UnifiedFormBuilder = <T,>({
               <div key={`${section.title}-${index}`} className="mb-4">
                 {section.title && <h5 className={section.description ? "mb-1" : "mb-3"}>{section.title}</h5>}
                 {section.description && <div className="text-muted mb-3">{section.description}</div>}
-                {section.fields.map((field) =>
-                
-                  UnifiedFieldRegistry.renderAny(field, (value) => {
-                    setFormData((prev) => {
-                      if ('isComposite' in field && field.isComposite && typeof value === 'object' && value !== null) {
+                {section.fields.map((field) => (
+                  <div key={field.type}>
+                    {UnifiedFieldRegistry.renderAny(field, (value) => {
+                      setFormData((prev) => {
+                        if ('isComposite' in field && field.isComposite && typeof value === 'object' && value !== null) {
+                          return {
+                            ...prev,
+                            ...value,
+                          };
+                        }
+
                         return {
                           ...prev,
-                          ...value,
+                          [field.name]: value,
                         };
-                      }
-                  
-                      return {
-                        ...prev,
-                        [field.name]: value,
-                      };
-                    });
-                  })
-                )}
+                      });
+                    })}
+                  </div>
+                ))}
               </div>
             ))}
           </Card.Body>
