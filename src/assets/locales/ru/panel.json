@@ -47,6 +47,10 @@
             "selected_date": "Выбрана дата"
         }
     },
+    "fields": {
+        "choose_options": "Нажмите для выбора...",
+        "not_avail_options": "Нет доступных опций"
+    },
     "topbar": {
         "fast_actions": {
             "title": "Быстрые действия",

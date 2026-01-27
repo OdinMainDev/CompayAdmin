@@ -14,6 +14,7 @@ import {
   SwitchField,
 } from '@/features/form-builder/form-core/domain/field';
 import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
+import { ApiError } from '@/features/api-client/types/core';
 
 const Process = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,13 +23,10 @@ const Process = () => {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [model, setModel] = useState<Currency>();
   const [formData, setFormData] = useState<CurrencyProcessRequest>();
-  const [networks, setNetworks] = useState<SelectOption[]>();
+  const [networks, setNetworks] = useState<SelectOption[]>([]);
 
   useEffect(() => {
     const getNetworks = async () => {
-      if (networks) {
-        return;
-      }
       const response = await ApiService.getCurrencyNetworks();
       if (!response.success) {
         return;
@@ -45,7 +43,7 @@ const Process = () => {
   }, []);
 
   useEffect(() => {
-    if (!id || id == '0') return;
+    if (!id || id == '0' || model) return;
     const getData = async () => {
       const response = await CurrencyService.getById(Number(id));
       if (!response.success) {
@@ -64,19 +62,19 @@ const Process = () => {
       });
     };
     void getData();
-  }, [id]);
+  }, [id, navigate, model]);
 
   const sections = useMemo<FormSection[]>(
     () => [
       {
         fields: [
           TextField.create('title', t('fields.name'), { ui: { col: 8 } }),
-          NumberField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
+          TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
           SelectField.create('network', t('fields.network'), {
             options: networks,
             ui: { col: 6 },
           }),
-          TextField.create('minor_units', t('fields.minor_units'), { ui: { col: 4 } }),
+          NumberField.create('minor_units', t('fields.minor_units'), { ui: { col: 4 } }),
           SwitchField.create('is_coin', t('fields.is_coin'), { ui: { col: 'auto' } }),
         ],
       },
@@ -85,16 +83,25 @@ const Process = () => {
   );
 
   const handleSubmit = async () => {
-    // const dataToSend = { ...formData };
-    // // const response = await CurrencyService.process(dataToSend);
-    // if ('success' in response && response.success) {
-    //     setModel(response.data)
-    // }
-    // else {
-    //   const errorResponse = response as ApiError;
-    //   if (errorResponse.errors)
-    //     setFieldErrors(errorResponse.errors);
-    // }
+    const dataToSend = { ...formData } as CurrencyProcessRequest;
+    const response = await CurrencyService.process(dataToSend);
+    if ('success' in response && response.success) {
+      if (id == '0') {
+        navigate('/dashboard/currencies/process/' + response.data.id.toString());
+      }
+      setModel(response.data);
+      setFormData({
+        id: response.data.id,
+        code_alpha: response.data.code_alpha,
+        title: response.data.title,
+        network: response.data.network,
+        is_coin: response.data.is_coin,
+        minor_units: response.data.minor_units,
+      });
+    } else {
+      const errorResponse = response as ApiError;
+      if (errorResponse.errors) setFieldErrors(errorResponse.errors);
+    }
   };
 
   return (

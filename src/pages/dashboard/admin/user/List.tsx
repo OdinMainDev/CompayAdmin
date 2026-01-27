@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,18 +11,17 @@ import { User } from '@/app/entities/user';
 import { UserService } from '@/app/api/user/service';
 import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
 import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
-import { buildDeleteAction } from '@/features/datatable-core/utils/buildDeleteAction';
 import { RenderBool } from '@/app/datatable/columns/bool';
 import { RenderLink } from '@/app/datatable/columns/link';
 
 const List = () => {
   const { t, i18n } = useTranslation();
-  const [refreshKey, setRefreshKey] = useState(0);
+  // const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
 
-  const refreshTable = useCallback(() => {
-    setRefreshKey((prev) => prev + 1);
-  }, []);
+  // const refreshTable = useCallback(() => {
+  //   setRefreshKey((prev) => prev + 1);
+  // }, []);
 
   const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
 
@@ -108,12 +107,12 @@ const List = () => {
       ],
       rowActions: [
         buildEditAction('/dashboard/users/edit/', navigate),
-        buildDeleteAction(UserService.delete, refreshTable),
+        // buildDeleteAction(UserService.delete, refreshTable),
       ],
     }),
     [columns, t],
   );
-  return <Datatable pageTitle={t('users_page.list')} key={refreshKey} config={config} />;
+  return <Datatable pageTitle={t('users_page.list')} key={0} config={config} />;
 };
 
 export default List;

@@ -180,7 +180,7 @@ export const RepeaterRenderer = (
         </div>
       ))}
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'start', marginTop: '1rem' }}>
         <Button
           variant="outline-primary"
           onClick={addItem}

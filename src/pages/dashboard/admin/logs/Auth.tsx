@@ -114,7 +114,7 @@ const Auth = () => {
       dataSource: LogAuthService.getList,
       columns,
     }),
-    [columns, t],
+    [columns],
   );
   return <Datatable pageTitle={t('logs_pages.auth')} config={config} className="border-0" />;
 };

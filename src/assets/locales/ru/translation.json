@@ -15,7 +15,13 @@
         "is_twofa_enabled": "2FA установлен?",
         "request": "Запрос",
         "creator_id": "Создатель",
-        "owner_id": "Владелец"
+        "owner_id": "Владелец",
+        "code_alpha":"Код валюты",
+        "image": "Изображение",
+        "name": "Название",
+        "network": "Сеть валюты",
+        "minor_units":"Разрядность валюты",
+        "is_coin": "Коин"
     },
     "toasts": {
         "pending": "Обработка действия...",
@@ -38,7 +44,11 @@
         "admin_username": "Логин админа",
         "admin_password": "Пароль админа",
         "notification_telegram_chat_id": "Id телеграмм чата для уведомлений",
-        "is_enabled": "Включено?"
+        "is_enabled": "Включено?",
+        "username": "Логин",
+        "password": "Пароль",
+        "merchant": "Мерчант",
+        "is_admin": "Является админом?"
     },
     "tabs": {
         "personal_data": "Персональные данные",
@@ -50,7 +60,8 @@
     "users_page": {
         "create": "Создать пользователя",
         "edit": "Изменить пользователя",
-        "list": "Список пользователей"
+        "list": "Список пользователей",
+        "merchant_data": "Данные мерчанта"
     },
     "logs_pages": {
         "auth": "Логи авторизаций",

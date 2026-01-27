@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,16 +14,10 @@ import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction
 import { RenderBool } from '@/app/datatable/columns/bool';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImport } from '@fortawesome/free-solid-svg-icons';
-import { buildDeleteAction } from '@/features/datatable-core/utils/buildDeleteAction';
 
 const List = () => {
   const { t, i18n } = useTranslation();
-  const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
-
-  const refreshTable = useCallback(() => {
-    setRefreshKey((prev) => prev + 1);
-  }, []);
 
   const importCurrencies = async (): Promise<void> => {
     await CurrencyService.import();
@@ -46,15 +40,15 @@ const List = () => {
         sortable: false,
       },
       {
-        id: 'code_alpha',
-        field: 'code_alpha',
-        label: t('datatable.code_alpha'),
-        sortable: true,
-      },
-      {
         id: 'title',
         field: 'title',
         label: t('datatable.name'),
+        sortable: true,
+      },
+      {
+        id: 'code_alpha',
+        field: 'code_alpha',
+        label: t('datatable.code_alpha'),
         sortable: true,
       },
       {
@@ -112,12 +106,11 @@ const List = () => {
       ],
       rowActions: [
         buildEditAction('/dashboard/currencies/process/', navigate),
-        buildDeleteAction(CurrencyService.delete, refreshTable),
       ],
     }),
     [columns, t],
   );
-  return <Datatable pageTitle={t('currencies_page.list')} key={refreshKey} config={config} />;
+  return <Datatable pageTitle={t('currencies_page.list')} key={0} config={config} />;
 };
 
 export default List;

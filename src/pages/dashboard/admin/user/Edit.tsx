@@ -8,8 +8,6 @@ import { TextField } from '@/features/form-builder/form-core/domain/field/TextFi
 import { ApiError } from '@/features/api-client/types/core';
 import { User } from '@/app/entities/user';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TabField } from '@/features/form-builder/form-core/domain/field/TabField';
-import { SelectField } from '@/features/form-builder/form-core/domain/field';
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +22,7 @@ const Edit = () => {
   });
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || model) return;
     const getData = async () => {
       const response = await UserService.getById(Number(id));
       if (!response.success) {
@@ -38,26 +36,14 @@ const Edit = () => {
       });
     };
     void getData();
-  }, [id]);
+  }, [id, model, navigate]);
 
   const sections = useMemo<FormSection[]>(
     () => [
       {
         fields: [
-          TabField.create('users_tab', {
-            tabs: [
-              {
-                name: 'main',
-                label: t('tabs.personal_data'),
-                elements: [
-                  TextField.create('title', t('fields.title'), { ui: { col: 8 } }),
-                  TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
-                  SelectField.create('network', t('fields.network'), { ui: { col: 4 } }),
-                  TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
-                ],
-              },
-            ],
-          }),
+          TextField.create('new_username', t('fields.new_username'), { ui: { col: 6 } }),
+          TextField.create('new_password', t('fields.new_password'), { ui: { col: 6 } }),
         ],
       },
     ],

@@ -9,6 +9,7 @@ import Select, {
 } from 'react-select';
 import type { IField } from '../../form-core/domain/field/IField';
 import type { SelectFieldExtra, SelectOption } from '../../form-core/domain/extra/SelectFieldExtra';
+import { useTranslation } from 'react-i18next';
 
 export interface ReactSelectOption {
   value: string;
@@ -86,13 +87,14 @@ function BaseSelectRendererInner<T extends string | number>(
   props: BaseSelectRendererProps<T>,
   ref: React.Ref<SelectInstance<ReactSelectOption, boolean, GroupBase<ReactSelectOption>>>,
 ) {
+  const { t } = useTranslation('panel');
   const {
     field,
     onChange,
     hasError,
     isMulti,
-    placeholder = 'Выберите опцию...',
-    noOptionsMessage = 'Нет доступных опций',
+    placeholder = t('fields.choose_options'),
+    noOptionsMessage = t('fields.not_avail_options'),
     onMenuOpen = () => {},
     onMenuClose = () => {},
   } = props;

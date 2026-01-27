@@ -100,7 +100,7 @@ const User = () => {
       dataSource: LogUserService.getList,
       columns,
     }),
-    [columns, t],
+    [columns],
   );
   return <Datatable pageTitle={t('logs_pages.user')} config={config} className="border-0" />;
 };

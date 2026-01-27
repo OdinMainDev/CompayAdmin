@@ -30,7 +30,7 @@ const Edit = () => {
   });
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || model) return;
     const getData = async () => {
       const response = await MerchantService.getById(Number(id));
       if (!response.success) {
@@ -41,7 +41,7 @@ const Edit = () => {
       setModel(response.data);
     };
     void getData();
-  }, [id]);
+  }, [id, navigate, model]);
 
   const sections = useMemo<FormSection[]>(
     () => [

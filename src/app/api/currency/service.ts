@@ -1,5 +1,5 @@
 import { FilterReponse } from '@/features/api-client/types/datatable';
-import type { CurrencyResponse, GetListFiltersResponse } from './types';
+import type { CurrencyProcessRequest, CurrencyResponse, GetListFiltersResponse } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
 import { apiClient } from '@/features/api-client/client';
@@ -13,8 +13,7 @@ export class CurrencyService {
     LIST: '/api/panel/admin/dev/currencies/list',
     FILTERS: '/api/panel/admin/dev/currencies/list/filters',
     GET: '/api/panel/admin/dev/currencies/get',
-    CREATE: '/api/panel/admin/dev/currencies/process',
-    DELETE: '/api/panel/admin/dev/currencies/delete',
+    PROCESS: '/api/panel/admin/dev/currencies/process',
     IMPORT: '/api/panel/admin/dev/currencies/action/import',
   } as const;
 
@@ -65,22 +64,18 @@ export class CurrencyService {
     }
   }
 
-  static async delete(
-    id: number,
+  static async process(
+    data: CurrencyProcessRequest,
     options?: RequestOptions,
-  ): Promise<{ success: boolean; message?: string } | ApiError> {
+  ): Promise<CurrencyResponse | ApiError> {
     try {
-      return await apiClient.post<null>(
-        `${CurrencyService.ENDPOINTS.DELETE}`,
-        { id },
-        {
-          ...options,
-          isAuth: true,
-          hasToast: options?.hasToast ?? true,
-        },
-      );
+      return await apiClient.post<CurrencyResponse['data']>(`${this.ENDPOINTS.PROCESS}`, data, {
+        ...options,
+        isAuth: true,
+        hasToast: options?.hasToast ?? true,
+      });
     } catch (error) {
-      return makeError('Failed to delete currency', error);
+      return makeError('Failed to process currency', error);
     }
   }
 
