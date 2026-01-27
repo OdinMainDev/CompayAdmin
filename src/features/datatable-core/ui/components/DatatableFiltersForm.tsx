@@ -78,6 +78,7 @@ export function DatatableFiltersForm<T>({
       <UnifiedFormBuilder
         fields={filterForm}
         formData={formData}
+        resetAble={true}
         setFormData={setFormData}
         handleSubmit={handleSubmit}
         submitLabel={t("datatable.filters_submit")}

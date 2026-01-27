@@ -9,7 +9,6 @@ import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 import PageHeader from '@/components/dashboard/common/PageHeader';
-import Preloader from '@/components/base/Preloader';
 
 interface DatatableProps<T> {
   pageTitle?: string,
@@ -110,7 +109,6 @@ export function Datatable<T>({
     <div className={`datatable card shadow-sm border-0 ${className}`}>
       <DatatableHeader
         config={config}
-        state={state}
         engine={engine} 
         onAction={handleAction}
       />
@@ -118,7 +116,6 @@ export function Datatable<T>({
       <DatatableBody
         config={config}
         engine={engine}
-        state={state}
         onSort={handleSort}
         onRowClick={config.events?.onRowClick}
         onSelectionChange={handleSelectionChange}
@@ -126,7 +123,7 @@ export function Datatable<T>({
       
       {(config.pagination?.enabled ?? true) && (
         <DatatableFooter
-          state={state}
+          engine={engine}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
         />

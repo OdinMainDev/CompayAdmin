@@ -27,8 +27,8 @@ const Create = () => {
               name: 'main',
               label: t('tabs.edit'),
               elements: [
-                TextField.create('username', t('form_builder_demo.fields.username'), { required: true, col: 6 }),
-                PasswordField.create('password', t('form_builder_demo.fields.user_password'), { required: true, col: 6 }),
+                TextField.create('username', t('form_builder_demo.fields.username'), { required: true, ui: { col: 6 }}),
+                PasswordField.create('password', t('form_builder_demo.fields.user_password'), { required: true, ui: { col: 6 }}),
               ],
             },
             {

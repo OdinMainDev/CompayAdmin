@@ -1,16 +1,12 @@
-import { useState, useCallback } from 'react';
-import { Button } from 'react-bootstrap';
+import { useState, useCallback, useEffect } from 'react';
+import { Button, Col, Collapse, Row } from 'react-bootstrap';
 import { UnifiedFieldRegistry } from '../UnifiedFieldRegistry';
 import type { IField } from '../../form-core/domain/field/IField';
 import type { RepeaterFieldExtra, RepeaterFieldValue } from '../../form-core/domain/field/RepeaterField';
-import { v4 as uuidv4 } from 'uuid';
-import { createFieldCopy } from '../../form-core/domain/utils/copy';
-
-interface RepeaterItem {
-  id: string;
-  values: unknown[];
-}
-
+import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
+import { faTrashCan, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
 
 export const RepeaterRenderer = (
   field: IField<RepeaterFieldValue, RepeaterFieldExtra>,
@@ -18,159 +14,130 @@ export const RepeaterRenderer = (
 ) => {
   const elements = field.extra?.elements ?? [];
 
-  const [items, setItems] = useState<RepeaterItem[]>(() => {
+  const copyField = (f: AnyField): AnyField => {
+    const copy = Object.create(Object.getPrototypeOf(f)) as AnyField;
+    Object.assign(copy, f);
+    return copy;
+  };
+
+  const [items, setItems] = useState<AnyField[][]>(() => {
     if (Array.isArray(field.value) && field.value.length > 0) {
-      return field.value as RepeaterItem[];
+      return (field.value as RepeaterFieldValue).map(item =>
+        elements.map(f => {
+          const copy = copyField(f);
+          copy.value = item[copy.name] as typeof copy.value;
+          return copy;
+        })
+      );
     }
-    return [{ 
-      id: uuidv4(), 
-      values: elements.map(f => f.value ?? null) 
-    }];
+    return [elements.map(copyField)];
   });
 
+  const [openItems, setOpenItems] = useState<Record<number, boolean>>(() => {
+    const obj: Record<number, boolean> = {};
+    items.forEach((_, idx) => (obj[idx] = true));
+    return obj;
+  });
+
+  useEffect(() => {
+    const value: RepeaterFieldValue = items.map(item =>
+      item.reduce((acc, f) => ({ ...acc, [f.name]: f.value }), {} as Record<string, unknown>)
+    );
+    onChange(value);
+  }, [items, onChange]);
+
   const addItem = useCallback(() => {
-    const maxItems = field.extra?.maxItems ?? Infinity;
-    if (items.length >= maxItems) return;
-    
-    const newItem: RepeaterItem = { 
-      id: uuidv4(), 
-      values: elements.map(f => f.value ?? null) 
-    };
+    if (items.length >= (field.extra?.maxItems ?? Infinity)) return;
+    const newItem = elements.map(copyField);
     const newItems = [...items, newItem];
     setItems(newItems);
-    onChange(newItems);
-  }, [items, elements, field.extra?.maxItems, onChange]);
+    setOpenItems(prev => ({ ...prev, [newItems.length - 1]: true }));
+  }, [items, elements, field.extra?.maxItems]);
 
-  const removeItem = useCallback((id: string) => {
-    const minItems = field.extra?.minItems ?? 1;
-    if (items.length <= minItems) return;
-    
-    const newItems = items.filter(i => i.id !== id);
+  const removeItem = useCallback((index: number) => {
+    if (items.length <= (field.extra?.minItems ?? 1)) return;
+    const newItems = items.filter((_, i) => i !== index);
     setItems(newItems);
-    onChange(newItems);
-  }, [items, field.extra?.minItems, onChange]);
-
-  const copyItem = useCallback((id: string) => {
-    const maxItems = field.extra?.maxItems ?? Infinity;
-    if (items.length >= maxItems) return;
-    
-    const itemToCopy = items.find(i => i.id === id);
-    if (!itemToCopy) return;
-    
-    const newItems = [...items, { ...itemToCopy, id: uuidv4() }];
-    setItems(newItems);
-    onChange(newItems);
-  }, [items, field.extra?.maxItems, onChange]);
-
-  const updateItemValue = useCallback((itemId: string, fieldName: string, value: unknown) => {
-    setItems(prevItems => {
-      const newItems = prevItems.map(item => {
-        if (item.id === itemId) {
-          const fieldIndex = elements.findIndex(f => f.name === fieldName);
-          if (fieldIndex >= 0) {
-            const updatedValues = [...item.values];
-            updatedValues[fieldIndex] = value;
-            return { ...item, values: updatedValues };
-          }
-        }
-        return item;
-      });
-      
-      onChange(newItems);
-      return newItems;
+    setOpenItems(prev => {
+      const copy = { ...prev };
+      delete copy[index];
+      return copy;
     });
-  }, [elements, onChange]);
+  }, [items, field.extra?.minItems]);
+
+  const updateItemValue = useCallback((itemIndex: number, field: AnyField, newValue: any) => {
+    setItems(prevItems =>
+      prevItems.map((item, idx) => {
+        if (idx !== itemIndex) return item;
+        return item.map(f => {
+          if (f.name === field.name) {
+            const copy = Object.create(Object.getPrototypeOf(f)) as AnyField;
+            Object.assign(copy, f);
+            copy.value = newValue as typeof f.value;
+            return copy;
+          }
+          return f;
+        });
+      })
+    );
+  }, []);
+  
+  
+
+  const toggleItem = (index: number) => setOpenItems(prev => ({ ...prev, [index]: !prev[index] }));
 
   const styles = {
-    container: { 
-      display: 'flex', 
-      flexDirection: 'column' as const, 
-      gap: '1rem',
-      marginBottom: '1rem'
-    },
-    item: {
-      display: 'flex',
-      gap: '1rem',
-      alignItems: 'flex-start',
-      padding: '1rem',
-      marginBottom: '1rem',
-      border: '1px solid #dee2e6',
-      borderRadius: '0.375rem',
-      backgroundColor: '#f8f9fa'
-    },
-    itemInputs: { 
-      display: 'flex', 
-      flexWrap: 'wrap' as const, 
-      gap: '1rem', 
-      flex: 1 
-    },
-    buttonContainer: { 
-      display: 'flex', 
-      flexDirection: 'column' as const, 
-      gap: '0.5rem', 
-      minWidth: '120px' 
-    },
-    addButtonContainer: {
-      display: 'flex',
-      justifyContent: 'center'
-    }
+    container: { display: 'flex', flexDirection: 'column' as const, gap: '1rem', marginBottom: '1rem', width: '100%' },
+    item: { position: 'relative' as const, border: 'none', borderRadius: '0.375rem', overflow: 'hidden', width: '100%', boxShadow: '0 0 4px rgba(0,0,0,0.05)' },
+    header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.5rem 1rem', cursor: 'pointer', width: '100%', backgroundColor: '#f8f8f8' },
+    headerLeft: { display: 'flex', alignItems: 'center', gap: '0.5rem' },
+    body: { padding: '1rem', display: 'flex', flexWrap: 'wrap' as const, gap: '1rem', width: '100%', flexGrow: 1 },
+    trashButton: { position: 'absolute' as const, top: '0.25rem', right: '0.25rem', color: 'red', border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '1rem' },
+    rotate: (open: boolean) => ({ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }),
   };
 
   return (
     <div style={styles.container}>
       <div style={{ marginBottom: '0.5rem' }}>
         <h6>{field.label}</h6>
-        {field.extra?.helperText && (
-          <small className="text-muted">{field.extra.helperText}</small>
-        )}
+        {field.extra?.helperText && <small className="text-muted">{field.extra.helperText}</small>}
       </div>
-      
-      {items.map((item) => (
-        <div
-          key={item.id}
-          style={styles.item}
-        >
-          <div style={styles.itemInputs}>
-            {elements.map((f, fIdx) => {
-              const fieldCopy = createFieldCopy(f, item.values[fIdx]);
-              return (
-                <div key={`${item.id}-${f.name}`} style={{ minWidth: '200px' }}>
-                  {UnifiedFieldRegistry.render(
-                    fieldCopy,
-                    v => updateItemValue(item.id, f.name, v)
-                  )}
-                </div>
-              );
-            })}
+
+      {items.map((item, index) => (
+        <div key={index} style={styles.item}>
+          <div style={styles.header}>
+            <div style={styles.headerLeft} onClick={() => toggleItem(index)}>
+              <FontAwesomeIcon icon={faChevronDown} style={styles.rotate(!!openItems[index])} />
+              <strong>Элемент {index + 1}</strong>
+            </div>
+            <button style={styles.trashButton} onClick={() => removeItem(index)}>
+              <FontAwesomeIcon icon={faTrashCan} />
+            </button>
           </div>
-          
-          <div style={styles.buttonContainer}>
-            {items.length > (field.extra?.minItems ?? 1) && (
-              <Button 
-                size="sm"
-                variant="outline-danger" 
-                onClick={() => removeItem(item.id)}
-              >
-                Удалить
-              </Button>
-            )}
-            <Button 
-              size="sm"
-              variant="outline-secondary" 
-              onClick={() => copyItem(item.id)}
-            >
-              Копировать
-            </Button>
-          </div>
+          <Collapse in={!!openItems[index]} unmountOnExit>
+            <div style={styles.body}>
+              <Row style={{ width: '100%', gap: '1rem', margin: 0 }}>
+
+                  {item.map(f => (
+                    <React.Fragment key={field.name}>
+                      {f.extra?.beforeField}
+                      <Col 
+                        key={f.name} 
+                        md={f.extra?.ui?.col ?? 12} 
+                        style={{ paddingLeft: 0, paddingRight: 0 }}
+                      >
+                        {UnifiedFieldRegistry.renderAny(f, v => updateItemValue(index, f, v))}
+                      </Col>
+                    </React.Fragment>
+                  ))}
+              </Row>
+            </div>
+        </Collapse>
         </div>
       ))}
-      
-      <div style={styles.addButtonContainer}>
-        <Button 
-          variant="outline-primary"
-          onClick={addItem}
-          disabled={items.length >= (field.extra?.maxItems ?? Infinity)}
-        >
+
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <Button variant="outline-primary" onClick={addItem} disabled={items.length >= (field.extra?.maxItems ?? Infinity)}>
           + Добавить элемент
         </Button>
       </div>

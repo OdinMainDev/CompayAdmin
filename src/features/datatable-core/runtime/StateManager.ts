@@ -1,3 +1,4 @@
+import { ApiError } from "@/features/api-client/types/core";
 import { FilterReponse } from "@/features/api-client/types/datatable";
 import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
 import type { DatatableState } from "@/features/datatable-core/domain/entities/DatatableState";
@@ -64,6 +65,7 @@ export class StateManager<T> {
     this.state.total = total;
     this.state.filtered = filtered || total;
     this.state.pagination.totalPages = Math.ceil(this.state.filtered / this.state.pagination.pageSize);
+    this.setError(null);
   }
 
   setRemoteFilters(filters: FilterReponse[]) {
@@ -72,10 +74,12 @@ export class StateManager<T> {
 
   setLoading(loading: boolean): void {
     this.state.loading = loading;
+    this.notifyListeners();
   }
 
-  setError(error: Error | null): void {
+  setError(error: Error | ApiError | null): void {
     this.state.error = error;
+    this.notifyListeners();
   }
 
   setSort(sort: SortState[]): void {

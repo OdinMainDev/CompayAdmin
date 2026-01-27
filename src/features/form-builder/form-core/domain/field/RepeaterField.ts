@@ -1,15 +1,10 @@
 import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 import { BaseField } from './BaseField';
 import type { CompositeField } from './CompositeField';
-import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
 import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 
-export interface RepeaterItem {
-  id: string;
-  values: unknown[]; 
-}
 
-export type RepeaterFieldValue = RepeaterItem[];
+export type RepeaterFieldValue = Record<string, unknown>[];
 
 export interface RepeaterFieldExtra extends BaseFieldExtra {
   elements: AnyField[];
@@ -30,30 +25,14 @@ export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldEx
       this.extra.elements = children;
     }
   }
-  validate(): ValidationResult {
-    const errors: string[] = [];
-    const min = this.extra?.minItems ?? 0;
-    const max = this.extra?.maxItems ?? Infinity;
 
-    if (this.value.length < min) {
-      errors.push(`Минимум ${min} элементов`);
-    }
-    
-    if (this.value.length > max) {
-      errors.push(`Максимум ${max} элементов`);
-    }
-
-    const elements = this.getChildren();
-    this.value.forEach((item, index) => {
-      if (item.values.length !== elements.length) {
-        errors.push(`Элемент ${index + 1}: несоответствие количества полей`);
-      }
-    });
-
-    return {
-      isValid: errors.length === 0,
-      errors: errors.length > 0 ? errors : [],
-    };
+  static create(
+    this: typeof RepeaterField, 
+    name: string,
+    label: string,
+    extra?: RepeaterFieldExtra,
+  ) {
+    return new this(name, label, [], extra );
   }
 
 }

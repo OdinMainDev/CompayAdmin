@@ -1,23 +1,21 @@
 import { BaseField } from './BaseField';
-import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
 import type { NumberFieldExtra } from '@/features/form-builder/form-core/domain/extra/NumberFieldExtra';
 
 
 export class NumberField extends BaseField<number | null, NumberFieldExtra> {
   type = 'number';
 
-  validate(): ValidationResult {
-    let isValid = true;
-    const errors: string[] = [];
+  static defaultExtra: NumberFieldExtra = { ui: { col: 12 }};
 
-    if (this.extra?.required && (this.value === null || this.value === undefined || this.value === 0)) {
-      isValid = false;
-      errors.push('Field is required');
-    }
-    return { isValid, errors };
-  }
+  static create(
+    this: typeof NumberField, 
+    name: string,
+    label: string,
+    extra?: NumberFieldExtra,
+    value?: number
+  ) {
 
-  static fromJson(json: { key: string; label: string; defaultValue?: number | null; options?: NumberFieldExtra }) {
-    return new NumberField(json.key, json.label, json.defaultValue ?? null, json.options);
+    const finalExtra: NumberFieldExtra = { ...this.defaultExtra, ...extra };
+    return new this(name, label, value ?? null, finalExtra);
   }
 }

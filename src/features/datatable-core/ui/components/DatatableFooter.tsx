@@ -1,21 +1,23 @@
 import React from 'react';
-import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { Form, Pagination } from 'react-bootstrap';
+import { DatatableEngine } from '../../runtime/DatatableEngine';
+import { useDatatableState } from '../hooks/useDatatableState';
 
 interface DatatableFooterProps<T = unknown> {
-  state: DatatableState<T>;
+  engine: DatatableEngine<T>;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
 }
 
 export function DatatableFooter<T>({
-  state,
+  engine,
   onPageChange,
   onPageSizeChange
 }: DatatableFooterProps<T>): React.ReactElement | null {
+  const state = useDatatableState(engine); 
   const { page, pageSize, totalPages, pageSizeOptions } = state.pagination;
   const { filtered, total } = state;
   const { t } = useTranslation("panel");
@@ -76,14 +78,6 @@ export function DatatableFooter<T>({
         <Pagination.Item key={i} active={i === page} onClick={() => onPageChange(i)} className={`text-black`}>
           {i}
         </Pagination.Item>
-        // <button
-        //   key={i}
-        //   className={`btn btn-sm text-black ${i === page ? 'btn-warning' : 'btn-outline-warning'}`}
-        //   onClick={() => onPageChange(i)}
-        //   disabled={state.loading}
-        // >
-        //   {i}
-        // </button>
       );
     }
     
@@ -94,63 +88,68 @@ export function DatatableFooter<T>({
   const endRecord = Math.min(page * pageSize, filtered);
   
   return (
-    <div className="datatable-footer d-flex justify-content-between py-4 px-3">
-      <div className="footer-info">
-        {t("datatable.showing")} {startRecord} {t("datatable.to")} {endRecord} {t("datatable.of")} {filtered} {t("datatable.entries")}
-        {filtered !== total && ` (${t("datatable.total_entries")}: ${total})`}
-      </div>
-      
-      <div className="footer-pagination d-flex align-items-center gap-3">
-        <Form.Select
-          value={pageSize}
-          onChange={handlePageSizeChange}
-          disabled={state.loading}
-          style={{ width: '4vw' }}
-        >
-          {pageSizeOptions.map(option => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </Form.Select>
-
-        <Pagination className="mb-0">
-          <Pagination.First
-            onClick={handleFirstPage}
-            disabled={page === 1 || state.loading}
-            className='text-black'
-          >
-            <FontAwesomeIcon icon={faAnglesLeft} />
-          </Pagination.First>
-
-          <Pagination.Prev
-            onClick={handlePrevPage}
-            disabled={page === 1 || state.loading}
-            className='text-black'
-          >
-            <FontAwesomeIcon icon={faAngleLeft} />
-          </Pagination.Prev>
-
-          {renderPageNumbers()}
-
-          <Pagination.Next
-            onClick={handleNextPage}
-            disabled={page === totalPages || state.loading}
-            className='text-black'
-          >
-            <FontAwesomeIcon icon={faAngleRight} />
-          </Pagination.Next>
-
-          <Pagination.Last
-            onClick={handleLastPage}
-            disabled={page === totalPages || state.loading}
-            className='text-black'
-          >
-            <FontAwesomeIcon icon={faAnglesRight} />
-          </Pagination.Last>
-        </Pagination>
-      </div>
-
-    </div>
+    <>
+      {!state.error && (
+        <div className="datatable-footer d-flex justify-content-between py-4 px-3">
+          <div className="footer-info">
+            {t("datatable.showing")} {startRecord} {t("datatable.to")} {endRecord} {t("datatable.of")} {filtered} {t("datatable.entries")}
+            {filtered !== total && ` (${t("datatable.total_entries")}: ${total})`}
+          </div>
+          
+          <div className="footer-pagination d-flex align-items-center gap-3">
+            <Form.Select
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              disabled={state.loading}
+              style={{ width: '4vw' }}
+            >
+              {pageSizeOptions.map(option => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Form.Select>
+  
+            <Pagination className="mb-0">
+              <Pagination.First
+                onClick={handleFirstPage}
+                disabled={page === 1 || state.loading}
+                className='text-black'
+              >
+                <FontAwesomeIcon icon={faAnglesLeft} />
+              </Pagination.First>
+  
+              <Pagination.Prev
+                onClick={handlePrevPage}
+                disabled={page === 1 || state.loading}
+                className='text-black'
+              >
+                <FontAwesomeIcon icon={faAngleLeft} />
+              </Pagination.Prev>
+  
+              {renderPageNumbers()}
+  
+              <Pagination.Next
+                onClick={handleNextPage}
+                disabled={page === totalPages || state.loading}
+                className='text-black'
+              >
+                <FontAwesomeIcon icon={faAngleRight} />
+              </Pagination.Next>
+  
+              <Pagination.Last
+                onClick={handleLastPage}
+                disabled={page === totalPages || state.loading}
+                className='text-black'
+              >
+                <FontAwesomeIcon icon={faAnglesRight} />
+              </Pagination.Last>
+            </Pagination>
+          </div>
+  
+        </div>
+      )}
+    </>
   );
+  
 }

@@ -18,9 +18,9 @@ const Create = () => {
   const sections = useMemo<FormSection[]>(() => [
     {
       fields: [
-        TextField.create('name', t('fields.name'), { col: 8 }),
-        TextField.create('admin_username', t('fields.admin_username'), { col: 8 }),
-        PasswordField.create('admin_password', t('fields.admin_password'), { col: 8 }),
+        TextField.create('name', t('fields.name'), { ui: { col: 8 }}),
+        TextField.create('admin_username', t('fields.admin_username'), { ui: { col: 8 }}),
+        PasswordField.create('admin_password', t('fields.admin_password'), { ui: { col: 8 }}),
       ],
     },
   ], [t]);

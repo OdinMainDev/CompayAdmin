@@ -12,7 +12,6 @@ import { faExclamationTriangle, faInbox, faSort, faSortDown, faSortUp, IconDefin
 interface DatatableBodyProps<T> {
   config: DatatableConfig<T>;
   engine: DatatableEngine<T>;
-  state: DatatableState<T>;
   onSort: (column: string, direction: SortState['direction']) => void;
   onRowClick?: (row: T, event: React.MouseEvent) => void;
   onSelectionChange: (selectedIds: string[]) => void;
@@ -21,12 +20,13 @@ interface DatatableBodyProps<T> {
 export function DatatableBody<T>({
   config,
   engine,
-  state,
   onSort,
   onRowClick,
   onSelectionChange
 }: DatatableBodyProps<T>): React.ReactElement {
-  useDatatableState(engine); 
+  const state = useDatatableState(engine); 
+
+
   const visibleColumns = config.columns.filter((col: DatatableColumn<T>) => 
     state.columnState.visibility[col.id] !== false
   );
@@ -37,6 +37,7 @@ export function DatatableBody<T>({
   };
   
   const handleSort = (column: DatatableColumn<T>) => {
+    debugger;
     if (!column.sortable || state.loading) return;
     
     const currentSort = state.sort.find(s => s.column === column.id);
@@ -91,12 +92,22 @@ export function DatatableBody<T>({
     );
   }
   
-  if (state.error && state.data.length === 0) {
+  if (state.error) {
+    let errorMessage: string;
+  
+    if ('success' in state.error && state.error.success === false) {
+      errorMessage = state.error.message || state.error.error || 'Unknown API error';
+    } else if (state.error instanceof Error) {
+      errorMessage = state.error.message;
+    } else {
+      errorMessage = 'Unknown error';
+    }
+  
     return (
       <div className="datatable-error">
         <div className="alert alert-danger">
           <FontAwesomeIcon icon={faExclamationTriangle} className='me-2'/>
-          {state.error.message}
+          {errorMessage}
         </div>
         <button 
           className="btn btn-primary mt-2"

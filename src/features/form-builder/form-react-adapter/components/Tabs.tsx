@@ -3,6 +3,7 @@ import { type TabFieldValue } from '../../form-core/domain/field/TabField';
 import type { TabsFieldExtra } from '../../form-core/domain/extra/TabFieldExtra';
 import type { IField } from '../../form-core/domain/field/IField';
 import { UnifiedFieldRegistry } from '../UnifiedFieldRegistry';
+import React from 'react';
 
 export function TabsRenderer(
   field: IField<TabFieldValue, TabsFieldExtra>,
@@ -21,24 +22,31 @@ export function TabsRenderer(
       </Nav>
 
       <Tab.Content className="pt-3">
-        {tabs.map(tab => (
-          <Tab.Pane eventKey={tab.name} key={tab.name}>
-            <Row className="g-3">
-              {tab.elements.map(inner => (
-                <Col key={inner.name} md={inner.extra?.col ?? 6}>
-                  
-                  {UnifiedFieldRegistry.renderAny(inner, value => {
-                    onChange({
-                      ...(field.value ?? {}),
-                      [inner.name]: value,
-                    });
-                  })}
-                </Col>
-              ))}
-            </Row>
-          </Tab.Pane>
-        ))}
-      </Tab.Content>
+          {tabs.map(tab => (
+            <Tab.Pane eventKey={tab.name} key={tab.name}>
+              <Row className="g-3">
+                {tab.elements.map(inner => {
+                  const extra = inner.extra;
+                  return (
+                    <React.Fragment key={field.name}>
+                      {field.extra?.beforeField}
+                      <Col key={inner.name} md={extra?.ui?.col ?? 6}>
+                        {field.extra?.beforeField}
+                        {UnifiedFieldRegistry.renderAny(inner, value => {
+                          onChange({
+                            ...(field.value ?? {}),
+                            [inner.name]: value,
+                          });
+                        })}
+                      </Col>
+                    </React.Fragment>
+                  );
+                })}
+              </Row>
+            </Tab.Pane>
+          ))}
+        </Tab.Content>
+
     </Tab.Container>
   );
 }

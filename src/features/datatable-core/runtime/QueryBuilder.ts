@@ -44,7 +44,7 @@ export class QueryBuilder<T> {
   }
 
   applySort(column: string, direction: SortState['direction']): SortState[] {
-    if (!this.config.sorting?.enabled ?? true) {
+    if (this.config.sorting?.enabled === false) {
       return [];
     }
 
@@ -53,7 +53,7 @@ export class QueryBuilder<T> {
       return [];
     }
 
-    if (this.config.sorting.multiColumn ?? false) {
+    if (this.config.sorting?.multiColumn ?? false) {
       return this.updateMultiSort(column, direction);
     } else {
       return [{ column, direction }];

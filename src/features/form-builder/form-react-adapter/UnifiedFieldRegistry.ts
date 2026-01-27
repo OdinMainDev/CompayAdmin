@@ -8,7 +8,6 @@ export type FieldConstructor<
   E extends BaseFieldExtra = BaseFieldExtra
 > = {
   new (key: string, label: string, value: T, extra?: E): IField<T, E>;
-  create?: (name: string, label: string, extra?: E, value?: T) => IField<T, E>;
 };
 
 export type Renderer<

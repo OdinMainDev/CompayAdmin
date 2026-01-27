@@ -8,7 +8,8 @@ import { TextField } from '@/features/form-builder/form-core/domain/field/TextFi
 import { Currency } from '@/app/entities/currency';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiService } from '@/app/api/api/service';
-import { SelectField, SwitchField } from '@/features/form-builder/form-core/domain/field';
+import { MultiSelectField, NumberField, SelectField, SwitchField } from '@/features/form-builder/form-core/domain/field';
+import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 
 const Process = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,7 +18,7 @@ const Process = () => {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [model, setModel] = useState<Currency>();
   const [formData, setFormData] = useState<CurrencyProcessRequest>();
-  const [networks, setNetworks] = useState<string[]>();
+  const [networks, setNetworks] = useState<SelectOption[]>();
 
   useEffect(() => {
     const getNetworks = async () => {
@@ -28,7 +29,13 @@ const Process = () => {
       if (!response.success) {
         return;
       }
-      setNetworks(response.data);
+      
+      const options: SelectOption[] = response.data.map((network) => ({
+        value: network,
+        label: network,
+      }));
+
+      setNetworks(options);
     };
     void getNetworks();
   }, []);
@@ -58,14 +65,21 @@ const Process = () => {
   const sections = useMemo<FormSection[]>(() => [
     {
       fields: [
-        TextField.create('title', t('fields.name'), { col: 8 }),
-        TextField.create('code_alpha', t('fields.code_alpha'), { col: 4, }),
-        SelectField.create('network', t('fields.network'), { col: 6, }),
-        TextField.create('minor_units', t('fields.minor_units'), { col: 4, }),
-        SwitchField.create('is_coin', t('fields.is_coin'), { col: 'auto', }),
+        TextField.create('title', t('fields.name'), { ui: { col: 8 }}),
+        NumberField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4, } }),
+        SelectField.create(
+          'network', 
+          t('fields.network'), 
+          { 
+            options: networks,
+            ui: { col: 6, } 
+          }
+        ),
+        TextField.create('minor_units', t('fields.minor_units'), { ui: { col: 4, } }),
+        SwitchField.create('is_coin', t('fields.is_coin'), { ui: { col: 'auto' } }),
       ],
     },
-  ], [t]);
+  ], [t, networks]);
 
   const handleSubmit = async () => {
     // const dataToSend = { ...formData };

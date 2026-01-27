@@ -10,6 +10,7 @@ import type { SortState } from '@/features/datatable-core/domain/value-objects/S
 import { IFilter } from '../domain/entities/IFilterResponse';
 import { IRequestOptions } from '../domain/entities/DatatableRequest';
 import { ApiDatatableQuery } from '../domain/entities/DatatableQuery';
+import { ApiError } from '@/features/api-client/types/core';
 
 export class DatatableEngine<T> {
   private config: DatatableConfig<T>;
@@ -93,7 +94,10 @@ export class DatatableEngine<T> {
       );
 
       if (!('success' in response) || !response.success) {
-        throw response;
+        const error = response as ApiError;
+        this.stateManager.setError(error);
+        this.eventEmitter.emit('data-error', { error });
+        return;
       }
 
       this.stateManager.updateData(

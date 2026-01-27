@@ -9,7 +9,7 @@ import { ApiError } from '@/features/api-client/types/core';
 import { Merchant } from '@/app/entities/merchant';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TabField } from '@/features/form-builder/form-core/domain/field/TabField';
-import { MultiSelectField, SelectField, SwitchField } from '@/features/form-builder/form-core/domain/field';
+import { MultiSelectField, NumberField, SelectField, SwitchField } from '@/features/form-builder/form-core/domain/field';
 import { RepeaterField } from '@/features/form-builder/form-core/domain/field/RepeaterField';
 
 const Edit = () => {
@@ -49,24 +49,56 @@ const Edit = () => {
               name: 'main',
               label: t('tabs.general'),
               elements: [
-                TextField.create('name', t('fields.name'), { col: 8 }),
-                SwitchField.create('is_enabled', t('fields.is_enabled'), { col: 4, }),
+                TextField.create('name', t('fields.name'), { ui: { col: 8 }}),
+                SwitchField.create('is_enabled', t('fields.is_enabled'), { ui: { col: 4, }}),
               ],
             },
             {
               name: 'settings',
               label: t('tabs.settings'),
               elements: [
-                // MultiSelectField.create('blocked_countries', t('fields.blocked_countries'), { col: 6 }),
-                // MultiSelectField.create('allowed_countries', t('fields.allowed_countries'), { col: 6, }),
-                TextField.create('notification_telegram_chat_id', t('fields.notification_telegram_chat_id'), { col: 12 }),
+                MultiSelectField.create(
+                  'blocked_countries', 
+                  t('fields.blocked_countries'), 
+                  { 
+                    ui: { col: 6 },
+                    options: [
+                      { value: 'Russia', label: 'Russia' },
+                      { value: 'USA', label: 'USA' },
+                      { value: 'China', label: 'China' }
+                    ]
+                  }
+                ),
+                MultiSelectField.create(
+                  'allowed_countries', 
+                  t('fields.allowed_countries'), 
+                  { 
+                    ui: { col: 6, },
+                    options: [
+                      { value: 'Russia', label: 'Russia' },
+                      { value: 'USA', label: 'USA' },
+                      { value: 'China', label: 'China' }
+                    ]
+                  }
+                ),
+                TextField.create('notification_telegram_chat_id', t('fields.notification_telegram_chat_id'), { ui: { col: 12 }}),
               ],
             },
             {
               name: 'minimum_amounts',
               label: t('tabs.minimum_amounts'),
               elements: [
-                // RepeaterField.create()
+                RepeaterField.create(
+                  "min_repeater",
+                  t('tabs.minimum_amounts'),
+                  {
+                    ui: { col: 12 },
+                    elements: [
+                      NumberField.create('min_amount', t('fields.min_amount'), { ui: { col: 12 }}),
+                      NumberField.create('max_amount', t('fields.min_amount'), { ui: { col: 12 }}),
+                    ]
+                  }
+                )
               ],
             },
             {

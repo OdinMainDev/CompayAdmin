@@ -28,7 +28,17 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
   
 
       return (
-        <Form.Group controlId={`form-${field.name}`}>
+        <Form.Group 
+          controlId={`form-${field.name}`}
+          className={`
+            ${field.extra?.ui?.mb ?? 2 ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
+            ${field.extra?.ui?.mt ? `mt-${field.extra.ui.mt}` : ''}
+            ${field.extra?.ui?.mx ? `mx-${field.extra.ui.mx}` : ''}
+            ${field.extra?.ui?.my ? `my-${field.extra.ui.my}` : ''}
+            ${field.extra?.ui?.className ?? ''}
+          `}
+
+          >
           <Form.Label className="fw-semibold">{field.label}</Form.Label>
           {fieldRenderer(field, handleChange, error != null)}
           {field.extra?.helperText && <Form.Text className="text-muted">{field.extra.helperText}</Form.Text>}
@@ -60,7 +70,15 @@ export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
     };
 
     return (
-      <div>
+      <div
+          className={`
+            ${field.extra?.ui?.mb ?? 2 ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
+            ${field.extra?.ui?.mt ? `mt-${field.extra.ui.mt}` : ''}
+            ${field.extra?.ui?.mx ? `mx-${field.extra.ui.mx}` : ''}
+            ${field.extra?.ui?.my ? `my-${field.extra.ui.my}` : ''}
+            ${field.extra?.ui?.className ?? ''}
+          `}
+        >
         {fieldRenderer(field, handleChange, error != null)}
         {error && (
           <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>

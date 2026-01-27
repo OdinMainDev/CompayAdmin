@@ -1,5 +1,5 @@
 import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
-import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
+import type { BaseFieldExtra, FieldUI } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 
 export abstract class BaseField<
   T,
@@ -8,13 +8,26 @@ export abstract class BaseField<
   abstract type: string;
   public extra?: E
 
+  protected static defaultUi: FieldUI = {
+    mb: 2,
+  };
+
   constructor(
     public name: string,
     public label: string,
     public value: T,
     extra?: E 
   ) {
-    this.extra = extra;
+
+    const ui = {
+      ...BaseField.defaultUi,
+      ...extra?.ui,
+    };
+
+    this.extra = {
+      ...extra,
+      ui,
+    } as E;
   }
 
   validate(): ValidationResult {

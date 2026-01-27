@@ -4,10 +4,15 @@ import TwofaSidebar from "@/components/dashboard/sidebars/2fa";
 import PageHeader from "@/components/dashboard/common/PageHeader";
 
 export default function Profile() {
+
+
+
   return (
     <Row>
       <PageHeader title="Profile" />
+
       <TwofaSidebar />
+
       <Col>
         <Card border="light" className="bg-white shadow-sm mb-4">
               <Card.Body>

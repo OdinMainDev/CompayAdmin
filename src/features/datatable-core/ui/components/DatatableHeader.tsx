@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
-import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
 import { DatatableFilters } from './DatatableFilters';
 import { Dropdown, Form } from 'react-bootstrap';
 import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
 import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faEye, faEyeSlash, faTableColumns } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faEyeSlash, faTableColumns } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 
 interface DatatableHeaderProps<T> {
   config: DatatableConfig<T>;
-  state: DatatableState<T>;
   engine: DatatableEngine<T>;
   onAction: (actionId: string, formData?: Record<string, unknown>) => Promise<void>;
 }
 
 export function DatatableHeader<T>({
   config,
-  state,
   engine,
   onAction
 }: DatatableHeaderProps<T>): React.ReactElement {
-  useDatatableState(engine); 
+  const state = useDatatableState(engine); 
   const [showColumnDropdown, setShowColumnDropdown] = useState(false);
   const { t } = useTranslation("panel");
   

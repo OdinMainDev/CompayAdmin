@@ -4,7 +4,7 @@ import type { TextFieldExtra } from '@/features/form-builder/form-core/domain/ex
 export class TextField extends BaseField<string, TextFieldExtra> {
   type = 'text';
 
-  static defaultExtra: TextFieldExtra = { col: 12 };
+  static defaultExtra: TextFieldExtra = { ui: { col: 12 } };
 
   static create(
     this: typeof TextField, 
