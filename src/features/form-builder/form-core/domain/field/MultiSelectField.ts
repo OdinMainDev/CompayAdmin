@@ -5,11 +5,11 @@ export class MultiSelectField extends BaseField<string[], SelectFieldExtra> {
   type = 'multiselect';
 
   static create(
-    this: typeof MultiSelectField, 
+    this: typeof MultiSelectField,
     name: string,
     label: string,
     extra?: SelectFieldExtra,
-    value?: string[]
+    value?: string[],
   ) {
     return new this(name, label, value ?? [], extra);
   }

@@ -64,7 +64,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
     setShowMobile(false);
@@ -99,14 +99,48 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                 <div className="tgmenu__wrap">
                   <nav className="tgmenu__nav">
                     <div className="logo">
-                      <a href="#home"><img src={logo} alt="ComPay" /></a>
+                      <a href="#home">
+                        <img src={logo} alt="ComPay" />
+                      </a>
                     </div>
                     <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-lg-flex">
                       <ul className="navigation">
-                        <li><a href="#features" className="section-link" onClick={(e) => scrollToSection('features', e)}>{t("nav.features")}</a></li>
-                        <li><a href="#token" className="section-link" onClick={(e) => scrollToSection('token', e)}>{t("nav.integration")}</a></li>
-                        <li><a href="#work" className="section-link" onClick={(e) => scrollToSection('work', e)}>{t("nav.work")}</a></li>
-                        <li><a href="#roadmap" className="section-link" onClick={(e) => scrollToSection('roadmap', e)}>{t("nav.roadmap")}</a></li>
+                        <li>
+                          <a
+                            href="#features"
+                            className="section-link"
+                            onClick={(e) => scrollToSection('features', e)}
+                          >
+                            {t('nav.features')}
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#token"
+                            className="section-link"
+                            onClick={(e) => scrollToSection('token', e)}
+                          >
+                            {t('nav.integration')}
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#work"
+                            className="section-link"
+                            onClick={(e) => scrollToSection('work', e)}
+                          >
+                            {t('nav.work')}
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#roadmap"
+                            className="section-link"
+                            onClick={(e) => scrollToSection('roadmap', e)}
+                          >
+                            {t('nav.roadmap')}
+                          </a>
+                        </li>
                       </ul>
                     </div>
                     <div className="tgmenu__action">
@@ -125,7 +159,11 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                               <span className="caret" aria-hidden="true" />
                             </button>
                             {langOpen && (
-                              <ul className="lang-menu" role="listbox" aria-label={t('nav.language')}>
+                              <ul
+                                className="lang-menu"
+                                role="listbox"
+                                aria-label={t('nav.language')}
+                              >
                                 {I18N_LANGUAGES.map((lng) => (
                                   <li key={lng}>
                                     <button
@@ -194,15 +232,37 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               </svg>
             </button>
             <div className="nav-logo">
-              <a href="#home"><img src={logo} alt="ComPay" /></a>
+              <a href="#home">
+                <img src={logo} alt="ComPay" />
+              </a>
             </div>
             <div className="tgmobile__menu-outer">
               <ul className="navigation">
-                <li><a href="#home" onClick={(e) => scrollToSection('home', e)}>{t("nav.home")}</a></li>
-                <li><a href="#features" onClick={(e) => scrollToSection('features', e)}>{t("nav.features")}</a></li>
-                <li><a href="#token" onClick={(e) => scrollToSection('token', e)}>{t("nav.integration")}</a></li>
-                <li><a href="#work" onClick={(e) => scrollToSection('work', e)}>{t("nav.work")}</a></li>
-                <li><a href="#roadmap" onClick={(e) => scrollToSection('roadmap', e)}>{t("nav.roadmap")}</a></li>
+                <li>
+                  <a href="#home" onClick={(e) => scrollToSection('home', e)}>
+                    {t('nav.home')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#features" onClick={(e) => scrollToSection('features', e)}>
+                    {t('nav.features')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#token" onClick={(e) => scrollToSection('token', e)}>
+                    {t('nav.integration')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#work" onClick={(e) => scrollToSection('work', e)}>
+                    {t('nav.work')}
+                  </a>
+                </li>
+                <li>
+                  <a href="#roadmap" onClick={(e) => scrollToSection('roadmap', e)}>
+                    {t('nav.roadmap')}
+                  </a>
+                </li>
               </ul>
             </div>
             <div className="tgmobile__lang">

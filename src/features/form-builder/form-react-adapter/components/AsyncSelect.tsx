@@ -19,31 +19,25 @@ export function AsyncSelect<T>({
   onChange: (value: number | null) => void;
 }) {
   const [selectField, setSelectField] = useState(() =>
-    SelectField.create(
-      field.name,
-      field.label,
-      {},
-      field.value?.toString() ?? '',
-    )
+    SelectField.create(field.name, field.label, {}, field.value?.toString() ?? ''),
   );
   const inputRef = useRef('');
   const debounceRef = useRef<number | undefined>(undefined);
   const load = (query: string) => {
-    DynamicFilterCache.get(`${cacheKey}:${query}`, () => fetcher(query))
-      .then((data) => {
-        setSelectField((prev) =>
-          SelectField.create(
-            prev.name,
-            prev.label,
-            {
-              ...(prev.extra ?? {}),
-              options: data.map(mapOption),
-              onInputChange
-            },
-            prev.value ?? '',
-          )
-        );
-      });
+    DynamicFilterCache.get(`${cacheKey}:${query}`, () => fetcher(query)).then((data) => {
+      setSelectField((prev) =>
+        SelectField.create(
+          prev.name,
+          prev.label,
+          {
+            ...(prev.extra ?? {}),
+            options: data.map(mapOption),
+            onInputChange,
+          },
+          prev.value ?? '',
+        ),
+      );
+    });
   };
 
   const onInputChange = (value: string, actionMeta: { action: string }) => {
@@ -61,29 +55,24 @@ export function AsyncSelect<T>({
 
   useEffect(() => {
     const nextValue = field.value?.toString() ?? '';
-  
-    setSelectField(prev => {
+
+    setSelectField((prev) => {
       if (prev.value === nextValue) {
         return prev;
       }
-  
-      return SelectField.create(
-        prev.name,
-        prev.label,
-        prev.extra ?? { options: [] },
-        nextValue,
-      );
+
+      return SelectField.create(prev.name, prev.label, prev.extra ?? { options: [] }, nextValue);
     });
   }, [field.value]);
-  
 
   useEffect(() => {
     const nextValue = field.value?.toString() ?? '';
-     if (nextValue ) {
-      DynamicFilterCache.get(`${cacheKey}:value:${nextValue}`, async () => [''])
-        .then(([lastQuery]) => {
+    if (nextValue) {
+      DynamicFilterCache.get(`${cacheKey}:value:${nextValue}`, async () => ['']).then(
+        ([lastQuery]) => {
           load(lastQuery);
-        });
+        },
+      );
     }
   }, [field.value]);
 
@@ -95,8 +84,5 @@ export function AsyncSelect<T>({
     }
   };
 
-
-  return UnifiedFieldRegistry.renderAny(selectField, (v) =>
-    onChangeHandler(v)
-  );
+  return UnifiedFieldRegistry.renderAny(selectField, (v) => onChangeHandler(v));
 }

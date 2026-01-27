@@ -9,12 +9,16 @@ export class OptionalSwitchField extends BaseField<boolean | null, BaseFieldExtr
     const isValid = true;
     return {
       isValid,
-      errors: []
+      errors: [],
     };
   }
 
-  static fromJson(json: { key: string; label: string; defaultValue?: boolean | null; options?: BaseFieldExtra }) {
+  static fromJson(json: {
+    key: string;
+    label: string;
+    defaultValue?: boolean | null;
+    options?: BaseFieldExtra;
+  }) {
     return new OptionalSwitchField(json.key, json.label, json.defaultValue ?? null, json.options);
   }
 }
-

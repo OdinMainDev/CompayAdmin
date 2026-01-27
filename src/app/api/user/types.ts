@@ -1,5 +1,5 @@
-import { User } from "@/app/entities/user";
-import { FilterReponse } from "@/features/api-client/types/datatable";
+import { User } from '@/app/entities/user';
+import { FilterReponse } from '@/features/api-client/types/datatable';
 
 export interface UserCreateRequest {
   username: string;

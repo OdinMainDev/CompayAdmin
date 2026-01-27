@@ -6,7 +6,14 @@ import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatab
 import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationTriangle, faInbox, faSort, faSortDown, faSortUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExclamationTriangle,
+  faInbox,
+  faSort,
+  faSortDown,
+  faSortUp,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface DatatableBodyProps<T> {
   config: DatatableConfig<T>;
@@ -21,48 +28,46 @@ export function DatatableBody<T>({
   engine,
   onSort,
   onRowClick,
-  onSelectionChange
+  onSelectionChange,
 }: DatatableBodyProps<T>): React.ReactElement {
-  const state = useDatatableState(engine); 
+  const state = useDatatableState(engine);
 
-
-  const visibleColumns = config.columns.filter((col: DatatableColumn<T>) => 
-    state.columnState.visibility[col.id] !== false
+  const visibleColumns = config.columns.filter(
+    (col: DatatableColumn<T>) => state.columnState.visibility[col.id] !== false,
   );
   const { t } = useTranslation('panel');
-  
+
   const getRowId = (row: T): string => {
     return (row as { id: string }).id || String((row as { _id: string })._id);
   };
-  
+
   const handleSort = (column: DatatableColumn<T>) => {
-    debugger;
     if (!column.sortable || state.loading) return;
-    
-    const currentSort = state.sort.find(s => s.column === column.id);
+
+    const currentSort = state.sort.find((s) => s.column === column.id);
     const newDirection = currentSort?.direction === 'asc' ? 'desc' : 'asc';
-    
+
     onSort(column.id, newDirection);
   };
-  
+
   const handleRowClick = (row: T, event: React.MouseEvent) => {
     if (onRowClick) {
       onRowClick(row, event);
     }
   };
-  
+
   const handleSelectAll = () => {
     if (state.selection.size === state.data.length) {
       onSelectionChange([]);
     } else {
-      const allIds = state.data.map(row => getRowId(row));
+      const allIds = state.data.map((row) => getRowId(row));
       onSelectionChange(allIds);
     }
   };
-  
+
   const handleSelectRow = (rowId: string) => {
     const newSelection = new Set(state.selection);
-    
+
     if (newSelection.has(rowId)) {
       newSelection.delete(rowId);
     } else {
@@ -71,16 +76,16 @@ export function DatatableBody<T>({
       }
       newSelection.add(rowId);
     }
-    
+
     onSelectionChange(Array.from(newSelection));
   };
-  
+
   const getSortIcon = (columnId: string): IconDefinition => {
-    const sort = state.sort.find(s => s.column === columnId);
+    const sort = state.sort.find((s) => s.column === columnId);
     if (!sort) return faSort;
     return sort.direction === 'asc' ? faSortUp : faSortDown;
   };
-  
+
   if (state.loading && state.data.length === 0) {
     return (
       <div className="datatable-loading">
@@ -90,10 +95,10 @@ export function DatatableBody<T>({
       </div>
     );
   }
-  
+
   if (state.error) {
     let errorMessage: string;
-  
+
     if ('success' in state.error && state.error.success === false) {
       errorMessage = state.error.message || state.error.error || 'Unknown API error';
     } else if (state.error instanceof Error) {
@@ -101,43 +106,41 @@ export function DatatableBody<T>({
     } else {
       errorMessage = 'Unknown error';
     }
-  
+
     return (
       <div className="datatable-error">
         <div className="alert alert-danger">
-          <FontAwesomeIcon icon={faExclamationTriangle} className='me-2'/>
+          <FontAwesomeIcon icon={faExclamationTriangle} className="me-2" />
           {errorMessage}
         </div>
-        <button 
-          className="btn btn-primary mt-2"
-          onClick={() => window.location.reload()}
-        >
-          {t("datatable.retry_request")}
+        <button className="btn btn-primary mt-2" onClick={() => window.location.reload()}>
+          {t('datatable.retry_request')}
         </button>
       </div>
     );
   }
-  
+
   if (state.data.length === 0) {
     return (
       <div className="datatable-empty">
         <div className="empty-state">
-          <FontAwesomeIcon size="3x" icon={faInbox} className='text-muted mb-3'/>
-          <h5>{t("datatable.no_data_available")}</h5>
-          <p className="text-muted">{t("datatable.records_null")}</p>
+          <FontAwesomeIcon size="3x" icon={faInbox} className="text-muted mb-3" />
+          <h5>{t('datatable.no_data_available')}</h5>
+          <p className="text-muted">{t('datatable.records_null')}</p>
         </div>
       </div>
     );
   }
-  
+
   return (
     <div className="datatable-body">
       <div className="table-responsive">
-        <table className={`table table-${config.ui?.density || 'normal'} 
+        <table
+          className={`table table-${config.ui?.density || 'normal'} 
           ${config.ui?.striped ? 'table-striped' : ''} 
           ${config.ui?.bordered ? 'table-bordered' : ''} 
-          ${config.ui?.hoverable ? 'table-hover' : ''}`}>
-          
+          ${config.ui?.hoverable ? 'table-hover' : ''}`}
+        >
           <thead className={config.ui?.stickyHeader ? 'sticky-top' : ''}>
             <tr>
               {config.selection?.enabled && config.selection.mode === 'checkbox' && (
@@ -153,8 +156,8 @@ export function DatatableBody<T>({
                   </div>
                 </th>
               )}
-              
-              {visibleColumns.map(column => (
+
+              {visibleColumns.map((column) => (
                 <th
                   key={column.id}
                   className={`
@@ -168,39 +171,32 @@ export function DatatableBody<T>({
                     minWidth: column.minWidth,
                     maxWidth: column.maxWidth,
                     ...(column.sticky === 'left' ? { position: 'sticky', left: 0 } : {}),
-                    ...(column.sticky === 'right' ? { position: 'sticky', right: 0 } : {})
+                    ...(column.sticky === 'right' ? { position: 'sticky', right: 0 } : {}),
                   }}
                   onClick={() => column.sortable && handleSort(column)}
                 >
                   <div className="d-flex align-items-center">
-                    {column.headerRender 
-                      ? column.headerRender(column)
-                      : column.label
-                    }
-                    
+                    {column.headerRender ? column.headerRender(column) : column.label}
+
                     {column.sortable && (
-                      <FontAwesomeIcon icon={getSortIcon(column.id)} className='ms-2'/>
+                      <FontAwesomeIcon icon={getSortIcon(column.id)} className="ms-2" />
                     )}
-                    
-                    {column.resizable && (
-                      <div className="resize-handle"></div>
-                    )}
+
+                    {column.resizable && <div className="resize-handle"></div>}
                   </div>
-                </th>          
-              ))}
-               {config.rowActions && config.rowActions.length > 0 && (
-                <th className="text-center">
-                  {t('datatable.actions')}
                 </th>
+              ))}
+              {config.rowActions && config.rowActions.length > 0 && (
+                <th className="text-center">{t('datatable.actions')}</th>
               )}
             </tr>
           </thead>
-          
+
           <tbody>
             {state.data.map((row, index) => {
               const rowId = getRowId(row);
               const isSelected = state.selection.has(rowId);
-              
+
               return (
                 <tr
                   key={rowId}
@@ -222,13 +218,11 @@ export function DatatableBody<T>({
                       </div>
                     </td>
                   )}
-                  
-                  {visibleColumns.map(column => {
+
+                  {visibleColumns.map((column) => {
                     const rawValue = row[column.field as keyof T];
-                    const cellValue = column.formatter 
-                      ? column.formatter(rawValue, row)
-                      : rawValue;
-                    
+                    const cellValue = column.formatter ? column.formatter(rawValue, row) : rawValue;
+
                     return (
                       <td
                         key={`${rowId}-${column.id}`}
@@ -238,40 +232,39 @@ export function DatatableBody<T>({
                         `}
                         style={{
                           ...(column.sticky === 'left' ? { position: 'sticky', left: 0 } : {}),
-                          ...(column.sticky === 'right' ? { position: 'sticky', right: 0 } : {})
+                          ...(column.sticky === 'right' ? { position: 'sticky', right: 0 } : {}),
                         }}
                       >
-                        {column.render 
+                        {column.render
                           ? column.render(row, cellValue, index)
-                          : String(cellValue ?? '')
-                        }
+                          : String(cellValue ?? '')}
                       </td>
                     );
                   })}
-                  
+
                   {config.rowActions && config.rowActions.length > 0 && (
                     <td>
-                        <div className="row-actions">
+                      <div className="row-actions">
                         {config.rowActions
-                            .filter(action => action.visible !== false)
-                            .map(action => (
+                          .filter((action) => action.visible !== false)
+                          .map((action) => (
                             <button
-                                key={action.id}
-                                className={`btn btn-${action.variant || 'secondary'} btn-sm ms-1`}
-                                onClick={(e) => {
+                              key={action.id}
+                              className={`btn btn-${action.variant || 'secondary'} btn-sm ms-1`}
+                              onClick={(e) => {
                                 e.stopPropagation();
                                 action.handler({
-                                    currentRow: row,
+                                  currentRow: row,
                                 });
-                                }}
-                                title={action.label}
+                              }}
+                              title={action.label}
                             >
-                                {action.icon || action.label}
+                              {action.icon || action.label}
                             </button>
-                            ))}
-                        </div>
+                          ))}
+                      </div>
                     </td>
-                    )}
+                  )}
                 </tr>
               );
             })}

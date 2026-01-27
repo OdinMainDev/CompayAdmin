@@ -40,45 +40,46 @@ const Edit = () => {
     void getData();
   }, [id]);
 
-  const sections = useMemo<FormSection[]>(() => [
-    {
-      fields: [
-        TabField.create('users_tab', {
-          tabs: [
-            {
-              name: 'main',
-              label: t('tabs.personal_data'),
-              elements: [
-                TextField.create('title', t('fields.title'), { ui: { col: 8 }}),
-                TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4, }}),
-                SelectField.create('network', t('fields.network'), { ui: { col: 4, }}),
-                TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4, }}),
-              ],
-            },
-          ],
-        }),
-      ],
-    },
-  ], [t]);
+  const sections = useMemo<FormSection[]>(
+    () => [
+      {
+        fields: [
+          TabField.create('users_tab', {
+            tabs: [
+              {
+                name: 'main',
+                label: t('tabs.personal_data'),
+                elements: [
+                  TextField.create('title', t('fields.title'), { ui: { col: 8 } }),
+                  TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
+                  SelectField.create('network', t('fields.network'), { ui: { col: 4 } }),
+                  TextField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
+                ],
+              },
+            ],
+          }),
+        ],
+      },
+    ],
+    [t],
+  );
 
   const handleSubmit = async () => {
     const dataToSend = { ...formData };
     const response = await UserService.update(dataToSend);
-   
+
     if ('success' in response && response.success) {
-        setModel(response.data)
-    }
-    else {
+      setModel(response.data);
+    } else {
       const errorResponse = response as ApiError;
-      if (errorResponse.errors)
-        setFieldErrors(errorResponse.errors);
+      if (errorResponse.errors) setFieldErrors(errorResponse.errors);
     }
-  }
+  };
 
   return (
     <>
-      <UnifiedFormBuilder 
-        title={t('users_page.edit') + ": " + model?.username}
+      <UnifiedFormBuilder
+        title={t('users_page.edit') + ': ' + model?.username}
         fields={sections}
         setFormData={setFormData}
         formData={formData}

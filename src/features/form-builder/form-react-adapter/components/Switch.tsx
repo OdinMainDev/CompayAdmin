@@ -4,7 +4,7 @@ import type { BaseFieldExtra } from '../../form-core/domain/extra/BaseFieldExtra
 
 export const SwitchRenderer = (
   field: IField<boolean, BaseFieldExtra>,
-  onChange: (value: boolean) => void
+  onChange: (value: boolean) => void,
 ) => {
   return (
     <div className="mt-3 d-flex align-items-center h-100">
@@ -15,7 +15,7 @@ export const SwitchRenderer = (
           label={field.label}
           checked={!!field.value}
           onChange={(e) => onChange(e.target.checked)}
-          disabled={field.extra?.disabled} 
+          disabled={field.extra?.disabled}
         />
       </div>
     </div>

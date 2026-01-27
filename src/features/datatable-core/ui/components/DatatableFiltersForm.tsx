@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { buildDefaultValues } from "@/features/form-builder/form-core/domain/utils/default";
-import UnifiedFormBuilder from "@/features/form-builder/form-react-adapter/UnifiedFormBuilder";
-import type { DatatableEngine } from "@/features/datatable-core/runtime/DatatableEngine";
-import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
-import { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
-import { useTranslation } from "react-i18next";
+import { useState, useEffect } from 'react';
+import { buildDefaultValues } from '@/features/form-builder/form-core/domain/utils/default';
+import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/UnifiedFormBuilder';
+import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
+import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
+import { useTranslation } from 'react-i18next';
 
 interface DatatableFiltersFormProps<T> {
   engine?: DatatableEngine<T>;
@@ -17,35 +17,35 @@ export function DatatableFiltersForm<T>({
   engine,
   filterForm,
   onFilterChange,
-  className = ''
+  className = '',
 }: DatatableFiltersFormProps<T>): React.ReactElement | null {
-  const [formData, setFormData] = useState<Record<string, unknown>>(() => 
-    filterForm ? buildDefaultValues(filterForm) : {}
+  const [formData, setFormData] = useState<Record<string, unknown>>(() =>
+    filterForm ? buildDefaultValues(filterForm) : {},
   );
-  const { t } = useTranslation("panel")
+  const { t } = useTranslation('panel');
 
   const convertFormToFilters = (data: Record<string, unknown>): FilterCondition[] => {
     const filters: FilterCondition[] = [];
-    
+
     Object.entries(data).forEach(([field, value]) => {
       if (value !== undefined && value !== null && value !== '') {
         filters.push({
           field,
-          value
+          value,
         });
       }
     });
-    
+
     return filters;
   };
 
   const convertFiltersToFormData = (filters: FilterCondition[]): Record<string, unknown> => {
     const formData: Record<string, unknown> = {};
-    
-    filters.forEach(filter => {
+
+    filters.forEach((filter) => {
       formData[filter.field] = filter.value;
     });
-    
+
     return formData;
   };
 
@@ -54,9 +54,9 @@ export function DatatableFiltersForm<T>({
       const filters = engine.getState().filters;
       if (filters.length > 0) {
         const newFormData = convertFiltersToFormData(filters);
-        setFormData(_ => ({
+        setFormData((_) => ({
           ...buildDefaultValues(filterForm || []),
-          ...newFormData
+          ...newFormData,
         }));
       } else {
         setFormData(buildDefaultValues(filterForm || []));
@@ -81,7 +81,7 @@ export function DatatableFiltersForm<T>({
         resetAble={true}
         setFormData={setFormData}
         handleSubmit={handleSubmit}
-        submitLabel={t("datatable.filters_submit")}
+        submitLabel={t('datatable.filters_submit')}
       />
     </div>
   );

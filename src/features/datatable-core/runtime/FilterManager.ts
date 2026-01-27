@@ -1,13 +1,13 @@
-import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
-import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
 
 export class FilterManager<T> {
   constructor(private config: DatatableConfig<T>) {}
 
   normalize(filters: FilterCondition[]): FilterCondition[] {
     return filters
-      .filter(filter => this.isValidFilter(filter))
-      .map(filter => this.normalizeFilter(filter));
+      .filter((filter) => this.isValidFilter(filter))
+      .map((filter) => this.normalizeFilter(filter));
   }
 
   private isValidFilter(filter: FilterCondition): boolean {
@@ -15,7 +15,7 @@ export class FilterManager<T> {
       return false;
     }
 
-    const column = this.config.columns.find(col => col.id === filter.field);
+    const column = this.config.columns.find((col) => col.id === filter.field);
     if (!column || !(column.filterable ?? true)) {
       return false;
     }
@@ -24,13 +24,13 @@ export class FilterManager<T> {
   }
 
   private normalizeFilter(filter: FilterCondition): FilterCondition {
-    const column = this.config.columns.find(col => col.id === filter.field);
+    const column = this.config.columns.find((col) => col.id === filter.field);
     if (!column) {
       return filter;
     }
 
     let normalizedValue = filter.value;
-    
+
     if (column.filter?.type === 'number' && typeof filter.value === 'string') {
       normalizedValue = parseFloat(filter.value);
     }
@@ -47,10 +47,10 @@ export class FilterManager<T> {
 
   mergeFilters(existing: FilterCondition[], newFilters: FilterCondition[]): FilterCondition[] {
     const merged = [...existing];
-    
-    newFilters.forEach(newFilter => {
-      const existingIndex = merged.findIndex(f => f.field === newFilter.field);
-      
+
+    newFilters.forEach((newFilter) => {
+      const existingIndex = merged.findIndex((f) => f.field === newFilter.field);
+
       if (existingIndex >= 0) {
         merged[existingIndex] = newFilter;
       } else {
@@ -58,8 +58,8 @@ export class FilterManager<T> {
       }
     });
 
-    return merged.filter(filter => 
-      filter.value !== undefined && filter.value !== null && filter.value !== ''
+    return merged.filter(
+      (filter) => filter.value !== undefined && filter.value !== null && filter.value !== '',
     );
   }
 }

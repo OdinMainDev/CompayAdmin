@@ -5,7 +5,7 @@ import QRCode from 'react-qr-code';
 
 const TwofaSidebar = () => {
   const [has2Fa, setHas2Fa] = useState<boolean>();
-  const [qrUrl, setQrUrl] = useState<string>("asdasd");
+  const [qrUrl, setQrUrl] = useState<string>('asdasd');
   const [showModal, setShowModal] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [token, setToken] = useState('');
@@ -34,20 +34,20 @@ const TwofaSidebar = () => {
             <Card className="h-100">
               <Card.Body className="">
                 <h5 className="mb-5">{t('2fa_title')}</h5>
-                  <>
-                    <Alert variant="danger" className="mt-5">
-                      {t('2fa_text')}
-                    </Alert>
-                    {qrUrl && qrUrl.length > 0 && (
-                      <Button variant="primary" onClick={handleOpen}>
-                        {t('2fa_enable')}
-                      </Button>
-                    )}
-                  </>
-               
-                  <Alert variant="success" className="mt-5">
-                    {t('2fa_already_enabled')}
+                <>
+                  <Alert variant="danger" className="mt-5">
+                    {t('2fa_text')}
                   </Alert>
+                  {qrUrl && qrUrl.length > 0 && (
+                    <Button variant="primary" onClick={handleOpen}>
+                      {t('2fa_enable')}
+                    </Button>
+                  )}
+                </>
+
+                <Alert variant="success" className="mt-5">
+                  {t('2fa_already_enabled')}
+                </Alert>
               </Card.Body>
             </Card>
           </Col>

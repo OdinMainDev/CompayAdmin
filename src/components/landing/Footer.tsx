@@ -39,11 +39,7 @@ const Footer: React.FC = () => {
                 <div className="team__social-wrap">
                   <ul className="list-wrap d-flex gap-3 justify-content-center">
                     {socialLinks.map((link, index) => (
-                      <motion.li
-                        key={index}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
+                      <motion.li key={index} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                         <a href={link.url}>
                           <div className="shape">
                             <img src={iconsBg} alt="shape" />

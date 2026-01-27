@@ -36,7 +36,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
                 className="sub-title"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={inView ? "visible" : "hidden"}
+                animate={inView ? 'visible' : 'hidden'}
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {t('hero.badge')}
@@ -45,7 +45,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
                 className="title"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={inView ? "visible" : "hidden"}
+                animate={inView ? 'visible' : 'hidden'}
                 transition={{ duration: 1, delay: 0.4 }}
               >
                 {t('hero.title')}
@@ -53,7 +53,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
               <motion.p
                 variants={fadeInUp}
                 initial="hidden"
-                animate={inView ? "visible" : "hidden"}
+                animate={inView ? 'visible' : 'hidden'}
                 transition={{ duration: 1, delay: 0.6 }}
               >
                 {t('hero.subtitle')}
@@ -64,7 +64,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
                 className="tg-btn tg-btn-two"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={inView ? "visible" : "hidden"}
+                animate={inView ? 'visible' : 'hidden'}
                 transition={{ duration: 1, delay: 0.8 }}
                 onClick={onOpenContact}
               >
@@ -83,7 +83,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
           transition={{
             duration: 3,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
         />
         <motion.img
@@ -93,7 +93,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
           transition={{
             duration: 3,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
         />
         <motion.img
@@ -103,7 +103,7 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "linear"
+            ease: 'linear',
           }}
         />
         <img src={heroBgShape} alt="shape" />

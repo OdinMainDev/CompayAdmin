@@ -1,9 +1,7 @@
-import type { FormState } from "./FormState";
+import type { FormState } from './FormState';
 
 export class SubmitFormUseCase {
-  constructor(
-    private readonly onSubmit: (values: Record<string, unknown>) => Promise<void>
-  ) {}
+  constructor(private readonly onSubmit: (values: Record<string, unknown>) => Promise<void>) {}
 
   async execute(state: FormState): Promise<FormState> {
     if (!state.isValid) {
@@ -11,10 +9,7 @@ export class SubmitFormUseCase {
     }
 
     const values = Object.fromEntries(
-      Object.entries(state.fields).map(([key, field]) => [
-        key,
-        field.value,
-      ])
+      Object.entries(state.fields).map(([key, field]) => [key, field.value]),
     );
 
     await this.onSubmit(values);

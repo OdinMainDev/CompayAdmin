@@ -17,13 +17,13 @@ type FilterMode = 'inline' | 'modal';
 
 export function DatatableFilters<T>({
   config,
-  engine
+  engine,
 }: DatatableFiltersProps<T>): React.ReactElement | null {
   const [showModal, setShowModal] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>(
-    () => engine.getState().filters ?? []
+    () => engine.getState().filters ?? [],
   );
-  const { t } = useTranslation("panel");
+  const { t } = useTranslation('panel');
 
   const filterMode: FilterMode = (config.filtering?.mode as FilterMode) || 'modal';
 
@@ -86,19 +86,19 @@ export function DatatableFilters<T>({
               'inline-flex items-center gap-2',
               'rounded-md',
               'focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2',
-              'transition'
+              'transition',
             ].join(' ')}
             onClick={() => setShowModal(true)}
           >
-            <FontAwesomeIcon icon={faFilter} className='me-2'/>
-            <span>{t("datatable.filters")}</span>
+            <FontAwesomeIcon icon={faFilter} className="me-2" />
+            <span>{t('datatable.filters')}</span>
 
             {count > 0 && (
               <span
                 className={[
                   'ml-1 inline-flex items-center justify-center',
                   'rounded-full bg-blue-600 px-1.5 py-0.5',
-                  'text-[11px] font-semibold leading-none text-white'
+                  'text-[11px] font-semibold leading-none text-white',
                 ].join(' ')}
                 aria-label={`Selected filters: ${count}`}
               >
@@ -110,10 +110,7 @@ export function DatatableFilters<T>({
 
         {showModal && (
           <div
-            className={[
-              'modal fade show',
-              'fixed inset-0 z-50'
-            ].join(' ')}
+            className={['modal fade show', 'fixed inset-0 z-50'].join(' ')}
             style={{ display: 'block' }}
             role="dialog"
             aria-modal="true"
@@ -122,15 +119,15 @@ export function DatatableFilters<T>({
               className={[
                 'modal-dialog modal-md',
                 'mx-auto my-6 sm:my-10',
-                'w-[calc(100%-1.5rem)] sm:w-auto'
+                'w-[calc(100%-1.5rem)] sm:w-auto',
               ].join(' ')}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-content rounded-lg border border-slate-200 shadow-xl">
                 <div className="modal-header">
                   <h5 className="modal-title inline-flex items-center gap-2">
-                    <FontAwesomeIcon icon={faFilter} className='me-2'/>
-                    <span>{t("datatable.filters")}</span>
+                    <FontAwesomeIcon icon={faFilter} className="me-2" />
+                    <span>{t('datatable.filters')}</span>
 
                     {count > 0 && (
                       <span className="ml-1 inline-flex items-center justify-center rounded-full bg-blue-600 px-2 py-0.5 text-[11px] font-semibold leading-none text-white">
@@ -143,7 +140,7 @@ export function DatatableFilters<T>({
                     type="button"
                     className={[
                       'btn-close',
-                      'focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2 rounded'
+                      'focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2 rounded',
                     ].join(' ')}
                     onClick={() => setShowModal(false)}
                     aria-label="Close"

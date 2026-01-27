@@ -1,4 +1,3 @@
-
 import { FilterReponse } from '@/features/api-client/types/datatable';
 import type { GetListFiltersResponse } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
@@ -11,35 +10,33 @@ import { IRequestOptions } from '@/features/datatable-core/domain/entities/Datat
 
 export class NotificationService {
   private static readonly ENDPOINTS = {
-    LIST: "/api/panel/notifications/list",
-    FILTERS: "/api/panel/notifications/list/filters",
-    GET_UNREAD: "/api/panel/notifications/get/unread",
-    READ: "/api/panel/notifications/read",
-    READ_ALL: "/api/panel/notifications/read/all",
+    LIST: '/api/panel/notifications/list',
+    FILTERS: '/api/panel/notifications/list/filters',
+    GET_UNREAD: '/api/panel/notifications/get/unread',
+    READ: '/api/panel/notifications/read',
+    READ_ALL: '/api/panel/notifications/read/all',
   } as const;
 
   static async getList(
     params: IRequestOptions = {},
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<IResponseList<Notification> | ApiError> {
     try {
-      return await apiClient.post<IResponseList<Notification>["data"]>(
+      return await apiClient.post<IResponseList<Notification>['data']>(
         `${NotificationService.ENDPOINTS.LIST}`,
         params,
         {
           ...options,
           isAuth: true,
           hasToast: options?.hasToast ?? false,
-        }
+        },
       );
     } catch (error) {
-      return makeError("Failed to fetch notifications", error);
+      return makeError('Failed to fetch notifications', error);
     }
   }
 
-  static async getFilters(
-    options?: RequestOptions
-  ): Promise<GetListFiltersResponse | ApiError> {
+  static async getFilters(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${NotificationService.ENDPOINTS.FILTERS}`, {
         ...options,
@@ -47,13 +44,11 @@ export class NotificationService {
         hasToast: options?.hasToast ?? false,
       });
     } catch (error) {
-      return makeError("Failed to fetch filters", error);
+      return makeError('Failed to fetch filters', error);
     }
   }
 
-  static async getUnread(
-    options?: RequestOptions
-  ): Promise<GetListFiltersResponse | ApiError> {
+  static async getUnread(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${NotificationService.ENDPOINTS.GET_UNREAD}`, {
         ...options,
@@ -61,13 +56,13 @@ export class NotificationService {
         hasToast: options?.hasToast ?? false,
       });
     } catch (error) {
-      return makeError("Failed to fetch unread notifications", error);
+      return makeError('Failed to fetch unread notifications', error);
     }
   }
 
   static async read(
     id: number,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${NotificationService.ENDPOINTS.READ}/${id}`, {
@@ -76,13 +71,11 @@ export class NotificationService {
         hasToast: options?.hasToast ?? false,
       });
     } catch (error) {
-      return makeError("Failed to read notification", error);
+      return makeError('Failed to read notification', error);
     }
   }
 
-  static async readAll(
-    options?: RequestOptions
-  ): Promise<GetListFiltersResponse | ApiError> {
+  static async readAll(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${NotificationService.ENDPOINTS.READ_ALL}`, {
         ...options,
@@ -90,7 +83,7 @@ export class NotificationService {
         hasToast: options?.hasToast ?? false,
       });
     } catch (error) {
-      return makeError("Failed to read all notifications", error);
+      return makeError('Failed to read all notifications', error);
     }
   }
 }

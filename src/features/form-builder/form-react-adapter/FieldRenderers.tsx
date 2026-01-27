@@ -5,55 +5,62 @@ import type { IField } from '@/features/form-builder/form-core/domain/field/IFie
 import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 
 export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
-    fieldRenderer: (field: IField<T, E>, onChange: (value: T) => void, hasError: boolean) => ReactElement
-  ) {
-    return (field: IField<T, E>, onChange: (value: T) => void): ReactElement => {
+  fieldRenderer: (
+    field: IField<T, E>,
+    onChange: (value: T) => void,
+    hasError: boolean,
+  ) => ReactElement,
+) {
+  return (field: IField<T, E>, onChange: (value: T) => void): ReactElement => {
+    const [error, setError] = useState<string[] | null>(null);
 
-      const [error, setError] = useState<string[] | null>(null);
-  
-      useEffect(() => {
-        if (field.extra?.error) {
-          setError(field.extra.error);
-        } else {
-          setError(null);
-        }
-      }, [field.extra?.error]);
+    useEffect(() => {
+      if (field.extra?.error) {
+        setError(field.extra.error);
+      } else {
+        setError(null);
+      }
+    }, [field.extra?.error]);
 
-      const handleChange = (value: T) => {
-        onChange(value);
-        field.value = value;
-        const validation = field.validate();
-        setError(validation.isValid ? null : validation.errors);
-      };
-  
+    const handleChange = (value: T) => {
+      onChange(value);
+      field.value = value;
+      const validation = field.validate();
+      setError(validation.isValid ? null : validation.errors);
+    };
 
-      return (
-        <Form.Group 
-          controlId={`form-${field.name}`}
-          className={`
-            ${field.extra?.ui?.mb ?? 2 ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
+    return (
+      <Form.Group
+        controlId={`form-${field.name}`}
+        className={`
+            ${(field.extra?.ui?.mb ?? 2) ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
             ${field.extra?.ui?.mt ? `mt-${field.extra.ui.mt}` : ''}
             ${field.extra?.ui?.mx ? `mx-${field.extra.ui.mx}` : ''}
             ${field.extra?.ui?.my ? `my-${field.extra.ui.my}` : ''}
             ${field.extra?.ui?.className ?? ''}
           `}
-
-          >
-          <Form.Label className="fw-semibold">{field.label}</Form.Label>
-          {fieldRenderer(field, handleChange, error != null)}
-          {field.extra?.helperText && <Form.Text className="text-muted">{field.extra.helperText}</Form.Text>}
-          {error && (
-            <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
-                {error?.join(', ')}
-            </Form.Control.Feedback>
-          )}
-        </Form.Group>
-      );
-    };
-  }
+      >
+        <Form.Label className="fw-semibold">{field.label}</Form.Label>
+        {fieldRenderer(field, handleChange, error != null)}
+        {field.extra?.helperText && (
+          <Form.Text className="text-muted">{field.extra.helperText}</Form.Text>
+        )}
+        {error && (
+          <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+            {error?.join(', ')}
+          </Form.Control.Feedback>
+        )}
+      </Form.Group>
+    );
+  };
+}
 
 export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
-  fieldRenderer: (field: IField<T, E>, onChange: (value: T) => void, hasError: boolean) => ReactElement
+  fieldRenderer: (
+    field: IField<T, E>,
+    onChange: (value: T) => void,
+    hasError: boolean,
+  ) => ReactElement,
 ) {
   return (field: IField<T, E>, onChange: (value: T) => void): ReactElement => {
     const [error, setError] = useState<string[] | null>(null);
@@ -71,14 +78,14 @@ export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
 
     return (
       <div
-          className={`
-            ${field.extra?.ui?.mb ?? 2 ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
+        className={`
+            ${(field.extra?.ui?.mb ?? 2) ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
             ${field.extra?.ui?.mt ? `mt-${field.extra.ui.mt}` : ''}
             ${field.extra?.ui?.mx ? `mx-${field.extra.ui.mx}` : ''}
             ${field.extra?.ui?.my ? `my-${field.extra.ui.my}` : ''}
             ${field.extra?.ui?.className ?? ''}
           `}
-        >
+      >
         {fieldRenderer(field, handleChange, error != null)}
         {error && (
           <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
@@ -89,4 +96,3 @@ export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
     );
   };
 }
-  

@@ -7,15 +7,14 @@ export interface FieldUI {
   mx?: number;
   my?: number;
   className?: string;
-
 }
 
 export interface BaseFieldExtra {
-    required?: boolean;
-    helperText?: string;
-    disabled?: boolean
-    error?: string[]
-    onInputChange?: (value: string, meta: InputActionMeta) => void;
-    beforeField?: React.ReactNode;
-    ui?: FieldUI;
+  required?: boolean;
+  helperText?: string;
+  disabled?: boolean;
+  error?: string[];
+  onInputChange?: (value: string, meta: InputActionMeta) => void;
+  beforeField?: React.ReactNode;
+  ui?: FieldUI;
 }

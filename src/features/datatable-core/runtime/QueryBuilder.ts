@@ -1,19 +1,19 @@
-import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
-import type { ApiDatatableQuery } from "@/features/datatable-core/domain/entities/DatatableQuery";
-import type { DatatableState } from "@/features/datatable-core/domain/entities/DatatableState";
-import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
-import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { ApiDatatableQuery } from '@/features/datatable-core/domain/entities/DatatableQuery';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
+import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
 
 export class QueryBuilder<T> {
   constructor(private config: DatatableConfig<T>) {}
 
   build(state: DatatableState<T>): ApiDatatableQuery {
     const { pagination, sort, filters } = state;
-    
+
     const apiQuery: ApiDatatableQuery = {
       length: pagination.pageSize,
       start: (pagination.page - 1) * pagination.pageSize,
-      filters: filters
+      filters: filters,
     };
 
     if (sort.length > 0 && (this.config.sorting?.enabled ?? true)) {
@@ -48,7 +48,7 @@ export class QueryBuilder<T> {
       return [];
     }
 
-    const columnConfig = this.config.columns.find(col => col.id === column);
+    const columnConfig = this.config.columns.find((col) => col.id === column);
     if (!columnConfig?.sortable) {
       return [];
     }
@@ -80,7 +80,7 @@ export class QueryBuilder<T> {
   }
 
   private applyFilters(apiQuery: ApiDatatableQuery, filters: FilterCondition[]): void {
-    apiQuery.filters = [...apiQuery.filters ?? [], ...filters];
+    apiQuery.filters = [...(apiQuery.filters ?? []), ...filters];
   }
 
   private updateMultiSort(column: string, direction: SortState['direction']): SortState[] {

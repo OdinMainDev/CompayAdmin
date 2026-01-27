@@ -1,5 +1,5 @@
-import { Merchant } from "@/app/entities/merchant";
-import { FilterReponse } from "@/features/api-client/types/datatable";
+import { Merchant } from '@/app/entities/merchant';
+import { FilterReponse } from '@/features/api-client/types/datatable';
 
 export interface MerchantCreateRequest {
   name: string;

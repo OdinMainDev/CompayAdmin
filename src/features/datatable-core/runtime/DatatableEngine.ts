@@ -31,7 +31,6 @@ export class DatatableEngine<T> {
     this.queryBuilder = new QueryBuilder(config);
     this.stateManager = new StateManager<T>(config);
     this.filterManager = new FilterManager(config);
-
   }
 
   async initialize(): Promise<DatatableState<T>> {
@@ -43,37 +42,38 @@ export class DatatableEngine<T> {
   }
 
   async loadFilters(): Promise<IFilter[]> {
-      this.stateManager.setLoading(true);
-      const response = await this.backend.fetchFilters();
-      this.stateManager.setLoading(false);
-      if ('success' in response && response.success) {
-        return response.data;
-      }
-      return [];
+    this.stateManager.setLoading(true);
+    const response = await this.backend.fetchFilters();
+    this.stateManager.setLoading(false);
+    if ('success' in response && response.success) {
+      return response.data;
+    }
+    return [];
   }
 
   mapFilters(typeFilters?: FilterCondition[]): Record<string, unknown> {
     return (
-      typeFilters?.reduce((acc, filter) => {
-        if (
-          typeof filter.value === 'object' &&
-          filter.value !== null &&
-          'from' in filter.value &&
-          'to' in filter.value
-        ) {
-          acc[`${filter.field}_from`] = (filter.value as { from: unknown; to: unknown }).from;
-          acc[`${filter.field}_to`] = (filter.value as { from: unknown; to: unknown }).to;
-        } else {
-          acc[filter.field] = filter.value;
-        }
-        return acc;
-      }, {} as Record<string, unknown>)
-    ) ?? {};
+      typeFilters?.reduce(
+        (acc, filter) => {
+          if (
+            typeof filter.value === 'object' &&
+            filter.value !== null &&
+            'from' in filter.value &&
+            'to' in filter.value
+          ) {
+            acc[`${filter.field}_from`] = (filter.value as { from: unknown; to: unknown }).from;
+            acc[`${filter.field}_to`] = (filter.value as { from: unknown; to: unknown }).to;
+          } else {
+            acc[filter.field] = filter.value;
+          }
+          return acc;
+        },
+        {} as Record<string, unknown>,
+      ) ?? {}
+    );
   }
-  
-  mapDatatableQueryToRequest(
-    query: ApiDatatableQuery
-  ): IRequestOptions {
+
+  mapDatatableQueryToRequest(query: ApiDatatableQuery): IRequestOptions {
     return {
       start: query.start,
       length: query.length,
@@ -85,13 +85,11 @@ export class DatatableEngine<T> {
 
   async loadData(state: DatatableState<T>): Promise<void> {
     this.stateManager.setLoading(true);
-    
+
     try {
       const query = this.queryBuilder.build(state);
 
-      const response = await this.backend.fetch(
-        this.mapDatatableQueryToRequest(query)
-      );
+      const response = await this.backend.fetch(this.mapDatatableQueryToRequest(query));
 
       if (!('success' in response) || !response.success) {
         const error = response as ApiError;
@@ -101,13 +99,16 @@ export class DatatableEngine<T> {
       }
 
       this.stateManager.updateData(
-        response.data.data, 
-        response.data.recordsTotal, 
-        response.data.recordsFiltered
+        response.data.data,
+        response.data.recordsTotal,
+        response.data.recordsFiltered,
       );
 
       this.stateManager.setLoading(false);
-      this.eventEmitter.emit('data-loaded', { data: response.data, total: response.data.recordsTotal });
+      this.eventEmitter.emit('data-loaded', {
+        data: response.data,
+        total: response.data.recordsTotal,
+      });
     } catch (error) {
       this.stateManager.setError(error instanceof Error ? error : new Error('Unknown error'));
       this.eventEmitter.emit('data-error', { error });
@@ -130,7 +131,6 @@ export class DatatableEngine<T> {
     await this.loadData(this.stateManager.getState());
     this.eventEmitter.emit('filter-changed', { filters: normalizedFilters });
   }
-
 
   async changePage(page: number): Promise<void> {
     this.stateManager.setPage(page);
@@ -155,11 +155,11 @@ export class DatatableEngine<T> {
     try {
       const result = await this.backend.executeAction(actionId, {
         ...formData,
-        selectedIds: Array.from(this.stateManager.getState().data)
+        selectedIds: Array.from(this.stateManager.getState().data),
       });
-      
+
       this.eventEmitter.emit('action-executed', { actionId, result, selectedRows });
-      
+
       if (this.shouldReloadAfterAction(actionId)) {
         await this.loadData(this.stateManager.getState());
       }
@@ -171,26 +171,24 @@ export class DatatableEngine<T> {
 
   private shouldReloadAfterAction(actionId: string): boolean {
     const reloadActions = ['delete', 'update', 'bulk-update'];
-    return reloadActions.some(pattern => actionId.includes(pattern));
+    return reloadActions.some((pattern) => actionId.includes(pattern));
   }
-
 
   updateColumnVisibility(columnId: string, visible: boolean): void {
     this.stateManager.updateColumnVisibility(columnId, visible);
-    this.eventEmitter.emit('column-visibility-changed', { 
-      columnId, 
+    this.eventEmitter.emit('column-visibility-changed', {
+      columnId,
       visible,
-      columnState: this.getState().columnState
+      columnState: this.getState().columnState,
     });
   }
   getSelectedRows(): T[] {
     const state = this.stateManager.getState();
-    return state.data.filter(row => {
+    return state.data.filter((row) => {
       const rowId = (row as { id: string }).id;
       return state.selection.has(rowId);
     });
   }
-
 
   getState(): DatatableState<T> {
     return this.stateManager.getState();

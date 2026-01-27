@@ -3,7 +3,6 @@ import { BaseField } from './BaseField';
 import type { CompositeField } from './CompositeField';
 import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 
-
 export type RepeaterFieldValue = Record<string, unknown>[];
 
 export interface RepeaterFieldExtra extends BaseFieldExtra {
@@ -12,8 +11,10 @@ export interface RepeaterFieldExtra extends BaseFieldExtra {
   maxItems?: number;
 }
 
-export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldExtra> 
-  implements CompositeField {
+export class RepeaterField
+  extends BaseField<RepeaterFieldValue, RepeaterFieldExtra>
+  implements CompositeField
+{
   readonly isComposite = true;
   readonly type = 'repeater';
 
@@ -27,12 +28,11 @@ export class RepeaterField extends BaseField<RepeaterFieldValue, RepeaterFieldEx
   }
 
   static create(
-    this: typeof RepeaterField, 
+    this: typeof RepeaterField,
     name: string,
     label: string,
     extra?: RepeaterFieldExtra,
   ) {
-    return new this(name, label, [], extra );
+    return new this(name, label, [], extra);
   }
-
 }

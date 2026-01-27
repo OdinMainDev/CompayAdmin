@@ -1,6 +1,5 @@
-import { TextField } from "./TextField";
+import { TextField } from './TextField';
 
 export class PasswordField extends TextField {
-    type = 'password';
-  }
-  
+  type = 'password';
+}

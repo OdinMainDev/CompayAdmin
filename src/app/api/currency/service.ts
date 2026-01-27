@@ -1,4 +1,3 @@
-
 import { FilterReponse } from '@/features/api-client/types/datatable';
 import type { CurrencyResponse, GetListFiltersResponse } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
@@ -11,36 +10,34 @@ import { IRequestOptions } from '@/features/datatable-core/domain/entities/Datat
 
 export class CurrencyService {
   private static readonly ENDPOINTS = {
-    LIST: "/api/panel/admin/dev/currencies/list",
-    FILTERS: "/api/panel/admin/dev/currencies/list/filters",
-    GET: "/api/panel/admin/dev/currencies/get",
-    CREATE: "/api/panel/admin/dev/currencies/process",
-    DELETE: "/api/panel/admin/dev/currencies/delete",
-    IMPORT:  "/api/panel/admin/dev/currencies/action/import",
+    LIST: '/api/panel/admin/dev/currencies/list',
+    FILTERS: '/api/panel/admin/dev/currencies/list/filters',
+    GET: '/api/panel/admin/dev/currencies/get',
+    CREATE: '/api/panel/admin/dev/currencies/process',
+    DELETE: '/api/panel/admin/dev/currencies/delete',
+    IMPORT: '/api/panel/admin/dev/currencies/action/import',
   } as const;
 
   static async getList(
     params: IRequestOptions = {},
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<IResponseList<Currency> | ApiError> {
     try {
-      return await apiClient.post<IResponseList<Currency>["data"]>(
+      return await apiClient.post<IResponseList<Currency>['data']>(
         `${CurrencyService.ENDPOINTS.LIST}`,
         params,
         {
           ...options,
           isAuth: true,
           hasToast: false,
-        }
+        },
       );
     } catch (error) {
-      return makeError("Failed to fetch currencies", error);
+      return makeError('Failed to fetch currencies', error);
     }
   }
 
-  static async getFilters(
-    options?: RequestOptions
-  ): Promise<GetListFiltersResponse | ApiError> {
+  static async getFilters(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${CurrencyService.ENDPOINTS.FILTERS}`, {
         ...options,
@@ -48,32 +45,29 @@ export class CurrencyService {
         hasToast: false,
       });
     } catch (error) {
-      return makeError("Failed to fetch filters", error);
+      return makeError('Failed to fetch filters', error);
     }
   }
 
-  static async getById(
-      id: number,
-      options?: RequestOptions
-    ): Promise<CurrencyResponse | ApiError> {
-      try {
-        return await apiClient.post<CurrencyResponse["data"]>(
-          `${this.ENDPOINTS.GET}/${id}`,
-          {},
-          {
-            ...options,
-            isAuth: true,
-            hasToast: options?.hasToast ?? false,
-          }
-        );
-      } catch (error) {
-        return makeError("Failed to fetch currency", error);
-      }
+  static async getById(id: number, options?: RequestOptions): Promise<CurrencyResponse | ApiError> {
+    try {
+      return await apiClient.post<CurrencyResponse['data']>(
+        `${this.ENDPOINTS.GET}/${id}`,
+        {},
+        {
+          ...options,
+          isAuth: true,
+          hasToast: options?.hasToast ?? false,
+        },
+      );
+    } catch (error) {
+      return makeError('Failed to fetch currency', error);
+    }
   }
 
   static async delete(
     id: number,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ success: boolean; message?: string } | ApiError> {
     try {
       return await apiClient.post<null>(
@@ -83,16 +77,14 @@ export class CurrencyService {
           ...options,
           isAuth: true,
           hasToast: options?.hasToast ?? true,
-        }
+        },
       );
     } catch (error) {
-      return makeError("Failed to delete currency", error);
+      return makeError('Failed to delete currency', error);
     }
   }
 
-  static async import(
-    options?: RequestOptions
-  ): Promise<GetListFiltersResponse | ApiError> {
+  static async import(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${CurrencyService.ENDPOINTS.IMPORT}`, {
         ...options,
@@ -100,7 +92,7 @@ export class CurrencyService {
         hasToast: true,
       });
     } catch (error) {
-      return makeError("Failed to fetch filters", error);
+      return makeError('Failed to fetch filters', error);
     }
   }
 }

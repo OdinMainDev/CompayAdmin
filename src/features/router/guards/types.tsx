@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface GuardProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export type GuardComponent = React.ComponentType<GuardProps>;

@@ -12,8 +12,8 @@ const AdminGuard = ({ children }: GuardProps) => {
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  if (role && role != "admin") {
-    return  <Navigate to="/404/admin" state={{ from: location }} replace />;
+  if (role && role != 'admin') {
+    return <Navigate to="/404/admin" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

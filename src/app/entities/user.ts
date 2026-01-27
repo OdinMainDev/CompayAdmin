@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity } from './entity';
 
 export class User implements Entity {
   constructor(
@@ -9,6 +9,6 @@ export class User implements Entity {
     public readonly is_twofa_enabled: boolean,
     public readonly is_banned: boolean,
     public readonly created_at: string,
-    public readonly updated_at: string
+    public readonly updated_at: string,
   ) {}
 }

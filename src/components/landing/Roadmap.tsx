@@ -53,9 +53,7 @@ const Roadmap: React.FC = () => {
               ref={ref}
             >
               <span className="sub-title">{t('roadmap.badge')}</span>
-              <h2 className="title">
-                {t('roadmap.title')}
-              </h2>
+              <h2 className="title">{t('roadmap.title')}</h2>
             </motion.div>
           </div>
         </div>

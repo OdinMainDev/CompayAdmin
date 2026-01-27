@@ -20,14 +20,14 @@ const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
-   });
+  });
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
-   });
+  });
 
   const [copied, setCopied] = useState(false);
 
@@ -58,7 +58,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
     navigator.clipboard.writeText(address);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-   };
+  };
 
   return (
     <section id="token" className="token__area section-py-120">
@@ -74,13 +74,9 @@ const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
             >
               <div className="section__title mb-40">
                 <span className="sub-title">{t('token.badge')}</span>
-                <h2 className="title">
-                  {t('token.title')}
-                </h2>
+                <h2 className="title">{t('token.title')}</h2>
               </div>
-              <p>
-                {t('token.subtitle')}
-              </p>
+              <p>{t('token.subtitle')}</p>
               <button type="button" className="tg-btn tg-btn-two" onClick={onOpenContact}>
                 {t('token.cta')}
               </button>
@@ -115,16 +111,21 @@ const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
                     </div>
                   </div>
                 </div>
-                <h3 className="token__received">
-                  {t('token.received')}
-                </h3>
+                <h3 className="token__received">{t('token.received')}</h3>
                 <div className="token__progress-wrap">
                   <ul className="list-wrap token__progress-title d-flex justify-content-between mb-2">
                     <li>$1M</li>
                     <li>$100M</li>
                   </ul>
                   <div className="progress token__progress-bar">
-                    <div className="progress-bar" role="progressbar" style={{ width: '50%' }} aria-valuenow={50} aria-valuemin={0} aria-valuemax={100}></div>
+                    <div
+                      className="progress-bar"
+                      role="progressbar"
+                      style={{ width: '50%' }}
+                      aria-valuenow={50}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    ></div>
                   </div>
                 </div>
               </div>

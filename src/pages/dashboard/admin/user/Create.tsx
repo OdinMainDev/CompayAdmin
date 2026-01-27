@@ -18,33 +18,41 @@ const Create = () => {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const navigate = useNavigate();
 
-  const sections = useMemo<FormSection[]>(() => [
-    {
-      fields: [
-        TabField.create('users_tab', {
-          tabs: [
-            {
-              name: 'main',
-              label: t('tabs.edit'),
-              elements: [
-                TextField.create('username', t('form_builder_demo.fields.username'), { required: true, ui: { col: 6 }}),
-                PasswordField.create('password', t('form_builder_demo.fields.user_password'), { required: true, ui: { col: 6 }}),
-              ],
-            },
-            {
-              name: 'display',
-              label: 'Настройки отображения',
-              elements: [
-                SwitchField.create('is_admin', t('form_builder_demo.fields.is_admin')),
-                MerchantField.create('merchant_id', t('form_builder_demo.fields.merchant')),
-              ],
-            },
-          ],
-        }),
-      ],
-    },
-  ], [t]);
-  
+  const sections = useMemo<FormSection[]>(
+    () => [
+      {
+        fields: [
+          TabField.create('users_tab', {
+            tabs: [
+              {
+                name: 'main',
+                label: t('tabs.edit'),
+                elements: [
+                  TextField.create('username', t('form_builder_demo.fields.username'), {
+                    required: true,
+                    ui: { col: 6 },
+                  }),
+                  PasswordField.create('password', t('form_builder_demo.fields.user_password'), {
+                    required: true,
+                    ui: { col: 6 },
+                  }),
+                ],
+              },
+              {
+                name: 'display',
+                label: 'Настройки отображения',
+                elements: [
+                  SwitchField.create('is_admin', t('form_builder_demo.fields.is_admin')),
+                  MerchantField.create('merchant_id', t('form_builder_demo.fields.merchant')),
+                ],
+              },
+            ],
+          }),
+        ],
+      },
+    ],
+    [t],
+  );
 
   const [formData, setFormData] = useState<UserCreateRequest>({
     username: '',
@@ -58,18 +66,16 @@ const Create = () => {
 
     const response = await UserService.create(dataToSend);
     if ('success' in response && response.success) {
-        navigate(`/dashboard/users/edit/${response.data.id}`);
-    }
-    else {
+      navigate(`/dashboard/users/edit/${response.data.id}`);
+    } else {
       const errorResponse = response as ApiError;
-      if (errorResponse.errors)
-        setFieldErrors(errorResponse.errors);
+      if (errorResponse.errors) setFieldErrors(errorResponse.errors);
     }
-  }
+  };
 
   return (
     <>
-      <UnifiedFormBuilder 
+      <UnifiedFormBuilder
         title={t('users_page.create')}
         fields={sections}
         setFormData={setFormData}

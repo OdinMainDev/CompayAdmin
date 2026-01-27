@@ -14,7 +14,8 @@ const GuestGuard = ({ children }: GuestGuardProps) => {
     const role = getRole();
 
     const redirectTo =
-      (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname || '/dashboard';
+      (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ||
+      '/dashboard';
 
     const regirestUrl = role === 'admin' ? redirectTo : '/dashboard';
 

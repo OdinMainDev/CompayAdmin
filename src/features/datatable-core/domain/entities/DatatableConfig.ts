@@ -1,26 +1,28 @@
-import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
-import type { SortDirection, SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
-import type { BulkAction } from "./BulkAction";
-import type { DatatableColumn } from "./DatatableColumn";
-import type { ApiDatatableQuery } from "./DatatableQuery";
-import type { IResponseList } from "./DatatableResponse";
-import type { FilterPreset } from "./FilterPreset";
-import type { QuickAction } from "./QuickAction";
-import type { RowAction } from "./RowAction";
-import { ApiError } from "@/features/api-client/types/core";
-import { IFilterResponse } from "./IFilterResponse";
-import { IRequestOptions } from "./DatatableRequest";
-
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
+import type {
+  SortDirection,
+  SortState,
+} from '@/features/datatable-core/domain/value-objects/SortDirection';
+import type { BulkAction } from './BulkAction';
+import type { DatatableColumn } from './DatatableColumn';
+import type { ApiDatatableQuery } from './DatatableQuery';
+import type { IResponseList } from './DatatableResponse';
+import type { FilterPreset } from './FilterPreset';
+import type { QuickAction } from './QuickAction';
+import type { RowAction } from './RowAction';
+import { ApiError } from '@/features/api-client/types/core';
+import { IFilterResponse } from './IFilterResponse';
+import { IRequestOptions } from './DatatableRequest';
 
 export interface DatatableConfig<T> {
   title?: string;
   subtitle?: string;
-  dataSource: ((query: IRequestOptions) => Promise<IResponseList<T> | ApiError>);
-  filtersSource?: (() => Promise<IFilterResponse | ApiError>);
+  dataSource: (query: IRequestOptions) => Promise<IResponseList<T> | ApiError>;
+  filtersSource?: () => Promise<IFilterResponse | ApiError>;
 
   columns: DatatableColumn<T>[];
   quickActions?: QuickAction[];
-  rowActions?: RowAction<T>[]; 
+  rowActions?: RowAction<T>[];
 
   pagination?: {
     enabled: boolean;
@@ -44,11 +46,10 @@ export interface DatatableConfig<T> {
   };
   export?: {
     disabled: boolean;
-    format?: ('csv' | 'excel');
+    format?: 'csv' | 'excel';
     fileName?: string;
     columns?: string[];
     handler?(query: ApiDatatableQuery, format: 'csv' | 'excel'): Promise<unknown>;
-
   };
   ui?: {
     density: 'compact' | 'normal' | 'comfortable';

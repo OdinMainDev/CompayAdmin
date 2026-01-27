@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 export function buildAddAction(
   title: string,
   link: string,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
 ): QuickAction {
   return {
     id: 'add',

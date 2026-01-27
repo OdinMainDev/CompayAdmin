@@ -1,4 +1,3 @@
-
 export interface RowAction<T> {
   id: string;
   label: string;

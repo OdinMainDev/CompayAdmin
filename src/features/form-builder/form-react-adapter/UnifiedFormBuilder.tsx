@@ -17,10 +17,9 @@ interface FormBuilderProps<T> {
   subTitle?: string;
   submitLabel?: ReactNode;
   saving?: boolean;
-  resetAble?: boolean; 
+  resetAble?: boolean;
   fieldErrors?: Record<string, string[]>;
 }
-
 
 const UnifiedFormBuilder = <T,>({
   fields: json,
@@ -32,26 +31,24 @@ const UnifiedFormBuilder = <T,>({
   submitLabel,
   saving,
   resetAble = false,
-  fieldErrors
+  fieldErrors,
 }: FormBuilderProps<T>) => {
-
-  const { t } = useTranslation();
+  const { t } = useTranslation('panel');
   const [submitting, setSubmitting] = useState(false);
   const sections: FormSection[] = FormHydrator.hydrate(json, formData, fieldErrors);
 
   const handleReset = () => {
     const defaultValues: Record<string, unknown> = {};
     const emptySection: FormSection[] = FormHydrator.hydrate(json, {}, {});
-  
-    emptySection.forEach(section => {
-      section.fields.forEach(field => {
+
+    emptySection.forEach((section) => {
+      section.fields.forEach((field) => {
         defaultValues[field.name] = '';
       });
     });
 
     setFormData(defaultValues as T);
   };
-  
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -69,47 +66,49 @@ const UnifiedFormBuilder = <T,>({
 
   return (
     <>
-      {(title || subTitle) && (
-        <PageHeader
-          title={title ?? ''}
-          subtitle={subTitle ?? ''}
-        />
-      )}
+      {(title || subTitle) && <PageHeader title={title ?? ''} subtitle={subTitle ?? ''} />}
       <Form onSubmit={onSubmit}>
         <Card className="border-0">
-        <Card.Body>
+          <Card.Body>
             {sections.map((section, index) => (
               <div key={`${section.title}-${index}`} className="mb-4">
-                {section.title && <h5 className={section.description ? "mb-1" : "mb-3"}>{section.title}</h5>}
-                {section.description && <div className="text-muted mb-3">{section.description}</div>}
+                {section.title && (
+                  <h5 className={section.description ? 'mb-1' : 'mb-3'}>{section.title}</h5>
+                )}
+                {section.description && (
+                  <div className="text-muted mb-3">{section.description}</div>
+                )}
                 <Row>
-                {section.fields.map(field => (
-                  <React.Fragment key={field.name}>
-                    {field.extra?.beforeField}
-                    <Col md={field.extra?.ui?.col ?? 12}>
-                      {UnifiedFieldRegistry.renderAny(field, value => {
-                        setFormData(prev => {
-                          if ('isComposite' in field && field.isComposite && typeof value === 'object' && value !== null) {
-                            return { ...prev, ...value };
-                          }
-                          return { ...prev, [field.name]: value };
-                        });
-                      })}
-                    </Col>
-                  </React.Fragment>
-                ))}
-
-              </Row>
+                  {section.fields.map((field) => (
+                    <React.Fragment key={field.name}>
+                      {field.extra?.beforeField}
+                      <Col md={field.extra?.ui?.col ?? 12}>
+                        {UnifiedFieldRegistry.renderAny(field, (value) => {
+                          setFormData((prev) => {
+                            if (
+                              'isComposite' in field &&
+                              field.isComposite &&
+                              typeof value === 'object' &&
+                              value !== null
+                            ) {
+                              return { ...prev, ...value };
+                            }
+                            return { ...prev, [field.name]: value };
+                          });
+                        })}
+                      </Col>
+                    </React.Fragment>
+                  ))}
+                </Row>
               </div>
             ))}
           </Card.Body>
-
         </Card>
         <div className="d-flex justify-content-end mt-3">
           {resetAble && (
             <Button
               type="button"
-              variant="secondary"
+              variant="warning"
               className="me-2"
               onClick={handleReset}
               disabled={isSaving}
@@ -136,4 +135,4 @@ const UnifiedFormBuilder = <T,>({
   );
 };
 
-export default UnifiedFormBuilder ;
+export default UnifiedFormBuilder;

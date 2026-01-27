@@ -9,7 +9,11 @@ import { ApiError } from '@/features/api-client/types/core';
 import { Merchant } from '@/app/entities/merchant';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TabField } from '@/features/form-builder/form-core/domain/field/TabField';
-import { MultiSelectField, NumberField, SelectField, SwitchField } from '@/features/form-builder/form-core/domain/field';
+import {
+  MultiSelectField,
+  NumberField,
+  SwitchField,
+} from '@/features/form-builder/form-core/domain/field';
 import { RepeaterField } from '@/features/form-builder/form-core/domain/field/RepeaterField';
 
 const Edit = () => {
@@ -35,103 +39,95 @@ const Edit = () => {
       }
 
       setModel(response.data);
-      
     };
     void getData();
   }, [id]);
 
-  const sections = useMemo<FormSection[]>(() => [
-    {
-      fields: [
-        TabField.create('merchants_tab', {
-          tabs: [
-            {
-              name: 'main',
-              label: t('tabs.general'),
-              elements: [
-                TextField.create('name', t('fields.name'), { ui: { col: 8 }}),
-                SwitchField.create('is_enabled', t('fields.is_enabled'), { ui: { col: 4, }}),
-              ],
-            },
-            {
-              name: 'settings',
-              label: t('tabs.settings'),
-              elements: [
-                MultiSelectField.create(
-                  'blocked_countries', 
-                  t('fields.blocked_countries'), 
-                  { 
+  const sections = useMemo<FormSection[]>(
+    () => [
+      {
+        fields: [
+          TabField.create('merchants_tab', {
+            tabs: [
+              {
+                name: 'main',
+                label: t('tabs.general'),
+                elements: [
+                  TextField.create('name', t('fields.name'), { ui: { col: 8 } }),
+                  SwitchField.create('is_enabled', t('fields.is_enabled'), { ui: { col: 4 } }),
+                ],
+              },
+              {
+                name: 'settings',
+                label: t('tabs.settings'),
+                elements: [
+                  MultiSelectField.create('blocked_countries', t('fields.blocked_countries'), {
                     ui: { col: 6 },
                     options: [
                       { value: 'Russia', label: 'Russia' },
                       { value: 'USA', label: 'USA' },
-                      { value: 'China', label: 'China' }
-                    ]
-                  }
-                ),
-                MultiSelectField.create(
-                  'allowed_countries', 
-                  t('fields.allowed_countries'), 
-                  { 
-                    ui: { col: 6, },
+                      { value: 'China', label: 'China' },
+                    ],
+                  }),
+                  MultiSelectField.create('allowed_countries', t('fields.allowed_countries'), {
+                    ui: { col: 6 },
                     options: [
                       { value: 'Russia', label: 'Russia' },
                       { value: 'USA', label: 'USA' },
-                      { value: 'China', label: 'China' }
-                    ]
-                  }
-                ),
-                TextField.create('notification_telegram_chat_id', t('fields.notification_telegram_chat_id'), { ui: { col: 12 }}),
-              ],
-            },
-            {
-              name: 'minimum_amounts',
-              label: t('tabs.minimum_amounts'),
-              elements: [
-                RepeaterField.create(
-                  "min_repeater",
-                  t('tabs.minimum_amounts'),
-                  {
+                      { value: 'China', label: 'China' },
+                    ],
+                  }),
+                  TextField.create(
+                    'notification_telegram_chat_id',
+                    t('fields.notification_telegram_chat_id'),
+                    { ui: { col: 12 } },
+                  ),
+                ],
+              },
+              {
+                name: 'minimum_amounts',
+                label: t('tabs.minimum_amounts'),
+                elements: [
+                  RepeaterField.create('min_repeater', t('tabs.minimum_amounts'), {
                     ui: { col: 12 },
                     elements: [
-                      NumberField.create('min_amount', t('fields.min_amount'), { ui: { col: 12 }}),
-                      NumberField.create('max_amount', t('fields.min_amount'), { ui: { col: 12 }}),
-                    ]
-                  }
-                )
-              ],
-            },
-            {
-              name: 'fee_amounts',
-              label: t('tabs.fee_amounts'),
-              elements: [
-                // RepeaterField.create()
-              ],
-            },
-          ],
-        }),
-      ],
-    },
-  ], [t]);
+                      NumberField.create('min_amount', t('fields.min_amount'), { ui: { col: 12 } }),
+                      NumberField.create('max_amount', t('fields.min_amount'), { ui: { col: 12 } }),
+                    ],
+                  }),
+                ],
+              },
+              {
+                name: 'fee_amounts',
+                label: t('tabs.fee_amounts'),
+                elements: [
+                  // RepeaterField.create()
+                ],
+              },
+            ],
+          }),
+        ],
+      },
+    ],
+    [t],
+  );
 
   const handleSubmit = async () => {
     const dataToSend = { ...formData };
     const response = await MerchantService.update(dataToSend);
-   
+
     if ('success' in response && response.success) {
-        setModel(response.data)
-    }
-    else {
+      setModel(response.data);
+    } else {
       const errorResponse = response as ApiError;
-      if (errorResponse.errors)
-        setFieldErrors(errorResponse.errors);
+      if (errorResponse.errors) setFieldErrors(errorResponse.errors);
     }
-  }
+  };
 
   return (
     <>
-      <UnifiedFormBuilder 
-        title={t('merchants_page.edit') + ": " + model?.name}
+      <UnifiedFormBuilder
+        title={t('merchants_page.edit') + ': ' + model?.name}
         fields={sections}
         setFormData={setFormData}
         formData={formData}

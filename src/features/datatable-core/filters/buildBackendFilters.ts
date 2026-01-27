@@ -5,33 +5,29 @@ import { FormSection } from '@/features/form-builder/form-core/domain/field/Form
 import { UnifiedFieldRegistry } from '@/features/form-builder/form-react-adapter/UnifiedFieldRegistry';
 import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 
-export const buildBackendFilters = (
-  backendFilters: FilterReponse[]
-): FormSection[] => {
+export const buildBackendFilters = (backendFilters: FilterReponse[]): FormSection[] => {
   if (!backendFilters?.length) return [];
 
   return [
     {
-      fields: backendFilters.map(filter => {
+      fields: backendFilters.map((filter) => {
         const formType = mapBackendTypeToFormType(filter.type);
 
         const FieldClass = UnifiedFieldRegistry.getConstructor(formType);
         if (!FieldClass) throw new Error(`No field registered for type "${formType}"`);
 
-        let extra: Record<string, unknown> = {};
+        const extra: Record<string, unknown> = {};
 
         if (['bool', 'boolean'].includes(filter.type.toLowerCase())) {
           extra.options = [
             { label: t('yes'), value: true },
             { label: t('no'), value: false },
           ];
-        }
-        else if (['select', 'multiselect', 'merchant_id'].includes(formType)) {
+        } else if (['select', 'multiselect', 'merchant_id'].includes(formType)) {
           extra.options = Array.isArray(filter.values)
-            ? filter.values.map(v => ({ label: String(v), value: v }))
+            ? filter.values.map((v) => ({ label: String(v), value: v }))
             : [];
-        } 
-        else if (formType === 'text') {
+        } else if (formType === 'text') {
           extra.placeholder = t(filter.name);
         }
 

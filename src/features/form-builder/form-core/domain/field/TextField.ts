@@ -7,14 +7,13 @@ export class TextField extends BaseField<string, TextFieldExtra> {
   static defaultExtra: TextFieldExtra = { ui: { col: 12 } };
 
   static create(
-    this: typeof TextField, 
+    this: typeof TextField,
     name: string,
     label: string,
     extra?: TextFieldExtra,
-    value?: string
+    value?: string,
   ) {
     const finalExtra: TextFieldExtra = { ...this.defaultExtra, ...extra };
     return new this(name, label, value ?? '', finalExtra);
   }
-  
 }

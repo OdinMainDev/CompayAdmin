@@ -24,16 +24,16 @@ export const routeConfigs: RouteConfig[] = [
 
   // Dashboard Routes
   {
-    id: "layout-panel",
-    path: "*",
+    id: 'layout-panel',
+    path: '*',
     component: PanelLayout,
     children: [
       {
-        id: "layout-dashboard",
-        path: "dashboard",
+        id: 'layout-dashboard',
+        path: 'dashboard',
         component: DashboardLayout,
         guard: AuthGuard,
-        meta: {roles: ["admin", "merchant"]},
+        meta: { roles: ['admin', 'merchant'] },
         children: [
           ...adminRoutes,
           ...merchantRoutes,
@@ -54,7 +54,7 @@ export const routeConfigs: RouteConfig[] = [
             path: 'logout',
             component: Logout,
           },
-        ]
+        ],
       },
       // Auth Routes
       {
@@ -69,8 +69,6 @@ export const routeConfigs: RouteConfig[] = [
         path: '*',
         component: NotFound,
       },
-    ]
+    ],
   },
-
-  
 ];

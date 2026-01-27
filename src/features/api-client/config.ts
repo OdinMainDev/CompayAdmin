@@ -17,17 +17,17 @@ export const handleAuthError = (status: number, error?: string): AuthErrorType |
     Cookies.remove(COOKIE_AUTH_TOTP_NAME);
     return 'UNAUTHORIZED';
   }
-  
+
   if (error === 'AuthTotpExpired') {
     return 'TOTP_EXPIRED';
   }
-  
+
   return null;
 };
 
 export const buildHeaders = (
   isAuth: boolean = true,
-  customHeaders: Readonly<Record<string, string>> = {}
+  customHeaders: Readonly<Record<string, string>> = {},
 ): HeadersInit => {
   const headers: Record<string, string> = {
     ...API_CONFIG.DEFAULT_HEADERS,
@@ -38,7 +38,7 @@ export const buildHeaders = (
     const token = Cookies.get(COOKIE_AUTH_NAME);
     if (token) {
       headers.Authorization = `Bearer ${token}`;
-      
+
       const totp = Cookies.get(COOKIE_AUTH_TOTP_NAME);
       if (totp) {
         headers['X-Totp-Token'] = totp;

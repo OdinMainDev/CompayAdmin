@@ -45,9 +45,7 @@ const PlatformCapabilities: React.FC<PlatformCapabilitiesProps> = ({ onOpenConta
           <div className="col-lg-7">
             <div className="section__title text-center mb-80">
               <span className="sub-title">{t('platform_capabilities.badge')}</span>
-              <h2 className="title">
-                {t('platform_capabilities.title')}
-              </h2>
+              <h2 className="title">{t('platform_capabilities.title')}</h2>
             </div>
           </div>
         </div>

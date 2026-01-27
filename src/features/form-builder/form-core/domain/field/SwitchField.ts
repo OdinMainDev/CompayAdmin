@@ -5,11 +5,11 @@ export class SwitchField extends BaseField<boolean, BaseFieldExtra> {
   type = 'switch';
 
   static create(
-    this: typeof SwitchField, 
+    this: typeof SwitchField,
     name: string,
     label: string,
     extra?: BaseFieldExtra,
-    value?: boolean
+    value?: boolean,
   ) {
     return new this(name, label, value ?? false, extra);
   }

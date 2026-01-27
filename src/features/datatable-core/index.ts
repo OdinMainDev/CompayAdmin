@@ -11,4 +11,3 @@ export type { FilterCondition } from './domain/value-objects/FilterCondition';
 export type { ApiDatatableQuery } from './domain/entities/DatatableQuery';
 export type { IResponseList } from './domain/entities/DatatableResponse';
 export { formatTimestampWithTime } from './utils/helpers';
-

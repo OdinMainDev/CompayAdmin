@@ -1,7 +1,7 @@
-import { ApiError } from "@/features/api-client/types/core";
-import { FilterReponse } from "@/features/api-client/types/datatable";
-import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
-import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
+import { ApiError } from '@/features/api-client/types/core';
+import { FilterReponse } from '@/features/api-client/types/datatable';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
+import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
 
 export interface DatatableState<T> {
   data: T[];

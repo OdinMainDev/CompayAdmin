@@ -15,16 +15,18 @@ const Create = () => {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const navigate = useNavigate();
 
-  const sections = useMemo<FormSection[]>(() => [
-    {
-      fields: [
-        TextField.create('name', t('fields.name'), { ui: { col: 8 }}),
-        TextField.create('admin_username', t('fields.admin_username'), { ui: { col: 8 }}),
-        PasswordField.create('admin_password', t('fields.admin_password'), { ui: { col: 8 }}),
-      ],
-    },
-  ], [t]);
-  
+  const sections = useMemo<FormSection[]>(
+    () => [
+      {
+        fields: [
+          TextField.create('name', t('fields.name'), { ui: { col: 8 } }),
+          TextField.create('admin_username', t('fields.admin_username'), { ui: { col: 8 } }),
+          PasswordField.create('admin_password', t('fields.admin_password'), { ui: { col: 8 } }),
+        ],
+      },
+    ],
+    [t],
+  );
 
   const [formData, setFormData] = useState<MerchantCreateRequest>({
     name: '',
@@ -37,19 +39,17 @@ const Create = () => {
 
     const response = await MerchantService.create(dataToSend);
     if ('success' in response && response.success) {
-        alert("TOKEN: " + response.token);
-        navigate(`/dashboard/merchants/edit/${response.data.id}`);
-    }
-    else {
+      alert('TOKEN: ' + response.token);
+      navigate(`/dashboard/merchants/edit/${response.data.id}`);
+    } else {
       const errorResponse = response as ApiError;
-      if (errorResponse.errors)
-        setFieldErrors(errorResponse.errors);
+      if (errorResponse.errors) setFieldErrors(errorResponse.errors);
     }
-  }
+  };
 
   return (
     <>
-      <UnifiedFormBuilder 
+      <UnifiedFormBuilder
         title={t('merchants_page.create')}
         fields={sections}
         setFormData={setFormData}

@@ -1,7 +1,7 @@
-import React from "react";
-import { ClientData } from "@/app/entities/client_data";
-import { useTranslation } from "react-i18next";
-import { Accordion } from "react-bootstrap";
+import React from 'react';
+import { ClientData } from '@/app/entities/client_data';
+import { useTranslation } from 'react-i18next';
+import { Accordion } from 'react-bootstrap';
 
 interface Props {
   clientData: ClientData;
@@ -24,7 +24,7 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
 
   const renderRow = (label: string, value?: React.ReactNode) =>
     value ? (
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: 'flex', gap: 8 }}>
         <strong>{label}:</strong>
         <span>{value}</span>
       </div>
@@ -33,43 +33,35 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
   return (
     <Accordion className="mb-4">
       <Accordion.Item eventKey="0">
-        <Accordion.Header>
-          {t("datatable.client_data")}
-        </Accordion.Header>
+        <Accordion.Header>{t('datatable.client_data')}</Accordion.Header>
 
         <Accordion.Body className="shadow-sm p-3">
-          <h5>{t("datatable.client_data")}</h5>
+          <h5>{t('datatable.client_data')}</h5>
 
           {!hideBaseData && (
             <>
-              {renderRow("IP Address", ip)}
-              {renderRow("Fingerprint", fingerprint)}
-              {renderRow("User Agent", user_agent)}
+              {renderRow('IP Address', ip)}
+              {renderRow('Fingerprint', fingerprint)}
+              {renderRow('User Agent', user_agent)}
             </>
           )}
 
           <hr />
 
-          {renderRow("Continent", continent)}
-          {renderRow("Country", country)}
-          {renderRow("Region", region)}
-          {renderRow("City", city)}
-          {renderRow("Postal Code", postalCode)}
-          {renderRow("Time Zone", timezone)}
+          {renderRow('Continent', continent)}
+          {renderRow('Country', country)}
+          {renderRow('Region', region)}
+          {renderRow('City', city)}
+          {renderRow('Postal Code', postalCode)}
+          {renderRow('Time Zone', timezone)}
 
           {traits && (
             <>
               <hr />
               <h6>Network Traits</h6>
-              {renderRow(
-                "Anonymous Proxy",
-                traits.IsAnonymousProxy ? "Yes" : "No"
-              )}
-              {renderRow("Anycast", traits.IsAnycast ? "Yes" : "No")}
-              {renderRow(
-                "Satellite Provider",
-                traits.IsSatelliteProvider ? "Yes" : "No"
-              )}
+              {renderRow('Anonymous Proxy', traits.IsAnonymousProxy ? 'Yes' : 'No')}
+              {renderRow('Anycast', traits.IsAnycast ? 'Yes' : 'No')}
+              {renderRow('Satellite Provider', traits.IsSatelliteProvider ? 'Yes' : 'No')}
             </>
           )}
         </Accordion.Body>

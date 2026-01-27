@@ -44,9 +44,9 @@ export interface Names {
   es: string;
   fr: string;
   ja: string;
-  "pt-BR": string;
+  'pt-BR': string;
   ru: string;
-  "zh-CN": string;
+  'zh-CN': string;
 }
 
 export interface RepresentedCountry {

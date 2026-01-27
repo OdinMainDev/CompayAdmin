@@ -1,7 +1,13 @@
 import { lazy } from 'react';
 import { RouteConfig } from '@/features/router/types';
 import AdminGuard from '@/features/router/guards/AdminGuard';
-import { faBitcoinSign, faBuildingColumns, faClipboardCheck, faClipboardUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBitcoinSign,
+  faBuildingColumns,
+  faClipboardCheck,
+  faClipboardUser,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/admin/Dashboard'));
 
@@ -25,13 +31,13 @@ export const adminRoutes: RouteConfig[] = [
     id: 'admin-layout',
     path: '',
     guard: AdminGuard,
-    meta: {roles: ["admin"]},
+    meta: { roles: ['admin'] },
     children: [
       {
         id: 'admin-dashboard',
         path: '',
         component: Dashboard,
-        meta: {roles: ["admin"], showInMenu: false},
+        meta: { roles: ['admin'], showInMenu: false },
       },
 
       // Merchants
@@ -39,19 +45,19 @@ export const adminRoutes: RouteConfig[] = [
         id: 'admin-merchants-list',
         path: 'merchants',
         component: MerchantList,
-        meta: {roles: ["admin"], showInMenu: true, label: "merchants", icon: faBuildingColumns },
+        meta: { roles: ['admin'], showInMenu: true, label: 'merchants', icon: faBuildingColumns },
       },
       {
         id: 'admin-merchants-create',
         path: 'merchants/create',
         component: MerchantCreate,
-        meta: {roles: ["admin"], showInMenu: false},
+        meta: { roles: ['admin'], showInMenu: false },
       },
       {
         id: 'admin-merchants-update',
         path: 'merchants/edit/:id',
         component: MerchantEdit,
-        meta: {roles: ["admin"], showInMenu: false},
+        meta: { roles: ['admin'], showInMenu: false },
       },
 
       // Users
@@ -59,19 +65,19 @@ export const adminRoutes: RouteConfig[] = [
         id: 'admin-users-list',
         path: 'users',
         component: UserList,
-        meta: {roles: ["admin"], showInMenu: true, label: "users", icon: faUsers },
+        meta: { roles: ['admin'], showInMenu: true, label: 'users', icon: faUsers },
       },
       {
         id: 'admin-users-create',
         path: 'users/create',
         component: UserCreate,
-        meta: {roles: ["admin"], showInMenu: false},
+        meta: { roles: ['admin'], showInMenu: false },
       },
       {
         id: 'admin-users-update',
         path: 'users/edit/:id',
         component: UserEdit,
-        meta: {roles: ["admin"], showInMenu: false},
+        meta: { roles: ['admin'], showInMenu: false },
       },
 
       // Currencies
@@ -79,28 +85,33 @@ export const adminRoutes: RouteConfig[] = [
         id: 'admin-currencies-list',
         path: 'currencies',
         component: CurrencyList,
-        meta: {roles: ["admin"], showInMenu: true, label: "currencies", icon: faBitcoinSign },
+        meta: { roles: ['admin'], showInMenu: true, label: 'currencies', icon: faBitcoinSign },
       },
       {
         id: 'admin-currencies-create',
         path: 'currencies/process/:id',
         component: CurrencyProcess,
-        meta: {roles: ["admin"], showInMenu: false},
+        meta: { roles: ['admin'], showInMenu: false },
       },
 
-
-      // LOGS 
+      // LOGS
       {
         id: 'admin-logs-auth',
         path: 'logs/logs-auth',
         component: LogAuth,
-        meta: {roles: ["admin"], showInMenu: true, label: "logs-auth", icon: faClipboardUser, dividerLabel: "logs", },
+        meta: {
+          roles: ['admin'],
+          showInMenu: true,
+          label: 'logs-auth',
+          icon: faClipboardUser,
+          dividerLabel: 'logs',
+        },
       },
       {
         id: 'admin-logs-user',
         path: 'logs/logs-user',
         component: LogUser,
-        meta: {roles: ["admin"], showInMenu: true, label: "logs-user", icon: faClipboardCheck,},
+        meta: { roles: ['admin'], showInMenu: true, label: 'logs-user', icon: faClipboardCheck },
       },
     ],
   },

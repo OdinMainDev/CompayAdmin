@@ -4,8 +4,8 @@ import type { TextFieldExtra } from '../../form-core/domain/extra/TextFieldExtra
 import type { IField } from '../../form-core/domain/field/IField';
 
 export const TextFieldRenderer = (
-    field: IField<string, TextFieldExtra>,
-    onChange: (value: string) => void
+  field: IField<string, TextFieldExtra>,
+  onChange: (value: string) => void,
 ) => {
   const isTextarea = field.type === 'textarea';
   const isPassword = field.type === 'password';
@@ -18,9 +18,7 @@ export const TextFieldRenderer = (
         placeholder={field.label}
         required={field.extra?.required}
         value={field.value ?? ''}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-          onChange(e.target.value)
-        }
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
       />
     );
   }
@@ -32,9 +30,7 @@ export const TextFieldRenderer = (
       placeholder={field.label}
       required={field.extra?.required}
       value={field.value ?? ''}
-      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-        onChange(e.target.value)
-      }
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
     />
   );
 };

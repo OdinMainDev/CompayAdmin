@@ -14,7 +14,7 @@ export const merchantRoutes: RouteConfig[] = [
         id: 'merchant-dashboard',
         path: '',
         component: Dashboard,
-        meta: {showInMenu: true},
+        meta: { showInMenu: true },
       },
     ],
   },

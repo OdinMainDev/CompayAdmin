@@ -3,15 +3,15 @@ import type { ApiError, SuccessResponse } from './types/core';
 import { isSuccessResponse } from './types/utils';
 
 export function isApiError<T, M extends Record<string, unknown>>(
-    response: SuccessResponse<T, M> | ApiError
-  ): response is ApiError {
-    return response && typeof response === 'object' && response.success === false;
-  }
+  response: SuccessResponse<T, M> | ApiError,
+): response is ApiError {
+  return response && typeof response === 'object' && response.success === false;
+}
 
 export class ApiResponseError extends Error {
   constructor(
     public readonly error: ApiError,
-    public readonly status: number
+    public readonly status: number,
   ) {
     super(error.error);
     this.name = 'ApiResponseError';
@@ -33,11 +33,11 @@ export class TimeoutError extends Error {
 }
 
 export const handleResponse = async <T, M extends Record<string, unknown>>(
-  response: Response
+  response: Response,
 ): Promise<SuccessResponse<T, M> | ApiError> => {
   const text = await response.text();
   let parsed: ApiError | SuccessResponse<unknown, Record<string, unknown>>;
-  
+
   try {
     parsed = text ? JSON.parse(text) : null;
   } catch {
@@ -50,21 +50,21 @@ export const handleResponse = async <T, M extends Record<string, unknown>>(
 
   if (!response.ok) {
     const error = parsed as ApiError;
-    const errorData: ApiError = isApiError(error) 
-      ? error 
-      : { 
-          success: false, 
+    const errorData: ApiError = isApiError(error)
+      ? error
+      : {
+          success: false,
           error: `Request failed with status ${response.status}`,
-          errors: {} 
+          errors: {},
         };
-    
+
     const authError = handleAuthError(response.status, errorData.error);
     if (authError === 'UNAUTHORIZED') {
       redirectTo('/');
     } else if (authError === 'TOTP_EXPIRED') {
       redirectTo('/auth/totp');
     }
-    
+
     return errorData;
   }
 

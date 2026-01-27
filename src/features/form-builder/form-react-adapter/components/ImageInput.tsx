@@ -5,11 +5,9 @@ import type { IField } from '../../form-core/domain/field/IField';
 import type { ImageFieldExtra } from '../../form-core/domain/extra/ImageFieldExtra';
 import type { ImageValue } from '../../form-core/domain/field';
 
-
-
 export function ImageInput(
   value: IField<ImageValue, ImageFieldExtra>,
-  onChange: (value: ImageValue) => void
+  onChange: (value: ImageValue) => void,
 ) {
   const { t } = useTranslation();
 
@@ -45,8 +43,8 @@ export function ImageInput(
           type="file"
           accept={value.extra?.accept}
           onChange={(e) => {
-              const target = e.target as HTMLInputElement;
-              onChange(target.files?.[0] ?? null);
+            const target = e.target as HTMLInputElement;
+            onChange(target.files?.[0] ?? null);
           }}
         />
       </div>

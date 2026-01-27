@@ -4,16 +4,14 @@ import { useState, useEffect } from 'react';
 
 export const OptionalSwitchRenderer = (
   field: IField<boolean | null, BaseFieldExtra>,
-  onChange: (value: boolean | null) => void
+  onChange: (value: boolean | null) => void,
 ) => {
   const [internalValue, setInternalValue] = useState<'null' | 'true' | 'false'>(
-    field.value === true ? 'true' : field.value === false ? 'false' : 'null'
+    field.value === true ? 'true' : field.value === false ? 'false' : 'null',
   );
 
   useEffect(() => {
-    setInternalValue(
-      field.value === true ? 'true' : field.value === false ? 'false' : 'null'
-    );
+    setInternalValue(field.value === true ? 'true' : field.value === false ? 'false' : 'null');
   }, [field.value]);
 
   const handleToggle = () => {
@@ -71,8 +69,8 @@ export const OptionalSwitchRenderer = (
             internalValue === 'null'
               ? 'left-0 bg-slate-500/70'
               : internalValue === 'true'
-              ? 'left-1/3 bg-emerald-600/80'
-              : 'left-2/3 bg-red-600/80',
+                ? 'left-1/3 bg-emerald-600/80'
+                : 'left-2/3 bg-red-600/80',
           ].join(' ')}
         />
 
@@ -81,20 +79,20 @@ export const OptionalSwitchRenderer = (
         <div className="absolute inset-y-0 left-2/3 w-px bg-slate-300/80" />
 
         {/* knob */}
-      <div
-        className={[
-          'absolute z-[2]',
-          'top-1/2 -translate-y-1/2 -translate-x-1/2',
-          'h-[18px] w-[18px] rounded-full bg-white',
-          'shadow-md ring-1 ring-black/5',
-          'transition-all duration-200',
-          internalValue === 'null'
-            ? 'left-[16.666%]'
-            : internalValue === 'true'
-            ? 'left-[50%]'
-            : 'left-[83.333%]',
-        ].join(' ')}
-      />
+        <div
+          className={[
+            'absolute z-[2]',
+            'top-1/2 -translate-y-1/2 -translate-x-1/2',
+            'h-[18px] w-[18px] rounded-full bg-white',
+            'shadow-md ring-1 ring-black/5',
+            'transition-all duration-200',
+            internalValue === 'null'
+              ? 'left-[16.666%]'
+              : internalValue === 'true'
+                ? 'left-[50%]'
+                : 'left-[83.333%]',
+          ].join(' ')}
+        />
       </div>
 
       {/* Label + status */}

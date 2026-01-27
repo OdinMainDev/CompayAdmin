@@ -5,11 +5,11 @@ export class SelectField extends BaseField<string, SelectFieldExtra> {
   type = 'select';
 
   static create(
-    this: typeof SelectField, 
+    this: typeof SelectField,
     name: string,
     label: string,
     extra?: SelectFieldExtra,
-    value?: string
+    value?: string,
   ) {
     return new this(name, label, value ?? '', extra);
   }

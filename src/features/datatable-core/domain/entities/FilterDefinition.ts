@@ -1,4 +1,3 @@
-
 export interface FilterDefinition {
   id: string;
   field: string;
@@ -12,13 +11,13 @@ export interface FilterDefinition {
   order?: number;
 }
 
-export type FilterType = 
-  | 'text' 
-  | 'number' 
-  | 'date' 
-  | 'datetime' 
-  | 'boolean' 
-  | 'select' 
+export type FilterType =
+  | 'text'
+  | 'number'
+  | 'date'
+  | 'datetime'
+  | 'boolean'
+  | 'select'
   | 'multiselect'
   | 'range'
   | 'daterange';

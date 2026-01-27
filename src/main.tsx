@@ -6,10 +6,9 @@ import './i18n';
 import { AppRouter } from '@/features/router/AppRouter';
 import { AuthProvider } from '@/features/auth/AuthProvider';
 
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider> 
+    <AuthProvider>
       <AppRouter />
       <ToastContainer position="top-right" newestOnTop />
     </AuthProvider>

@@ -8,7 +8,11 @@ import { TextField } from '@/features/form-builder/form-core/domain/field/TextFi
 import { Currency } from '@/app/entities/currency';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiService } from '@/app/api/api/service';
-import { MultiSelectField, NumberField, SelectField, SwitchField } from '@/features/form-builder/form-core/domain/field';
+import {
+  NumberField,
+  SelectField,
+  SwitchField,
+} from '@/features/form-builder/form-core/domain/field';
 import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 
 const Process = () => {
@@ -29,7 +33,7 @@ const Process = () => {
       if (!response.success) {
         return;
       }
-      
+
       const options: SelectOption[] = response.data.map((network) => ({
         value: network,
         label: network,
@@ -41,7 +45,7 @@ const Process = () => {
   }, []);
 
   useEffect(() => {
-    if (!id || id == "0") return;
+    if (!id || id == '0') return;
     const getData = async () => {
       const response = await CurrencyService.getById(Number(id));
       if (!response.success) {
@@ -62,29 +66,27 @@ const Process = () => {
     void getData();
   }, [id]);
 
-  const sections = useMemo<FormSection[]>(() => [
-    {
-      fields: [
-        TextField.create('title', t('fields.name'), { ui: { col: 8 }}),
-        NumberField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4, } }),
-        SelectField.create(
-          'network', 
-          t('fields.network'), 
-          { 
+  const sections = useMemo<FormSection[]>(
+    () => [
+      {
+        fields: [
+          TextField.create('title', t('fields.name'), { ui: { col: 8 } }),
+          NumberField.create('code_alpha', t('fields.code_alpha'), { ui: { col: 4 } }),
+          SelectField.create('network', t('fields.network'), {
             options: networks,
-            ui: { col: 6, } 
-          }
-        ),
-        TextField.create('minor_units', t('fields.minor_units'), { ui: { col: 4, } }),
-        SwitchField.create('is_coin', t('fields.is_coin'), { ui: { col: 'auto' } }),
-      ],
-    },
-  ], [t, networks]);
+            ui: { col: 6 },
+          }),
+          TextField.create('minor_units', t('fields.minor_units'), { ui: { col: 4 } }),
+          SwitchField.create('is_coin', t('fields.is_coin'), { ui: { col: 'auto' } }),
+        ],
+      },
+    ],
+    [t, networks],
+  );
 
   const handleSubmit = async () => {
     // const dataToSend = { ...formData };
     // // const response = await CurrencyService.process(dataToSend);
-   
     // if ('success' in response && response.success) {
     //     setModel(response.data)
     // }
@@ -93,12 +95,16 @@ const Process = () => {
     //   if (errorResponse.errors)
     //     setFieldErrors(errorResponse.errors);
     // }
-  }
+  };
 
   return (
     <>
-      <UnifiedFormBuilder 
-        title={id && id != "0" ? t('currencies_page.edit') + ": " + model?.code_alpha : t('currencies_page.create')}
+      <UnifiedFormBuilder
+        title={
+          id && id != '0'
+            ? t('currencies_page.edit') + ': ' + model?.code_alpha
+            : t('currencies_page.create')
+        }
         fields={sections}
         setFormData={setFormData}
         formData={formData}

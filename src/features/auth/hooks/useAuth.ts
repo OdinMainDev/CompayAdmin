@@ -55,19 +55,19 @@ export const useAuth = (): UseAuthReturn => {
 
   const getRoleFromToken = (): UserRole | null => {
     try {
-      const payload = getToken()?.split(".")?.[1];
-      if (!payload) return "merchant";
-      const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const payload = getToken()?.split('.')?.[1];
+      if (!payload) return 'merchant';
+      const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
       const padded = normalized.padEnd(
         normalized.length + ((4 - (normalized.length % 4)) % 4),
-        "="
+        '=',
       );
       const decoded = JSON.parse(atob(padded));
-      return decoded?.isa === true ? "admin" : "merchant";
+      return decoded?.isa === true ? 'admin' : 'merchant';
     } catch {
-      return "merchant";
+      return 'merchant';
     }
-  }
+  };
 
   const scheduleRefresh = useCallback(() => {
     if (refreshTimeoutRef.current) {
@@ -81,7 +81,7 @@ export const useAuth = (): UseAuthReturn => {
 
   const getProfile = useCallback(async (): Promise<boolean> => {
     if (!isAuthenticated()) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isAuthenticated: false,
         user: null,
@@ -90,7 +90,7 @@ export const useAuth = (): UseAuthReturn => {
       return false;
     }
 
-    setState(prev => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
 
     const response = await ProfileService.get();
 
@@ -100,12 +100,12 @@ export const useAuth = (): UseAuthReturn => {
     }
 
     const role = getRoleFromToken();
-    if(!role){
+    if (!role) {
       logout();
       return false;
     }
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isAuthenticated: true,
       isLoading: false,
@@ -120,44 +120,46 @@ export const useAuth = (): UseAuthReturn => {
 
   const checkAuth = useCallback(async (): Promise<boolean> => {
     if (!isAuthenticated()) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isAuthenticated: false,
         user: null,
         role: null,
       }));
-  
+
       return false;
     }
-  
+
     getProfile();
     return true;
   }, []);
-  
 
   const refreshUser = useCallback(async (): Promise<void> => {
     await getProfile();
   }, [getProfile]);
 
-  const login = useCallback(async (credentials: LoginRequest): Promise<boolean> => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+  const login = useCallback(
+    async (credentials: LoginRequest): Promise<boolean> => {
+      setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-    const response = await AuthService.login(credentials, { hasToast: true });
+      const response = await AuthService.login(credentials, { hasToast: true });
 
-    if (!('success' in response) || !response.success) {
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        error: response as ApiError,
-      }));
-      return false;
-    }
+      if (!('success' in response) || !response.success) {
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          error: response as ApiError,
+        }));
+        return false;
+      }
 
-    return await getProfile();
-  }, [getProfile]);
+      return await getProfile();
+    },
+    [getProfile],
+  );
 
   const logout = useCallback(async (): Promise<void> => {
-    setState(prev => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
 
     Cookies.remove(COOKIE_AUTH_NAME);
     Cookies.remove(COOKIE_AUTH_TOTP_NAME);
@@ -176,7 +178,7 @@ export const useAuth = (): UseAuthReturn => {
   }, []);
 
   const clearError = useCallback(() => {
-    setState(prev => ({ ...prev, error: null }));
+    setState((prev) => ({ ...prev, error: null }));
   }, []);
 
   const getRole = useCallback((): UserRole | null => {
@@ -185,7 +187,7 @@ export const useAuth = (): UseAuthReturn => {
 
   const getFieldErrors = useCallback((): Record<string, string[]> => {
     if (!state.error || !state.error.errors) return {};
-    return state.error.errors as Record<string, string[]>;
+    return state.error.errors;
   }, [state.error]);
 
   useEffect(() => {
@@ -195,7 +197,7 @@ export const useAuth = (): UseAuthReturn => {
       if (!mounted) return;
 
       if (!isAuthenticated()) {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           isAuthenticated: false,
         }));
@@ -213,10 +215,9 @@ export const useAuth = (): UseAuthReturn => {
     };
   }, [getProfile]);
 
-
   const getUsername = useCallback((): string => {
     return state.user ? state.user.username : 'undefined';
-  }, [state.user]); 
+  }, [state.user]);
 
   return {
     ...state,

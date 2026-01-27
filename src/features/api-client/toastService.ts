@@ -1,6 +1,6 @@
 import i18next from 'i18next';
-import { toast, type ToastContent, type ToastOptions } from "react-toastify";
-import type { ApiError, SuccessResponse } from "./types/core";
+import { toast, type ToastContent, type ToastOptions } from 'react-toastify';
+import type { ApiError, SuccessResponse } from './types/core';
 import { isApiError } from './responseHandler';
 
 export interface ToastConfig {
@@ -12,11 +12,11 @@ export interface ToastConfig {
 
 export class ToastService {
   private static readonly DEFAULT_CONFIG: ToastConfig = {
-    success: i18next.t("toasts.success"),
-    error: i18next.t("toasts.fail"),
-    pending: i18next.t("toasts.pending"),
+    success: i18next.t('toasts.success'),
+    error: i18next.t('toasts.fail'),
+    pending: i18next.t('toasts.pending'),
     options: {
-      position: "top-right",
+      position: 'top-right',
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -25,11 +25,9 @@ export class ToastService {
     } as const,
   };
 
-
-
   static async withToast<T, M extends Record<string, unknown>>(
     promise: Promise<SuccessResponse<T, M> | ApiError>,
-    config: Partial<ToastConfig> = {}
+    config: Partial<ToastConfig> = {},
   ): Promise<SuccessResponse<T, M> | ApiError> {
     const mergedConfig = { ...this.DEFAULT_CONFIG, ...config };
 
@@ -45,12 +43,8 @@ export class ToastService {
       toast.success(mergedConfig.success as ToastContent, mergedConfig.options);
       return result;
     } catch (error) {
-
-
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : mergedConfig.error || "Unknown error";
+        error instanceof Error ? error.message : mergedConfig.error || 'Unknown error';
 
       toast.error(errorMessage as ToastContent, mergedConfig.options);
 

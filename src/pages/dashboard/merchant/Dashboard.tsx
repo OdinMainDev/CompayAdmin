@@ -1,6 +1,6 @@
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Col, Container, Image, Row } from 'react-bootstrap';
 
-import NotFoundImage from "@/assets/images/dashboard/illustrations/404.svg";
+import NotFoundImage from '@/assets/images/dashboard/illustrations/404.svg';
 
 export default function Dashboard() {
   return (
@@ -20,8 +20,5 @@ export default function Dashboard() {
         </Container>
       </section>
     </main>
-  )
+  );
 }
-
-
-

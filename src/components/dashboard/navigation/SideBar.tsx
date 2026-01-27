@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { ReactNode, useRef, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 import { CSSTransition } from 'react-transition-group';
-import ImageLogo from "@/assets/images/logo/logo.svg";
+import ImageLogo from '@/assets/images/logo/logo.svg';
 import { faRocket, faSignOutAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 import { useGetAvailMenuRoutes } from '@/features/router/hooks/useGetAvailMenuRoutes';
@@ -12,16 +12,14 @@ import { RouteConfig } from '@/features/router/types';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '@/features/auth/auth-context';
 
-
-
 const SideBar = () => {
   const [show, setShow] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const routes = useGetAvailMenuRoutes();
-  const { t } = useTranslation("menu");
-   const { getUsername } = useAuthContext();
-  const showClass = show ? "show" : "";
- 
+  const { t } = useTranslation('menu');
+  const { getUsername } = useAuthContext();
+  const showClass = show ? 'show' : '';
+
   if (!routes) {
     return null;
   }
@@ -29,7 +27,7 @@ const SideBar = () => {
   const onCollapse = () => setShow(!show);
 
   const renderNavLink = (route: RouteConfig, nextPath: string): ReactNode => {
-   const hasChildren = Boolean(route.children?.length);
+    const hasChildren = Boolean(route.children?.length);
 
     if (!hasChildren) {
       if (!route.meta?.label || !route.meta.icon) {
@@ -40,17 +38,17 @@ const SideBar = () => {
           key={route.id}
           setShow={setShow}
           title={route.meta?.label ?? ''}
-          link={nextPath + "/" + route.path}
+          link={nextPath + '/' + route.path}
           icon={route.meta.icon}
           dividerLabel={route.meta.dividerLabel}
         />
       );
     }
 
-    if(route.path != ""){
-      nextPath = nextPath + "/" + route.path;
+    if (route.path != '') {
+      nextPath = nextPath + '/' + route.path;
     }
-    return route.children!.map(child => renderNavLink(child, nextPath));
+    return route.children!.map((child) => renderNavLink(child, nextPath));
   };
 
   return (
@@ -70,23 +68,16 @@ const SideBar = () => {
       </Navbar>
 
       <CSSTransition timeout={300} in={show} classNames="sidebar-transition" nodeRef={sidebarRef}>
-        <SimpleBar
-          className={`collapse ${showClass} sidebar d-md-block bg-primary text-white`}
-        >
+        <SimpleBar className={`collapse ${showClass} sidebar d-md-block bg-primary text-white`}>
           <div className="sidebar-inner px-4 pt-3">
             <div className="user-card d-flex d-md-none align-items-center justify-content-between pb-4">
               <div className="d-flex align-items-center">
                 <div>
                   <h6>{getUsername()}</h6>
                   <Link to={'/dashboard/logout'}>
-                    <Button
-                      as={"button"}
-                      variant="secondary"
-                      size="sm"
-                      className="text-dark"
-                    >
+                    <Button as={'button'} variant="secondary" size="sm" className="text-dark">
                       <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
-                      {t("logout")}
+                      {t('logout')}
                     </Button>
                   </Link>
                 </div>
@@ -97,13 +88,22 @@ const SideBar = () => {
             </div>
 
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavLink to="/dashboard" className="navbar-brand nav-link text-white text-start hidden-nav-mobile">
+              <NavLink
+                to="/dashboard"
+                className="navbar-brand nav-link text-white text-start hidden-nav-mobile"
+              >
                 <Image src={ImageLogo} className="img-fluid" />
               </NavLink>
 
-              <NavItem setShow={setShow} title="dashboard" link={'/dashboard'} icon={faRocket} isHiddenDesktop/>
+              <NavItem
+                setShow={setShow}
+                title="dashboard"
+                link={'/dashboard'}
+                icon={faRocket}
+                isHiddenDesktop
+              />
 
-              {routes.children?.map((route) => renderNavLink(route, ""))}
+              {routes.children?.map((route) => renderNavLink(route, ''))}
             </Nav>
           </div>
         </SimpleBar>

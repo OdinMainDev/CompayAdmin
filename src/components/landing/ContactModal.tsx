@@ -42,11 +42,14 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
     setSubmitted(false);
   }, [open]);
 
-  useEffect(() => () => {
-    if (successTimeout.current) {
-      window.clearTimeout(successTimeout.current);
-    }
-  }, []);
+  useEffect(
+    () => () => {
+      if (successTimeout.current) {
+        window.clearTimeout(successTimeout.current);
+      }
+    },
+    [],
+  );
 
   if (!open) return null;
 
@@ -84,7 +87,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
         onMouseDown={handleBackdrop}
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content" ref={dialogRef} onMouseDown={(event) => event.stopPropagation()}>
+          <div
+            className="modal-content"
+            ref={dialogRef}
+            onMouseDown={(event) => event.stopPropagation()}
+          >
             <div className="modal-header">
               <div className="modal-heading">
                 <h5 className="modal-title mb-1" id="contactModalLabel">
@@ -92,10 +99,19 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
                 </h5>
                 <p className="helper-text mb-0">{t('modal.subtitle')}</p>
               </div>
-              <button type="button" className="btn-close" aria-label={t('nav.closeMenu')} onClick={onClose} />
+              <button
+                type="button"
+                className="btn-close"
+                aria-label={t('nav.closeMenu')}
+                onClick={onClose}
+              />
             </div>
             <div className="modal-body">
-              <div className={`alert-badge${submitted ? ' show' : ''}`} role="status" aria-live="polite">
+              <div
+                className={`alert-badge${submitted ? ' show' : ''}`}
+                role="status"
+                aria-live="polite"
+              >
                 <span>{t('modal.success')}</span>
               </div>
               <form onSubmit={handleSubmit}>

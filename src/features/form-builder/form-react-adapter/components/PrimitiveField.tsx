@@ -6,7 +6,7 @@ import type { TextFieldExtra } from '../../form-core/domain/extra/TextFieldExtra
 export function PrimitiveFieldRenderer<T extends string | number | null>(
   field: IField<T, TextFieldExtra>,
   onChange: (value: T) => void,
-  hasError: boolean
+  hasError: boolean,
 ) {
   const isTextarea = field.type === 'textarea';
   const isNumber = field.type === 'number';
@@ -20,10 +20,8 @@ export function PrimitiveFieldRenderer<T extends string | number | null>(
           placeholder={field.extra?.placeholder ?? field.label}
           required={field.extra?.required}
           value={field.value ?? ''}
-          isInvalid={hasError}          
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-            onChange(e.target.value as T)
-          }
+          isInvalid={hasError}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value as T)}
         />
       </>
     );
@@ -37,7 +35,7 @@ export function PrimitiveFieldRenderer<T extends string | number | null>(
         placeholder={field.extra?.placeholder ?? field.label}
         required={field.extra?.required}
         value={field.value ?? ''}
-        isInvalid={hasError}          
+        isInvalid={hasError}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           if (isNumber) {
             onChange(Number(e.target.value) as T);

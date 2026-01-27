@@ -7,14 +7,14 @@ import React from 'react';
 
 export function TabsRenderer(
   field: IField<TabFieldValue, TabsFieldExtra>,
-  onChange: (value: TabFieldValue) => void
+  onChange: (value: TabFieldValue) => void,
 ) {
   const tabs = field.extra?.tabs ?? [];
 
   return (
     <Tab.Container defaultActiveKey={tabs[0]?.name}>
       <Nav variant="tabs">
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <Nav.Item key={tab.name}>
             <Nav.Link eventKey={tab.name}>{tab.label}</Nav.Link>
           </Nav.Item>
@@ -22,31 +22,30 @@ export function TabsRenderer(
       </Nav>
 
       <Tab.Content className="pt-3">
-          {tabs.map(tab => (
-            <Tab.Pane eventKey={tab.name} key={tab.name}>
-              <Row className="g-3">
-                {tab.elements.map(inner => {
-                  const extra = inner.extra;
-                  return (
-                    <React.Fragment key={field.name}>
+        {tabs.map((tab) => (
+          <Tab.Pane eventKey={tab.name} key={tab.name}>
+            <Row className="g-3">
+              {tab.elements.map((inner) => {
+                const extra = inner.extra;
+                return (
+                  <React.Fragment key={field.name}>
+                    {field.extra?.beforeField}
+                    <Col key={inner.name} md={extra?.ui?.col ?? 6}>
                       {field.extra?.beforeField}
-                      <Col key={inner.name} md={extra?.ui?.col ?? 6}>
-                        {field.extra?.beforeField}
-                        {UnifiedFieldRegistry.renderAny(inner, value => {
-                          onChange({
-                            ...(field.value ?? {}),
-                            [inner.name]: value,
-                          });
-                        })}
-                      </Col>
-                    </React.Fragment>
-                  );
-                })}
-              </Row>
-            </Tab.Pane>
-          ))}
-        </Tab.Content>
-
+                      {UnifiedFieldRegistry.renderAny(inner, (value) => {
+                        onChange({
+                          ...(field.value ?? {}),
+                          [inner.name]: value,
+                        });
+                      })}
+                    </Col>
+                  </React.Fragment>
+                );
+              })}
+            </Row>
+          </Tab.Pane>
+        ))}
+      </Tab.Content>
     </Tab.Container>
   );
 }

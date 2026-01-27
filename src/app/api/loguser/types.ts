@@ -1,4 +1,4 @@
-import { FilterReponse } from "@/features/api-client/types/datatable";
+import { FilterReponse } from '@/features/api-client/types/datatable';
 
 export type GetListFiltersResponse = {
   readonly success: boolean;

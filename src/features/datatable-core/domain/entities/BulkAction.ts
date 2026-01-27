@@ -1,4 +1,3 @@
-
 export interface BulkAction {
   id: string;
   label: string;

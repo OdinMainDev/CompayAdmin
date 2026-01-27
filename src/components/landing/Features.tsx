@@ -20,33 +20,33 @@ const Features: React.FC = () => {
   const features = [
     {
       icon: featuresIcon01,
-      title:  t('features.items.accept.title'),
+      title: t('features.items.accept.title'),
       description: t('features.items.accept.desc'),
-      colClass: 'col-lg-6'
+      colClass: 'col-lg-6',
     },
     {
       icon: featuresIcon02,
       title: t('features.items.convert.title'),
       description: t('features.items.convert.desc'),
-      colClass: 'col-lg-6'
+      colClass: 'col-lg-6',
     },
     {
       icon: featuresIcon03,
       title: t('features.items.realtime.title'),
       description: t('features.items.realtime.desc'),
-      colClass: 'col-lg-4'
+      colClass: 'col-lg-4',
     },
     {
       icon: featuresIcon04,
       title: t('features.items.risk.title'),
       description: t('features.items.risk.desc'),
-      colClass: 'col-lg-4'
+      colClass: 'col-lg-4',
     },
     {
       icon: featuresIcon05,
       title: t('features.items.aml.title'),
       description: t('features.items.aml.desc'),
-      colClass: 'col-lg-4'
+      colClass: 'col-lg-4',
     },
   ];
 
@@ -57,9 +57,7 @@ const Features: React.FC = () => {
           <div className="col-lg-6">
             <div className="section__title text-center mb-80">
               <span className="sub-title">{t('features.badge')}</span>
-              <h2 className="title">
-                {t('features.title')}
-              </h2>
+              <h2 className="title">{t('features.title')}</h2>
             </div>
           </div>
         </div>

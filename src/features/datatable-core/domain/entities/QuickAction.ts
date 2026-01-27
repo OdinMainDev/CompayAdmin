@@ -1,4 +1,3 @@
-
 export interface QuickAction {
   id: string;
   label: React.ReactNode;

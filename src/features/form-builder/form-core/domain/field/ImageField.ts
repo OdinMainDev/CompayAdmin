@@ -35,11 +35,6 @@ export class ImageField extends BaseField<ImageValue, ImageFieldExtra> {
     defaultValue?: ImageValue;
     options?: ImageFieldExtra;
   }) {
-    return new ImageField(
-      json.key,
-      json.label,
-      json.defaultValue ?? null,
-      json.options
-    );
+    return new ImageField(json.key, json.label, json.defaultValue ?? null, json.options);
   }
 }

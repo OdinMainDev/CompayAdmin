@@ -5,7 +5,7 @@ export type RequestOptions<B = unknown> = {
   isAuth?: boolean;
   body?: B;
   hasToast?: boolean;
-  withFingerprint?: boolean
+  withFingerprint?: boolean;
   headers?: Record<string, string>;
   timeout?: number;
   params?: Record<string, string | number | boolean | null | undefined>;
@@ -32,7 +32,13 @@ export interface PaginationParams {
   readonly sortOrder?: 'asc' | 'desc';
 }
 
-export type FilterValue = string | number | boolean | null | undefined | ReadonlyArray<string | number>;
+export type FilterValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | ReadonlyArray<string | number>;
 export interface FilterParams {
   readonly [key: string]: FilterValue | FilterParams;
 }

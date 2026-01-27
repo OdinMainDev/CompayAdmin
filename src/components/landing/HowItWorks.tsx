@@ -22,7 +22,7 @@ const HowItWorks: React.FC = () => {
     },
     {
       number: '02',
-       title: t('work.steps.two.title'),
+      title: t('work.steps.two.title'),
       description: t('work.steps.two.desc'),
     },
   ];
@@ -47,9 +47,7 @@ const HowItWorks: React.FC = () => {
           <div className="col-lg-6">
             <div className="section__title text-center mb-80">
               <span className="sub-title">{t('work.badge')}</span>
-              <h2 className="title">
-                {t('work.title')}
-              </h2>
+              <h2 className="title">{t('work.title')}</h2>
             </div>
           </div>
         </div>
@@ -71,7 +69,10 @@ const HowItWorks: React.FC = () => {
                 transition={{ duration: 0.8 }}
               >
                 {leftItems.map((item, index) => (
-                  <div key={index} className={`work__item ${index === leftItems.length - 1 ? 'mb-0' : ''}`}>
+                  <div
+                    key={index}
+                    className={`work__item ${index === leftItems.length - 1 ? 'mb-0' : ''}`}
+                  >
                     <h1 className="number">{item.number}</h1>
                     <h4 className="title" dangerouslySetInnerHTML={{ __html: item.title }} />
                     <p>{item.description}</p>
@@ -86,7 +87,10 @@ const HowItWorks: React.FC = () => {
                 transition={{ duration: 0.8 }}
               >
                 {rightItems.map((item, index) => (
-                  <div key={index} className={`work__item work__item-right ${index === rightItems.length - 1 ? 'mb-0' : ''}`}>
+                  <div
+                    key={index}
+                    className={`work__item work__item-right ${index === rightItems.length - 1 ? 'mb-0' : ''}`}
+                  >
                     <h1 className="number">{item.number}</h1>
                     <h4 className="title" dangerouslySetInnerHTML={{ __html: item.title }} />
                     <p>{item.description}</p>

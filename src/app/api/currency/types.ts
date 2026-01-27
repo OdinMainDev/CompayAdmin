@@ -1,5 +1,5 @@
-import { Currency } from "@/app/entities/currency";
-import { FilterReponse } from "@/features/api-client/types/datatable";
+import { Currency } from '@/app/entities/currency';
+import { FilterReponse } from '@/features/api-client/types/datatable';
 
 export type GetListFiltersResponse = {
   readonly success: boolean;

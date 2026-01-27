@@ -1,13 +1,13 @@
-import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
-import NotFoundImage from "@/assets/images/dashboard/illustrations/404.svg";
-import { useTranslation } from "react-i18next";
+import NotFoundImage from '@/assets/images/dashboard/illustrations/404.svg';
+import { useTranslation } from 'react-i18next';
 
 export default function NotFound() {
-  const { t } = useTranslation("panel");
+  const { t } = useTranslation('panel');
 
   return (
     <main>
@@ -19,16 +19,12 @@ export default function NotFound() {
                 <Card.Link as={Link} to={'/'}>
                   <Image src={NotFoundImage} className="img-fluid w-75" />
                 </Card.Link>
-                <h1 className="text-primary mt-5">
-                  {t("error_page.404.title")}
-                </h1>
-                <p className="lead my-4">
-                  {t("error_page.404.description")}
-                </p>
+                <h1 className="text-primary mt-5">{t('error_page.404.title')}</h1>
+                <p className="lead my-4">{t('error_page.404.description')}</p>
                 <Link to={'/'}>
                   <Button variant="primary" className="animate-hover" type="button">
                     <FontAwesomeIcon icon={faChevronLeft} className="animate-left-3 me-3 ms-2" />
-                    {t("error_page.404.cta")}
+                    {t('error_page.404.cta')}
                   </Button>
                 </Link>
               </div>
@@ -37,8 +33,5 @@ export default function NotFound() {
         </Container>
       </section>
     </main>
-  )
+  );
 }
-
-
-

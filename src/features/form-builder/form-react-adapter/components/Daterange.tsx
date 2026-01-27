@@ -19,12 +19,12 @@ const dateToTimestamp = (date: Date | null): number | null => {
 
 export const DaterangeRenderer = (
   field: IField<{ from?: number | null; to?: number | null }, DaterangeFieldExtra>,
-  onChange: (value: { from?: number | null; to?: number | null }) => void
+  onChange: (value: { from?: number | null; to?: number | null }) => void,
 ) => {
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
   const [isValidRange, setIsValidRange] = useState(true);
-  const { t, i18n } = useTranslation("panel");
+  const { t, i18n } = useTranslation('panel');
   const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
 
   useEffect(() => {
@@ -40,29 +40,35 @@ export const DaterangeRenderer = (
     }
   }, [fromDate, toDate]);
 
-  const handleFromChange = useCallback((date: Date | null) => {
-    setFromDate(date);
-    const newValue = {
-      from: dateToTimestamp(date),
-      to: field.value?.to
-    };
-    onChange(newValue);
-  }, [field.value?.to, onChange]);
+  const handleFromChange = useCallback(
+    (date: Date | null) => {
+      setFromDate(date);
+      const newValue = {
+        from: dateToTimestamp(date),
+        to: field.value?.to,
+      };
+      onChange(newValue);
+    },
+    [field.value?.to, onChange],
+  );
 
-  const handleToChange = useCallback((date: Date | null) => {
-    setToDate(date);
-    const newValue = {
-      from: field.value?.from,
-      to: dateToTimestamp(date)
-    };
-    onChange(newValue);
-  }, [field.value?.from, onChange]);
+  const handleToChange = useCallback(
+    (date: Date | null) => {
+      setToDate(date);
+      const newValue = {
+        from: field.value?.from,
+        to: dateToTimestamp(date),
+      };
+      onChange(newValue);
+    },
+    [field.value?.from, onChange],
+  );
 
   const handleClearFrom = useCallback(() => {
     setFromDate(null);
     const newValue = {
       from: null,
-      to: field.value?.to
+      to: field.value?.to,
     };
     onChange(newValue);
   }, [field.value?.to, onChange]);
@@ -71,7 +77,7 @@ export const DaterangeRenderer = (
     setToDate(null);
     const newValue = {
       from: field.value?.from,
-      to: null
+      to: null,
     };
     onChange(newValue);
   }, [field.value?.from, onChange]);
@@ -83,69 +89,87 @@ export const DaterangeRenderer = (
   }, [onChange]);
 
   const quickPeriods = [
-    { label: t('datatable.date_filter.today'), getDates: () => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      return { 
-        from: dateToTimestamp(today), 
-        to: dateToTimestamp(tomorrow) 
-      };
-    }},
-    { label: t('datatable.date_filter.yesterday'), getDates: () => {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      yesterday.setHours(0, 0, 0, 0);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return { 
-        from: dateToTimestamp(yesterday), 
-        to: dateToTimestamp(today) 
-      };
-    }},
-    { label: t('datatable.date_filter.week'), getDates: () => {
-      const now = new Date();
-      const firstDay = new Date(now);
-      firstDay.setDate(now.getDate() - now.getDay() + 1);
-      firstDay.setHours(0, 0, 0, 0);
-      const lastDay = new Date(firstDay);
-      lastDay.setDate(lastDay.getDate() + 7);
-      return { 
-        from: dateToTimestamp(firstDay), 
-        to: dateToTimestamp(lastDay) 
-      };
-    }},
-    { label: t('datatable.date_filter.month'), getDates: () => {
-      const now = new Date();
-      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-      const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-      return { 
-        from: dateToTimestamp(firstDay), 
-        to: dateToTimestamp(lastDay) 
-      };
-    }}
+    {
+      label: t('datatable.date_filter.today'),
+      getDates: () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return {
+          from: dateToTimestamp(today),
+          to: dateToTimestamp(tomorrow),
+        };
+      },
+    },
+    {
+      label: t('datatable.date_filter.yesterday'),
+      getDates: () => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        yesterday.setHours(0, 0, 0, 0);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return {
+          from: dateToTimestamp(yesterday),
+          to: dateToTimestamp(today),
+        };
+      },
+    },
+    {
+      label: t('datatable.date_filter.week'),
+      getDates: () => {
+        const now = new Date();
+        const firstDay = new Date(now);
+        firstDay.setDate(now.getDate() - now.getDay() + 1);
+        firstDay.setHours(0, 0, 0, 0);
+        const lastDay = new Date(firstDay);
+        lastDay.setDate(lastDay.getDate() + 7);
+        return {
+          from: dateToTimestamp(firstDay),
+          to: dateToTimestamp(lastDay),
+        };
+      },
+    },
+    {
+      label: t('datatable.date_filter.month'),
+      getDates: () => {
+        const now = new Date();
+        const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+        const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+        return {
+          from: dateToTimestamp(firstDay),
+          to: dateToTimestamp(lastDay),
+        };
+      },
+    },
   ];
 
-  const handleQuickPeriod = useCallback((getDates: () => { from: number | null; to: number | null }) => {
-    const dates = getDates();
-    setFromDate(timestampToDate(dates.from));
-    setToDate(timestampToDate(dates.to));
-    onChange({
-      from: dates.from,
-      to: dates.to
-    });
-  }, [onChange]);
+  const handleQuickPeriod = useCallback(
+    (getDates: () => { from: number | null; to: number | null }) => {
+      const dates = getDates();
+      setFromDate(timestampToDate(dates.from));
+      setToDate(timestampToDate(dates.to));
+      onChange({
+        from: dates.from,
+        to: dates.to,
+      });
+    },
+    [onChange],
+  );
 
   const dateFormat = field.extra?.dateFormat || 'dd.MM.yyyy';
-  const placeholderFrom = t("datatable.date_filter.from");
-  const placeholderTo = t("datatable.date_filter.to");
+  const placeholderFrom = t('datatable.date_filter.from');
+  const placeholderTo = t('datatable.date_filter.to');
 
   return (
     <div className="mb-2">
       {field.label && (
-        <Form.Label className="fw-semibold d-flex align-items-center justify-content-between" onClick={(e) => e.preventDefault()}>
-          {t("datatable.date_filter." + field.label)}
+        <Form.Label
+          className="fw-semibold d-flex align-items-center justify-content-between"
+          onClick={(e) => e.preventDefault()}
+        >
+          {t('datatable.date_filter.' + field.label)}
           {(fromDate || toDate) && (
             <button
               type="button"
@@ -255,13 +279,13 @@ export const DaterangeRenderer = (
 
       {!isValidRange && (
         <div className="invalid-feedback d-block mt-1">
-          {t("datatable.date_filter.invalid_range")}
+          {t('datatable.date_filter.invalid_range')}
         </div>
       )}
 
       {(fromDate || toDate) && (
         <div className="mt-2 small">
-          <span className="text-muted">{t("datatable.date_filter.selected_date")}: </span>
+          <span className="text-muted">{t('datatable.date_filter.selected_date')}: </span>
           <span className="badge bg-light text-dark border">
             {fromDate ? fromDate.toLocaleDateString(locale) : '∞'}
             {' → '}
@@ -271,9 +295,7 @@ export const DaterangeRenderer = (
       )}
 
       {field.extra?.helperText && (
-        <Form.Text className="text-muted">
-          {field.extra.helperText}
-        </Form.Text>
+        <Form.Text className="text-muted">{field.extra.helperText}</Form.Text>
       )}
     </div>
   );

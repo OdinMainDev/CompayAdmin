@@ -17,12 +17,7 @@ const Exchange: React.FC = () => {
 
   const { t } = useTranslation('landing');
 
-  const icons = [
-    exchangeIcon01,
-    exchangeIcon02,
-    exchangeIcon03,
-    exchangeIcon04,
-  ];
+  const icons = [exchangeIcon01, exchangeIcon02, exchangeIcon03, exchangeIcon04];
 
   return (
     <section className="exchange__area section-pb-120">

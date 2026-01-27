@@ -11,12 +11,9 @@ interface PageHeaderProps {
 
 const PageHeader = ({ title, subtitle }: PageHeaderProps) => {
   const { pathname } = useLocation();
-  const { t } = useTranslation("menu");
-  
-  const segments = pathname
-    .split('?')[0]
-    .split('/')
-    .filter(Boolean);
+  const { t } = useTranslation('menu');
+
+  const segments = pathname.split('?')[0].split('/').filter(Boolean);
 
   const breadcrumbs = segments.map((segment, index) => {
     const href = '/' + segments.slice(0, index + 1).join('/');
@@ -26,7 +23,8 @@ const PageHeader = ({ title, subtitle }: PageHeaderProps) => {
       label,
       href,
       isLast: index === segments.length - 1,
-      isDisabled: index === segments.length - 1 || label == "edit" || label == "logs" || label == "process"
+      isDisabled:
+        index === segments.length - 1 || label == 'edit' || label == 'logs' || label == 'process',
     };
   });
 
@@ -44,11 +42,7 @@ const PageHeader = ({ title, subtitle }: PageHeaderProps) => {
             </Breadcrumb.Item>
 
             {!item.isLast && (
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className="mx-2 text-muted"
-                size="sm"
-              />
+              <FontAwesomeIcon icon={faChevronRight} className="mx-2 text-muted" size="sm" />
             )}
           </span>
         ))}

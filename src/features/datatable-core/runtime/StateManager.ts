@@ -1,9 +1,9 @@
-import { ApiError } from "@/features/api-client/types/core";
-import { FilterReponse } from "@/features/api-client/types/datatable";
-import type { DatatableConfig } from "@/features/datatable-core/domain/entities/DatatableConfig";
-import type { DatatableState } from "@/features/datatable-core/domain/entities/DatatableState";
-import type { FilterCondition } from "@/features/datatable-core/domain/value-objects/FilterCondition";
-import type { SortState } from "@/features/datatable-core/domain/value-objects/SortDirection";
+import { ApiError } from '@/features/api-client/types/core';
+import { FilterReponse } from '@/features/api-client/types/datatable';
+import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
+import type { DatatableState } from '@/features/datatable-core/domain/entities/DatatableState';
+import type { FilterCondition } from '@/features/datatable-core/domain/value-objects/FilterCondition';
+import type { SortState } from '@/features/datatable-core/domain/value-objects/SortDirection';
 
 export class StateManager<T> {
   private state: DatatableState<T>;
@@ -16,7 +16,7 @@ export class StateManager<T> {
   private createInitialState(): DatatableState<T> {
     const pageSize = this.config.pagination?.pageSize || 10;
     const pageSizeOptions = this.config.pagination?.pageSizeOptions || [5, 10, 25, 50];
-    
+
     return {
       data: [],
       total: 0,
@@ -31,20 +31,23 @@ export class StateManager<T> {
         page: 1,
         pageSize,
         totalPages: 0,
-        pageSizeOptions 
+        pageSizeOptions,
       },
       columnState: {
-        order: this.config.columns.map(col => col.id),
-        visibility: this.config.columns.reduce((acc, col) => ({
-          ...acc,
-          [col.id]: col.visible ?? true
-        }), {}),
-        widths: {}
+        order: this.config.columns.map((col) => col.id),
+        visibility: this.config.columns.reduce(
+          (acc, col) => ({
+            ...acc,
+            [col.id]: col.visible ?? true,
+          }),
+          {},
+        ),
+        widths: {},
       },
       formState: {
         filterForm: {},
-        actionForms: {}
-      }
+        actionForms: {},
+      },
     };
   }
 
@@ -64,7 +67,9 @@ export class StateManager<T> {
     this.state.data = data;
     this.state.total = total;
     this.state.filtered = filtered || total;
-    this.state.pagination.totalPages = Math.ceil(this.state.filtered / this.state.pagination.pageSize);
+    this.state.pagination.totalPages = Math.ceil(
+      this.state.filtered / this.state.pagination.pageSize,
+    );
     this.setError(null);
   }
 
@@ -128,7 +133,7 @@ export class StateManager<T> {
   updateActionForm(actionId: string, data: Record<string, unknown>): void {
     this.state.formState.actionForms[actionId] = {
       ...this.state.formState.actionForms[actionId],
-      ...data
+      ...data,
     };
   }
 
@@ -145,7 +150,7 @@ export class StateManager<T> {
   }
 
   selectAll(): void {
-    const allIds = this.state.data.map(row => (row as { id: string }).id);
+    const allIds = this.state.data.map((row) => (row as { id: string }).id);
     this.state.selection = new Set(allIds);
   }
 
@@ -162,6 +167,6 @@ export class StateManager<T> {
     };
   }
   private notifyListeners(): void {
-    this.listeners.forEach(listener => listener());
+    this.listeners.forEach((listener) => listener());
   }
 }

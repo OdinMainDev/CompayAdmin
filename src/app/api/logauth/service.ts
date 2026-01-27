@@ -1,4 +1,3 @@
-
 import { FilterReponse } from '@/features/api-client/types/datatable';
 import type { GetListFiltersResponse } from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
@@ -11,32 +10,30 @@ import { IRequestOptions } from '@/features/datatable-core/domain/entities/Datat
 
 export class LogAuthService {
   private static readonly ENDPOINTS = {
-    LIST: "/api/panel/admin/dev/logs/auth/list",
-    FILTERS: "/api/panel/admin/dev/logs/auth/list/filters",
+    LIST: '/api/panel/admin/dev/logs/auth/list',
+    FILTERS: '/api/panel/admin/dev/logs/auth/list/filters',
   } as const;
 
   static async getList(
     params: IRequestOptions = {},
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<IResponseList<LogAuth> | ApiError> {
     try {
-      return await apiClient.post<IResponseList<LogAuth>["data"]>(
+      return await apiClient.post<IResponseList<LogAuth>['data']>(
         `${LogAuthService.ENDPOINTS.LIST}`,
         params,
         {
           ...options,
           isAuth: true,
           hasToast: options?.hasToast ?? false,
-        }
+        },
       );
     } catch (error) {
-      return makeError("Failed to fetch logauth", error);
+      return makeError('Failed to fetch logauth', error);
     }
   }
 
-  static async getFilters(
-    options?: RequestOptions
-  ): Promise<GetListFiltersResponse | ApiError> {
+  static async getFilters(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
       return await apiClient.post<FilterReponse[]>(`${LogAuthService.ENDPOINTS.FILTERS}`, {
         ...options,
@@ -44,7 +41,7 @@ export class LogAuthService {
         hasToast: options?.hasToast ?? false,
       });
     } catch (error) {
-      return makeError("Failed to fetch filters", error);
+      return makeError('Failed to fetch filters', error);
     }
   }
 }

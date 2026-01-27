@@ -1,6 +1,5 @@
-import { FormSection } from "@/features/form-builder/form-core/domain/field/FormSection";
-import { AnyField } from "@/features/form-builder/form-react-adapter/fields";
-
+import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
+import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 
 export type FormSchema = FormSection[];
 export type FormField = AnyField;

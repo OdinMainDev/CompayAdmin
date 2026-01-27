@@ -10,8 +10,8 @@ import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 import PageHeader from '@/components/dashboard/common/PageHeader';
 
 interface DatatableProps<T> {
-  pageTitle?: string,
-  pageSubtitle?: string,
+  pageTitle?: string;
+  pageSubtitle?: string;
   config: DatatableConfig<T>;
   className?: string;
 }
@@ -20,27 +20,20 @@ export function Datatable<T>({
   pageTitle,
   pageSubtitle,
   config,
-  className = ''
+  className = '',
 }: DatatableProps<T>): React.ReactElement {
   const [engine, setEngine] = useState<DatatableEngine<T> | null>(null);
   const [state, setState] = useState<DatatableState<T> | null>(null);
-  
 
   useEffect(() => {
-
     const initializeEngine = async () => {
       const backend = createBackendAdapter(config);
       const eventEmitter = createEventEmitter();
 
-      
-      const newEngine = new DatatableEngine<T>(
-        config,
-        backend,
-        eventEmitter,
-      );
+      const newEngine = new DatatableEngine<T>(config, backend, eventEmitter);
 
       const initialState = await newEngine.initialize();
-      
+
       setEngine(newEngine);
       setState(initialState);
 
@@ -61,7 +54,6 @@ export function Datatable<T>({
       engine.sort(column, direction);
     }
   };
-
 
   const handlePageChange = (page: number) => {
     if (engine) {
@@ -98,37 +90,30 @@ export function Datatable<T>({
 
   return (
     <>
-    {(pageTitle || pageSubtitle) && (
-      <PageHeader
-        title={pageTitle ?? ''}
-        subtitle={pageSubtitle ?? ''}
-      />
-    )}
-  
-    <div className={`datatable card shadow-sm border-0 ${className}`}>
-      <DatatableHeader
-        config={config}
-        engine={engine} 
-        onAction={handleAction}
-      />
-      
-      <DatatableBody
-        config={config}
-        engine={engine}
-        onSort={handleSort}
-        onRowClick={config.events?.onRowClick}
-        onSelectionChange={handleSelectionChange}
-      />
-      
-      {(config.pagination?.enabled ?? true) && (
-        <DatatableFooter
-          engine={engine}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
+      {(pageTitle || pageSubtitle) && (
+        <PageHeader title={pageTitle ?? ''} subtitle={pageSubtitle ?? ''} />
       )}
-    </div>
-  </>
+
+      <div className={`datatable card shadow-sm border-0 ${className}`}>
+        <DatatableHeader config={config} engine={engine} onAction={handleAction} />
+
+        <DatatableBody
+          config={config}
+          engine={engine}
+          onSort={handleSort}
+          onRowClick={config.events?.onRowClick}
+          onSelectionChange={handleSelectionChange}
+        />
+
+        {(config.pagination?.enabled ?? true) && (
+          <DatatableFooter
+            engine={engine}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        )}
+      </div>
+    </>
   );
 }
 
@@ -140,19 +125,19 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       }
       throw new Error('Backend adapter not implemented');
     },
-    
+
     async fetchFilters() {
       if (config.filtersSource) {
         if (typeof config.filtersSource === 'function') {
           return config.filtersSource();
         }
       }
-      return { success: true, data: [] }; 
+      return { success: true, data: [] };
     },
-    
+
     async add(_: Record<string, unknown>) {
-      const addAction = config.quickActions?.find(action => action.id === 'add');
-      
+      const addAction = config.quickActions?.find((action) => action.id === 'add');
+
       if (addAction?.handler) {
         return addAction.handler();
       }
@@ -160,15 +145,15 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
     },
     async executeAction(actionId: string, data: Record<string, unknown>) {
       type ActionMethod = (data: Record<string, unknown>) => Promise<unknown>;
-      
+
       const hasMethod = (obj: object, key: string): obj is { [key: string]: ActionMethod } => {
         return key in obj && typeof (obj as any)[key] === 'function';
       };
-      
+
       if (hasMethod(this, actionId)) {
         return (this as Record<string, ActionMethod>)[actionId](data);
       }
-      const currentAction = config.quickActions?.find(action => action.id === actionId);
+      const currentAction = config.quickActions?.find((action) => action.id === actionId);
 
       if (!currentAction) {
         throw new Error(`Action "${actionId}" not implemented`);
@@ -178,14 +163,14 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       } else {
         throw new Error(`Action "${actionId}" does not have a handler`);
       }
-    }
+    },
   };
-  
+
   return methods;
 }
 function createEventEmitter(): any {
   const listeners = new Map();
-  
+
   return {
     emit: (event: string, data: unknown) => {
       const eventListeners = listeners.get(event) || [];
@@ -195,7 +180,7 @@ function createEventEmitter(): any {
       const eventListeners = listeners.get(event) || [];
       eventListeners.push(handler);
       listeners.set(event, eventListeners);
-      
+
       return () => {
         const filtered = eventListeners.filter((h: (data: unknown) => void) => h !== handler);
         listeners.set(event, filtered);
@@ -205,6 +190,6 @@ function createEventEmitter(): any {
       const eventListeners = listeners.get(event) || [];
       const filtered = eventListeners.filter((h: (data: unknown) => void) => h !== handler);
       listeners.set(event, filtered);
-    }
+    },
   };
 }

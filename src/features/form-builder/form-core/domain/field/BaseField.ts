@@ -1,12 +1,12 @@
 import type { ValidationResult } from '@/features/form-builder/form-core/domain/validation/ValidationResult';
-import type { BaseFieldExtra, FieldUI } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
+import type {
+  BaseFieldExtra,
+  FieldUI,
+} from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 
-export abstract class BaseField<
-  T,
-  E extends BaseFieldExtra = BaseFieldExtra
-> {
+export abstract class BaseField<T, E extends BaseFieldExtra = BaseFieldExtra> {
   abstract type: string;
-  public extra?: E
+  public extra?: E;
 
   protected static defaultUi: FieldUI = {
     mb: 2,
@@ -16,9 +16,8 @@ export abstract class BaseField<
     public name: string,
     public label: string,
     public value: T,
-    extra?: E 
+    extra?: E,
   ) {
-
     const ui = {
       ...BaseField.defaultUi,
       ...extra?.ui,
@@ -31,10 +30,8 @@ export abstract class BaseField<
   }
 
   validate(): ValidationResult {
-    const isValid =
-      (this.value !== null && this.value !== undefined) || !this.extra?.required;
-  
+    const isValid = (this.value !== null && this.value !== undefined) || !this.extra?.required;
+
     return { isValid, errors: isValid ? [] : ['Field cannot be empty'] };
   }
-  
 }
