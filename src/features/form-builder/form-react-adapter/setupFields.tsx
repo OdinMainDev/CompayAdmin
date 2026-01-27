@@ -38,7 +38,7 @@ import {
 } from '@/features/form-builder/form-core/domain/field/DaterangeField';
 import type { DaterangeFieldExtra } from '@/features/form-builder/form-core/domain/extra/DaterangeFieldExtra';
 import { DaterangeRenderer } from './components/Daterange';
-import '@/app/datatable/custom/setup';
+import '@/app/forms/setup';
 
 UnifiedFieldRegistry.registerFunction<TabFieldValue, TabsFieldExtra>(
   'tabs',

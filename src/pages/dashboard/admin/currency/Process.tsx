@@ -15,6 +15,7 @@ import {
 } from '@/features/form-builder/form-core/domain/field';
 import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 import { ApiError } from '@/features/api-client/types/core';
+import { stringArrToOptions } from '@/app/forms/transforms/options';
 
 const Process = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,13 +32,7 @@ const Process = () => {
       if (!response.success) {
         return;
       }
-
-      const options: SelectOption[] = response.data.map((network) => ({
-        value: network,
-        label: network,
-      }));
-
-      setNetworks(options);
+      setNetworks(stringArrToOptions(response.data));
     };
     void getNetworks();
   }, []);

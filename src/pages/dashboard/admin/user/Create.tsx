@@ -8,7 +8,7 @@ import { FormSection } from '@/features/form-builder/form-core/domain/field/Form
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { PasswordField } from '@/features/form-builder/form-core/domain/field/PasswordField';
 import { SwitchField } from '@/features/form-builder/form-core/domain/field/SwitchField';
-import { MerchantField } from '@/app/datatable/custom/fields/MerchantField';
+import { MerchantField } from '@/app/forms/fields/MerchantField';
 import { UserService } from '@/app/api/user/service';
 import { UserCreateRequest } from '@/app/api/user/types';
 import UserCreateMerchantData from '@/components/dashboard/custom/forms_components/UserCreateMerchantData';
