@@ -14,6 +14,7 @@ import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction
 import { buildDeleteAction } from '@/features/datatable-core/utils/buildDeleteAction';
 import { RenderBool } from '@/app/datatable/columns/bool';
 import { Button } from 'react-bootstrap';
+import { RenderLink } from '@/app/datatable/columns/link';
 
 const List = () => {
   const { t, i18n } = useTranslation();
@@ -59,30 +60,14 @@ const List = () => {
       field: 'merchant_id',
       label: t('datatable.merchant_id'),
       sortable: true,
-      render: (row: User) => {
-        return (
-          <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
-              <Button bsPrefix="text" variant="info">
-                {t('datatable.go_to_merchant')} ({row.merchant_id})
-              </Button>
-          </Link>
-        );
-      },
+      render: (row: User) => <RenderLink path={`/dashboard/merchants/edit/${row.merchant_id}`} text={`${t('datatable.go_to_merchant')} (${row.merchant_id})`}/>,
     },
     {
       id: 'creator_id',
       field: 'creator_id',
       label: t('datatable.creator_id'),
       sortable: true,
-      render: (row: User) => {
-        return (
-          <Link to={`/dashboard/users/edit/${row.creator_id}`}>
-              <Button bsPrefix="text" variant="info">
-                {t('datatable.go_to_user')} ({row.creator_id})
-              </Button>
-          </Link>
-        );
-      },
+      render: (row: User) => <RenderLink path={`/dashboard/users/edit/${row.creator_id}`} text={`${t('datatable.go_to_user')} (${row.creator_id})`}/>,
     },
     {
       id: 'created_at',

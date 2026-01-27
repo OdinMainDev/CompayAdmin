@@ -12,6 +12,7 @@ import { LogUserService } from '@/app/api/loguser/service';
 import { Button } from 'react-bootstrap';
 import { RenderClientData } from '@/app/datatable/columns/client_data';
 import { RenderCopyTextarea } from '@/app/datatable/columns/copy_textarea';
+import { RenderLink } from '@/app/datatable/columns/link';
 
 const User = () => {
   const { t, i18n } = useTranslation();
@@ -30,30 +31,14 @@ const User = () => {
       field: 'user_id',
       label: t('datatable.user_id'),
       sortable: true,
-      render: (row: LogUser) => {
-        return (
-          <Link to={`/dashboard/users/edit/${row.user_id}`}>
-              <Button bsPrefix="text" href="#info" variant="info">
-                {t('datatable.go_to_user')} ({row.user_id})
-              </Button>
-          </Link>
-        );
-      },
+      render: (row: LogUser) => <RenderLink path={`/dashboard/users/edit/${row.user_id}`} text={`${t('datatable.go_to_user')} (${row.user_id})`}/>,
     },
     {
       id: 'merchant_id',
       field: 'merchant_id',
       label: t('datatable.merchant_id'),
       sortable: true,
-      render: (row: LogUser) => {
-        return (
-          <Link to={`/dashboard/merchants/edit/${row.merchant_id}`}>
-              <Button bsPrefix="text" href="#info" variant="info">
-                {t('datatable.go_to_merchant')} ({row.merchant_id})
-              </Button>
-          </Link>
-        );
-      },
+      render: (row: LogUser) => <RenderLink path={`/dashboard/merchants/edit/${row.merchant_id}`} text={`${t('datatable.go_to_merchant')} (${row.merchant_id})`}/>,
     },
     {
       id: 'action',
