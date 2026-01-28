@@ -8,6 +8,8 @@ export class FormHydrator {
     values?: T,
     errors?: Record<string, string[]>,
   ): FormSection[] {
+
+
     return sections.map((section) => ({
       ...section,
       fields: section.fields.map((field) => this.hydrateField(field, values, errors)),
@@ -19,7 +21,9 @@ export class FormHydrator {
     values?: T,
     errors?: Record<string, string[]>,
   ): AnyField {
+
     if (values && typeof values === 'object' && values !== null) {
+
       if (field.name in values) {
         const rawValue = (values as Record<string, unknown>)[field.name];
         field.value = rawValue as typeof field.value;

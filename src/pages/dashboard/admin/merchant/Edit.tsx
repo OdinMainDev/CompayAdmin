@@ -155,9 +155,6 @@ const Edit = () => {
                       CurrencyField.create('currency', t('fields.currency'), {
                         ui: { col: 4 },
                       }),
-                      CurrencyField.create('currency2', t('fields.currency'), {
-                        ui: { col: 4 },
-                      }),
                       SelectField.create('fee_type', t('fields.fee_type'), {
                         options: feeTypes,
                         ui: { col: 4 },
