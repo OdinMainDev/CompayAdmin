@@ -32,13 +32,7 @@ export function withValidation<T, E extends BaseFieldExtra = BaseFieldExtra>(
     return (
       <Form.Group
         controlId={`form-${field.name}`}
-        className={`
-            ${(field.extra?.ui?.mb ?? 2) ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
-            ${field.extra?.ui?.mt ? `mt-${field.extra.ui.mt}` : ''}
-            ${field.extra?.ui?.mx ? `mx-${field.extra.ui.mx}` : ''}
-            ${field.extra?.ui?.my ? `my-${field.extra.ui.my}` : ''}
-            ${field.extra?.ui?.className ?? ''}
-          `}
+        className={`${field.extra?.ui?.className ?? 'mb-2'}`}
       >
         <Form.Label className="fw-semibold">{field.label}</Form.Label>
         {fieldRenderer(field, handleChange, error != null)}
@@ -78,12 +72,7 @@ export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
 
     return (
       <div
-        className={`
-            ${(field.extra?.ui?.mb ?? 2) ? `mb-${field.extra?.ui?.mb ?? 2}` : ''}
-            ${field.extra?.ui?.mt ? `mt-${field.extra.ui.mt}` : ''}
-            ${field.extra?.ui?.mx ? `mx-${field.extra.ui.mx}` : ''}
-            ${field.extra?.ui?.my ? `my-${field.extra.ui.my}` : ''}
-            ${field.extra?.ui?.className ?? ''}
+        className={`${field.extra?.ui?.className ?? 'mb-2'}
           `}
       >
         {fieldRenderer(field, handleChange, error != null)}

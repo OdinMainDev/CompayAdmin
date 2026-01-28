@@ -9,7 +9,7 @@ export abstract class BaseField<T, E extends BaseFieldExtra = BaseFieldExtra> {
   public extra?: E;
 
   protected static defaultUi: FieldUI = {
-    mb: 2,
+    // className: 'mb-2',
   };
 
   constructor(

@@ -2,10 +2,6 @@ import type { InputActionMeta } from 'react-select';
 
 export interface FieldUI {
   col?: number | 'auto';
-  mb?: number;
-  mt?: number;
-  mx?: number;
-  my?: number;
   className?: string;
 }
 
