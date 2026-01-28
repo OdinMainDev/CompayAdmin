@@ -73,7 +73,6 @@ const Edit = () => {
         handleSubmit={handleSubmit}
         submitLabel={t('form.save')}
         fieldErrors={fieldErrors}
-
         leftSlot={<Alert variant="info">side bar</Alert>}
       />
     </>

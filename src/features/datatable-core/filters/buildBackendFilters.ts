@@ -35,8 +35,18 @@ export const buildBackendFilters = (backendFilters: FilterReponse[]): FormSectio
 
         const fieldInstance =
           'create' in FieldClass && typeof FieldClass.create === 'function'
-            ? FieldClass.create(filter.name, t(`datatables.filters.${filter.name}`), extra, defaultValue)
-            : new FieldClass(filter.name, t(`datatables.filters.${filter.name}`), defaultValue, extra);
+            ? FieldClass.create(
+                filter.name,
+                t(`datatables.filters.${filter.name}`),
+                extra,
+                defaultValue,
+              )
+            : new FieldClass(
+                filter.name,
+                t(`datatables.filters.${filter.name}`),
+                defaultValue,
+                extra,
+              );
 
         return fieldInstance as unknown as AnyField;
       }),

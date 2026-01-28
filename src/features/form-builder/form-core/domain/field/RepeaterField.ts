@@ -9,7 +9,7 @@ export interface RepeaterFieldExtra extends BaseFieldExtra {
   elements: AnyField[];
   minItems?: number;
   maxItems?: number;
-  elementTitle?: string
+  elementTitle?: string;
 }
 
 export class RepeaterField

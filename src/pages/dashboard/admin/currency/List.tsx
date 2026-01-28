@@ -104,9 +104,7 @@ const List = () => {
           handler: importCurrencies,
         },
       ],
-      rowActions: [
-        buildEditAction('/dashboard/currencies/process/', navigate),
-      ],
+      rowActions: [buildEditAction('/dashboard/currencies/process/', navigate)],
     }),
     [columns, t],
   );

@@ -34,6 +34,6 @@ export const FieldClasses = {
 
 export type PackageFields = InstanceType<(typeof FieldClasses)[keyof typeof FieldClasses]>;
 
-export interface CustomFields {} 
+export interface CustomFields {}
 
 export type AnyField = PackageFields | InstanceType<CustomFields[keyof CustomFields]>;

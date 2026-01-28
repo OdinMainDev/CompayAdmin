@@ -1,9 +1,7 @@
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable'; 
-
-
+import autoTable from 'jspdf-autotable';
 
 export interface IExportOptions<T = any> {
   data: T[];

@@ -33,14 +33,14 @@ export const RepeaterRenderer = (
   const updateItemValue = (index: number, name: string, value: any) => {
     if (!field.value) return;
     const nextValue = field.value.map((item, i) =>
-      i === index ? { ...item, [name]: value } : item
+      i === index ? { ...item, [name]: value } : item,
     );
     onChange(nextValue);
   };
 
   const [openItems, setOpenItems] = useState<Record<number, boolean>>(() => {
     const obj: Record<number, boolean> = {};
-    const length = (field.value && field.value.length) || 1; 
+    const length = (field.value && field.value.length) || 1;
     for (let i = 0; i < length; i++) obj[i] = true;
     return obj;
   });
@@ -57,7 +57,6 @@ export const RepeaterRenderer = (
       return next;
     });
   }, [field.value]);
-  
 
   const toggleItem = (index: number) =>
     setOpenItems((prev) => ({ ...prev, [index]: !prev[index] }));
@@ -70,7 +69,14 @@ export const RepeaterRenderer = (
       </div>
 
       {(field.value && field.value.length ? field.value : [{}]).map((itemValue, index) => (
-        <div key={index} style={{ position: 'relative', borderRadius: '0.375rem', boxShadow: '0 0 4px rgba(0,0,0,0.05)' }}>
+        <div
+          key={index}
+          style={{
+            position: 'relative',
+            borderRadius: '0.375rem',
+            boxShadow: '0 0 4px rgba(0,0,0,0.05)',
+          }}
+        >
           <div
             style={{
               display: 'flex',
@@ -81,7 +87,10 @@ export const RepeaterRenderer = (
               backgroundColor: '#f8f8f8',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => toggleItem(index)}>
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              onClick={() => toggleItem(index)}
+            >
               <FontAwesomeIcon
                 icon={faChevronDown}
                 style={{
@@ -97,7 +106,7 @@ export const RepeaterRenderer = (
             </div>
             {(!minItems || (field.value && field.value.length > minItems)) && (
               <button
-                type="button" 
+                type="button"
                 style={{
                   position: 'absolute',
                   top: '0.25rem',
@@ -116,19 +125,28 @@ export const RepeaterRenderer = (
           </div>
 
           <Collapse in={!!openItems[index]} unmountOnExit>
-            <div style={{ padding: '1rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', width: '100%' }}>
+            <div
+              style={{
+                padding: '1rem',
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                width: '100%',
+              }}
+            >
               <Row className="gx-3" style={{ width: '100%', margin: 0 }}>
                 {elements.map((f) => {
                   const value = itemValue[f.name];
-                    const copy = Object.create(Object.getPrototypeOf(f)) as typeof f;
-                    Object.assign(copy, f);
-                    copy.value = value as typeof copy.value;
-
+                  const copy = Object.create(Object.getPrototypeOf(f)) as typeof f;
+                  Object.assign(copy, f);
+                  copy.value = value as typeof copy.value;
 
                   return (
                     <Col key={f.name} md={f.extra?.ui?.col ?? 12}>
                       {f.extra?.beforeField}
-                      {UnifiedFieldRegistry.renderAny(copy, (v) => updateItemValue(index, f.name, v))}
+                      {UnifiedFieldRegistry.renderAny(copy, (v) =>
+                        updateItemValue(index, f.name, v),
+                      )}
                     </Col>
                   );
                 })}

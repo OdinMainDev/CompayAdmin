@@ -28,7 +28,7 @@ export function TabsRenderer(
               {tab.elements.map((inner) => {
                 const extra = inner.extra;
                 const uniqueKey = `${tab.name}_${inner.name}`;
-                
+
                 return (
                   <React.Fragment key={uniqueKey}>
                     {inner.extra?.beforeField}
