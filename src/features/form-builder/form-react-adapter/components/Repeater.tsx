@@ -70,6 +70,26 @@ export const RepeaterRenderer = (
   
     return true;
   };
+
+
+  useEffect(() => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.map((oldField) => {
+          const newFieldDef = elements.find((e) => e.name === oldField.name);
+          if (!newFieldDef) return oldField;
+
+          const copy = Object.create(Object.getPrototypeOf(newFieldDef)) as AnyField;
+          Object.assign(copy, newFieldDef);
+          copy.value = oldField.value;
+
+          return copy;
+        }),
+      ),
+    );
+  }, [elements]);
+
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -207,6 +227,7 @@ export const RepeaterRenderer = (
                     md={f.extra?.ui?.col ?? 12} 
                   >
                     {f.extra?.beforeField}
+
                     {UnifiedFieldRegistry.renderAny(f, (v) => updateItemValue(index, f, v))}
                   </Col>
                 ))}
