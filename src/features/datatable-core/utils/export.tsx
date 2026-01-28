@@ -1,5 +1,9 @@
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'; 
+
+
 
 export interface IExportOptions<T = any> {
   data: T[];
@@ -9,7 +13,7 @@ export interface IExportOptions<T = any> {
 
 export async function handleExport<T extends Record<string, unknown>>(
   data: T[],
-  format: 'excel' | 'csv',
+  format: 'excel' | 'csv' | 'pdf',
   fileName = 'export',
 ) {
   if (!data || !data.length) return;
@@ -45,5 +49,24 @@ export async function handleExport<T extends Record<string, unknown>>(
     const finalCsv = `${headersString}\n${csvContent}`;
     const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, `${fileName}.csv`);
+  }
+
+  if (format === 'pdf') {
+    const doc = new jsPDF();
+
+    const tableColumn = headers.map((h) => h.label);
+
+    const tableRows = data.map((row) =>
+      headers.map((h) => {
+        const val = row[h.value];
+        return val !== undefined && val !== null ? String(val) : '';
+      }),
+    );
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+    });
+
+    doc.save(`${fileName}.pdf`);
   }
 }

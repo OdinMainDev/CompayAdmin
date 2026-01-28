@@ -13,6 +13,7 @@ export class SelectFieldGeneric<T extends string | number = string> extends Base
     this.type = type ?? 'select';
   }
 
+  
   validate(): ValidationResult {
     const isValid =
       !this.extra?.required ||

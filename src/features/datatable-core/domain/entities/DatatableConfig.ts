@@ -46,7 +46,7 @@ export interface DatatableConfig<T> {
   };
   export?: {
     disabled: boolean;
-    format?: 'csv' | 'excel';
+    formats?: ('csv' | 'excel' | 'pdf')[];
     fileName?: string;
     columns?: string[];
     handler?(query: ApiDatatableQuery, format: 'csv' | 'excel'): Promise<unknown>;

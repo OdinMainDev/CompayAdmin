@@ -9,6 +9,7 @@ export interface RepeaterFieldExtra extends BaseFieldExtra {
   elements: AnyField[];
   minItems?: number;
   maxItems?: number;
+  elementTitle?: string
 }
 
 export class RepeaterField
@@ -33,6 +34,11 @@ export class RepeaterField
     label: string,
     extra?: RepeaterFieldExtra,
   ) {
-    return new this(name, label, [], extra);
+    const extraWithDefaults: RepeaterFieldExtra = {
+      ...extra,
+      elements: extra?.elements ?? [],
+      minItems: extra?.minItems ?? 0,
+    };
+    return new this(name, label, [], extraWithDefaults);
   }
 }

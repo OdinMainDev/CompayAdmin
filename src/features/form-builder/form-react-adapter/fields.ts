@@ -14,8 +14,6 @@ import { MultiSelectNumberField } from '../form-core/domain/field/MultiSelectNum
 import { DaterangeField } from '../form-core/domain/field/DaterangeField';
 import { RepeaterField } from '../form-core/domain/field/RepeaterField';
 import { TabField } from '../form-core/domain/field/TabField';
-import { MerchantField } from '@/app/forms/fields/MerchantField';
-import { CurrencyField } from '@/app/forms/fields/CurrencyField';
 
 export const FieldClasses = {
   TextField,
@@ -32,8 +30,10 @@ export const FieldClasses = {
   RepeaterField,
   DaterangeField,
   TabField,
-  MerchantField,
-  CurrencyField,
 } as const;
 
-export type AnyField = InstanceType<(typeof FieldClasses)[keyof typeof FieldClasses]>;
+export type PackageFields = InstanceType<(typeof FieldClasses)[keyof typeof FieldClasses]>;
+
+export interface CustomFields {} 
+
+export type AnyField = PackageFields | InstanceType<CustomFields[keyof CustomFields]>;

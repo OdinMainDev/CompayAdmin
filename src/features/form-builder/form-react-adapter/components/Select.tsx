@@ -7,6 +7,7 @@ export function SingleSelectRenderer<T extends string | number>(
   onChange: (value: T) => void,
   hasError: boolean,
 ) {
+
   return (
     <BaseSelectRenderer<T> field={field} onChange={onChange} hasError={hasError} isMulti={false} />
   );

@@ -116,11 +116,10 @@ const Edit = () => {
                     ui: { col: 6 },
                     elements: [
                       CurrencyField.create('currency', t('fields.currency'), {
-                        ui: { col: 5 },
+                        ui: { col: 6 },
                       }),
                       NumberField.create('amount', t('fields.amount'), { ui: { col: 6 } }),
                     ],
-                    minItems: 0,
                   }),
                   RepeaterField.create('minimum_confirmations', t('fields.minimum_confirmations'), {
                     ui: { col: 6 },
@@ -130,7 +129,6 @@ const Edit = () => {
                       }),
                       NumberField.create('count', t('fields.count'), { ui: { col: 6 } }),
                     ],
-                    minItems: 0,
                   }),
                 ],
               },
@@ -150,12 +148,14 @@ const Edit = () => {
                       }),
                       NumberField.create('amount', t('fields.amount'), { ui: { col: 4 } }),
                     ],
-                    minItems: 0,
                   }),
                   RepeaterField.create('fee_percent_amounts', t('fields.fee_percent_amounts'), {
                     ui: { col: 6 },
                     elements: [
                       CurrencyField.create('currency', t('fields.currency'), {
+                        ui: { col: 4 },
+                      }),
+                      CurrencyField.create('currency2', t('fields.currency'), {
                         ui: { col: 4 },
                       }),
                       SelectField.create('fee_type', t('fields.fee_type'), {
@@ -164,7 +164,6 @@ const Edit = () => {
                       }),
                       NumberField.create('amount', t('fields.amount'), { ui: { col: 4 } }),
                     ],
-                    minItems: 0,
                   }),
                 ],
               },

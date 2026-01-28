@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Button, Col, Collapse, Row } from 'react-bootstrap';
 import { UnifiedFieldRegistry } from '../UnifiedFieldRegistry';
 import type { IField } from '../../form-core/domain/field/IField';
@@ -16,6 +16,7 @@ export const RepeaterRenderer = (
   onChange: (value: RepeaterFieldValue) => void,
 ) => {
   const elements = field.extra?.elements ?? [];
+  
 
   const copyField = (f: AnyField): AnyField => {
     const copy = Object.create(Object.getPrototypeOf(f)) as AnyField;
@@ -42,12 +43,46 @@ export const RepeaterRenderer = (
     return obj;
   });
 
+  const isFirstRender = useRef(true);
+  const deepEqual = (a: RepeaterFieldValue, b: RepeaterFieldValue) => {
+    if (a.length !== b.length) return false;
+  
+    for (let i = 0; i < a.length; i++) {
+      const objA = a[i];
+      const objB = b[i];
+  
+      const keysA = Object.keys(objA);
+      const keysB = Object.keys(objB);
+  
+      if (keysA.length !== keysB.length) return false;
+  
+      for (let key of keysA) {
+        const valA = objA[key];
+        const valB = objB[key];
+  
+        if (valA == null && valB == null) continue;
+  
+        if (typeof valA === "number" && typeof valB === "number" && isNaN(valA) && isNaN(valB)) continue;
+  
+        if (valA !== valB) return false;
+      }
+    }
+  
+    return true;
+  };
   useEffect(() => {
-    const value: RepeaterFieldValue = items.map((item) =>
-      item.reduce((acc, f) => ({ ...acc, [f.name]: f.value }), {} as Record<string, unknown>),
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+  
+    const value: RepeaterFieldValue = items.map(item =>
+      item.reduce((acc, f) => ({ ...acc, [f.name]: f.value }), {})
     );
-    onChange(value);
-  }, [items, onChange]);
+    if (!deepEqual(value, field.value)) {
+      onChange(value);
+    }
+  }, [items, field.value, onChange]);
 
   const addItem = useCallback(() => {
     if (items.length >= (field.extra?.maxItems ?? Infinity)) return;
@@ -153,7 +188,11 @@ export const RepeaterRenderer = (
           <div style={styles.header}>
             <div style={styles.headerLeft} onClick={() => toggleItem(index)}>
               <FontAwesomeIcon icon={faChevronDown} style={styles.rotate(!!openItems[index])} />
-              <strong>Элемент {index + 1}</strong>
+              <strong>
+                {field.extra?.elementTitle
+                  ? `${field.extra.elementTitle} ${index + 1}`
+                  : `Элемент ${index + 1}`}
+              </strong>
             </div>
             <button style={styles.trashButton} onClick={() => removeItem(index)}>
               <FontAwesomeIcon icon={faTrashCan} />
@@ -161,18 +200,15 @@ export const RepeaterRenderer = (
           </div>
           <Collapse in={!!openItems[index]} unmountOnExit>
             <div style={styles.body}>
-              <Row style={{ width: '100%', gap: '1rem', margin: 0 }}>
+              <Row className="gx-3" style={{ width: '100%', margin: 0 }}>
                 {item.map((f) => (
-                  <React.Fragment key={field.name}>
+                  <Col
+                    key={f.name}
+                    md={f.extra?.ui?.col ?? 12} 
+                  >
                     {f.extra?.beforeField}
-                    <Col
-                      key={f.name}
-                      md={f.extra?.ui?.col ?? 12}
-                      style={{ paddingLeft: 0, paddingRight: 0 }}
-                    >
-                      {UnifiedFieldRegistry.renderAny(f, (v) => updateItemValue(index, f, v))}
-                    </Col>
-                  </React.Fragment>
+                    {UnifiedFieldRegistry.renderAny(f, (v) => updateItemValue(index, f, v))}
+                  </Col>
                 ))}
               </Row>
             </div>

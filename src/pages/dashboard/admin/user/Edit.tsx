@@ -8,6 +8,7 @@ import { TextField } from '@/features/form-builder/form-core/domain/field/TextFi
 import { ApiError } from '@/features/api-client/types/core';
 import { User } from '@/app/entities/user';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,6 +73,8 @@ const Edit = () => {
         handleSubmit={handleSubmit}
         submitLabel={t('form.save')}
         fieldErrors={fieldErrors}
+
+        leftSlot={<Alert variant="info">side bar</Alert>}
       />
     </>
   );

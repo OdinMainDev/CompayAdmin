@@ -49,6 +49,7 @@ export class UnifiedFieldRegistry {
     field: AnyField,
     onChange: (value: unknown | Record<string, unknown>) => void,
   ): React.ReactElement {
+
     const entry = this.registry.get(field.type);
     if (!entry) {
       throw new Error(`Renderer for type "${field.type}" not found`);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
 import type { DatatableConfig } from '@/features/datatable-core/domain/entities/DatatableConfig';
 import { DatatableFilters } from './DatatableFilters';
-import { Dropdown, Form } from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown, Form } from 'react-bootstrap';
 import type { DatatableColumn } from '@/features/datatable-core/domain/entities/DatatableColumn';
 import { useDatatableState } from '@/features/datatable-core/ui/hooks/useDatatableState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -195,20 +195,34 @@ export function DatatableHeader<T>({
           )}
 
           {!config.export?.disabled && (
-            <button
-              className="btn btn-outline-success btn-sm"
-              onClick={async () => {
-                await handleExport(
-                  state.data as Record<string, unknown>[],
-                  config.export?.format ?? 'excel',
-                  config.export?.fileName ?? 'export',
-                );
-              }}
-              disabled={state.loading || state.data.length === 0}
-            >
-              <FontAwesomeIcon icon={faDownload} className="me-1" />
-              {t('datatable.export')}
-            </button>
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="outline-success"
+                size="sm"
+                disabled={state.loading || state.data.length === 0}
+                id="export-dropdown"
+              >
+                <FontAwesomeIcon icon={faDownload} className="me-1" />
+                {t('datatable.export')}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {(config.export?.formats ?? ['excel', 'csv', 'pdf']).map((format) => (
+                  <Dropdown.Item
+                    key={format}
+                    onClick={async () => {
+                      await handleExport(
+                        state.data as Record<string, unknown>[],
+                        format,
+                        config.export?.fileName ?? 'export',
+                      );
+                    }}
+                  >
+                    {format.toUpperCase()}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           )}
 
           {showBulkActions && (

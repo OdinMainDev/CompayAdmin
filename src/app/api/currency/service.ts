@@ -107,11 +107,14 @@ export class CurrencyService {
 
   static async import(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
-      return await apiClient.post<FilterReponse[]>(`${CurrencyService.ENDPOINTS.IMPORT}`, {
-        ...options,
-        isAuth: true,
-        hasToast: true,
-      });
+      return await apiClient.post<FilterReponse[]>(`${CurrencyService.ENDPOINTS.IMPORT}`, 
+        {},
+        {
+          ...options,
+          isAuth: true,
+          hasToast: true,
+        }
+      );
     } catch (error) {
       return makeError('Failed to fetch filters', error);
     }

@@ -27,10 +27,12 @@ export function TabsRenderer(
             <Row className="g-3">
               {tab.elements.map((inner) => {
                 const extra = inner.extra;
+                const uniqueKey = `${tab.name}_${inner.name}`;
+                
                 return (
-                  <React.Fragment key={field.name}>
-                    {field.extra?.beforeField}
-                    <Col key={inner.name} md={extra?.ui?.col ?? 6}>
+                  <React.Fragment key={uniqueKey}>
+                    {inner.extra?.beforeField}
+                    <Col key={uniqueKey} md={extra?.ui?.col ?? 6}>
                       {field.extra?.beforeField}
                       {UnifiedFieldRegistry.renderAny(inner, (value) => {
                         onChange({

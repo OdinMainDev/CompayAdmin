@@ -19,6 +19,9 @@ interface FormBuilderProps<T> {
   saving?: boolean;
   resetAble?: boolean;
   fieldErrors?: Record<string, string[]>;
+
+  topSlot?: React.ReactNode;
+  leftSlot?: React.ReactNode;
 }
 
 const UnifiedFormBuilder = <T,>({
@@ -32,6 +35,9 @@ const UnifiedFormBuilder = <T,>({
   saving,
   resetAble = false,
   fieldErrors,
+
+  topSlot,
+  leftSlot,
 }: FormBuilderProps<T>) => {
   const { t } = useTranslation('panel');
   const [submitting, setSubmitting] = useState(false);
@@ -67,69 +73,81 @@ const UnifiedFormBuilder = <T,>({
   return (
     <>
       {(title || subTitle) && <PageHeader title={title ?? ''} subtitle={subTitle ?? ''} />}
+
+      {topSlot && <div className="mb-3">{topSlot}</div>}
+
       <Form onSubmit={onSubmit}>
-        <Card className="border-0">
-          <Card.Body>
-            {sections.map((section, index) => (
-              <div key={`${section.title}-${index}`} className="mb-4">
-                {section.title && (
-                  <h5 className={section.description ? 'mb-1' : 'mb-3'}>{section.title}</h5>
-                )}
-                {section.description && (
-                  <div className="text-muted mb-3">{section.description}</div>
-                )}
-                <Row>
-                  {section.fields.map((field) => (
-                    <React.Fragment key={field.name}>
-                      {field.extra?.beforeField}
-                      <Col md={field.extra?.ui?.col ?? 12}>
-                        {UnifiedFieldRegistry.renderAny(field, (value) => {
-                          setFormData((prev) => {
-                            if (
-                              'isComposite' in field &&
-                              field.isComposite &&
-                              typeof value === 'object' &&
-                              value !== null
-                            ) {
-                              return { ...prev, ...value };
-                            }
-                            return { ...prev, [field.name]: value };
-                          });
-                        })}
-                      </Col>
-                    </React.Fragment>
-                  ))}
-                </Row>
-              </div>
-            ))}
-          </Card.Body>
-        </Card>
-        <div className="d-flex justify-content-end mt-3">
-          {resetAble && (
-            <Button
-              type="button"
-              variant="warning"
-              className="me-2"
-              onClick={handleReset}
-              disabled={isSaving}
-            >
-              {t('datatable.filters_reset')}
-            </Button>
+        <Row>
+          {leftSlot && (
+            <Col xs={12} md={3}>
+              {leftSlot}
+            </Col>
           )}
 
-          <Button type="submit" disabled={isSaving} variant="primary">
-            {isSaving ? (
-              <>
-                <Spinner animation="border" size="sm" role="status" className="me-2">
-                  <span className="visually-hidden">{t('form.loading')}</span>
-                </Spinner>
-                {resolvedSubmitLabel}
-              </>
-            ) : (
-              resolvedSubmitLabel
-            )}
-          </Button>
-        </div>
+          <Col xs={12} md={leftSlot ? 9 : 12}>
+            <Card className="border-0">
+              <Card.Body>
+                {sections.map((section, index) => (
+                  <div key={`${section.title}-${index}`} className="mb-4">
+                    {section.title && (
+                      <h5 className={section.description ? 'mb-1' : 'mb-3'}>{section.title}</h5>
+                    )}
+                    {section.description && (
+                      <div className="text-muted mb-3">{section.description}</div>
+                    )}
+
+                    <Row>
+                      {section.fields.map((field) => (
+                        <React.Fragment key={field.name}>
+                          {field.extra?.beforeField}
+                          <Col md={field.extra?.ui?.col ?? 12}>
+                            {UnifiedFieldRegistry.renderAny(field, (value) => {
+                              setFormData((prev) => {
+                                if (
+                                  'isComposite' in field &&
+                                  field.isComposite &&
+                                  typeof value === 'object' &&
+                                  value !== null
+                                ) {
+                                  return { ...prev, ...value };
+                                }
+                                return { ...prev, [field.name]: value };
+                              });
+                            })}
+                          </Col>
+                        </React.Fragment>
+                      ))}
+                    </Row>
+                  </div>
+                ))}
+              </Card.Body>
+            </Card>
+            <div className="d-flex justify-content-end mt-3">
+              {resetAble && (
+                <Button
+                  type="button"
+                  variant="warning"
+                  className="me-2"
+                  onClick={handleReset}
+                  disabled={isSaving}
+                >
+                  {t('datatable.filters_reset')}
+                </Button>
+              )}
+
+              <Button type="submit" disabled={isSaving} variant="primary">
+                {isSaving ? (
+                  <>
+                    <Spinner animation="border" size="sm" role="status" className="me-2" />
+                    {resolvedSubmitLabel}
+                  </>
+                ) : (
+                  resolvedSubmitLabel
+                )}
+              </Button>
+            </div>
+          </Col>
+        </Row>
       </Form>
     </>
   );

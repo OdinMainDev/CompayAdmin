@@ -26,6 +26,7 @@ export function AsyncSelect<T>({
   const debounceRef = useRef<number | undefined>(undefined);
   const load = (query: string) => {
     DynamicFilterCache.get(`${cacheKey}:${query}`, () => fetcher(query)).then((data) => {
+
       setSelectField((prev) =>
         SelectField.create(
           prev.name,
