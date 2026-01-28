@@ -12,9 +12,15 @@ import { TabField } from '@/features/form-builder/form-core/domain/field/TabFiel
 import {
   MultiSelectField,
   NumberField,
-  SwitchField,
+  SelectField,
 } from '@/features/form-builder/form-core/domain/field';
 import { RepeaterField } from '@/features/form-builder/form-core/domain/field/RepeaterField';
+import { ApiService } from '@/app/api/api/service';
+import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
+import { stringArrToSelectOptions } from '@/app/forms/transforms/options';
+import { CurrencyField } from '@/app/forms/fields/CurrencyField';
+import MerchantUpdateWebPageSettings from '@/components/dashboard/custom/forms_components/MerchantUpdateWebPageSettings';
+import { ApiAdminService } from '@/app/api/api_admin/service';
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,12 +28,9 @@ const Edit = () => {
   const navigate = useNavigate();
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [model, setModel] = useState<Merchant>();
-  const [formData, setFormData] = useState<MerchantUpdateRequest>({
-    id: 0,
-    name: '',
-    blocked_countries: [],
-    allowed_countries: [],
-  });
+  const [countries, setCountries] = useState<SelectOption[]>([]);
+  const [feeTypes, setFeeTypes] = useState<SelectOption[]>([]);
+  const [formData, setFormData] = useState<MerchantUpdateRequest>();
 
   useEffect(() => {
     if (!id || model) return;
@@ -39,9 +42,40 @@ const Edit = () => {
       }
 
       setModel(response.data);
+      setFormData({
+        id: response.data.id,
+        name: response.data.name,
+        blocked_countries: response.data.settings.conditions.blocked_countries,
+        allowed_countries: response.data.settings.conditions.allowed_countries,
+        notification_telegram_chat_id:
+          response.data.settings.public_settings.notification_telegram_chat_id,
+        minimum_amounts: response.data.settings.minimum_amounts,
+        minimum_confirmations: response.data.settings.minimum_confirmations,
+        fee_amounts: response.data.settings.fee_amounts,
+        fee_percent_amounts: response.data.settings.fee_percent_amounts,
+      });
     };
     void getData();
   }, [id, navigate, model]);
+
+  useEffect(() => {
+    const getCountries = async () => {
+      const response = await ApiService.getCountries();
+      if (!response.success) {
+        return;
+      }
+      setCountries(stringArrToSelectOptions(response.data));
+    };
+    const getFeeTypes = async () => {
+      const response = await ApiAdminService.getFeeTypes();
+      if (!response.success) {
+        return;
+      }
+      setFeeTypes(stringArrToSelectOptions(response.data));
+    };
+    void getCountries();
+    void getFeeTypes();
+  }, []);
 
   const sections = useMemo<FormSection[]>(
     () => [
@@ -52,30 +86,20 @@ const Edit = () => {
               {
                 name: 'main',
                 label: t('tabs.general'),
-                elements: [
-                  TextField.create('name', t('fields.name'), { ui: { col: 8 } }),
-                  SwitchField.create('is_enabled', t('fields.is_enabled'), { ui: { col: 4 } }),
-                ],
+                elements: [TextField.create('name', t('fields.name'), { ui: { col: 12 } })],
               },
               {
-                name: 'settings',
-                label: t('tabs.settings'),
+                name: 'settings_merchant',
+                label: t('tabs.settings_merchant'),
                 elements: [
                   MultiSelectField.create('blocked_countries', t('fields.blocked_countries'), {
                     ui: { col: 6 },
-                    options: [
-                      { value: 'Russia', label: 'Russia' },
-                      { value: 'USA', label: 'USA' },
-                      { value: 'China', label: 'China' },
-                    ],
+                    options: countries,
+                    beforeField: <MerchantUpdateWebPageSettings />,
                   }),
                   MultiSelectField.create('allowed_countries', t('fields.allowed_countries'), {
                     ui: { col: 6 },
-                    options: [
-                      { value: 'Russia', label: 'Russia' },
-                      { value: 'USA', label: 'USA' },
-                      { value: 'China', label: 'China' },
-                    ],
+                    options: countries,
                   }),
                   TextField.create(
                     'notification_telegram_chat_id',
@@ -85,23 +109,63 @@ const Edit = () => {
                 ],
               },
               {
-                name: 'minimum_amounts',
-                label: t('tabs.minimum_amounts'),
+                name: 'settings_currencies',
+                label: t('tabs.settings_currencies'),
                 elements: [
-                  RepeaterField.create('min_repeater', t('tabs.minimum_amounts'), {
-                    ui: { col: 12 },
+                  RepeaterField.create('minimum_amounts', t('fields.minimum_amounts'), {
+                    ui: { col: 6 },
                     elements: [
-                      NumberField.create('min_amount', t('fields.min_amount'), { ui: { col: 12 } }),
-                      NumberField.create('max_amount', t('fields.min_amount'), { ui: { col: 12 } }),
+                      CurrencyField.create('currency', t('fields.currency'), {
+                        ui: { col: 5 },
+                      }),
+                      NumberField.create('amount', t('fields.amount'), { ui: { col: 6 } }),
                     ],
+                    minItems: 0,
+                  }),
+                  RepeaterField.create('minimum_confirmations', t('fields.minimum_confirmations'), {
+                    ui: { col: 6 },
+                    elements: [
+                      CurrencyField.create('currency', t('fields.currency'), {
+                        ui: { col: 6 },
+                      }),
+                      NumberField.create('count', t('fields.count'), { ui: { col: 6 } }),
+                    ],
+                    minItems: 0,
                   }),
                 ],
               },
               {
-                name: 'fee_amounts',
-                label: t('tabs.fee_amounts'),
+                name: 'settings_fees',
+                label: t('tabs.settings_fees'),
                 elements: [
-                  // RepeaterField.create()
+                  RepeaterField.create('fee_amounts', t('fields.fee_amounts'), {
+                    ui: { col: 6 },
+                    elements: [
+                      CurrencyField.create('currency', t('fields.currency'), {
+                        ui: { col: 4 },
+                      }),
+                      SelectField.create('fee_type', t('fields.fee_type'), {
+                        options: feeTypes,
+                        ui: { col: 4 },
+                      }),
+                      NumberField.create('amount', t('fields.amount'), { ui: { col: 4 } }),
+                    ],
+                    minItems: 0,
+                  }),
+                  RepeaterField.create('fee_percent_amounts', t('fields.fee_percent_amounts'), {
+                    ui: { col: 6 },
+                    elements: [
+                      CurrencyField.create('currency', t('fields.currency'), {
+                        ui: { col: 4 },
+                      }),
+                      SelectField.create('fee_type', t('fields.fee_type'), {
+                        options: feeTypes,
+                        ui: { col: 4 },
+                      }),
+                      NumberField.create('amount', t('fields.amount'), { ui: { col: 4 } }),
+                    ],
+                    minItems: 0,
+                  }),
                 ],
               },
             ],
@@ -109,10 +173,11 @@ const Edit = () => {
         ],
       },
     ],
-    [t],
+    [t, countries, feeTypes],
   );
 
   const handleSubmit = async () => {
+    if (!formData) return;
     const dataToSend = { ...formData };
     const response = await MerchantService.update(dataToSend);
 

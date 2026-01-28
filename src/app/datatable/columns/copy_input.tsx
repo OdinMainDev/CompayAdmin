@@ -32,7 +32,7 @@ export function RenderCopyInput({ value }: CopyInputProps) {
 
       <Button
         variant={copied ? 'warning' : 'outline-warning'}
-        onClick={handleCopy}
+        onClick={() => void handleCopy()}
         style={{ whiteSpace: 'nowrap' }}
         className="text-black"
       >

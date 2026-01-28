@@ -7,6 +7,8 @@ export const mapBackendTypeToFormType = (type: string) => {
       return 'number';
     case 'merchant_id':
       return 'merchant_id';
+    case 'currency':
+      return 'currency';
 
     case 'string':
     case 'text':

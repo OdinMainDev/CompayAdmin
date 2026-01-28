@@ -1,5 +1,11 @@
 import { FilterReponse } from '@/features/api-client/types/datatable';
-import type { CurrencyProcessRequest, CurrencyResponse, GetListFiltersResponse } from './types';
+import type {
+  CurrencyProcessRequest,
+  CurrencyResponse,
+  CurrencySearchRequest,
+  CurrencySearchResponse,
+  GetListFiltersResponse,
+} from './types';
 import { RequestOptions } from '@/features/api-client/types/request';
 import { ApiError } from '@/features/api-client/types/core';
 import { apiClient } from '@/features/api-client/client';
@@ -14,6 +20,7 @@ export class CurrencyService {
     FILTERS: '/api/panel/admin/dev/currencies/list/filters',
     GET: '/api/panel/admin/dev/currencies/get',
     PROCESS: '/api/panel/admin/dev/currencies/process',
+    SEARCH: '/api/panel/admin/dev/currencies/search',
     IMPORT: '/api/panel/admin/dev/currencies/action/import',
   } as const;
 
@@ -76,6 +83,25 @@ export class CurrencyService {
       });
     } catch (error) {
       return makeError('Failed to process currency', error);
+    }
+  }
+
+  static async search(
+    data: CurrencySearchRequest,
+    options?: RequestOptions,
+  ): Promise<CurrencySearchResponse | ApiError> {
+    try {
+      return await apiClient.post<CurrencySearchResponse['data']>(
+        `${this.ENDPOINTS.SEARCH}`,
+        { ...data },
+        {
+          ...options,
+          isAuth: true,
+          hasToast: options?.hasToast ?? false,
+        },
+      );
+    } catch (error) {
+      return makeError('Failed to search merchants', error);
     }
   }
 

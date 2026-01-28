@@ -12,12 +12,25 @@ export interface Merchant {
 export interface MerchantSettings {
   readonly conditions: MerchantConditions;
   readonly minimum_amounts: MerchantAmounts[];
-  readonly fee_amounts: MerchantAmounts[];
+  readonly minimum_confirmations: MerchantConfirmations[];
+  readonly fee_amounts: MerchantFees[];
+  readonly fee_percent_amounts: MerchantFees[];
   readonly public_settings: MerchantPublicSettings;
 }
 
 export interface MerchantAmounts {
   readonly currency: string;
+  readonly amount: number;
+}
+
+export interface MerchantConfirmations {
+  readonly currency: string;
+  readonly count: number;
+}
+
+export interface MerchantFees {
+  readonly currency: string;
+  readonly fee_type: string;
   readonly amount: number;
 }
 

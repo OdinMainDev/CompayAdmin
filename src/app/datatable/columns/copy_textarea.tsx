@@ -41,7 +41,7 @@ export function RenderCopyTextarea({ value }: CopyTextareaProps) {
 
       <Button
         variant={copied ? 'warning' : 'outline-warning'}
-        onClick={handleCopy}
+        onClick={() => void handleCopy()}
         style={{ whiteSpace: 'nowrap' }}
         className="text-black"
       >

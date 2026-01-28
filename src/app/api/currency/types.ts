@@ -19,3 +19,12 @@ export interface CurrencyResponse {
   readonly success: boolean;
   readonly data: Currency;
 }
+
+export interface CurrencySearchRequest {
+  search: string;
+}
+
+export interface CurrencySearchResponse {
+  readonly success: boolean;
+  readonly data: Currency[];
+}

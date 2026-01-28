@@ -21,7 +21,7 @@ export class MerchantService {
     FILTERS: '/api/panel/admin/dev/merchants/list/filters',
     GET: '/api/panel/admin/dev/merchants/get',
     CREATE: '/api/panel/admin/dev/merchants/create',
-    UPDATE: '/api/panel/admin/dev/merchants/update',
+    UPDATE: '/api/panel/admin/dev/merchants/process',
     DELETE: '/api/panel/admin/dev/merchants/delete',
     SEARCH: '/api/panel/admin/dev/merchants/search',
   } as const;

@@ -1,5 +1,5 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import FastAction from './FastActions';
+import FastAction from '@/components/dashboard/custom/topbar/FastActions';
 import Notifications from './Notifications';
 import Profile from './Profile';
 

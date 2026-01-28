@@ -1,10 +1,11 @@
 import { Button, Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import ActionClearCache from './ActionClearCache';
 
 const FastAction = () => {
-  const { t } = useTranslation('panel');
+  const { t } = useTranslation();
 
   return (
     <div className="d-flex align-items-center">
@@ -14,9 +15,7 @@ const FastAction = () => {
           <FontAwesomeIcon icon={faPlus} className="ms-2" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2 !ml-auto">
-          <Dropdown.Item className="fw-bold">
-            <FontAwesomeIcon icon={faTrash} className="me-2" /> {t('topbar.fast_actions.action_1')}
-          </Dropdown.Item>
+          <ActionClearCache />
         </Dropdown.Menu>
       </Dropdown>
     </div>

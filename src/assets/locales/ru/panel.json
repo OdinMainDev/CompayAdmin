@@ -52,10 +52,6 @@
         "not_avail_options": "Нет доступных опций"
     },
     "topbar": {
-        "fast_actions": {
-            "title": "Быстрые действия",
-            "action_1": "Очистить кеш"
-        },
         "notifications": {
             "title": "Уведомдения",
             "open_all": "Все уведомления"

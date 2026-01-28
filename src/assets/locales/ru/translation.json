@@ -21,7 +21,8 @@
         "name": "Название",
         "network": "Сеть валюты",
         "minor_units":"Разрядность валюты",
-        "is_coin": "Коин"
+        "is_coin": "Коин",
+        "is_enabled": "Включено"
     },
     "toasts": {
         "pending": "Обработка действия...",
@@ -48,14 +49,24 @@
         "username": "Логин",
         "password": "Пароль",
         "merchant": "Мерчант",
-        "is_admin": "Является админом?"
+        "is_admin": "Является админом?",
+        "blocked_countries": "Заблокированные страны",
+        "allowed_countries": "Разрешенные страны",
+        "minimum_amounts": "Минимальные суммы для платежа",
+        "minimum_confirmations": "Минимум подтверждений необходимо",
+        "fee_amounts": "Фиксированные комиссии",
+        "fee_percent_amounts": "Комиссии в %",
+        "currency": "Валюта",
+        "amount": "Сумма",
+        "count": "Количество",
+        "fee_type": "Тип комиссии"
     },
     "tabs": {
         "personal_data": "Персональные данные",
         "general": "Основные",
-        "settings": "Настройки",
-        "minimum_amounts": "Минимальные суммы",
-        "fee_amounts": "Комиссии"
+        "settings_merchant": "Настройки мерчанта",
+        "settings_currencies": "Настройки валют",
+        "settings_fees": "Настройки комиссий"
     },
     "users_page": {
         "create": "Создать пользователя",
@@ -76,6 +87,14 @@
     "merchants_page": {
         "list": "Список мерчантов",
         "create": "Добавить мерчант",
-        "edit": "Изменить мерчант"
+        "edit": "Изменить мерчант",
+        "web_page_settings": "Настройки страницы платежа",
+        "admin_data": "Данные администратора"
+    },
+    "topbar": {
+        "fast_actions": {
+            "title": "Быстрые действия",
+            "action_1": "Очистить кеш"
+        }
     }
 }

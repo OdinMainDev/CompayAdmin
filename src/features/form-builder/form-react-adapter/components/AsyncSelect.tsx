@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { SelectField } from '@/features/form-builder/form-core/domain/field/SelectField';
 import { IField } from '@/features/form-builder/form-core/domain/field/IField';
-import { DynamicFilterCache } from '../../form-core/domain/utils/DynamicFilterCacheService';
-import { UnifiedFieldRegistry } from '../UnifiedFieldRegistry';
-import { BaseFieldExtra } from '../../form-core/domain/extra/BaseFieldExtra';
+import { DynamicFilterCache } from '@/features/form-builder/form-core/domain/utils/DynamicFilterCacheService';
+import { UnifiedFieldRegistry } from '@/features/form-builder/form-react-adapter/UnifiedFieldRegistry';
+import { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
+import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 
 export function AsyncSelect<T>({
   field,
@@ -15,7 +16,7 @@ export function AsyncSelect<T>({
   field: IField<number | null, BaseFieldExtra>;
   cacheKey: string;
   fetcher: (query: string) => Promise<T[]>;
-  mapOption: (item: T) => { label: string; value: string };
+  mapOption: (item: T) => SelectOption;
   onChange: (value: number | null) => void;
 }) {
   const [selectField, setSelectField] = useState(() =>

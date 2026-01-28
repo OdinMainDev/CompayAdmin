@@ -9,6 +9,7 @@ import { TextField } from '@/features/form-builder/form-core/domain/field/TextFi
 import { PasswordField } from '@/features/form-builder/form-core/domain/field/PasswordField';
 import { MerchantService } from '@/app/api/merchant/service';
 import { MerchantCreateRequest } from '@/app/api/merchant/types';
+import MerchantCreateAdminData from '@/components/dashboard/custom/forms_components/MerchantCreateAdminData';
 
 const Create = () => {
   const { t } = useTranslation();
@@ -19,9 +20,12 @@ const Create = () => {
     () => [
       {
         fields: [
-          TextField.create('name', t('fields.name'), { ui: { col: 8 } }),
-          TextField.create('admin_username', t('fields.admin_username'), { ui: { col: 8 } }),
-          PasswordField.create('admin_password', t('fields.admin_password'), { ui: { col: 8 } }),
+          TextField.create('name', t('fields.name'), { ui: { col: 12 } }),
+          TextField.create('admin_username', t('fields.admin_username'), {
+            ui: { col: 6 },
+            beforeField: <MerchantCreateAdminData />,
+          }),
+          PasswordField.create('admin_password', t('fields.admin_password'), { ui: { col: 6 } }),
         ],
       },
     ],
@@ -39,7 +43,6 @@ const Create = () => {
 
     const response = await MerchantService.create(dataToSend);
     if ('success' in response && response.success) {
-      alert('TOKEN: ' + response.token);
       navigate(`/dashboard/merchants/edit/${response.data.id}`);
     } else {
       const errorResponse = response as ApiError;
