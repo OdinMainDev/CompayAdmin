@@ -59,14 +59,18 @@
         "currency": "Валюта",
         "amount": "Сумма",
         "count": "Количество",
-        "fee_type": "Тип комиссии"
+        "fee_type": "Тип комиссии",
+        "old_username": "Старый логин",
+        "old_password": "Старый пароль"
     },
     "tabs": {
         "personal_data": "Персональные данные",
         "general": "Основные",
         "settings_merchant": "Настройки мерчанта",
         "settings_currencies": "Настройки валют",
-        "settings_fees": "Настройки комиссий"
+        "settings_fees": "Настройки комиссий",
+        "username_change": "Смена Логина",
+        "password_change": "Смена пароля"
     },
     "users_page": {
         "create": "Создать пользователя",
@@ -96,5 +100,35 @@
             "title": "Быстрые действия",
             "action_1": "Очистить кеш"
         }
+    },
+    "loading": "Загрузка",
+    "sidebars": {
+        "user": {
+            "title": "Информация о пользователе",
+            "details": "Детали",
+            "has_ban": "Бан на аккаунте",
+            "merchant": "Мерчант",
+            "creator": "Создал",
+            "created_at": "Дата создания",
+            "updated_at": "Дата обновления",
+            "actions": "Действия",
+            "set_banned": "Заблокировать",
+            "set_unbanned": "Разблокировать",
+            "disable_2fa": "Сбросить 2fa"
+        },
+        "profile": {
+            "title": "2FA Аутентификация",
+            "2fa_enabled": "2FA успешно установлен!",
+            "2fa_not_enabled": "2FA не установлен",
+            "setup_2fa": "Установить 2FA",
+            "scan_qr_code": "Отсканируйте QR-код с помощью приложения аутентификации",
+            "verification_code": "Проверочный код",
+            "enter_code": "Введите 6-значный код",
+            "code_hint": "Введите код из приложения аутентификации",
+            "activate_2fa": "Активировать 2FA"
+        }
+    },
+    "profile_page": {
+        "title": "Ваш профиль"
     }
 }

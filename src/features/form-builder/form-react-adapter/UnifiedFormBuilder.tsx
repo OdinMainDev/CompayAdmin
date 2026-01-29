@@ -122,7 +122,7 @@ const UnifiedFormBuilder = <T,>({
                 ))}
               </Card.Body>
             </Card>
-            <div className="d-flex justify-content-end mt-3">
+            <div className="d-flex justify-content-end mt-3 mb-3">
               {resetAble && (
                 <Button
                   type="button"

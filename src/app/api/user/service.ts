@@ -23,6 +23,9 @@ export class UserService {
     UPDATE: '/api/panel/admin/dev/users/process',
     DELETE: '/api/panel/admin/dev/users/delete',
     SEARCH: '/api/panel/admin/dev/users/search',
+    ACTION_DISABLE_TOTP: '/api/panel/admin/dev/users/action/disable-totp',
+    ACTION_BAN: '/api/panel/admin/dev/users/action/ban',
+    ACTION_UNBAN: '/api/panel/admin/dev/users/action/unban',
   } as const;
 
   static async getList(
@@ -134,6 +137,54 @@ export class UserService {
       });
     } catch (error) {
       return makeError('Failed to search users', error);
+    }
+  }
+
+  static async disable2FA(id: number, options?: RequestOptions): Promise<UserResponse | ApiError> {
+    try {
+      return await apiClient.post<UserResponse['data']>(
+        `${this.ENDPOINTS.ACTION_DISABLE_TOTP}`,
+        { id },
+        {
+          ...options,
+          isAuth: true,
+          hasToast: true,
+        },
+      );
+    } catch (error) {
+      return makeError('Failed to disable 2fa user', error);
+    }
+  }
+
+  static async ban(id: number, options?: RequestOptions): Promise<UserResponse | ApiError> {
+    try {
+      return await apiClient.post<UserResponse['data']>(
+        `${this.ENDPOINTS.ACTION_BAN}`,
+        { id },
+        {
+          ...options,
+          isAuth: true,
+          hasToast: true,
+        },
+      );
+    } catch (error) {
+      return makeError('Failed to ban user', error);
+    }
+  }
+
+  static async unban(id: number, options?: RequestOptions): Promise<UserResponse | ApiError> {
+    try {
+      return await apiClient.post<UserResponse['data']>(
+        `${this.ENDPOINTS.ACTION_UNBAN}`,
+        { id },
+        {
+          ...options,
+          isAuth: true,
+          hasToast: true,
+        },
+      );
+    } catch (error) {
+      return makeError('Failed to unban user', error);
     }
   }
 }

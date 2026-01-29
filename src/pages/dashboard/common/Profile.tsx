@@ -1,63 +1,90 @@
-import { Button, Card, Col, Form, Row } from 'react-bootstrap';
+import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/UnifiedFormBuilder';
+import { useTranslation } from 'react-i18next';
+import { useEffect, useMemo, useState } from 'react';
+import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
+import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
+import { ApiError } from '@/features/api-client/types/core';
+import { useAuthContext } from '@/features/auth/auth-context';
+import { ProfileRequest } from '@/app/api/profile/types';
+import { User } from '@/app/entities/user';
+import ProfileSidebar from '@/components/dashboard/custom/sidebars/ProfileSidebar';
+import { ProfileService } from '@/app/api/profile/service';
+import { TabField } from '@/features/form-builder/form-core/domain/field/TabField';
 
-import TwofaSidebar from '@/components/dashboard/sidebars/2fa';
-import PageHeader from '@/components/dashboard/common/PageHeader';
+const Profile = () => {
+  const { t } = useTranslation();
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+  const { user } = useAuthContext();
+  const [model, setModel] = useState<User>();
+  const [formData, setFormData] = useState<ProfileRequest>({
+    old_username: '',
+    new_username: '',
+    old_password: '',
+    new_password: '',
+  });
 
-export default function Profile() {
-  return (
-    <Row>
-      <PageHeader title="Profile" />
+  useEffect(() => {
+    if (!user) return;
+    const setData = () => {
+      setModel(user);
+    };
+    void setData();
+  }, [user]);
 
-      <TwofaSidebar />
-
-      <Col>
-        <Card border="light" className="bg-white shadow-sm mb-4">
-          <Card.Body>
-            <Form>
-              <Row>
-                <h5 className="mb-4">Изменить Username</h5>
-                <Col md={6} className="mb-3">
-                  <Form.Group id="firstName">
-                    <Form.Label>Old Username</Form.Label>
-                    <Form.Control required type="text" placeholder="Enter old username" />
-                  </Form.Group>
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Group id="lastName">
-                    <Form.Label>New Username</Form.Label>
-                    <Form.Control required type="text" placeholder="Enter new username" />
-                  </Form.Group>
-                </Col>
-                <h5 className="mb-4">Изменить Password</h5>
-
-                <div className="col col-12">
-                  <div className="position-relative">
-                    <hr className="bg-body-secondary mb-4 mt-5" />
-                    <div className="divider-content-center">Аккаунт администратора:</div>
-                  </div>
-                </div>
-                <Col md={6} className="mb-3">
-                  <Form.Group id="firstName">
-                    <Form.Label>Old Username</Form.Label>
-                    <Form.Control required type="text" placeholder="Enter old username" />
-                  </Form.Group>
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Group id="lastName">
-                    <Form.Label>New Username</Form.Label>
-                    <Form.Control required type="text" placeholder="Enter new username" />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <div className="mt-3 text-end">
-                <Button variant="primary" type="submit">
-                  Submit
-                </Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+  const sections = useMemo<FormSection[]>(
+    () => [
+      {
+        fields: [
+          TabField.create('profile_tabs', {
+            tabs: [
+              {
+                name: 'username_change',
+                label: t('tabs.username_change'),
+                elements: [
+                  TextField.create('old_username', t('fields.old_username'), { ui: { col: 6 } }),
+                  TextField.create('new_username', t('fields.new_username'), { ui: { col: 6 } }),
+                ],
+              },
+              {
+                name: 'password_change',
+                label: t('tabs.password_change'),
+                elements: [
+                  TextField.create('old_password', t('fields.old_password'), { ui: { col: 6 } }),
+                  TextField.create('new_password', t('fields.new_password'), { ui: { col: 6 } }),
+                ],
+              },
+            ],
+          }),
+        ],
+      },
+    ],
+    [t],
   );
-}
+
+  const handleSubmit = async () => {
+    const dataToSend = { ...formData };
+    const response = await ProfileService.update(dataToSend);
+
+    if (!response.success) {
+      const errorResponse = response as ApiError;
+      if (errorResponse.errors) setFieldErrors(errorResponse.errors);
+    }
+  };
+
+  return (
+    <>
+      <UnifiedFormBuilder
+        title={t('profile_page.title')}
+        fields={sections}
+        setFormData={setFormData}
+        formData={formData}
+        handleSubmit={handleSubmit}
+        submitLabel={t('form.save')}
+        fieldErrors={fieldErrors}
+        leftSlot={<ProfileSidebar user={model} />}
+      />
+    </>
+  );
+};
+
+export default Profile;
