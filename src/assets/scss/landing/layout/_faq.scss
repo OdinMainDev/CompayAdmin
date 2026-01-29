@@ -35,7 +35,8 @@
                     position: absolute;
                     right: 24px;
                     top: 21px;
-                    font-size: 16px;
+                    font-size: 24px;
+                    flex-shrink: 0;
                 }
                 &:focus {
                     border-color: none;
@@ -46,7 +47,7 @@
                     background-color: transparent;
                     box-shadow: none;
                     &::before {
-                        content: "-";
+                        content: "−";
                     }
                 }
                 &::after {

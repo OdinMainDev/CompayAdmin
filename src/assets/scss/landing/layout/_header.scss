@@ -82,14 +82,18 @@
                     text-transform: uppercase;
                     color: var(--tg-color-white-default);
                     font-family: var(--tg-heading-font-family);
-                    padding: 27px 25px;
+                    padding: 27px 20px;
                     @include flexbox();
                     align-items: center;
                     line-height: 1;
                     position: relative;
                     z-index: 1;
                     @media #{$lg} {
-                        padding: 27px 16px;
+                        padding: 27px 10px;
+                    }
+                    @media #{$l100px} {
+                        padding: 27px 5px;
+                        font-size: 13px;
                     }
                     &::before {
                         content: "";
@@ -361,11 +365,7 @@
             gap: 8px;
             & li {
                 position: relative;
-                margin-left: 30px;
                 flex: 0 0 auto;
-                @media #{$md} {
-                    margin-left: 20px;
-                }
                 &.header-search {
                     & a {
                         font-size: 18px;
@@ -411,15 +411,21 @@
                     }
                 }
                 &.header-btn {
-                    margin-left: 50px;
+                    margin-left: 15px;
                     @media #{$lg} {
-                        margin-left: 40px;
+                        margin-left: 10px;
                     }
                     @media #{$md} {
-                        margin-left: 30px;
+                        margin-left: 0px;
                     }
                     & .tg-btn {
                         padding: 14px 26px;
+                    }
+                    @media #{$l100px} {
+                        margin-left: 5px;
+                        & .tg-btn {
+                        padding: 14px;
+                    }
                     }
                 }
                 &:first-child {
@@ -484,6 +490,9 @@
     position: relative;
     min-width: 96px;
     display: inline-block;
+    @media #{$l100px} and (min-width: 991px) {
+        min-width: 82px;
+    }
 }
 
 .lang-toggle {
@@ -503,6 +512,12 @@
     letter-spacing: 0.35px;
     backdrop-filter: blur(6px);
     transition: all 0.2s ease;
+
+    @media #{$l100px} and (min-width: 991px) {
+        min-width: 82px;
+        width: 82px;
+
+    }
 
     .lang-label {
         flex: 1;

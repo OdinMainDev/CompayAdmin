@@ -115,7 +115,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
                 <span>{t('modal.success')}</span>
               </div>
               <form onSubmit={handleSubmit}>
-                <div className="mb-3">
+                <div className="mb-4">
                   <input
                     ref={inputRef}
                     type="text"

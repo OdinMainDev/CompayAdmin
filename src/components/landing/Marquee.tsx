@@ -19,7 +19,7 @@ const MarqueeWrapper = styled.div`
 
 const MarqueeContent = styled.div`
   display: flex;
-  animation: ${marqueeAnimation} 80s linear infinite;
+  animation: ${marqueeAnimation} 10s linear infinite;
 
   &:hover {
     animation-play-state: paused;

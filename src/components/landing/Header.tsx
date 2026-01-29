@@ -310,7 +310,11 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
         animate={{ opacity: sticky ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       >
-        <i className="fas fa-arrow-up"></i>
+        <i className="fas fa-arrow-up">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+            <path d="M12 6.75c.2 0 .39.08.53.22l5 5a.75.75 0 1 1-1.06 1.06L12.75 8.56V18a.75.75 0 0 1-1.5 0V8.56l-3.72 3.47a.75.75 0 1 1-1.06-1.06l5-5a.75.75 0 0 1 .53-.22z"></path>
+          </svg>
+        </i>
       </motion.button>
     </>
   );
