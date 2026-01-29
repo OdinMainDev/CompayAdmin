@@ -113,16 +113,14 @@
 
         .dropdown-menu {
             top: 0;
-            left: calc(100% - 2px);
+            // left: calc(100% - 2px);
             margin-left: .1rem;
             margin-right: .1rem;
             opacity: 0;
-            display: none;
 
             &.show {
                 opacity: 1;
                 pointer-events: all;
-                display: block;
             }
 
         }
@@ -359,19 +357,10 @@
                 opacity: 1;
                 pointer-events: auto;
             }
-
-            &.close {
-                display: block;
-            }
-        }
-
-        .dropdown-submenu .dropdown-menu {
-            transform: none;
         }
 
         .dropdown-menu {
             position: relative;
-            display: block;
             opacity: 0; 
             pointer-events: none;
             transition: $transition-base;
@@ -380,7 +369,6 @@
         .dropdown.show,
         .dropdown-submenu.show {
             & > .dropdown-menu {
-                display: block;
                 opacity: 1;
                 pointer-events: auto;
             }
@@ -426,7 +414,6 @@
 
         .dropdown-menu {
             box-shadow: none;
-            width: 100%;
 
             .media svg {
                 width: 30px;
@@ -435,8 +422,8 @@
     }
 
     .dropdown-menu-center {
-        right: 0;
-        left: auto;
+        right: 30%;
+        left: auto !important;
         transform: translate(0, 0);
     }
 

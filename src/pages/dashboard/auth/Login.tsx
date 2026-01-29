@@ -41,7 +41,7 @@ export default function Login() {
   };
 
   return (
-    <main className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
+    <main className="d-flex align-items-center center-h">
       <Container>
         <Row
           className="justify-content-center form-bg-image"

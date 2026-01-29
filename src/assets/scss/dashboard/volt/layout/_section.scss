@@ -467,3 +467,9 @@
 .index-icon-illustrations:hover {
     color: $secondary;
 }
+
+.center-h{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
