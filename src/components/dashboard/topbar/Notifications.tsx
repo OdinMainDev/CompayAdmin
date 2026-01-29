@@ -1,7 +1,7 @@
 import { Col, Dropdown, Image, ListGroup, Nav, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Profile1 from '@/assets/images/dashboard/examples/profile-picture-1.jpg';
+import Profile1 from '@/assets/images/logo/logo_3.svg';
 import { useState } from 'react';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 
