@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-// Import images
 import heroImg01 from '@/assets/images/landing/banner/hero_img01.png';
 import heroImg02 from '@/assets/images/landing/banner/hero_img02.png';
 import heroImg03 from '@/assets/images/landing/banner/hero_img03.png';
@@ -25,6 +24,45 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
     hidden: { opacity: 0, y: 60 },
     visible: { opacity: 1, y: 0 },
   };
+
+  const floatAnimationUp = useMemo(
+    () => ({
+      y: [0, -20, 0],
+    }),
+    [],
+  );
+
+  const floatAnimationDown = useMemo(
+    () => ({
+      y: [0, 20, 0],
+    }),
+    [],
+  );
+
+  const rotateAnimation = useMemo(
+    () => ({
+      rotate: 360,
+    }),
+    [],
+  );
+
+  const floatTransition = useMemo(
+    () => ({
+      duration: 3,
+      repeat: Infinity,
+      ease: 'easeInOut' as const,
+    }),
+    [],
+  );
+
+  const rotateTransition = useMemo(
+    () => ({
+      duration: 20,
+      repeat: Infinity,
+      ease: 'linear' as const,
+    }),
+    [],
+  );
 
   return (
     <section className="banner__area banner__bg" ref={ref}>
@@ -77,36 +115,30 @@ const Banner: React.FC<BannerProps> = ({ onOpenContact }) => {
 
       <div className="banner__shape">
         <motion.img
+          key="hero-img-01"
           src={heroImg01}
           alt="shape"
-          animate={{ y: [0, -20, 0] }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
+          loading="lazy"
+          animate={floatAnimationUp}
+          transition={floatTransition}
         />
         <motion.img
+          key="hero-img-02"
           src={heroImg02}
           alt="shape"
-          animate={{ y: [0, 20, 0] }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
+          loading="lazy"
+          animate={floatAnimationDown}
+          transition={floatTransition}
         />
         <motion.img
+          key="hero-img-03"
           src={heroImg03}
           alt="shape"
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
+          loading="lazy"
+          animate={rotateAnimation}
+          transition={rotateTransition}
         />
-        <img src={heroBgShape} alt="shape" />
+        <img src={heroBgShape} alt="shape" loading="lazy" />
       </div>
     </section>
   );
