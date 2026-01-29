@@ -113,8 +113,8 @@ export function DatatableHeader<T>({
 
                   <Dropdown.Menu
                     style={{
-                      minWidth: '250px',
-                      maxHeight: '400px',
+                      minWidth: '260px',
+                      maxHeight: '500px',
                       overflowY: 'auto',
                       padding: '0.5rem',
                       zIndex: 99999,

@@ -60,6 +60,24 @@ const User = () => {
         field: 'url',
         label: 'URL',
         sortable: true,
+        render: (row) => (
+        <span
+        style={{
+          display: 'block',
+          maxWidth: 200,
+          maxHeight: 200,
+          overflow: 'auto',
+          whiteSpace: 'nowrap',
+          paddingBottom: 2,
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+        className="hide-scroll"
+        title={row.url}
+        >
+        {row.url}
+      </span>
+    ),
       },
       {
         id: 'request',

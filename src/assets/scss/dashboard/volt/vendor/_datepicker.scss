@@ -31,3 +31,30 @@
   }
 }
 
+
+.clientDataAccordion {
+  position: relative;
+
+  .accordion-item {
+    position: relative;
+  }
+
+  .accordion-collapse {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 1050;
+  }
+
+  .accordion-body {
+    max-height: 60vh;
+    background-color: rgb(249, 250, 251);    
+    overflow: auto;
+  }
+}
+
+.hide-scroll::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}

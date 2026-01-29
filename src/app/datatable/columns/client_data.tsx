@@ -30,8 +30,28 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
       </div>
     ) : null;
 
+  const renderRowUA = (label: string, value?: string) =>
+    value ? (
+      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+        <strong>{label}:</strong>
+        <span
+          style={{
+            maxWidth: 200,
+            maxHeight: 200,
+            overflow: 'auto',
+            display: 'block',
+            whiteSpace: 'pre-wrap',
+            overflowWrap: 'anywhere',
+            wordBreak: 'break-word',
+          }}
+        >
+          {value}
+        </span>
+      </div>
+    ) : null;
+
   return (
-    <Accordion className="mb-4">
+    <Accordion className="mb-4 clientDataAccordion">
       <Accordion.Item eventKey="0">
         <Accordion.Header>{t('datatable.client_data')}</Accordion.Header>
 
@@ -42,7 +62,7 @@ export function RenderClientData({ clientData, hideBaseData }: Props) {
             <>
               {renderRow('IP Address', ip)}
               {renderRow('Fingerprint', fingerprint)}
-              {renderRow('User Agent', user_agent)}
+              {renderRowUA('User Agent', user_agent)}
             </>
           )}
 
