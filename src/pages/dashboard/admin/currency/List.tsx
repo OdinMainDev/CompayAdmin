@@ -8,7 +8,7 @@ import {
   type DatatableConfig,
 } from '@/features/datatable-core';
 import { Currency } from '@/app/entities/currency';
-import { CurrencyService } from '@/app/api/currency/service';
+import { CurrencyService } from '@/app/api/private/currency/service';
 import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
 import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
 import { RenderBool } from '@/app/datatable/columns/bool';

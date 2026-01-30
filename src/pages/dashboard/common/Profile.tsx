@@ -5,10 +5,10 @@ import { FormSection } from '@/features/form-builder/form-core/domain/field/Form
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { ApiError } from '@/features/api-client/types/core';
 import { useAuthContext } from '@/features/auth/auth-context';
-import { ProfileRequest } from '@/app/api/profile/types';
+import { ProfileRequest } from '@/app/api/private/profile/types';
 import { User } from '@/app/entities/user';
 import ProfileSidebar from '@/components/dashboard/custom/sidebars/ProfileSidebar';
-import { ProfileService } from '@/app/api/profile/service';
+import { ProfileService } from '@/app/api/private/profile/service';
 import { TabField } from '@/features/form-builder/form-core/domain/field/TabField';
 
 const Profile = () => {

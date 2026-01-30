@@ -1,7 +1,7 @@
 import { Button, Card } from 'react-bootstrap';
 import { User } from '@/app/entities/user';
 import { useTranslation } from 'react-i18next';
-import { UserService } from '@/app/api/user/service';
+import { UserService } from '@/app/api/private/user/service';
 import { Dispatch, SetStateAction } from 'react';
 
 interface UserActionProps {

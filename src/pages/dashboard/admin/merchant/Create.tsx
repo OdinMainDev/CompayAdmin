@@ -7,8 +7,8 @@ import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/Unifi
 import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { PasswordField } from '@/features/form-builder/form-core/domain/field/PasswordField';
-import { MerchantService } from '@/app/api/merchant/service';
-import { MerchantCreateRequest } from '@/app/api/merchant/types';
+import { MerchantService } from '@/app/api/private/merchant/service';
+import { MerchantCreateRequest } from '@/app/api/private/merchant/types';
 import MerchantCreateAdminData from '@/components/dashboard/custom/forms_components/MerchantCreateAdminData';
 
 const Create = () => {

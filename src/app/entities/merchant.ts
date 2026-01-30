@@ -42,3 +42,14 @@ export interface MerchantConditions {
 export interface MerchantPublicSettings {
   readonly notification_telegram_chat_id: number;
 }
+
+/*           DTO           */
+
+export interface MerchantDto {
+  readonly name: string;
+  readonly settings: MerchantDtoSettings;
+}
+
+export interface MerchantDtoSettings {
+  readonly notification_telegram_chat_id: number;
+}

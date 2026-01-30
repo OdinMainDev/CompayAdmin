@@ -1,9 +1,9 @@
 import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/UnifiedFormBuilder';
-import { MerchantUpdateRequest } from '@/app/api/merchant/types';
+import { MerchantUpdateRequest } from '@/app/api/private/merchant/types';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
-import { MerchantService } from '@/app/api/merchant/service';
+import { MerchantService } from '@/app/api/private/merchant/service';
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { ApiError } from '@/features/api-client/types/core';
 import { Merchant } from '@/app/entities/merchant';
@@ -15,12 +15,12 @@ import {
   SelectField,
 } from '@/features/form-builder/form-core/domain/field';
 import { RepeaterField } from '@/features/form-builder/form-core/domain/field/RepeaterField';
-import { ApiService } from '@/app/api/api/service';
+import { ApiService } from '@/app/api/public/api/service';
 import { SelectOption } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 import { stringArrToSelectOptions } from '@/app/forms/transforms/options';
 import { CurrencyField } from '@/app/forms/fields/CurrencyField';
 import MerchantUpdateWebPageSettings from '@/components/dashboard/custom/forms_components/MerchantUpdateWebPageSettings';
-import { ApiAdminService } from '@/app/api/api_admin/service';
+import { ApiAdminService } from '@/app/api/private/api/service';
 
 const Edit = () => {
   const { id } = useParams<{ id: string }>();

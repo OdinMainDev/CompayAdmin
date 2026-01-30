@@ -7,7 +7,7 @@ import {
   type DatatableConfig,
 } from '@/features/datatable-core';
 import { LogUser } from '@/app/entities/loguser';
-import { LogUserService } from '@/app/api/loguser/service';
+import { LogUserService } from '@/app/api/private/loguser/service';
 import { RenderClientData } from '@/app/datatable/columns/client_data';
 import { RenderCopyTextarea } from '@/app/datatable/columns/copy_textarea';
 import { RenderLink } from '@/app/datatable/columns/link';

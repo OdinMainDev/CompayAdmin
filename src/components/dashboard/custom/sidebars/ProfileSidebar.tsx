@@ -2,7 +2,7 @@ import { Button, Card, Form, Spinner } from 'react-bootstrap';
 import { User } from '@/app/entities/user';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { ProfileService } from '@/app/api/profile/service';
+import { ProfileService } from '@/app/api/private/profile/service';
 import QRCode from 'react-qr-code';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';

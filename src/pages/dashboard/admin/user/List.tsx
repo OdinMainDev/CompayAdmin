@@ -8,7 +8,7 @@ import {
   type DatatableConfig,
 } from '@/features/datatable-core';
 import { User } from '@/app/entities/user';
-import { UserService } from '@/app/api/user/service';
+import { UserService } from '@/app/api/private/user/service';
 import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
 import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
 import { RenderBool } from '@/app/datatable/columns/bool';

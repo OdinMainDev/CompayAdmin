@@ -8,7 +8,7 @@ import {
   type DatatableConfig,
 } from '@/features/datatable-core';
 import { Merchant } from '@/app/entities/merchant';
-import { MerchantService } from '@/app/api/merchant/service';
+import { MerchantService } from '@/app/api/private/merchant/service';
 import { buildAddAction } from '@/features/datatable-core/utils/buildAddAction';
 import { buildEditAction } from '@/features/datatable-core/utils/buildEditAction';
 import { RenderBool } from '@/app/datatable/columns/bool';

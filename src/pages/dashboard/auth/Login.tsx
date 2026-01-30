@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Container, Row, Image } from 'react-bootstrap';
-import { LoginRequest } from '@/app/api/auth/types';
+import { LoginRequest } from '@/app/api/private/auth/types';
 import { useAuthContext } from '@/features/auth/auth-context';
 import BgImage from '@/assets/images/dashboard/illustrations/signin.svg';
 import ImageLogo from '@/assets/images/logo/logo_3.svg';

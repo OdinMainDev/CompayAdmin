@@ -8,7 +8,7 @@ import {
   type DatatableConfig,
 } from '@/features/datatable-core';
 import { LogAuth } from '@/app/entities/logauth';
-import { LogAuthService } from '@/app/api/logauth/service';
+import { LogAuthService } from '@/app/api/private/logauth/service';
 import { RenderClientData } from '@/app/datatable/columns/client_data';
 import { RenderCopyInput } from '@/app/datatable/columns/copy_input';
 import { RenderLink } from '@/app/datatable/columns/link';

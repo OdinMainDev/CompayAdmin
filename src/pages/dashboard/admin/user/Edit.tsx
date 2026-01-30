@@ -1,9 +1,9 @@
 import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/UnifiedFormBuilder';
-import { UserUpdateRequest } from '@/app/api/user/types';
+import { UserUpdateRequest } from '@/app/api/private/user/types';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
-import { UserService } from '@/app/api/user/service';
+import { UserService } from '@/app/api/private/user/service';
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { ApiError } from '@/features/api-client/types/core';
 import { User } from '@/app/entities/user';

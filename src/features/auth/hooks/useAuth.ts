@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AuthService } from '@/app/api/auth/service';
-import { ProfileService } from '@/app/api/profile/service';
+import { AuthService } from '@/app/api/private/auth/service';
+import { ProfileService } from '@/app/api/private/profile/service';
 import { User } from '@/app/entities/user';
 import { ApiError } from '@/features/api-client/types/core';
 import { UserRole } from '@/features/auth/types';
-import { LoginRequest } from '@/app/api/auth/types';
+import { LoginRequest } from '@/app/api/private/auth/types';
 import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '@/constants';
-import { UserService } from '@/app/api/user/service';
+import { UserService } from '@/app/api/private/user/service';
 
 interface UseAuthState {
   readonly isAuthenticated: boolean;

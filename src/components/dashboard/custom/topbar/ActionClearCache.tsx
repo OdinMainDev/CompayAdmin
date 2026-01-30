@@ -1,4 +1,4 @@
-import { ApiAdminService } from '@/app/api/api_admin/service';
+import { ApiAdminService } from '@/app/api/private/api/service';
 import '@/assets/scss/dashboard/volt.scss';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

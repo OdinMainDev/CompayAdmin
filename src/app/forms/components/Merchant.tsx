@@ -1,7 +1,7 @@
 import { IField } from '@/features/form-builder/form-core/domain/field/IField';
 import { SelectFieldExtra } from '@/features/form-builder/form-core/domain/extra/SelectFieldExtra';
 import { AsyncSelect } from '@/features/form-builder/form-react-adapter/components/AsyncSelect';
-import { MerchantService } from '@/app/api/merchant/service';
+import { MerchantService } from '@/app/api/private/merchant/service';
 import { merchantToSelectOption } from '@/app/forms/transforms/options';
 
 export function MerchantFieldRenderer(

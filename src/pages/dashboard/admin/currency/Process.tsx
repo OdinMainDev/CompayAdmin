@@ -1,13 +1,13 @@
 import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/UnifiedFormBuilder';
-import { CurrencyProcessRequest } from '@/app/api/currency/types';
+import { CurrencyProcessRequest } from '@/app/api/private/currency/types';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
-import { CurrencyService } from '@/app/api/currency/service';
+import { CurrencyService } from '@/app/api/private/currency/service';
 import { TextField } from '@/features/form-builder/form-core/domain/field/TextField';
 import { Currency } from '@/app/entities/currency';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ApiService } from '@/app/api/api/service';
+import { ApiService } from '@/app/api/public/api/service';
 import {
   NumberField,
   SelectField,

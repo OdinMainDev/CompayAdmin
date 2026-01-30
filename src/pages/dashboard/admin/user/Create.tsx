@@ -9,8 +9,8 @@ import { TextField } from '@/features/form-builder/form-core/domain/field/TextFi
 import { PasswordField } from '@/features/form-builder/form-core/domain/field/PasswordField';
 import { SwitchField } from '@/features/form-builder/form-core/domain/field/SwitchField';
 import { MerchantField } from '@/app/forms/fields/MerchantField';
-import { UserService } from '@/app/api/user/service';
-import { UserCreateRequest } from '@/app/api/user/types';
+import { UserService } from '@/app/api/private/user/service';
+import { UserCreateRequest } from '@/app/api/private/user/types';
 import UserCreateMerchantData from '@/components/dashboard/custom/forms_components/UserCreateMerchantData';
 
 const Create = () => {

@@ -7,7 +7,7 @@ import {
   type DatatableConfig,
 } from '@/features/datatable-core';
 import { Notification } from '@/app/entities/notification';
-import { NotificationService } from '@/app/api/notification/service';
+import { NotificationService } from '@/app/api/private/notification/service';
 import { RenderCopyTextarea } from '@/app/datatable/columns/copy_textarea';
 import { RenderBool } from '@/app/datatable/columns/bool';
 
