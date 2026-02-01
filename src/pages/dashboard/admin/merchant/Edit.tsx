@@ -48,7 +48,7 @@ const Edit = () => {
         blocked_countries: response.data.settings.conditions.blocked_countries,
         allowed_countries: response.data.settings.conditions.allowed_countries,
         notification_telegram_chat_id:
-          response.data.settings.public_settings.notification_telegram_chat_id,
+        response.data.settings.public_settings.notification_telegram_chat_id,
         minimum_amounts: response.data.settings.minimum_amounts,
         minimum_confirmations: response.data.settings.minimum_confirmations,
         fee_amounts: response.data.settings.fee_amounts,
@@ -86,7 +86,9 @@ const Edit = () => {
               {
                 name: 'main',
                 label: t('tabs.general'),
-                elements: [TextField.create('name', t('fields.name'), { ui: { col: 12 } })],
+                elements: [TextField.create('name', t('fields.name'), { 
+                  ui: { col: 12 },
+                })],
               },
               {
                 name: 'settings_merchant',

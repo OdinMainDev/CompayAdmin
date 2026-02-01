@@ -17,7 +17,7 @@ export function AsyncSelect<T>({
   cacheKey: string;
   fetcher: (query: string) => Promise<T[]>;
   mapOption: (item: T) => SelectOption;
-  onChange: (value: number | null) => void;
+  onChange: (value: unknown) => void;
 }) {
   const [selectField, setSelectField] = useState(() =>
     SelectField.create(field.name, field.label, {}, field.value?.toString() ?? ''),
@@ -78,7 +78,7 @@ export function AsyncSelect<T>({
   }, [field.value]);
 
   const onChangeHandler = (v: unknown) => {
-    onChange(v ? Number(v) : null);
+    onChange(v);
 
     if (v) {
       DynamicFilterCache.get(`${cacheKey}:value:${v}`, async () => [inputRef.current]);

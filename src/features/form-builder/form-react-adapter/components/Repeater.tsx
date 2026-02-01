@@ -5,7 +5,6 @@ import type {
   RepeaterFieldExtra,
   RepeaterFieldValue,
 } from '../../form-core/domain/field/RepeaterField';
-import { AnyField } from '@/features/form-builder/form-react-adapter/fields';
 import { faTrashCan, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
@@ -14,13 +13,23 @@ export const RepeaterRenderer = (
   field: IField<RepeaterFieldValue, RepeaterFieldExtra>,
   onChange: (value: RepeaterFieldValue) => void,
 ) => {
+  if (!field.value) {
+    field.value = [];
+  }
+
   const elements = field.extra?.elements ?? [];
   const minItems = field.extra?.minItems ?? 0;
   const maxItems = field.extra?.maxItems ?? Infinity;
 
   const addItem = () => {
     if (!field.value || field.value.length >= maxItems) return;
-    const newItem = elements.reduce((acc, f) => ({ ...acc, [f.name]: '' }), {} as any);
+    const newItem = elements.reduce<Record<string, unknown>>(
+      (acc, f) => {
+        acc[f.name] = '';
+        return acc;
+      },
+      {}
+    );
     onChange([...(field.value || []), newItem]);
   };
 
@@ -30,7 +39,7 @@ export const RepeaterRenderer = (
     onChange(nextValue);
   };
 
-  const updateItemValue = (index: number, name: string, value: any) => {
+  const updateItemValue = (index: number, name: string, value: unknown) => {
     if (!field.value) return;
     const nextValue = field.value.map((item, i) =>
       i === index ? { ...item, [name]: value } : item,
