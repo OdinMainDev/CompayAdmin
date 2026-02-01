@@ -7,7 +7,6 @@ import { ApiError } from '@/features/api-client/types/core';
 import { UserRole } from '@/features/auth/types';
 import { LoginRequest } from '@/app/api/private/auth/types';
 import { COOKIE_AUTH_NAME, COOKIE_AUTH_TOTP_NAME } from '@/constants';
-import { UserService } from '@/app/api/private/user/service';
 
 interface UseAuthState {
   readonly isAuthenticated: boolean;

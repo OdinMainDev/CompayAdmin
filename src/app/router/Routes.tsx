@@ -4,6 +4,7 @@ import AuthGuard from '@/features/router/guards/AuthGuard';
 import GuestGuard from '@/features/router/guards/GuestGuard';
 import { adminRoutes } from './AdminRoutes';
 import { merchantRoutes } from './MerchantRoutes';
+import Dashboard from '@/pages/dashboard/admin/Dashboard';
 
 const Landing = lazy(() => import('@/pages/landing/Landing'));
 const NotFound = lazy(() => import('@/pages/errors/NotFound'));
@@ -35,6 +36,20 @@ export const routeConfigs: RouteConfig[] = [
         guard: AuthGuard,
         meta: { roles: ['admin', 'merchant'] },
         children: [
+
+          {
+            id: 'dashboard',
+            path: '',
+            variants: {
+              admin: {
+                component: Dashboard,
+              },
+              merchant: {
+                component: Dashboard,
+              },
+            },
+          },
+
           ...adminRoutes,
           ...merchantRoutes,
 

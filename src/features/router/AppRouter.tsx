@@ -3,9 +3,12 @@ import { RouteConfig } from './types';
 import { Suspense } from 'react';
 import Preloader from '@/components/base/Preloader';
 import { routeConfigs } from '@/app/router/Routes';
+import { useAuthContext } from '../auth/auth-context';
 
 const AppRouter = () => {
-  const router = createBrowserRouter(buildRouterConfig(routeConfigs));
+  const { getRole } = useAuthContext();
+  const role = getRole();
+  const router = createBrowserRouter(buildRouterConfig(resolveRoutesByRole(routeConfigs, role)));
   return (
     <Suspense fallback={<Preloader />}>
       <RouterProvider router={router} />
@@ -13,7 +16,38 @@ const AppRouter = () => {
   );
 };
 
+export const resolveRoutesByRole = (
+  routes: RouteConfig[],
+  role: string | null
+): RouteConfig[] => {
+
+  if (!role) {
+    return routes;
+  }
+
+  return routes.map((route) => {
+    let resolved = route;
+
+    if (route.variants?.[role]) {
+      resolved = {
+        ...route,
+        ...route.variants[role],
+        variants: undefined,
+      };
+    }
+
+    return {
+      ...resolved,
+      children: resolved.children
+        ? resolveRoutesByRole(resolved.children, role)
+        : undefined,
+    };
+  });
+};
+
+
 const buildRouterConfig = (configs: RouteConfig[]): RouteObject[] => {
+
   return configs.map((config) => ({
     path: config.path,
     element: buildRouteElement(config),

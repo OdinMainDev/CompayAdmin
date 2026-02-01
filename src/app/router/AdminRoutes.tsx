@@ -33,13 +33,6 @@ export const adminRoutes: RouteConfig[] = [
     guard: AdminGuard,
     meta: { roles: ['admin'] },
     children: [
-      {
-        id: 'admin-dashboard',
-        path: '',
-        component: Dashboard,
-        meta: { roles: ['admin'], showInMenu: false },
-      },
-
       // Merchants
       {
         id: 'admin-merchants-list',

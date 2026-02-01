@@ -12,12 +12,6 @@ export const merchantRoutes: RouteConfig[] = [
     path: 'merchant',
     guard: MerchantGuard,
     children: [
-      {
-        id: 'merchant-dashboard',
-        path: '',
-        component: Dashboard,
-        meta: { roles: ['merchant'], showInMenu: true },
-      },
 
       // Merchants
       {
