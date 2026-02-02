@@ -1,5 +1,5 @@
 import { Form, OverlayTrigger, Tooltip, InputGroup } from 'react-bootstrap';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import type { IField } from '../../form-core/domain/field/IField';
 import type { TextFieldExtra } from '../../form-core/domain/extra/TextFieldExtra';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +10,22 @@ export function PrimitiveFieldRenderer<T extends string | number | null>(
   onChange: (value: T) => void,
   hasError: boolean,
 ) {
+  const [localValue, setLocalValue] = useState<T | null>(field.value ?? null);
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    setLocalValue(field.value ?? null);
+  }, [field.value]);
+
+  const handleDebouncedChange = (value: T) => {
+    setLocalValue(value);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      onChange(value);
+    }, 100);
+  };
+
   const isTextarea = field.type === 'textarea';
   const isNumber = field.type === 'number';
 
@@ -19,27 +35,26 @@ export function PrimitiveFieldRenderer<T extends string | number | null>(
       rows={4}
       placeholder={field.extra?.placeholder ?? field.label}
       required={field.extra?.required}
-      value={field.value ?? ''}
+      value={localValue ?? ''}
       isInvalid={hasError}
-      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value as T)}
+      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleDebouncedChange(e.target.value as T)}
     />
   ) : (
     <Form.Control
       type={field.type}
       placeholder={field.extra?.placeholder ?? field.label}
       required={field.extra?.required}
-      value={field.value ?? ''}
+      value={localValue ?? ''}
       isInvalid={hasError}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
         if (isNumber) {
-          onChange(Number(e.target.value) as T);
+          handleDebouncedChange(Number(e.target.value) as T);
         } else {
-          onChange(e.target.value as T);
+          handleDebouncedChange(e.target.value as T);
         }
       }}
     />
   );
-  console.log("f");
 
   if (field.extra?.tooltip) {
     return (

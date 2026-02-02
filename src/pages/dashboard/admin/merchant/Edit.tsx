@@ -171,7 +171,7 @@ const Edit = () => {
         ],
       },
     ],
-    [t, countries, feeTypes],
+    [countries, feeTypes],
   );
 
   const handleSubmit = async () => {
