@@ -40,14 +40,7 @@ export const routeConfigs: RouteConfig[] = [
           {
             id: 'dashboard',
             path: '',
-            variants: {
-              admin: {
-                component: Dashboard,
-              },
-              merchant: {
-                component: Dashboard,
-              },
-            },
+              component: Dashboard,
           },
 
           ...adminRoutes,

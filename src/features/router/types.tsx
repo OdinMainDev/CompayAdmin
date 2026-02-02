@@ -2,7 +2,6 @@ import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import type { ComponentType, LazyExoticComponent, ReactNode } from 'react';
 import { GuardComponent } from './guards/types';
 
-type RouteVariant = Partial<Omit<RouteConfig, 'children' | 'variants'>>;
 
 export interface RouteConfig {
   id: string;
@@ -21,7 +20,6 @@ export interface RouteConfig {
     dividerLabel?: string;
   };
   children?: RouteConfig[];
-  variants?: Record<string, RouteVariant>;
 
 
 }

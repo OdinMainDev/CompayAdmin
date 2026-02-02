@@ -3,12 +3,9 @@ import { RouteConfig } from './types';
 import { Suspense } from 'react';
 import Preloader from '@/components/base/Preloader';
 import { routeConfigs } from '@/app/router/Routes';
-import { useAuthContext } from '../auth/auth-context';
 
 const AppRouter = () => {
-  const { getRole } = useAuthContext();
-  const role = getRole();
-  const router = createBrowserRouter(buildRouterConfig(resolveRoutesByRole(routeConfigs, role)));
+  const router = createBrowserRouter(buildRouterConfig(routeConfigs));
   return (
     <Suspense fallback={<Preloader />}>
       <RouterProvider router={router} />
