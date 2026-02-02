@@ -142,7 +142,6 @@ export const useAuth = (): UseAuthReturn => {
       setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
       const response = await AuthService.login(credentials, { hasToast: true });
-
       if (!('success' in response) || !response.success) {
         setState((prev) => ({
           ...prev,

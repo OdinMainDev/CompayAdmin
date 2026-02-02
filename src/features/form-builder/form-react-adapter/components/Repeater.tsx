@@ -40,12 +40,20 @@ export const RepeaterRenderer = (
   };
 
   const updateItemValue = (index: number, name: string, value: unknown) => {
-    if (!field.value) return;
-    const nextValue = field.value.map((item, i) =>
-      i === index ? { ...item, [name]: value } : item,
-    );
-    onChange(nextValue);
+    const current = Array.isArray(field.value) ? [...field.value] : [];
+  
+    if (!current[index]) {
+      current[index] = { [name]: value };
+    } else {
+      current[index] = {
+        ...current[index],
+        [name]: value,
+      };
+    }
+  
+    onChange(current);
   };
+  
 
   const [openItems, setOpenItems] = useState<Record<number, boolean>>(() => {
     const obj: Record<number, boolean> = {};
