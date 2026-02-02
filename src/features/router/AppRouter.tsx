@@ -13,36 +13,6 @@ const AppRouter = () => {
   );
 };
 
-export const resolveRoutesByRole = (
-  routes: RouteConfig[],
-  role: string | null
-): RouteConfig[] => {
-
-  if (!role) {
-    return routes;
-  }
-
-  return routes.map((route) => {
-    let resolved = route;
-
-    if (route.variants?.[role]) {
-      resolved = {
-        ...route,
-        ...route.variants[role],
-        variants: undefined,
-      };
-    }
-
-    return {
-      ...resolved,
-      children: resolved.children
-        ? resolveRoutesByRole(resolved.children, role)
-        : undefined,
-    };
-  });
-};
-
-
 const buildRouterConfig = (configs: RouteConfig[]): RouteObject[] => {
 
   return configs.map((config) => ({
