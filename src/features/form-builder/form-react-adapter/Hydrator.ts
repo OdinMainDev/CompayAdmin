@@ -33,6 +33,11 @@ export class FormHydrator {
           error: errors[field.name] ?? [],
         };
       }
+      else {
+        if (field.extra) {
+          field.extra.error = undefined
+        }
+      }
     }
 
     if (this.isCompositeField(field)) {

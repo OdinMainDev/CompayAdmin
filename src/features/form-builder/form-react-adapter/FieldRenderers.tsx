@@ -60,7 +60,11 @@ export function withErrors<T, E extends BaseFieldExtra = BaseFieldExtra>(
     const [error, setError] = useState<string[] | null>(null);
 
     useEffect(() => {
-      setError(field.extra?.error ?? null);
+      if (field.extra?.error) {
+        setError(field.extra.error);
+      } else {
+        setError(null);
+      }
     }, [field.extra?.error]);
 
     const handleChange = (value: T) => {

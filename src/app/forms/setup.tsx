@@ -21,8 +21,8 @@ UnifiedFieldRegistry.registerFunction<number | null>(
   withErrors(MerchantFieldRenderer),
 );
 
-UnifiedFieldRegistry.registerFunction<number | null>(
+UnifiedFieldRegistry.registerFunction<number | null | string>(
   'currency',
   CurrencyField,
-  withErrors(CurrencyFieldRenderer),
+  CurrencyFieldRenderer,
 );

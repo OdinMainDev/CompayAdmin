@@ -1,4 +1,4 @@
-import { type FormEvent, useState, type ReactNode } from 'react';
+import { type FormEvent, useState, type ReactNode, useEffect, useMemo } from 'react';
 import { Button, Card, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import type { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
@@ -11,6 +11,8 @@ import React from 'react';
 interface FormBuilderProps<T> {
   fields: FormSection[];
   setFormData: React.Dispatch<React.SetStateAction<T>>;
+  setFieldErrors?: React.Dispatch<React.SetStateAction<Record<string, string[]>>>;
+
   formData: T;
   handleSubmit: () => void | Promise<void>;
   title?: string;
@@ -27,6 +29,7 @@ interface FormBuilderProps<T> {
 const UnifiedFormBuilder = <T,>({
   fields: json,
   setFormData,
+  setFieldErrors,
   formData,
   handleSubmit,
   title,
@@ -41,6 +44,7 @@ const UnifiedFormBuilder = <T,>({
 }: FormBuilderProps<T>) => {
   const { t } = useTranslation('panel');
   const [submitting, setSubmitting] = useState(false);
+
   const sections: FormSection[] = FormHydrator.hydrate(json, formData, fieldErrors);
 
   const handleReset = () => {
@@ -69,7 +73,7 @@ const UnifiedFormBuilder = <T,>({
 
   const isSaving = saving ?? submitting;
   const resolvedSubmitLabel = submitLabel ?? t('submit');
-
+  
   return (
     <>
       {(title || subTitle) && <PageHeader title={title ?? ''} subtitle={subTitle ?? ''} />}
@@ -103,15 +107,28 @@ const UnifiedFormBuilder = <T,>({
                           <Col md={field.extra?.ui?.col ?? 12}>
                             {UnifiedFieldRegistry.renderAny(field, (value) => {
                               setFormData((prev) => {
-                                if (
-                                  'isComposite' in field &&
-                                  field.isComposite &&
-                                  typeof value === 'object' &&
-                                  value !== null
-                                ) {
-                                  return { ...prev, ...value };
-                                }
-                                return { ...prev, [field.name]: value };
+                                const newData =
+                                  'isComposite' in field && field.isComposite && typeof value === 'object' && value !== null
+                                    ? { ...prev, ...value }
+                                    : { ...prev, [field.name]: value };
+                            
+                                    if (setFieldErrors) {
+                                      setFieldErrors((prevErrors) => {
+                                        let updatedErrors = { ...prevErrors };
+                                
+                                        if ('isComposite' in field && field.isComposite && value && typeof value === 'object') {
+                                          Object.keys(value).forEach((key) => {
+                                            if (key in updatedErrors) delete updatedErrors[key];
+                                          });
+                                        } else {
+                                          const { [field.name]: _, ...rest } = updatedErrors;
+                                          updatedErrors = rest;
+                                        }
+                                
+                                        return updatedErrors;
+                                      });
+                                    }
+                                return newData;
                               });
                             })}
                           </Col>

@@ -39,6 +39,7 @@ export function PrimitiveFieldRenderer<T extends string | number | null>(
       }}
     />
   );
+  console.log("f");
 
   if (field.extra?.tooltip) {
     return (

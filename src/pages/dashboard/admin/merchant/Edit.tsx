@@ -188,17 +188,16 @@ const Edit = () => {
   };
 
   return (
-    <>
-      <UnifiedFormBuilder
-        title={t('merchants_page.edit') + ': ' + model?.name}
-        fields={sections}
-        setFormData={setFormData}
-        formData={formData}
-        handleSubmit={handleSubmit}
-        submitLabel={t('form.save')}
-        fieldErrors={fieldErrors}
-      />
-    </>
+    <UnifiedFormBuilder
+      title={t('merchants_page.edit') + ': ' + model?.name}
+      fields={sections}
+      setFormData={setFormData}
+      setFieldErrors={setFieldErrors}
+      formData={formData}
+      handleSubmit={handleSubmit}
+      submitLabel={t('form.save')}
+      fieldErrors={fieldErrors}
+    />
   );
 };
 

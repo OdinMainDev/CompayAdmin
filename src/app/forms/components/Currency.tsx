@@ -5,8 +5,8 @@ import { CurrencyService } from '@/app/api/private/currency/service';
 import { currencyToSelectOption } from '@/app/forms/transforms/options';
 
 export function CurrencyFieldRenderer(
-  field: IField<number | null, SelectFieldExtra>,
-  onChange: (value: number | null) => void,
+  field: IField<number | null | string, SelectFieldExtra>,
+  onChange: (value: number | null | string) => void,
 ) {
   return (
     <AsyncSelect

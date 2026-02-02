@@ -1,7 +1,7 @@
 import { BaseField } from '@/features/form-builder/form-core/domain/field/BaseField';
 import { TextFieldExtra } from '@/features/form-builder/form-core/domain/extra/TextFieldExtra';
 
-export class CurrencyField extends BaseField<number | null, TextFieldExtra> {
+export class CurrencyField extends BaseField<number | null | string, TextFieldExtra> {
   type = 'currency';
 
   static create(
@@ -9,7 +9,7 @@ export class CurrencyField extends BaseField<number | null, TextFieldExtra> {
     name: string,
     label: string,
     extra?: TextFieldExtra,
-    value?: number | null,
+    value?: number | null | string,
   ) {
     return new this(name, label, value ?? null, extra);
   }

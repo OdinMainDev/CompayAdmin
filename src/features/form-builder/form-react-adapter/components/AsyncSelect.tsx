@@ -13,15 +13,25 @@ export function AsyncSelect<T>({
   mapOption,
   onChange,
 }: {
-  field: IField<number | null, BaseFieldExtra>;
+  field: IField<number | null | string, BaseFieldExtra>;
   cacheKey: string;
   fetcher: (query: string) => Promise<T[]>;
   mapOption: (item: T) => SelectOption;
-  onChange: (value: unknown) => void;
+  onChange: (value: string | number | null) => void;
 }) {
+  const [,setTick] = useState(0);
+
   const [selectField, setSelectField] = useState(() =>
-    SelectField.create(field.name, field.label, {}, field.value?.toString() ?? ''),
+    SelectField.create(field.name, field.label, field.extra, field.value?.toString() ?? ''),
   );
+  useEffect(() => {
+    if (!selectField) return;
+    if (!selectField.extra) selectField.extra = {}; 
+    selectField.extra.error = field.extra?.error; 
+    setTick((prev) => prev + 1);
+  }, [field.extra?.error]);
+  
+
   const inputRef = useRef('');
   const debounceRef = useRef<number | undefined>(undefined);
   const load = (query: string) => {
@@ -78,7 +88,7 @@ export function AsyncSelect<T>({
   }, [field.value]);
 
   const onChangeHandler = (v: unknown) => {
-    onChange(v);
+    onChange(v as string | number | null);
 
     if (v) {
       DynamicFilterCache.get(`${cacheKey}:value:${v}`, async () => [inputRef.current]);
