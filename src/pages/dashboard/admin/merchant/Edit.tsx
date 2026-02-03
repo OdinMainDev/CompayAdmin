@@ -37,7 +37,7 @@ const Edit = () => {
     const getData = async () => {
       const response = await MerchantService.getById(Number(id));
       if (!response.success) {
-        navigate('/dashboard');
+        navigate('/panel');
         return;
       }
 

@@ -27,16 +27,10 @@ export default function Login() {
   ];
 
   const handleSubmit = async () => {
-    const response = await login(formData);
-
-    if (!response) {
-      return;
-    }
+    const ok = await login(formData);
+    if (!ok) return;
     const role = getRole();
-    const redirectTo = role == 'admin' ? '/panel' : '/dashboard';
-
-    alert(redirectTo);
-    alert(role);
+    const redirectTo = role === 'admin' ? '/panel' : '/dashboard';
     navigate(redirectTo, { replace: true });
   };
 

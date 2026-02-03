@@ -61,7 +61,7 @@ const List = () => {
         sortable: true,
         render: (row: User) => (
           <RenderLink
-            path={`/dashboard/merchants/edit/${row.merchant_id}`}
+            path={`/panel/merchants/edit/${row.merchant_id}`}
             text={`${t('datatable.go_to_merchant')} (${row.merchant_id})`}
           />
         ),
@@ -73,7 +73,7 @@ const List = () => {
         sortable: true,
         render: (row: User) => (
           <RenderLink
-            path={`/dashboard/users/edit/${row.creator_id}`}
+            path={`/panel/users/edit/${row.creator_id}`}
             text={`${t('datatable.go_to_user')} (${row.creator_id})`}
           />
         ),
@@ -102,11 +102,9 @@ const List = () => {
       filtersSource: UserService.getFilters,
       dataSource: UserService.getList,
       columns,
-      quickActions: [
-        buildAddAction(t('datatable.add_record'), '/dashboard/users/create', navigate),
-      ],
+      quickActions: [buildAddAction(t('datatable.add_record'), '/panel/users/create', navigate)],
       rowActions: [
-        buildEditAction('/dashboard/users/edit/', navigate),
+        buildEditAction('/panel/users/edit/', navigate),
         // buildDeleteAction(UserService.delete, refreshTable),
       ],
     }),

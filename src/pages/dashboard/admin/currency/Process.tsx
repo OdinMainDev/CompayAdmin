@@ -42,7 +42,7 @@ const Process = () => {
     const getData = async () => {
       const response = await CurrencyService.getById(Number(id));
       if (!response.success) {
-        navigate('/dashboard');
+        navigate('/panel');
         return;
       }
 
@@ -82,7 +82,7 @@ const Process = () => {
     const response = await CurrencyService.process(dataToSend);
     if ('success' in response && response.success) {
       if (id == '0') {
-        navigate('/dashboard/currencies/process/' + response.data.id.toString());
+        navigate('/panel/currencies/process/' + response.data.id.toString());
       }
       setModel(response.data);
       setFormData({

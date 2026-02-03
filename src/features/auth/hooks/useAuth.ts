@@ -189,7 +189,8 @@ export const useAuth = (): UseAuthReturn => {
   }, []);
 
   const getRole = useCallback((): UserRole | null => {
-    return state.role;
+    if (state.role) return state.role;
+    return getRoleFromToken();
   }, [state.role]);
 
   const getFieldErrors = useCallback((): Record<string, string[]> => {

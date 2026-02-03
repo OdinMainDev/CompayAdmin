@@ -33,7 +33,7 @@ const Auth = () => {
         sortable: true,
         render: (row: LogAuth) => (
           <RenderLink
-            path={`/dashboard/users/edit/${row.user_id}`}
+            path={`/panel/users/edit/${row.user_id}`}
             text={`${t('datatable.go_to_user')} (${row.user_id})`}
           />
         ),
@@ -45,7 +45,7 @@ const Auth = () => {
         sortable: true,
         render: (row: LogAuth) => (
           <RenderLink
-            path={`/dashboard/merchants/edit/${row.merchant_id}`}
+            path={`/panel/merchants/edit/${row.merchant_id}`}
             text={`${t('datatable.go_to_merchant')} (${row.merchant_id})`}
           />
         ),

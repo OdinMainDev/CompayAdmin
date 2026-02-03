@@ -43,7 +43,7 @@ const Create = () => {
 
     const response = await MerchantService.create(dataToSend);
     if ('success' in response && response.success) {
-      navigate(`/dashboard/merchants/edit/${response.data.id}`);
+      navigate(`/panel/merchants/edit/${response.data.id}`);
     } else {
       const errorResponse = response as ApiError;
       if (errorResponse.errors) setFieldErrors(errorResponse.errors);

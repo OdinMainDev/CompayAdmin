@@ -32,7 +32,7 @@ const User = () => {
         sortable: true,
         render: (row: LogUser) => (
           <RenderLink
-            path={`/dashboard/users/edit/${row.user_id}`}
+            path={`/panel/users/edit/${row.user_id}`}
             text={`${t('datatable.go_to_user')} (${row.user_id})`}
           />
         ),
@@ -44,7 +44,7 @@ const User = () => {
         sortable: true,
         render: (row: LogUser) => (
           <RenderLink
-            path={`/dashboard/merchants/edit/${row.merchant_id}`}
+            path={`/panel/merchants/edit/${row.merchant_id}`}
             text={`${t('datatable.go_to_merchant')} (${row.merchant_id})`}
           />
         ),

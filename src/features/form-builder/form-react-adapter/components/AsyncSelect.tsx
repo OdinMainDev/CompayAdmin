@@ -69,7 +69,7 @@ export function AsyncSelect<T>({
     onChange(value);
 
     if (value !== null && value !== '') {
-      void DynamicFilterCache.get(`${cacheKey}:value:${value}`, () => [lastQuery]);
+      void DynamicFilterCache.get(`${cacheKey}:value:${value}`, () => Promise.resolve([lastQuery]));
     }
   };
 

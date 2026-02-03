@@ -48,7 +48,7 @@ const List = () => {
         sortable: true,
         render: (row: Merchant) => (
           <RenderLink
-            path={`/dashboard/users/edit/${row.creator_id}`}
+            path={`/panel/users/edit/${row.creator_id}`}
             text={`${t('datatable.go_to_user')} (${row.creator_id})`}
           />
         ),
@@ -60,7 +60,7 @@ const List = () => {
         sortable: true,
         render: (row: Merchant) => (
           <RenderLink
-            path={`/dashboard/users/edit/${row.owner_id}`}
+            path={`/panel/users/edit/${row.owner_id}`}
             text={`${t('datatable.go_to_user')} (${row.owner_id})`}
           />
         ),
@@ -90,9 +90,9 @@ const List = () => {
       dataSource: MerchantService.getList,
       columns,
       quickActions: [
-        buildAddAction(t('datatable.add_record'), '/dashboard/merchants/create', navigate),
+        buildAddAction(t('datatable.add_record'), '/panel/merchants/create', navigate),
       ],
-      rowActions: [buildEditAction('/dashboard/merchants/edit/', navigate)],
+      rowActions: [buildEditAction('/panel/merchants/edit/', navigate)],
     }),
     [columns, navigate, t],
   );

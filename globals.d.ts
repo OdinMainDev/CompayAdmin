@@ -13,3 +13,7 @@ declare module '@fingerprintjs/fingerprintjs' {
 
   export default FingerprintJS;
 }
+
+declare module 'file-saver' {
+  export function saveAs(data: Blob, filename?: string): void;
+}

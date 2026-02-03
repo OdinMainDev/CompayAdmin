@@ -95,7 +95,7 @@ const List = () => {
       dataSource: CurrencyService.getList,
       columns,
       quickActions: [
-        buildAddAction(t('datatable.add_record'), '/dashboard/currencies/process/0', navigate),
+        buildAddAction(t('datatable.add_record'), '/panel/currencies/process/0', navigate),
         {
           id: 'import',
           label: t('currencies_page.import'),
@@ -104,7 +104,7 @@ const List = () => {
           handler: importCurrencies,
         },
       ],
-      rowActions: [buildEditAction('/dashboard/currencies/process/', navigate)],
+      rowActions: [buildEditAction('/panel/currencies/process/', navigate)],
     }),
     [columns, importCurrencies, navigate, t],
   );

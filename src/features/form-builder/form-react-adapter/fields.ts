@@ -37,7 +37,7 @@ export const FieldClasses = {
 export type PackageFields = InstanceType<(typeof FieldClasses)[keyof typeof FieldClasses]>;
 
 export interface CustomFields {
-  [key: string]: abstract new (...args: unknown[]) => BaseField<unknown, BaseFieldExtra>;
+  [key: string]: new (...args: any[]) => BaseField<unknown, BaseFieldExtra>;
 }
 
 export type AnyField = PackageFields | InstanceType<CustomFields[keyof CustomFields]>;
