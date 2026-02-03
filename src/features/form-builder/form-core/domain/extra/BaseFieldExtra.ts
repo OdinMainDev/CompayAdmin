@@ -11,6 +11,8 @@ export interface BaseFieldExtra {
   disabled?: boolean;
   error?: string[];
   onInputChange?: (value: string, meta: InputActionMeta) => void;
+  onMenuOpen?: () => void;
+  onMenuClose?: () => void;
   beforeField?: React.ReactNode;
   ui?: FieldUI;
 }

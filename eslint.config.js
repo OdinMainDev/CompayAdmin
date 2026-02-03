@@ -8,7 +8,7 @@ import prettier from 'eslint-plugin-prettier';
 export default [
   // Игнорируемые файлы
   {
-    ignores: [],
+    ignores: ['**/*.d.ts'],
   },
 
   // Базовые рекомендации ESLint
@@ -21,6 +21,7 @@ export default [
   // Основная конфигурация проекта
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
+    ignores: ['**/*.d.ts'],
 
     languageOptions: {
       parser: tseslint.parser,

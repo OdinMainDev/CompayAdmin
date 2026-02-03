@@ -94,13 +94,21 @@ function BaseSelectRendererInner<T extends string | number>(
     isMulti,
     placeholder = t('fields.choose_options'),
     noOptionsMessage = t('fields.not_avail_options'),
-    onMenuOpen = () => {},
-    onMenuClose = () => {},
+    onMenuOpen,
+    onMenuClose,
   } = props;
 
   const onInputChange = useMemo(
     () => field.extra?.onInputChange ?? (() => {}),
     [field.extra?.onInputChange],
+  );
+  const handleMenuOpen = useMemo(
+    () => onMenuOpen ?? field.extra?.onMenuOpen ?? (() => {}),
+    [field.extra?.onMenuOpen, onMenuOpen],
+  );
+  const handleMenuClose = useMemo(
+    () => onMenuClose ?? field.extra?.onMenuClose ?? (() => {}),
+    [field.extra?.onMenuClose, onMenuClose],
   );
 
   const selectOptions = useMemo(
@@ -145,6 +153,19 @@ function BaseSelectRendererInner<T extends string | number>(
     () => ({
       ...defaultStyles,
 
+      container: (provided) => ({
+        ...provided,
+        zIndex: 10000,
+      }),
+      menuPortal: (provided) => ({
+        ...provided,
+        zIndex: 10000,
+      }),
+      menu: (provided) => ({
+        ...provided,
+        zIndex: 10000,
+      }),
+
       control: (provided, state) => {
         const isError = hasError;
 
@@ -181,8 +202,10 @@ function BaseSelectRendererInner<T extends string | number>(
       closeMenuOnSelect={!isMulti}
       hideSelectedOptions={false}
       onInputChange={onInputChange}
-      onMenuOpen={onMenuOpen}
-      onMenuClose={onMenuClose}
+      onMenuOpen={handleMenuOpen}
+      onMenuClose={handleMenuClose}
+      menuPortalTarget={typeof document === 'undefined' ? null : document.body}
+      menuPosition="fixed"
       theme={(theme) => ({
         ...theme,
         borderRadius: 0,

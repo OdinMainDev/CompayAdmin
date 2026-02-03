@@ -59,6 +59,12 @@ export function AsyncSelect<T>({
     };
   }, [debounceId]);
 
+  const handleMenuOpen = useCallback(() => {
+    if (options.length === 0) {
+      void load('');
+    }
+  }, [load, options.length]);
+
   const onChangeHandler = (value: string | number | null) => {
     onChange(value);
 
@@ -76,11 +82,12 @@ export function AsyncSelect<T>({
           ...(field.extra ?? {}),
           options,
           onInputChange,
+          onMenuOpen: handleMenuOpen,
           error: field.extra?.error,
         },
         field.value?.toString() ?? '',
       ),
-    [field.extra, field.label, field.name, field.value, onInputChange, options],
+    [field.extra, field.label, field.name, field.value, handleMenuOpen, onInputChange, options],
   );
 
   return UnifiedFieldRegistry.renderAny(renderField, (value) =>
