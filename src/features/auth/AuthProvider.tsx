@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const auth = useAuth();
 
   useEffect(() => {
-    auth.checkAuth();
-  }, []);
+    void auth.checkAuth();
+  }, [auth]);
 
   const value = useMemo(() => ({ ...auth }), [auth]);
 

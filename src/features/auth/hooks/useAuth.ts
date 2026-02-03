@@ -39,20 +39,17 @@ export const useAuth = (): UseAuthReturn => {
   }));
 
   const refreshTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const refreshUserRef = useRef<() => void>(() => {});
 
-  const getToken = (): string | null => {
-    return Cookies.get(COOKIE_AUTH_NAME) || null;
-  };
+  const getToken = useCallback((): string | null => Cookies.get(COOKIE_AUTH_NAME) || null, []);
 
-  const isAuthenticated = (): boolean => {
-    return !!getToken();
-  };
+  const isAuthenticated = useCallback((): boolean => !!getToken(), [getToken]);
 
-  const saveToken = (token: string): void => {
+  const saveToken = useCallback((token: string): void => {
     Cookies.set(COOKIE_AUTH_NAME, token);
-  };
+  }, []);
 
-  const getRoleFromToken = (): UserRole | null => {
+  const getRoleFromToken = useCallback((): UserRole | null => {
     try {
       const payload = getToken()?.split('.')?.[1];
       if (!payload) return 'merchant';
@@ -61,12 +58,17 @@ export const useAuth = (): UseAuthReturn => {
         normalized.length + ((4 - (normalized.length % 4)) % 4),
         '=',
       );
-      const decoded = JSON.parse(atob(padded));
-      return decoded?.isa === true ? 'admin' : 'merchant';
+      const decoded = JSON.parse(atob(padded)) as unknown;
+      const isAdmin =
+        typeof decoded === 'object' &&
+        decoded !== null &&
+        'isa' in decoded &&
+        (decoded as { isa?: unknown }).isa === true;
+      return isAdmin ? 'admin' : 'merchant';
     } catch {
       return 'merchant';
     }
-  };
+  }, [getToken]);
 
   const scheduleRefresh = useCallback(() => {
     if (refreshTimeoutRef.current) {
@@ -74,8 +76,28 @@ export const useAuth = (): UseAuthReturn => {
     }
 
     refreshTimeoutRef.current = setTimeout(() => {
-      refreshUser();
+      refreshUserRef.current();
     }, 300_000);
+  }, []);
+
+  const logout = useCallback((): Promise<void> => {
+    setState((prev) => ({ ...prev, isLoading: true }));
+
+    Cookies.remove(COOKIE_AUTH_NAME);
+    Cookies.remove(COOKIE_AUTH_TOTP_NAME);
+
+    setState({
+      isAuthenticated: false,
+      isLoading: false,
+      error: null,
+      user: null,
+      role: null,
+    });
+
+    if (refreshTimeoutRef.current) {
+      clearTimeout(refreshTimeoutRef.current);
+    }
+    return Promise.resolve();
   }, []);
 
   const getProfile = useCallback(async (): Promise<boolean> => {
@@ -94,13 +116,13 @@ export const useAuth = (): UseAuthReturn => {
     const response = await ProfileService.get();
 
     if (!('success' in response) || !response.success) {
-      logout();
+      await logout();
       return false;
     }
 
     const role = getRoleFromToken();
     if (!role) {
-      logout();
+      await logout();
       return false;
     }
 
@@ -115,9 +137,9 @@ export const useAuth = (): UseAuthReturn => {
 
     scheduleRefresh();
     return true;
-  }, [scheduleRefresh]);
+  }, [getRoleFromToken, isAuthenticated, logout, scheduleRefresh]);
 
-  const checkAuth = useCallback(async (): Promise<boolean> => {
+  const checkAuth = useCallback((): Promise<boolean> => {
     if (!isAuthenticated()) {
       setState((prev) => ({
         ...prev,
@@ -126,16 +148,22 @@ export const useAuth = (): UseAuthReturn => {
         role: null,
       }));
 
-      return false;
+      return Promise.resolve(false);
     }
 
-    getProfile();
-    return true;
-  }, []);
+    void getProfile();
+    return Promise.resolve(true);
+  }, [getProfile, isAuthenticated]);
 
   const refreshUser = useCallback(async (): Promise<void> => {
     await getProfile();
   }, [getProfile]);
+
+  useEffect(() => {
+    refreshUserRef.current = () => {
+      void refreshUser();
+    };
+  }, [refreshUser]);
 
   const login = useCallback(
     async (credentials: LoginRequest): Promise<boolean> => {
@@ -156,25 +184,6 @@ export const useAuth = (): UseAuthReturn => {
     [getProfile],
   );
 
-  const logout = useCallback(async (): Promise<void> => {
-    setState((prev) => ({ ...prev, isLoading: true }));
-
-    Cookies.remove(COOKIE_AUTH_NAME);
-    Cookies.remove(COOKIE_AUTH_TOTP_NAME);
-
-    setState({
-      isAuthenticated: false,
-      isLoading: false,
-      error: null,
-      user: null,
-      role: null,
-    });
-
-    if (refreshTimeoutRef.current) {
-      clearTimeout(refreshTimeoutRef.current);
-    }
-  }, []);
-
   const clearError = useCallback(() => {
     setState((prev) => ({ ...prev, error: null }));
   }, []);
@@ -191,7 +200,7 @@ export const useAuth = (): UseAuthReturn => {
   useEffect(() => {
     let mounted = true;
 
-    const init = async () => {
+    const init = () => {
       if (!mounted) return;
 
       if (!isAuthenticated()) {
@@ -203,7 +212,7 @@ export const useAuth = (): UseAuthReturn => {
       }
     };
 
-    init();
+    void init();
 
     return () => {
       mounted = false;
@@ -211,7 +220,7 @@ export const useAuth = (): UseAuthReturn => {
         clearTimeout(refreshTimeoutRef.current);
       }
     };
-  }, [getProfile]);
+  }, [isAuthenticated]);
 
   const getUsername = useCallback((): string => {
     return state.user ? state.user.username : 'undefined';
