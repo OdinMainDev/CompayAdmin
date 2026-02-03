@@ -31,11 +31,7 @@ export default [
         document: 'readonly',
       },
       parserOptions: {
-        project: [
-          './tsconfig.eslint.json',
-          './tsconfig.vite.json',
-          './tsconfig.jest.json',
-        ],
+        project: ['./tsconfig.eslint.json', './tsconfig.vite.json', './tsconfig.jest.json'],
       },
     },
 
