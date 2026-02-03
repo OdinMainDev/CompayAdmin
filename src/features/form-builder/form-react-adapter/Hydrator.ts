@@ -22,7 +22,7 @@ export class FormHydrator {
     if (values && typeof values === 'object' && values !== null) {
       if (field.name in values) {
         const rawValue = (values as Record<string, unknown>)[field.name];
-        field.value = rawValue as typeof field.value;
+        field.value = rawValue;
       }
     }
 

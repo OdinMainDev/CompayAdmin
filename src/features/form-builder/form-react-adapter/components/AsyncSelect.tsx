@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SelectField } from '@/features/form-builder/form-core/domain/field/SelectField';
 import { IField } from '@/features/form-builder/form-core/domain/field/IField';
 import { DynamicFilterCache } from '@/features/form-builder/form-core/domain/utils/DynamicFilterCacheService';
@@ -19,80 +19,71 @@ export function AsyncSelect<T>({
   mapOption: (item: T) => SelectOption;
   onChange: (value: string | number | null) => void;
 }) {
-  const [, setTick] = useState(0);
+  const [options, setOptions] = useState<SelectOption[]>(() => {
+    const extraWithOptions = field.extra as BaseFieldExtra & {
+      options?: SelectOption[];
+    };
+    return extraWithOptions?.options ?? [];
+  });
 
-  const [selectField, setSelectField] = useState(() =>
-    SelectField.create(field.name, field.label, field.extra, field.value?.toString() ?? ''),
+  const [lastQuery, setLastQuery] = useState('');
+  const [debounceId, setDebounceId] = useState<number | null>(null);
+  const load = useCallback(
+    async (query: string) => {
+      const data = await DynamicFilterCache.get(`${cacheKey}:${query}`, () => fetcher(query));
+      setOptions(data.map(mapOption));
+    },
+    [cacheKey, fetcher, mapOption],
   );
-  useEffect(() => {
-    if (!selectField) return;
-    if (!selectField.extra) selectField.extra = {};
-    selectField.extra.error = field.extra?.error;
-    setTick((prev) => prev + 1);
-  }, [field.extra?.error]);
 
-  const inputRef = useRef('');
-  const debounceRef = useRef<number | undefined>(undefined);
-  const load = (query: string) => {
-    DynamicFilterCache.get(`${cacheKey}:${query}`, () => fetcher(query)).then((data) => {
-      setSelectField((prev) =>
-        SelectField.create(
-          prev.name,
-          prev.label,
-          {
-            ...(prev.extra ?? {}),
-            options: data.map(mapOption),
-            onInputChange,
-          },
-          prev.value ?? '',
-        ),
-      );
-    });
-  };
-
-  const onInputChange = (value: string, actionMeta: { action: string }) => {
-    if (actionMeta.action !== 'input-change') return;
-    inputRef.current = value;
-    window.clearTimeout(debounceRef.current);
-    debounceRef.current = window.setTimeout(() => {
-      load(value);
-    }, 300);
-  };
-
-  useEffect(() => {
-    load('');
-  }, []);
-
-  useEffect(() => {
-    const nextValue = field.value?.toString() ?? '';
-
-    setSelectField((prev) => {
-      if (prev.value === nextValue) {
-        return prev;
+  const onInputChange = useCallback(
+    (value: string, actionMeta: { action: string }) => {
+      if (actionMeta.action !== 'input-change') return;
+      setLastQuery(value);
+      if (debounceId !== null) {
+        window.clearTimeout(debounceId);
       }
-
-      return SelectField.create(prev.name, prev.label, prev.extra ?? { options: [] }, nextValue);
-    });
-  }, [field.value]);
+      const nextId = window.setTimeout(() => {
+        void load(value);
+      }, 300);
+      setDebounceId(nextId);
+    },
+    [debounceId, load],
+  );
 
   useEffect(() => {
-    const nextValue = field.value?.toString() ?? '';
-    if (nextValue) {
-      DynamicFilterCache.get(`${cacheKey}:value:${nextValue}`, async () => ['']).then(
-        ([lastQuery]) => {
-          load(lastQuery);
-        },
-      );
-    }
-  }, [field.value]);
+    return () => {
+      if (debounceId !== null) {
+        window.clearTimeout(debounceId);
+      }
+    };
+  }, [debounceId]);
 
-  const onChangeHandler = (v: unknown) => {
-    onChange(v as string | number | null);
+  const onChangeHandler = (value: string | number | null) => {
+    onChange(value);
 
-    if (v) {
-      DynamicFilterCache.get(`${cacheKey}:value:${v}`, async () => [inputRef.current]);
+    if (value !== null && value !== '') {
+      void DynamicFilterCache.get(`${cacheKey}:value:${value}`, () => [lastQuery]);
     }
   };
 
-  return UnifiedFieldRegistry.renderAny(selectField, (v) => onChangeHandler(v));
+  const renderField = useMemo(
+    () =>
+      SelectField.create(
+        field.name,
+        field.label,
+        {
+          ...(field.extra ?? {}),
+          options,
+          onInputChange,
+          error: field.extra?.error,
+        },
+        field.value?.toString() ?? '',
+      ),
+    [field.extra, field.label, field.name, field.value, onInputChange, options],
+  );
+
+  return UnifiedFieldRegistry.renderAny(renderField, (value) =>
+    onChangeHandler(value as string | number | null),
+  );
 }

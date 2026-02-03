@@ -9,6 +9,8 @@ import {
   MultiSelectField,
   ImageField,
 } from '@/features/form-builder/form-core/domain/field';
+import type { BaseField } from '@/features/form-builder/form-core/domain/field/BaseField';
+import type { BaseFieldExtra } from '@/features/form-builder/form-core/domain/extra/BaseFieldExtra';
 import { OptionalSwitchField } from '../form-core/domain/field/OptionalSwitchField';
 import { MultiSelectNumberField } from '../form-core/domain/field/MultiSelectNumberField';
 import { DaterangeField } from '../form-core/domain/field/DaterangeField';
@@ -34,6 +36,8 @@ export const FieldClasses = {
 
 export type PackageFields = InstanceType<(typeof FieldClasses)[keyof typeof FieldClasses]>;
 
-export interface CustomFields {}
+export interface CustomFields {
+  [key: string]: abstract new (...args: unknown[]) => BaseField<unknown, BaseFieldExtra>;
+}
 
 export type AnyField = PackageFields | InstanceType<CustomFields[keyof CustomFields]>;

@@ -15,8 +15,9 @@ import type {
   RepeaterFieldExtra,
   RepeaterFieldValue,
 } from '../../form-core/domain/field/RepeaterField';
+import type { AnyField } from '../fields';
 
-const CELL_ERROR_RE = /^([^\[\]]+)\[(\d+)\];(.+)$/;
+const CELL_ERROR_RE = /^([^\][]+)\[(\d+)\];(.+)$/;
 
 export const RepeaterRenderer = (
   field: IField<RepeaterFieldValue, RepeaterFieldExtra>,
@@ -30,7 +31,7 @@ export const RepeaterRenderer = (
     field.value = [firstItem];
   }
 
-  const elements = field.extra?.elements ?? [];
+  const elements: AnyField[] = field.extra?.elements ?? [];
   const minItems = field.extra?.minItems ?? 0;
   const maxItems = field.extra?.maxItems ?? Infinity;
 
@@ -84,7 +85,7 @@ export const RepeaterRenderer = (
       });
       return next;
     });
-  }, [field.value?.length]);
+  }, [field.value]);
 
   const toggleItem = (index: number) => {
     setOpenItems((prev) => ({ ...prev, [index]: !prev[index] }));
@@ -197,9 +198,9 @@ export const RepeaterRenderer = (
                   <Row className="gx-3">
                     {elements.map((f) => {
                       const value = itemValue[f.name];
-                      const copy = Object.create(Object.getPrototypeOf(f)) as typeof f;
-                      Object.assign(copy, f);
-                      copy.value = value as typeof copy.value;
+                      const prototype = Object.getPrototypeOf(f) as object | null;
+                      const copy = Object.assign(Object.create(prototype), f) as AnyField;
+                      copy.value = value;
                       copy.extra = copy.extra ? { ...copy.extra } : {};
                       const errorsForCell = field.extra?.error?.reduce<string[]>((acc, errStr) => {
                         const match = CELL_ERROR_RE.exec(errStr);

@@ -1,4 +1,4 @@
-import { type FormEvent, useState, type ReactNode, useEffect, useMemo } from 'react';
+import { type FormEvent, useState, type ReactNode } from 'react';
 import { Button, Card, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import type { FormSection } from '@/features/form-builder/form-core/domain/field/FormSection';
@@ -60,15 +60,19 @@ const UnifiedFormBuilder = <T,>({
     setFormData(defaultValues as T);
   };
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
 
-    try {
-      await Promise.resolve(handleSubmit());
-    } finally {
-      setSubmitting(false);
-    }
+    const runSubmit = async () => {
+      try {
+        await Promise.resolve(handleSubmit());
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
+    void runSubmit();
   };
 
   const isSaving = saving ?? submitting;
@@ -117,7 +121,7 @@ const UnifiedFormBuilder = <T,>({
 
                                 if (setFieldErrors) {
                                   setFieldErrors((prevErrors) => {
-                                    let updatedErrors = { ...prevErrors };
+                                    const updatedErrors = { ...prevErrors };
 
                                     if (
                                       'isComposite' in field &&
@@ -129,8 +133,7 @@ const UnifiedFormBuilder = <T,>({
                                         if (key in updatedErrors) delete updatedErrors[key];
                                       });
                                     } else {
-                                      const { [field.name]: _, ...rest } = updatedErrors;
-                                      updatedErrors = rest;
+                                      delete updatedErrors[field.name];
                                     }
 
                                     return updatedErrors;

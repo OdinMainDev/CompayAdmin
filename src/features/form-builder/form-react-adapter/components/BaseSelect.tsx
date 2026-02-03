@@ -1,6 +1,5 @@
 import React, { useMemo, forwardRef } from 'react';
 import Select, {
-  type ActionMeta,
   type MultiValue,
   type SingleValue,
   type StylesConfig,
@@ -125,7 +124,6 @@ function BaseSelectRendererInner<T extends string | number>(
 
   const handleChange = (
     newValue: SingleValue<ReactSelectOption> | MultiValue<ReactSelectOption>,
-    _actionMeta: ActionMeta<ReactSelectOption>,
   ) => {
     if (isMulti) {
       const values = (newValue as MultiValue<ReactSelectOption>).map((o) =>
