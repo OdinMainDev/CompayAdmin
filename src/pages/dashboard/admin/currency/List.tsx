@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,9 +19,9 @@ const List = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
-  const importCurrencies = async (): Promise<void> => {
+  const importCurrencies = useCallback(async (): Promise<void> => {
     await CurrencyService.import();
-  };
+  }, []);
 
   const locale = i18n.language === 'ru' ? 'ru-RU' : 'en-US';
 
@@ -106,7 +106,7 @@ const List = () => {
       ],
       rowActions: [buildEditAction('/dashboard/currencies/process/', navigate)],
     }),
-    [columns, t],
+    [columns, importCurrencies, navigate, t],
   );
   return <Datatable pageTitle={t('currencies_page.list')} key={0} config={config} />;
 };

@@ -94,7 +94,7 @@ const List = () => {
       ],
       rowActions: [buildEditAction('/dashboard/merchants/edit/', navigate)],
     }),
-    [columns, t],
+    [columns, navigate, t],
   );
   return <Datatable pageTitle={t('merchants_page.list')} key={0} config={config} />;
 };

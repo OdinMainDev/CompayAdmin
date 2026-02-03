@@ -110,7 +110,7 @@ const List = () => {
         // buildDeleteAction(UserService.delete, refreshTable),
       ],
     }),
-    [columns, t],
+    [columns, navigate, t],
   );
   return <Datatable pageTitle={t('users_page.list')} key={0} config={config} />;
 };
