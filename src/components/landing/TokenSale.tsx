@@ -55,7 +55,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ onOpenContact }) => {
 
   const handleCopy = () => {
     const address = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8';
-    navigator.clipboard.writeText(address);
+    void navigator.clipboard.writeText(address);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

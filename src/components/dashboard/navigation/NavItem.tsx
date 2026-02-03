@@ -1,7 +1,7 @@
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, SetStateAction } from 'react';
-import { Dropdown, Image, Nav } from 'react-bootstrap';
+import { Image, Nav } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 

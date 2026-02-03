@@ -7,7 +7,7 @@ type ContactModalProps = {
   onClose: () => void;
 };
 
-const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
+const ContactModalContent: React.FC<Pick<ContactModalProps, 'onClose'>> = ({ onClose }) => {
   const { t } = useTranslation('landing');
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -16,7 +16,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    if (!open) return;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
@@ -34,13 +33,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
       document.body.style.overflow = prevOverflow;
       document.body.classList.remove('modal-open');
     };
-  }, [open, onClose]);
-
-  useEffect(() => {
-    if (open) return;
-    setContact('');
-    setSubmitted(false);
-  }, [open]);
+  }, [onClose]);
 
   useEffect(
     () => () => {
@@ -50,8 +43,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
     },
     [],
   );
-
-  if (!open) return null;
 
   const handleBackdrop = (event: React.MouseEvent<HTMLDivElement>) => {
     if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
@@ -139,6 +130,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
       <div className="modal-backdrop fade show" />
     </>
   );
+};
+
+const ContactModal: React.FC<ContactModalProps> = ({ open, onClose }) => {
+  if (!open) return null;
+
+  return <ContactModalContent onClose={onClose} />;
 };
 
 export default ContactModal;

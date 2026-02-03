@@ -48,11 +48,20 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [langOpen, mobileLangOpen]);
 
-  useEffect(() => {
-    if (!showMobile) {
-      setMobileLangOpen(false);
-    }
-  }, [showMobile]);
+  const closeMobileMenu = () => {
+    setShowMobile(false);
+    setMobileLangOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobile((prev) => {
+      const next = !prev;
+      if (!next) {
+        setMobileLangOpen(false);
+      }
+      return next;
+    });
+  };
 
   const scrollToSection = (sectionId: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -193,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                       className="mobile-nav-toggler"
                       aria-label={t('nav.openMenu')}
                       aria-expanded={showMobile}
-                      onClick={() => setShowMobile((prev) => !prev)}
+                      onClick={toggleMobileMenu}
                     >
                       <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true">
                         <path
@@ -219,7 +228,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               type="button"
               className="close-btn"
               aria-label={t('nav.closeMenu')}
-              onClick={() => setShowMobile(false)}
+              onClick={closeMobileMenu}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                 <path
@@ -299,7 +308,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
             </div>
           </nav>
         </div>
-        <div className="tgmobile__menu-backdrop" onClick={() => setShowMobile(false)}></div>
+        <div className="tgmobile__menu-backdrop" onClick={closeMobileMenu}></div>
       </header>
 
       <motion.button

@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 
 const TwofaSidebar = () => {
-  const [has2Fa, setHas2Fa] = useState<boolean>();
-  const [qrUrl, setQrUrl] = useState<string>('asdasd');
+  const [qrUrl] = useState<string>('asdasd');
   const [showModal, setShowModal] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [token, setToken] = useState('');

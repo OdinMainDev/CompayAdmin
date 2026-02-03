@@ -2,7 +2,7 @@ import { Col, Dropdown, Image, ListGroup, Nav, Row, Spinner } from 'react-bootst
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Profile1 from '@/assets/images/logo/logo_3.svg';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@/app/api/private/notification/service';
 import { Notification as NotificationEntity } from '@/app/entities/notification';
@@ -13,11 +13,7 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState<NotificationEntity[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
-
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     setLoading(true);
 
     const response = await NotificationService.getList({
@@ -32,7 +28,7 @@ const Notifications = () => {
     }
 
     setLoading(false);
-  };
+  }, []);
 
   const hasUnread = notifications.some((n) => !n.is_read);
 
@@ -71,7 +67,7 @@ const Notifications = () => {
             {!n.is_read && (
               <button
                 className="btn btn-sm btn-outline-primary mt-2"
-                onClick={() => markAsRead(n.id)}
+                onClick={() => void markAsRead(n.id)}
               >
                 {t('topbar.notifications.mark_read')}
               </button>
@@ -82,8 +78,14 @@ const Notifications = () => {
     );
   };
 
+  const handleToggle = (nextShow: boolean) => {
+    if (nextShow) {
+      void fetchNotifications();
+    }
+  };
+
   return (
-    <Dropdown as={Nav.Item}>
+    <Dropdown as={Nav.Item} onToggle={handleToggle}>
       <Dropdown.Toggle as={Nav.Link} className="text-dark icon-notifications me-lg-3">
         <span className="icon icon-sm">
           <FontAwesomeIcon icon={faBell} className="bell-shake" />
@@ -115,7 +117,7 @@ const Notifications = () => {
           {!loading && notifications.length > 0 && (
             <Dropdown.Item
               className="text-center text-primary fw-bold py-3"
-              onClick={markAllAsRead}
+              onClick={() => void markAllAsRead()}
             >
               {t('topbar.notifications.read_all')}
             </Dropdown.Item>
