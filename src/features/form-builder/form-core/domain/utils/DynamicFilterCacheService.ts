@@ -1,20 +1,20 @@
 type Fetcher<T> = () => Promise<T[]>;
 
 class DynamicFilterCacheService {
-  private cache = new Map<string, any[]>();
-  private promiseCache = new Map<string, Promise<any[]>>();
+  private cache = new Map<string, unknown[]>();
+  private promiseCache = new Map<string, Promise<unknown[]>>();
 
   async get<T>(key: string, fetcher: Fetcher<T>): Promise<T[]> {
-    if (this.cache.has(key)) return this.cache.get(key)!;
+    if (this.cache.has(key)) return this.cache.get(key) as T[];
     if (!this.promiseCache.has(key)) {
       const p = fetcher().then((data) => {
         this.cache.set(key, data);
         this.promiseCache.delete(key);
-        return data;
+        return data as unknown[];
       });
       this.promiseCache.set(key, p);
     }
-    return this.promiseCache.get(key)!;
+    return this.promiseCache.get(key) as Promise<T[]>;
   }
 
   invalidate(key?: string) {

@@ -70,7 +70,7 @@ export class FormRuntime {
       }
 
       case 'SUBMIT': {
-        this.submit(state);
+        void this.submit(state);
         return {
           ...state,
           isSubmitting: true,
