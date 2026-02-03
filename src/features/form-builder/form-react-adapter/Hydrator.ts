@@ -32,10 +32,9 @@ export class FormHydrator {
           ...(field.extra ?? {}),
           error: errors[field.name] ?? [],
         };
-      }
-      else {
+      } else {
         if (field.extra) {
-          field.extra.error = undefined
+          field.extra.error = undefined;
         }
       }
     }

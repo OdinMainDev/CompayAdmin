@@ -69,7 +69,7 @@ const Notifications = () => {
       dataSource: NotificationService.getList,
       columns,
     }),
-    [columns, t],
+    [columns],
   );
 
   return <Datatable config={config} className="border-0" />;

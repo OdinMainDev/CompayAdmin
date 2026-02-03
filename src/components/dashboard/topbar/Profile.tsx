@@ -27,7 +27,7 @@ const Profile = () => {
 
         <Dropdown.Divider />
 
-        <Dropdown.Item className="fw-bold" as={Link} to={'/dashboard/logout'}>
+        <Dropdown.Item className="fw-bold" as={Link} to={'/logout'}>
           <FontAwesomeIcon icon={faSignOutAlt} className="text-danger me-2" /> {t('logout')}
         </Dropdown.Item>
       </Dropdown.Menu>

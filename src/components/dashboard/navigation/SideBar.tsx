@@ -74,7 +74,7 @@ const SideBar = () => {
               <div className="d-flex align-items-center">
                 <div>
                   <h6>{getUsername()}</h6>
-                  <Link to={'/dashboard/logout'}>
+                  <Link to={'/logout'}>
                     <Button as={'button'} variant="secondary" size="sm" className="text-dark">
                       <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
                       {t('logout')}

@@ -29,10 +29,15 @@ const LogUser = lazy(() => import('@/pages/dashboard/admin/logs/User'));
 export const adminRoutes: RouteConfig[] = [
   {
     id: 'admin-layout',
-    path: '',
+    path: 'panel',
     guard: AdminGuard,
     meta: { roles: ['admin'] },
     children: [
+      {
+        id: 'dashboard',
+        path: '',
+        component: Dashboard,
+      },
       // Merchants
       {
         id: 'admin-merchants-list',

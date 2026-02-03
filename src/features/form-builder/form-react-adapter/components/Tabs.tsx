@@ -35,7 +35,6 @@ export function TabsRenderer(
                     <Col key={uniqueKey} md={extra?.ui?.col ?? 6}>
                       {field.extra?.beforeField}
                       {UnifiedFieldRegistry.renderAny(inner, (value) => {
-
                         if (field.extra && field.extra.error && field.extra.error.length > 0) {
                           field.extra.error = [];
                         }

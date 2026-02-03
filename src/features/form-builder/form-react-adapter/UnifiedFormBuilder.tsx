@@ -73,7 +73,7 @@ const UnifiedFormBuilder = <T,>({
 
   const isSaving = saving ?? submitting;
   const resolvedSubmitLabel = submitLabel ?? t('submit');
-  
+
   return (
     <>
       {(title || subTitle) && <PageHeader title={title ?? ''} subtitle={subTitle ?? ''} />}
@@ -108,26 +108,34 @@ const UnifiedFormBuilder = <T,>({
                             {UnifiedFieldRegistry.renderAny(field, (value) => {
                               setFormData((prev) => {
                                 const newData =
-                                  'isComposite' in field && field.isComposite && typeof value === 'object' && value !== null
+                                  'isComposite' in field &&
+                                  field.isComposite &&
+                                  typeof value === 'object' &&
+                                  value !== null
                                     ? { ...prev, ...value }
                                     : { ...prev, [field.name]: value };
-                            
-                                    if (setFieldErrors) {
-                                      setFieldErrors((prevErrors) => {
-                                        let updatedErrors = { ...prevErrors };
-                                
-                                        if ('isComposite' in field && field.isComposite && value && typeof value === 'object') {
-                                          Object.keys(value).forEach((key) => {
-                                            if (key in updatedErrors) delete updatedErrors[key];
-                                          });
-                                        } else {
-                                          const { [field.name]: _, ...rest } = updatedErrors;
-                                          updatedErrors = rest;
-                                        }
-                                
-                                        return updatedErrors;
+
+                                if (setFieldErrors) {
+                                  setFieldErrors((prevErrors) => {
+                                    let updatedErrors = { ...prevErrors };
+
+                                    if (
+                                      'isComposite' in field &&
+                                      field.isComposite &&
+                                      value &&
+                                      typeof value === 'object'
+                                    ) {
+                                      Object.keys(value).forEach((key) => {
+                                        if (key in updatedErrors) delete updatedErrors[key];
                                       });
+                                    } else {
+                                      const { [field.name]: _, ...rest } = updatedErrors;
+                                      updatedErrors = rest;
                                     }
+
+                                    return updatedErrors;
+                                  });
+                                }
                                 return newData;
                               });
                             })}

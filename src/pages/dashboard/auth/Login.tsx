@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Col, Container, Row, Image } from 'react-bootstrap';
 import { LoginRequest } from '@/app/api/private/auth/types';
 import { useAuthContext } from '@/features/auth/auth-context';
@@ -12,7 +12,6 @@ import { PasswordField, TextField } from '@/features/form-builder/form-core/doma
 
 export default function Login() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { t } = useTranslation('panel');
   const [formData, setFormData] = useState<LoginRequest>({} as LoginRequest);
 
@@ -29,16 +28,16 @@ export default function Login() {
 
   const handleSubmit = async () => {
     const response = await login(formData);
-    
+
     if (!response) {
       return;
     }
     const role = getRole();
-    const redirectTo =
-      (location.state as { from?: { pathname?: string } } | undefined)?.from?.pathname ||
-      '/dashboard';
+    const redirectTo = role == 'admin' ? '/panel' : '/dashboard';
 
-    navigate(role === 'admin' ? redirectTo : '/dashboard', { replace: true });
+    alert(redirectTo);
+    alert(role);
+    navigate(redirectTo, { replace: true });
   };
 
   return (

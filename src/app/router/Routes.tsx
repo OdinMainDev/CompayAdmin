@@ -4,11 +4,11 @@ import AuthGuard from '@/features/router/guards/AuthGuard';
 import GuestGuard from '@/features/router/guards/GuestGuard';
 import { adminRoutes } from './AdminRoutes';
 import { merchantRoutes } from './MerchantRoutes';
-import Dashboard from '@/pages/dashboard/admin/Dashboard';
 
 const Landing = lazy(() => import('@/pages/landing/Landing'));
 const NotFound = lazy(() => import('@/pages/errors/NotFound'));
 const Login = lazy(() => import('@/pages/dashboard/auth/Login'));
+const Totp = lazy(() => import('@/pages/dashboard/auth/Totp'));
 const PanelLayout = lazy(() => import('@/components/dashboard/layout/PanelLayout'));
 const DashboardLayout = lazy(() => import('@/components/dashboard/layout/DashboardLayout'));
 const Profile = lazy(() => import('@/pages/dashboard/common/Profile'));
@@ -31,18 +31,11 @@ export const routeConfigs: RouteConfig[] = [
     children: [
       {
         id: 'layout-dashboard',
-        path: 'dashboard',
+        path: '',
         component: DashboardLayout,
         guard: AuthGuard,
         meta: { roles: ['admin', 'merchant'] },
         children: [
-
-          {
-            id: 'dashboard',
-            path: '',
-              component: Dashboard,
-          },
-
           ...adminRoutes,
           ...merchantRoutes,
 
@@ -69,6 +62,12 @@ export const routeConfigs: RouteConfig[] = [
         id: 'login',
         path: 'auth/login',
         component: Login,
+        guard: GuestGuard,
+      },
+      {
+        id: 'totp',
+        path: 'auth/totp',
+        component: Totp,
         guard: GuestGuard,
       },
       // Error Routes

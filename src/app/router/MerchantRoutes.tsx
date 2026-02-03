@@ -9,10 +9,9 @@ const Settings = lazy(() => import('@/pages/dashboard/merchant/Settings'));
 export const merchantRoutes: RouteConfig[] = [
   {
     id: 'merchant-layout',
-    path: 'merchant',
+    path: 'dashboard',
     guard: MerchantGuard,
     children: [
-
       // Merchants
       {
         id: 'merchant-commissions',

@@ -12,14 +12,15 @@ export const API_CONFIG = {
 export type AuthErrorType = 'UNAUTHORIZED' | 'TOTP_EXPIRED';
 
 export const handleAuthError = (status: number, error?: string): AuthErrorType | null => {
+  if (error === 'AuthTotpExpired') {
+    return 'TOTP_EXPIRED';
+  }
+
   if (status === 401) {
+    alert('REMOVE');
     Cookies.remove(COOKIE_AUTH_NAME);
     Cookies.remove(COOKIE_AUTH_TOTP_NAME);
     return 'UNAUTHORIZED';
-  }
-
-  if (error === 'AuthTotpExpired') {
-    return 'TOTP_EXPIRED';
   }
 
   return null;

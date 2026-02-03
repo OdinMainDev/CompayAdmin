@@ -14,7 +14,6 @@ const AppRouter = () => {
 };
 
 const buildRouterConfig = (configs: RouteConfig[]): RouteObject[] => {
-
   return configs.map((config) => ({
     path: config.path,
     element: buildRouteElement(config),

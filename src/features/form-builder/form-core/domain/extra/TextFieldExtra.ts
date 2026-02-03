@@ -1,7 +1,7 @@
 import type { BaseFieldExtra } from './BaseFieldExtra';
 
 export interface Tooltip {
-  placement?: 'top' | 'right' | 'bottom' | 'left'
+  placement?: 'top' | 'right' | 'bottom' | 'left';
   text?: string;
 }
 

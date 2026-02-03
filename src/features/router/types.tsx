@@ -2,7 +2,6 @@ import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import type { ComponentType, LazyExoticComponent, ReactNode } from 'react';
 import { GuardComponent } from './guards/types';
 
-
 export interface RouteConfig {
   id: string;
   path: string;
@@ -20,8 +19,6 @@ export interface RouteConfig {
     dividerLabel?: string;
   };
   children?: RouteConfig[];
-
-
 }
 
 export interface RouteGroup {

@@ -19,18 +19,17 @@ export function AsyncSelect<T>({
   mapOption: (item: T) => SelectOption;
   onChange: (value: string | number | null) => void;
 }) {
-  const [,setTick] = useState(0);
+  const [, setTick] = useState(0);
 
   const [selectField, setSelectField] = useState(() =>
     SelectField.create(field.name, field.label, field.extra, field.value?.toString() ?? ''),
   );
   useEffect(() => {
     if (!selectField) return;
-    if (!selectField.extra) selectField.extra = {}; 
-    selectField.extra.error = field.extra?.error; 
+    if (!selectField.extra) selectField.extra = {};
+    selectField.extra.error = field.extra?.error;
     setTick((prev) => prev + 1);
   }, [field.extra?.error]);
-  
 
   const inputRef = useRef('');
   const debounceRef = useRef<number | undefined>(undefined);

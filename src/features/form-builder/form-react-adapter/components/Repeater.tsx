@@ -22,22 +22,19 @@ export const RepeaterRenderer = (
   field: IField<RepeaterFieldValue, RepeaterFieldExtra>,
   onChange: (value: RepeaterFieldValue) => void,
 ) => {
-
-    if (!field.value || field.value.length === 0) {
-      const firstItem = (field.extra?.elements ?? []).reduce<Record<string, unknown>>((acc, f) => {
-        acc[f.name] = '';
-        return acc;
-      }, {});
-      field.value = [firstItem];
-    }
-
-
+  if (!field.value || field.value.length === 0) {
+    const firstItem = (field.extra?.elements ?? []).reduce<Record<string, unknown>>((acc, f) => {
+      acc[f.name] = '';
+      return acc;
+    }, {});
+    field.value = [firstItem];
+  }
 
   const elements = field.extra?.elements ?? [];
   const minItems = field.extra?.minItems ?? 0;
   const maxItems = field.extra?.maxItems ?? Infinity;
 
-   const addItem = () => {
+  const addItem = () => {
     if (!field.value || field.value.length >= maxItems) return;
 
     const newItem = elements.reduce<Record<string, unknown>>((acc, f) => {
@@ -93,17 +90,13 @@ export const RepeaterRenderer = (
     setOpenItems((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const hasGlobalError = Boolean(
-    field.extra?.error?.some((err) => !CELL_ERROR_RE.test(err)),
-  );
+  const hasGlobalError = Boolean(field.extra?.error?.some((err) => !CELL_ERROR_RE.test(err)));
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%' }}>
       <div style={{ marginBottom: '0.5rem' }}>
         <h6>{field.label}</h6>
-        {field.extra?.helperText && (
-          <small className="text-muted">{field.extra.helperText}</small>
-        )}
+        {field.extra?.helperText && <small className="text-muted">{field.extra.helperText}</small>}
       </div>
 
       {(field.value ?? []).map((itemValue, index) => (
@@ -208,19 +201,16 @@ export const RepeaterRenderer = (
                       Object.assign(copy, f);
                       copy.value = value as typeof copy.value;
                       copy.extra = copy.extra ? { ...copy.extra } : {};
-                      const errorsForCell = field.extra?.error?.reduce<string[]>(
-                        (acc, errStr) => {
-                          const match = CELL_ERROR_RE.exec(errStr);
-                          if (!match) return acc;
+                      const errorsForCell = field.extra?.error?.reduce<string[]>((acc, errStr) => {
+                        const match = CELL_ERROR_RE.exec(errStr);
+                        if (!match) return acc;
 
-                          const [, fieldName, idxStr, message] = match;
-                          if (fieldName === f.name && Number(idxStr) === index) {
-                            acc.push(message);
-                          }
-                          return acc;
-                        },
-                        [],
-                      );
+                        const [, fieldName, idxStr, message] = match;
+                        if (fieldName === f.name && Number(idxStr) === index) {
+                          acc.push(message);
+                        }
+                        return acc;
+                      }, []);
 
                       copy.extra.error =
                         errorsForCell && errorsForCell.length ? errorsForCell : undefined;

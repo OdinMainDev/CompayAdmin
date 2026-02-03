@@ -7,7 +7,6 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@/app/api/private/notification/service';
 import { Notification as NotificationEntity } from '@/app/entities/notification';
 
-
 const Notifications = () => {
   const { t } = useTranslation('panel');
 
@@ -21,9 +20,9 @@ const Notifications = () => {
   const fetchNotifications = async () => {
     setLoading(true);
 
-    const response = await NotificationService.getList({ 
-      start: 0, 
-      length: 5, 
+    const response = await NotificationService.getList({
+      start: 0,
+      length: 5,
       order_column: 'created_at',
       order_direction: 'desc',
     });
@@ -39,13 +38,12 @@ const Notifications = () => {
 
   const markAsRead = async (id: number) => {
     await NotificationService.read(id);
-    await fetchNotifications(); 
-
+    await fetchNotifications();
   };
 
   const markAllAsRead = async () => {
     await NotificationService.readAll();
-    await fetchNotifications(); 
+    await fetchNotifications();
   };
 
   const NotificationItem = ({ n }: { n: NotificationEntity }) => {
@@ -63,19 +61,21 @@ const Notifications = () => {
                 <h4 className="h6 mb-0 text-small">{n.action}</h4>
               </div>
               <div className="text-end">
-                <small className={readClassName}>{new Date(n.updated_at * 1000).toLocaleString()}</small>
+                <small className={readClassName}>
+                  {new Date(n.updated_at * 1000).toLocaleString()}
+                </small>
               </div>
             </div>
             <p className="font-small mt-1 mb-0">{n.text}</p>
 
             {!n.is_read && (
-            <button
-              className="btn btn-sm btn-outline-primary mt-2"
-              onClick={() => markAsRead(n.id)}
-            >
-              {t('topbar.notifications.mark_read')}
-            </button>
-          )}
+              <button
+                className="btn btn-sm btn-outline-primary mt-2"
+                onClick={() => markAsRead(n.id)}
+              >
+                {t('topbar.notifications.mark_read')}
+              </button>
+            )}
           </Col>
         </Row>
       </ListGroup.Item>

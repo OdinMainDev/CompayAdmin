@@ -107,8 +107,8 @@ export class CurrencyService {
 
   static async import(options?: RequestOptions): Promise<GetListFiltersResponse | ApiError> {
     try {
-      return await apiClient.post<FilterReponse[]>(
-        `${CurrencyService.ENDPOINTS.IMPORT}`,
+      return await apiClient.post(
+        `${this.ENDPOINTS.IMPORT}`,
         {},
         {
           ...options,
