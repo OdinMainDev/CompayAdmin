@@ -6,6 +6,7 @@ import { DatatableHeader } from './DatatableHeader';
 import { DatatableFooter } from './DatatableFooter';
 import { DatatableBody } from './DatatableBody';
 import type { IDatatableBackend } from '@/features/datatable-core/domain/ports/IDatatableBackend';
+import type { IDatatableEventEmitter } from '@/features/datatable-core/domain/ports/IDatatableEventEmitter';
 import { IRequestOptions } from '../../domain/entities/DatatableRequest';
 import PageHeader from '@/components/dashboard/common/PageHeader';
 
@@ -46,24 +47,24 @@ export function Datatable<T>({
       });
     };
 
-    initializeEngine();
+    void initializeEngine();
   }, [config]);
 
   const handleSort = (column: string, direction: 'asc' | 'desc') => {
     if (engine) {
-      engine.sort(column, direction);
+      void engine.sort(column, direction);
     }
   };
 
   const handlePageChange = (page: number) => {
     if (engine) {
-      engine.changePage(page);
+      void engine.changePage(page);
     }
   };
 
   const handlePageSizeChange = (pageSize: number) => {
     if (engine) {
-      engine.changePageSize(pageSize);
+      void engine.changePageSize(pageSize);
     }
   };
 
@@ -135,7 +136,8 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
       return { success: true, data: [] };
     },
 
-    async add(_: Record<string, unknown>) {
+    async add(data: Record<string, unknown>) {
+      void data;
       const addAction = config.quickActions?.find((action) => action.id === 'add');
 
       if (addAction?.handler) {
@@ -146,12 +148,12 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
     async executeAction(actionId: string, data: Record<string, unknown>) {
       type ActionMethod = (data: Record<string, unknown>) => Promise<unknown>;
 
-      const hasMethod = (obj: object, key: string): obj is { [key: string]: ActionMethod } => {
-        return key in obj && typeof (obj as any)[key] === 'function';
+      const hasMethod = (obj: object, key: string): obj is Record<string, ActionMethod> => {
+        return key in obj && typeof (obj as Record<string, unknown>)[key] === 'function';
       };
 
       if (hasMethod(this, actionId)) {
-        return (this as Record<string, ActionMethod>)[actionId](data);
+        return this[actionId](data);
       }
       const currentAction = config.quickActions?.find((action) => action.id === actionId);
 
@@ -168,28 +170,43 @@ function createBackendAdapter<T>(config: DatatableConfig<T>): IDatatableBackend<
 
   return methods;
 }
-function createEventEmitter(): any {
-  const listeners = new Map();
+function createEventEmitter(): IDatatableEventEmitter {
+  type Listener = (data: unknown) => void;
+  const listeners = new Map<string, Set<Listener>>();
+
+  const getListeners = (event: string): Set<Listener> => {
+    const existing = listeners.get(event);
+    if (existing) return existing;
+    const next = new Set<Listener>();
+    listeners.set(event, next);
+    return next;
+  };
 
   return {
     emit: (event: string, data: unknown) => {
-      const eventListeners = listeners.get(event) || [];
-      eventListeners.forEach((listener: (data: unknown) => void) => listener(data));
+      const eventListeners = getListeners(event);
+      eventListeners.forEach((listener) => listener(data));
     },
-    on: (event: string, handler: (data: unknown) => void) => {
-      const eventListeners = listeners.get(event) || [];
-      eventListeners.push(handler);
-      listeners.set(event, eventListeners);
+    on: (event: string, handler: Listener) => {
+      const eventListeners = getListeners(event);
+      eventListeners.add(handler);
 
       return () => {
-        const filtered = eventListeners.filter((h: (data: unknown) => void) => h !== handler);
-        listeners.set(event, filtered);
+        eventListeners.delete(handler);
       };
     },
-    off: (event: string, handler: (data: unknown) => void) => {
-      const eventListeners = listeners.get(event) || [];
-      const filtered = eventListeners.filter((h: (data: unknown) => void) => h !== handler);
-      listeners.set(event, filtered);
+    off: (event: string, handler: Listener) => {
+      const eventListeners = getListeners(event);
+      eventListeners.delete(handler);
+    },
+    once: (event: string, handler: Listener) => {
+      const wrapper: Listener = (data) => {
+        const eventListeners = getListeners(event);
+        eventListeners.delete(wrapper);
+        handler(data);
+      };
+      const eventListeners = getListeners(event);
+      eventListeners.add(wrapper);
     },
   };
 }

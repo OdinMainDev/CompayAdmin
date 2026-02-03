@@ -13,9 +13,6 @@ export const buildBackendFilters = (backendFilters: FilterReponse[]): FormSectio
       fields: backendFilters.map((filter) => {
         const formType = mapBackendTypeToFormType(filter.type);
 
-        const FieldClass = UnifiedFieldRegistry.getConstructor(formType);
-        if (!FieldClass) throw new Error(`No field registered for type "${formType}"`);
-
         const extra: Record<string, unknown> = {};
 
         if (['bool', 'boolean'].includes(filter.type.toLowerCase())) {
@@ -33,20 +30,13 @@ export const buildBackendFilters = (backendFilters: FilterReponse[]): FormSectio
 
         const defaultValue = filter.values ?? null;
 
-        const fieldInstance =
-          'create' in FieldClass && typeof FieldClass.create === 'function'
-            ? FieldClass.create(
-                filter.name,
-                t(`datatables.filters.${filter.name}`),
-                extra,
-                defaultValue,
-              )
-            : new FieldClass(
-                filter.name,
-                t(`datatables.filters.${filter.name}`),
-                defaultValue,
-                extra,
-              );
+        const fieldInstance = UnifiedFieldRegistry.create(
+          formType,
+          filter.name,
+          t(`datatables.filters.${filter.name}`),
+          defaultValue,
+          extra,
+        );
 
         return fieldInstance as unknown as AnyField;
       }),

@@ -190,13 +190,13 @@ export function DatatableHeader<T>({
                   {(config.export?.formats ?? ['excel', 'csv', 'pdf']).map((format) => (
                     <Dropdown.Item
                       key={format}
-                      onClick={async () => {
-                        await handleExport(
+                      onClick={() =>
+                        void handleExport(
                           state.data as Record<string, unknown>[],
                           format,
                           config.export?.fileName ?? 'export',
-                        );
-                      }}
+                        )
+                      }
                     >
                       {format.toUpperCase()}
                     </Dropdown.Item>
@@ -228,7 +228,7 @@ export function DatatableHeader<T>({
                   <button
                     key={action.id}
                     className={`btn btn-${action.variant || 'secondary'} btn-sm`}
-                    onClick={() => onAction(action.id)}
+                    onClick={() => void onAction(action.id)}
                   >
                     {action.icon && <span className="me-1">{action.icon}</span>}
                     {action.label}

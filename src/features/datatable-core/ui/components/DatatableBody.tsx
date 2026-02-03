@@ -222,6 +222,22 @@ export function DatatableBody<T>({
                   {visibleColumns.map((column) => {
                     const rawValue = row[column.field as keyof T];
                     const cellValue = column.formatter ? column.formatter(rawValue, row) : rawValue;
+                    const displayValue = (() => {
+                      if (cellValue === null || cellValue === undefined) return '';
+                      if (cellValue instanceof Date) return cellValue.toISOString();
+                      if (typeof cellValue === 'object') return JSON.stringify(cellValue);
+                      if (typeof cellValue === 'string') return cellValue;
+                      if (
+                        typeof cellValue === 'number' ||
+                        typeof cellValue === 'boolean' ||
+                        typeof cellValue === 'bigint'
+                      ) {
+                        return String(cellValue);
+                      }
+                      if (typeof cellValue === 'symbol') return cellValue.toString();
+                      if (typeof cellValue === 'function') return cellValue.name || 'function';
+                      return '';
+                    })();
 
                     return (
                       <td
@@ -235,9 +251,7 @@ export function DatatableBody<T>({
                           ...(column.sticky === 'right' ? { position: 'sticky', right: 0 } : {}),
                         }}
                       >
-                        {column.render
-                          ? column.render(row, cellValue, index)
-                          : String(cellValue ?? '')}
+                        {column.render ? column.render(row, cellValue, index) : displayValue}
                       </td>
                     );
                   })}

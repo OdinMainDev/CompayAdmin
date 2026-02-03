@@ -27,9 +27,14 @@ export function DatatableFilters<T>({
 
   const filterMode: FilterMode = (config.filtering?.mode as FilterMode) || 'modal';
 
+  const remoteFilters = engine.getState().remoteFilters;
+  const filtersKey = (engine.getState().filters ?? [])
+    .map((filter) => `${filter.field}:${JSON.stringify(filter.value)}`)
+    .join('|');
+
   const filterForm = useMemo(() => {
-    return buildBackendFilters(engine.getState().remoteFilters);
-  }, [engine.getState().remoteFilters]);
+    return buildBackendFilters(remoteFilters);
+  }, [remoteFilters]);
 
   useEffect(() => {
     if (!showModal) return;
@@ -47,24 +52,25 @@ export function DatatableFilters<T>({
     };
   }, [showModal]);
 
-  useEffect(() => {
-    if (!showModal) return;
-    setActiveFilters(engine.getState().filters ?? []);
-  }, [showModal, engine]);
-
   if (filterForm.length === 0) {
     return null;
   }
 
   const handleFilter = (filters: FilterCondition[]) => {
     setActiveFilters(filters);
-    engine.filter(filters);
+    void engine.filter(filters);
+  };
+
+  const openModal = () => {
+    setActiveFilters(engine.getState().filters ?? []);
+    setShowModal(true);
   };
 
   if (filterMode === 'inline') {
     return (
       <div className="datatable-filters datatable-filters-inline">
         <DatatableFiltersForm
+          key={filtersKey}
           engine={engine}
           filterForm={filterForm}
           onFilterChange={handleFilter}
@@ -88,7 +94,7 @@ export function DatatableFilters<T>({
               'focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-2',
               'transition',
             ].join(' ')}
-            onClick={() => setShowModal(true)}
+            onClick={openModal}
           >
             <FontAwesomeIcon icon={faFilter} className="me-2" />
             <span>{t('datatable.filters')}</span>
@@ -150,6 +156,7 @@ export function DatatableFilters<T>({
                 {}
                 <div className="modal-body max-h-[70vh] overflow-y-auto">
                   <DatatableFiltersForm
+                    key={filtersKey}
                     engine={engine}
                     filterForm={filterForm}
                     onFilterChange={(filters) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { buildDefaultValues } from '@/features/form-builder/form-core/domain/utils/default';
 import UnifiedFormBuilder from '@/features/form-builder/form-react-adapter/UnifiedFormBuilder';
 import type { DatatableEngine } from '@/features/datatable-core/runtime/DatatableEngine';
@@ -19,9 +19,28 @@ export function DatatableFiltersForm<T>({
   onFilterChange,
   className = '',
 }: DatatableFiltersFormProps<T>): React.ReactElement | null {
-  const [formData, setFormData] = useState<Record<string, unknown>>(() =>
-    filterForm ? buildDefaultValues(filterForm) : {},
-  );
+  const convertFiltersToFormData = (filters: FilterCondition[]): Record<string, unknown> => {
+    const formData: Record<string, unknown> = {};
+
+    filters.forEach((filter) => {
+      formData[filter.field] = filter.value;
+    });
+
+    return formData;
+  };
+
+  const buildInitialFormData = (): Record<string, unknown> => {
+    const baseDefaults = buildDefaultValues(filterForm || []);
+    if (!engine) return baseDefaults;
+    const filters = engine.getState().filters ?? [];
+    if (filters.length === 0) return baseDefaults;
+    return {
+      ...baseDefaults,
+      ...convertFiltersToFormData(filters),
+    };
+  };
+
+  const [formData, setFormData] = useState<Record<string, unknown>>(buildInitialFormData);
   const { t } = useTranslation('panel');
 
   const convertFormToFilters = (data: Record<string, unknown>): FilterCondition[] => {
@@ -38,31 +57,6 @@ export function DatatableFiltersForm<T>({
 
     return filters;
   };
-
-  const convertFiltersToFormData = (filters: FilterCondition[]): Record<string, unknown> => {
-    const formData: Record<string, unknown> = {};
-
-    filters.forEach((filter) => {
-      formData[filter.field] = filter.value;
-    });
-
-    return formData;
-  };
-
-  useEffect(() => {
-    if (engine) {
-      const filters = engine.getState().filters;
-      if (filters.length > 0) {
-        const newFormData = convertFiltersToFormData(filters);
-        setFormData((_) => ({
-          ...buildDefaultValues(filterForm || []),
-          ...newFormData,
-        }));
-      } else {
-        setFormData(buildDefaultValues(filterForm || []));
-      }
-    }
-  }, [engine, filterForm]);
 
   const handleSubmit = () => {
     const filters = convertFormToFilters(formData);

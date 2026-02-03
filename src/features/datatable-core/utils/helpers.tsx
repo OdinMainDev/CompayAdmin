@@ -35,7 +35,7 @@ export const formatTimestampWithTime = (
         </small>
       </span>
     );
-  } catch (error) {
+  } catch {
     return <span className="text-danger">Invalid date</span>;
   }
 };

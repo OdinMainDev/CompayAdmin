@@ -9,11 +9,11 @@ export interface IExportOptions<T = any> {
   fileName?: string;
 }
 
-export async function handleExport<T extends Record<string, unknown>>(
+export function handleExport<T extends Record<string, unknown>>(
   data: T[],
   format: 'excel' | 'csv' | 'pdf',
-  fileName = 'export',
-) {
+  fileName: string = 'export',
+): void {
   if (!data || !data.length) return;
 
   const keys = Object.keys(data[0]) as Array<keyof T>;
@@ -42,11 +42,19 @@ export async function handleExport<T extends Record<string, unknown>>(
   if (format === 'csv') {
     const headersString = headers.map((h) => h.label).join(',');
     const csvContent = data
-      .map((row) => headers.map((h) => `"${row[h.value]}"`).join(','))
+      .map((row) =>
+        headers
+          .map((h) => {
+            const cell = row[h.value];
+            const safeValue = cell === null || cell === undefined ? '' : String(cell);
+            return `"${safeValue}"`;
+          })
+          .join(','),
+      )
       .join('\n');
     const finalCsv = `${headersString}\n${csvContent}`;
     const blob = new Blob([finalCsv], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, `${fileName}.csv`);
+    (saveAs as (data: Blob, filename: string) => void)(blob, `${fileName}.csv`);
   }
 
   if (format === 'pdf') {
