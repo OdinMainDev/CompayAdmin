@@ -1,5 +1,14 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "jest.config.ts", "setupTests.ts", "vite.config.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts",
+    "vite.config.d.ts",
+    "jest.config.ts",
+    "setupTests.ts",
+    "globals.d.ts",
+    "eslint.config.js"
+  ],
   "exclude": ["node_modules"]
 }
