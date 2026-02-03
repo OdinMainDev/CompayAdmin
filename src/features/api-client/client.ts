@@ -66,17 +66,27 @@ export class ApiClient {
   private buildQueryString(params: Readonly<Record<string, unknown>>): string {
     const searchParams = new URLSearchParams();
 
+    const serializeValue = (value: unknown): string => {
+      if (value instanceof Date) {
+        return value.toISOString();
+      }
+      if (typeof value === 'object' && value !== null) {
+        return JSON.stringify(value);
+      }
+      return String(value);
+    };
+
     Object.entries(params).forEach(([key, value]) => {
       if (value === null || value === undefined) return;
 
       if (Array.isArray(value)) {
         value.forEach((item) => {
           if (item !== null && item !== undefined) {
-            searchParams.append(`${key}[]`, String(item));
+            searchParams.append(`${key}[]`, serializeValue(item));
           }
         });
       } else {
-        searchParams.append(key, String(value));
+        searchParams.append(key, serializeValue(value));
       }
     });
 
