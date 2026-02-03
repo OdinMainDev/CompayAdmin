@@ -30,7 +30,7 @@ export const changeLanguage = (lng: string) => {
   if (!I18N_LANGUAGES.includes(lng as (typeof I18N_LANGUAGES)[number])) {
     return;
   }
-  i18n.changeLanguage(lng);
+  void i18n.changeLanguage(lng);
   if (typeof window === 'undefined') {
     return;
   }
@@ -42,7 +42,7 @@ const resources = {
   ru: { translation: translationRU, landing: landingRU, panel: panelRU, menu: menuRU },
 } as const;
 
-i18n.use(initReactI18next).init({
+void i18n.use(initReactI18next).init({
   resources,
   lng: getInitialLanguage(),
   fallbackLng: I18N_DEFAULT_LANGUAGE,
