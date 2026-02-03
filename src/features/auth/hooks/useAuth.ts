@@ -82,7 +82,6 @@ export const useAuth = (): UseAuthReturn => {
 
   const logout = useCallback((): Promise<void> => {
     setState((prev) => ({ ...prev, isLoading: true }));
-
     Cookies.remove(COOKIE_AUTH_NAME);
     Cookies.remove(COOKIE_AUTH_TOTP_NAME);
 
@@ -116,7 +115,9 @@ export const useAuth = (): UseAuthReturn => {
     const response = await ProfileService.get();
 
     if (!('success' in response) || !response.success) {
-      await logout();
+      if ((response as ApiError).error != 'AuthTotpExpired') {
+        await logout();
+      }
       return false;
     }
 

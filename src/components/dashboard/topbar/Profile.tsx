@@ -21,7 +21,7 @@ const Profile = () => {
         </span>
       </Dropdown.Toggle>
       <Dropdown.Menu className="user-dropdown dropdown-menu-right mt-2">
-        <Dropdown.Item className="fw-bold" as={Link} to={'/dashboard/profile'}>
+        <Dropdown.Item className="fw-bold" as={Link} to={'/profile'}>
           <FontAwesomeIcon icon={faUser} className="me-2" /> {t('profile')}
         </Dropdown.Item>
 

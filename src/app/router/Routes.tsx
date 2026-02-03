@@ -4,6 +4,7 @@ import AuthGuard from '@/features/router/guards/AuthGuard';
 import GuestGuard from '@/features/router/guards/GuestGuard';
 import { adminRoutes } from './AdminRoutes';
 import { merchantRoutes } from './MerchantRoutes';
+import TotpGuard from '@/features/router/guards/TotpGuard';
 
 const Landing = lazy(() => import('@/pages/landing/Landing'));
 const NotFound = lazy(() => import('@/pages/errors/NotFound'));
@@ -68,7 +69,7 @@ export const routeConfigs: RouteConfig[] = [
         id: 'totp',
         path: 'auth/totp',
         component: Totp,
-        guard: GuestGuard,
+        guard: TotpGuard,
       },
       // Error Routes
       {

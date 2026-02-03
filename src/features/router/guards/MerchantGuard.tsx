@@ -13,7 +13,7 @@ const MerchantGuard = ({ children }: GuardProps) => {
   }
 
   if (role && role != 'merchant') {
-    return <Navigate to="/404/merchant" state={{ from: location }} replace />;
+    return <Navigate to="/404" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

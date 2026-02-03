@@ -17,7 +17,6 @@ export const handleAuthError = (status: number, error?: string): AuthErrorType |
   }
 
   if (status === 401) {
-    alert('REMOVE');
     Cookies.remove(COOKIE_AUTH_NAME);
     Cookies.remove(COOKIE_AUTH_TOTP_NAME);
     return 'UNAUTHORIZED';
